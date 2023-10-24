@@ -1,0 +1,11 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title='Pharmacy | View Patient Info'
+    body
+    form(action='/user/admin/viewpatient' method='POST')
+        .form-group
+            label(for='name') Name
+            input.form-control(type='name', name='name' placeholder='Name' autofocus=true)
+        button.btn.btn-primary(type='submit') View

@@ -15,6 +15,7 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
+    required: true,
   },
   password: {
     type: String,
@@ -26,7 +27,16 @@ const userSchema = new Schema({
   mobile: {
     type: String,
   },
-  number: {
+  status: { //for pharmacists, 'approved, pending or declined'
+    type: String,
+  },
+  hourlyRate:{
+    type: Number,
+  },
+  affiliation: {
+    type: String,
+  },
+  eduBackground: {
     type: String,
   },
   emergencyContact: {
