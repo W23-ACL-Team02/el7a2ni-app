@@ -9,6 +9,7 @@ var logger = require('morgan');
 const MongoURI = process.env.MONGO_URI;
 
 var indexRouter = require('./routes/index');
+var userRouter = require('./routes/user');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', indexRouter);
+app.use('/user', userRouter);
 
 // Mongo DB
 mongoose.connect(MongoURI)

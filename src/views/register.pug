@@ -1,0 +1,38 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title='Virtual Clinic | Register'
+    body
+    form(action='/user/register/patient' method='POST')
+        .form-group
+            label(for='username') Username
+            input.form-control(type='text', name='username' placeholder='Username' required autofocus=true)
+        .form-group
+            label(for='name') Name
+            input.form-control(type='text', name='name' placeholder='Name' required )
+        .form-group
+            label(for='email') Email
+            input.form-control(type='email', name='email' placeholder='Email' required )
+        .form-group
+            label(for='password') Password
+            input.form-control(type='password', name='password' required )
+        .form-group
+            label(for='dateOfBirth') Date of Birth
+            input.form-control(type='date', name='dateOfBirth' placeholder='Date of Birth' required )
+        .form-group
+            label(for='gender') Gender
+            select.form-control(name="gender" required)
+                option(value='male') Male
+                option(value='female') Female
+        .form-group
+            label(for='mobile') Mobile Number
+            input.form-control(type='tel' id="mobile" name='mobile' placeholder='Mobile Number' required )
+        p Emergency Contact
+        .form-group
+            label(for='emergency_name') Name
+            input.form-control(type='text' id='emergency_name' name='emergency_name' placeholder='Contact\'s Name' required )
+        .form-group
+            label(for='emergency_mobile') Mobile Number
+            input.form-control(type='tel' id="emergency_mobile" name='emergency_mobile' placeholder='Mobile Number' required )
+        button.btn.btn-primary(type='submit') Register
