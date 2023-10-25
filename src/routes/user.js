@@ -73,20 +73,45 @@ router.post('/login', (req, res) => {
   // Check if user exists
 })
 
+//fetching patient info route
+router.get('/patient/:id', async (req,res) => {
 
-router.post('/admin/viewpatient', async(req,res)  => { //CHECK ADMIN CREDENTIALS
-  //view patient's basic info without prescription
-  //only works if field is full and correct, doesn't match all substrings
+    try{
+
+        const patient= await userModel.findById(req.params.id);
+       //res.status(200).json(patient);
+        res.render('viewpatient', {patient})
+    } catch(error){
+      res.status(400).send("Cannot fetch patient"); //change to error message?
+    }
+})
+
+
+//fetching pharmacist info route
+router.get('/pharmacist/:id', async (req,res) => {
+
+    try{
+      const pharmacist= await userModel.findById(req.params.id);
+      res.render('viewpharmacist', {pharmacist})
+    } catch(error){
+      res.status(400).send("Cannot fetch pharmacist");
+    }
+})
+
+
+//all patients
+router.get('/admin/patients', async(req,res)  => { //CHECK ADMIN CREDENTIALS
+  
   
   
 
   try{
-     const filter= req.body  //name/keyword i'm searching with
+     //const filter= req.body  //name/keyword i'm searching with
 
-     const users = await userModel.find(filter);
-     const usersFiltered= users.filter( (user) => user.type === "patient")
+     const users = await userModel.find();
+     const usersFiltered= users.filter( (user) => user.type === "patient") //only patient types
 
-     res.render('viewpatient', {patients: usersFiltered})
+     res.render('patients', {patients: usersFiltered})
    
       
   } catch(error){
@@ -95,19 +120,22 @@ router.post('/admin/viewpatient', async(req,res)  => { //CHECK ADMIN CREDENTIALS
   
  })
 
- router.post('/admin/viewpharmacist', async(req,res)  => { //CHECK ADMIN CREDENTIALS
+
+
+
+
+
+//all pharmacists
+ router.get('/admin/pharmacists', async(req,res)  => { //CHECK ADMIN CREDENTIALS
   
   //view pharmacists info
   
 
   try{
-     const filter= req.body //keyword i'm filtering with
+    const users = await userModel.find();
+    const usersFiltered= users.filter( (user) => user.type === "pharmacist") //retrieve only pharmacist types
 
-     const users = await userModel.find(filter);
-
-     const usersFiltered= users.filter( (user) => user.type === "pharmacist") //retrieve only pharmacist types
-
-     res.render('viewpharmacist', {pharmacists: usersFiltered})
+     res.render('pharmacists', {pharmacists: usersFiltered})
    
       
   } catch(error){
@@ -116,7 +144,8 @@ router.post('/admin/viewpatient', async(req,res)  => { //CHECK ADMIN CREDENTIALS
   
  })
 
- router.get('/admin/viewpharmainfo', async(req,res)  => { //CHECK ADMIN CREDENTIALS
+ //admin views info of pending pharmacists
+ router.get('/admin/viewpendingpharma', async(req,res)  => { //CHECK ADMIN CREDENTIALS
   //view pharmacist's info uploaded to join platform
   
 

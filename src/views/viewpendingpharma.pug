@@ -16,7 +16,7 @@ html(lang='en')
 
 
     body 
-     h3 Pharmacists
+     h3 Pending Pharmacists
      table 
         thead
         tr
@@ -25,6 +25,7 @@ html(lang='en')
          th Email 
          th Date of Birth 
          th Mobile 
+         th Gender
          th Hourly Rate
          th Affiliation
          th Educational Background
@@ -40,6 +41,7 @@ html(lang='en')
            td #{pharmacist.email}
            td #{pharmacist.dateOfBirth}
            td #{pharmacist.mobile}
+           td #{pharmacist.gender}
            td #{pharmacist.hourlyRate}
            td #{pharmacist.affiliation}
            td #{pharmacist.eduBackground}

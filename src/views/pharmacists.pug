@@ -11,6 +11,9 @@ html(lang='en')
             width= 600px
             margin: 0 auto;
          }
+             
+    
+
 
 
     body 
@@ -18,24 +21,13 @@ html(lang='en')
      table 
         thead
         tr
-         th Username 
          th Name 
-         th Email 
-         th Date of Birth 
-         th Mobile 
-         th Gender
-         th Hourly Rate
-         th Affiliation
-         th Educational Background
+         th Username 
+         th View
         tbody
+         each pharmacist in pharmacists
           tr 
-           td #{pharmacist.username}
            td #{pharmacist.name}
-           td #{pharmacist.email}
-           td #{pharmacist.dateOfBirth}
-           td #{pharmacist.mobile}
-           td #{pharmacist.gender}
-           td #{pharmacist.hourlyRate}
-           td #{pharmacist.affiliation}
-           td #{pharmacist.eduBackground}
-          
+           td #{pharmacist.username}
+           td 
+               a(href=`/user/pharmacist/${pharmacist._id}`) View

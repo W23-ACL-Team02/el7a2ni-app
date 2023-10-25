@@ -24,6 +24,9 @@ const userSchema = new Schema({
   dateOfBirth: {
     type: Date,
   },
+  gender: {
+    type: String,
+  },
   mobile: {
     type: String,
   },

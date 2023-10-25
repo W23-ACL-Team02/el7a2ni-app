@@ -11,32 +11,26 @@ html(lang='en')
             width= 600px
             margin: 0 auto;
          }
+             
+    
 
 
     body 
-     h3 Patient Information
+     h3 Patients
      table 
         thead
         tr
-         th Name
-         th Username
-         th Date of Birth 
-         th Email 
-         th Gender 
-         th Mobile 
-         th Emergency Contact
          th Name 
-         th Mobile 
-         th Relation
+         th Username 
+         th View
         tbody
+         each patient in patients
           tr 
            td #{patient.name}
            td #{patient.username}
-           td #{patient.dateOfBirth}
-           td #{patient.email}
-           td #{patient.gender}
-           td #{patient.mobile}
            td 
-           td #{patient.emergencyContact.name}
-           td #{patient.emergencyContact.mobile}
-           td #{patient.emergencyContact.relation}
+               a(href=`/user/patient/${patient._id}`) View
+          
+
+
+
