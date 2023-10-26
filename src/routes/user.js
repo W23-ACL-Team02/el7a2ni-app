@@ -1,4 +1,5 @@
 var express = require('express');
+const userModel = require('../models/user.js');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -31,7 +32,7 @@ router.post('/register/patient', async (req, res) => {
   } catch (error) {
     res.status(400).json({err:error.message});
   }
-  res.send('Registered patient');
+  // res.send('Registered patient');
 });
 
 module.exports = router;
