@@ -9,6 +9,7 @@ var logger = require('morgan');
 
 const MongoURI = process.env.MONGO_URI;
 
+// Import routers
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 
@@ -28,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
+// Define Routes
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 
