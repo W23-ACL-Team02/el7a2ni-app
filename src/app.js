@@ -10,6 +10,7 @@ var session = require('express-session');
 
 const MongoURI = process.env.MONGO_URI;
 
+// Import routers
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 
@@ -35,7 +36,7 @@ app.use(session({
   cookie: { maxAge: 60000 }
 }))
 
-// Routes
+// Define Routes
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 
