@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+//const familyMembermodel=require('/models/familymembers')
 const userSchema = new Schema({
   username: {
     type: String,
@@ -87,20 +87,30 @@ const userSchema = new Schema({
     isPharmacist() {
       return this.type == 'pharmacist';
     },
-    addFamilyMember({nameOf, nationalID, age, gender, relation}) {
-      const familyMember = {
-        name: nameOf,
-        nationalID,
-        age,
-        gender,
-        relation
-      }
-    
+    async addFamilyMember(familymember) {
+      //  const familyMember = {
+      //  name: nameOf,
+      //  nationalID,
+      //  age,
+      //  gender,
+      //  relation
+      //  }
       if (this.family == undefined) this.family = [];
+       console.log("hi")
+       this.family.push(familymember)
+       
+
+    //   if (this.family == undefined) this.family = [];
     
-      this.family.push(familyMember);
+    //   this.family.push(familyMember);
+    // }
+    },
+    viewfamilymember()
+    {
+      return this.family;
     }
   }
+  
 }
 );
 
