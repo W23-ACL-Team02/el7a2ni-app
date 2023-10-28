@@ -7,7 +7,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/register', (req, res) => {
-  res.status(200).render('register');
+  const registerType = req.query.type ?? "patient";
+  res.status(200).render('register', {registerType});
 })
 
 module.exports = router;

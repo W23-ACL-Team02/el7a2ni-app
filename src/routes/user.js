@@ -7,18 +7,32 @@ router.get('/', function(req, res, next) {
   res.redirect('/');
 });
 
-router.post('/register/doctor', (req, res) => {
-  // username, name, email, password, date of birth, hourly rate, 
-  // affiliation (hospital), educational background.
-  res.send('Registered doctor');
+router.post('/register/doctor', async (req, res) => {
+    const {username, name, email, password, dateOfBirth, hourlyRate, affiliation, education_name, education_end} = req.body;
+    const education = {
+        name: education_name,
+        endYear: education_end.split("-")[0]
+    }
+    const type = "doctor";
+    const isAccepted = false;
+
+    try {
+        const user = await userModel.create({username, name, email, password, dateOfBirth, hourlyRate, affiliation, education, type, isAccepted});
+        await user.save();
+    
+        res.status(200).send(`Doctor ${user.username} created successfully!`);
+      } catch (error) {
+        res.status(400).json({err:error.message});
+      }
 });
 
 router.post('/register/patient', async (req, res) => {
   // Add user to database
-  const {username, name, email, password, dateOfBirth, gender, mobile, emergency_name, emergency_mobile} = req.body;
+  const {username, name, email, password, dateOfBirth, gender, mobile, emergency_name, emergency_mobile, emergency_relation} = req.body;
   const emergencyContact = {
     name: emergency_name,
-    mobile: emergency_mobile
+    mobile: emergency_mobile,
+    relation: emergency_relation
   };
   const type = "patient";
 
@@ -28,7 +42,7 @@ router.post('/register/patient', async (req, res) => {
     const user = await userModel.create({username, name, email, password, dateOfBirth, gender, mobile, type, emergencyContact});
     await user.save();
 
-    res.status(200).send(`User ${user.username} created successfully!`);
+    res.status(200).send(`Patient ${user.username} created successfully!`);
   } catch (error) {
     res.status(400).json({err:error.message});
   }
