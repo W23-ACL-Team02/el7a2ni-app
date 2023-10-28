@@ -87,7 +87,7 @@ const userSchema = new Schema({
     },
     viewfamilymember()
     {
-      return this.family;
+      return this.family ?? [];
     }
   }
   
