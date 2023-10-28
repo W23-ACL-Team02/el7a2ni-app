@@ -6,21 +6,6 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Virtual Clinic' });
 });
-
-// router.put('/addFamily/:username', async (req, res) => {
-//     // Fetch user
-//     const {nameOf, nationalID, age, gender, relation} = req.body;
-//     const username = req.params.username;
-//     let user = await userModel.findOne({username});
-  
-//     // Add family member
-//     user.addFamilyMember(req.body);
-  
-//     // Save
-//     await user.save();
-  
-//     return res.status(200).send("Ok")
-//   })
 router.post('/register/patient', async (req, res) => {
   // Add user to database
   const {username, name, email, password, dateOfBirth, gender, mobile, emergency_name, emergency_mobile, emergency_relation} = req.body;

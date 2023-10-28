@@ -10,7 +10,7 @@ const familymemberSchema = new Schema({
             type: String,
             unique: true, 
             required: true,
-         //   match: /^[0-9]{14}$/ // Match the format of a 14-digit national ID (adjust the regular expression as needed)
+            match: /^[0-9]{14}$/ // Match the format of a 14-digit national ID (adjust the regular expression as needed)
         },
         
        age: {

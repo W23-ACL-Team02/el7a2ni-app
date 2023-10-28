@@ -88,22 +88,9 @@ const userSchema = new Schema({
       return this.type == 'pharmacist';
     },
     async addFamilyMember(familymember) {
-      //  const familyMember = {
-      //  name: nameOf,
-      //  nationalID,
-      //  age,
-      //  gender,
-      //  relation
-      //  }
       if (this.family == undefined) this.family = [];
-       console.log("hi")
        this.family.push(familymember)
-       
 
-    //   if (this.family == undefined) this.family = [];
-    
-    //   this.family.push(familyMember);
-    // }
     },
     viewfamilymember()
     {
