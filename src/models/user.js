@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-//const familyMembermodel=require('/models/familymembers')
+
 const userSchema = new Schema({
   username: {
     type: String,
@@ -29,23 +29,24 @@ const userSchema = new Schema({
     type: String,
   },
   emergencyContact: {
-    name: {
-      type: String,
-    },
-    mobile: {
-      type: String,
-    },
-    relation: {
-      type: String,
+    type: Object,
+    default: {
+      name: {
+        type: String,
+      },
+      mobile: {
+        type: String,
+      },
+      relation: {
+        type: String,
+      }
     }
   },
   family: {
     type: Array,
-    default: undefined
   },
   prescriptions: {
     type: Array,
-    default: undefined
   },
   payRate: {
     type: Number,
@@ -54,11 +55,17 @@ const userSchema = new Schema({
     type: String,
   },
   education: {
-    name: {
-      type: String,
-    },
-    endYear: {
-      type: Number,
+    type: Object,
+    default: {
+      name: {
+        type: String,
+      },
+      startYear: {
+        type: Number,
+      },
+      endYear: {
+        type: Number,
+      }
     }
   },
   isAccepted: {
@@ -79,18 +86,8 @@ const userSchema = new Schema({
     },
     isPharmacist() {
       return this.type == 'pharmacist';
-    },
-    async addFamilyMember(familymember) {
-      if (this.family == undefined) this.family = [];
-       this.family.push(familymember)
-
-    },
-    viewfamilymember()
-    {
-      return this.family;
     }
   }
-  
 }
 );
 
