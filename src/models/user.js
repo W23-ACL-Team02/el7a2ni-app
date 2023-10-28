@@ -87,14 +87,22 @@ const userSchema = new Schema({
     isPharmacist() {
       return this.type == 'pharmacist';
     },
-    async addFamilyMember(familymember) {
+    addFamilyMember(familymember) {
       if (this.family == undefined) this.family = [];
        this.family.push(familymember)
-
+    
     },
     viewfamilymember()
     {
       return this.family;
+    },
+    addprescription(prescription)
+    {
+      this.prescriptions.push(prescription)
+    },
+    viewprescriptions()
+    {
+      return this.prescriptions;
     }
   }
   
