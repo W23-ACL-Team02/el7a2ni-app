@@ -1,0 +1,29 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title='Virtual Clinic | Add Family member'
+    body
+    h2 Add family member 
+    form(method='POST')
+        .form-group
+            label(for='name') Name
+            input.form-control(type='text', name='name' placeholder='name' required autofocus=true)
+        .form-group
+            label(for='nationalID') NationalID
+            input.form-control(type='text', name='nationalID' placeholder='nationalID' required )
+        .form-group
+            label(for='age') Age 
+            input.form-control(type='tex', name='age' placeholder='age' required )
+        .form-group
+            label(for='gender') Gender
+            select.form-control(name="gender" required)
+                option(value='Male') Male
+                option(value='Female') Female
+        .form-group
+            label(for='relationship') relationship
+            select.form-control(name="relationship" required)
+                option(value='Wife') Wife
+                option(value='Husband') Husband
+                option(value='Children') Children
+        button.btn.btn-primary(type='submit') Submit 
