@@ -2,10 +2,30 @@ var express = require('express');
 const userModel = require('../models/user.js');
 var router = express.Router();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Virtual Clinic' });
+  // Redirect back to home
+  res.redirect('/');
 });
+
+router.post('/register/doctor', async (req, res) => {
+  const {username, name, email, password, dateOfBirth, hourlyRate, affiliation, education_name, education_end} = req.body;
+  const education = {
+    name: education_name,
+    endYear: education_end.split("-")[0]
+  }
+  const type = "doctor";
+  const isAccepted = false;
+
+  try {
+    const user = await userModel.create({username, name, email, password, dateOfBirth, hourlyRate, affiliation, education, type, isAccepted});
+    await user.save();
+
+    res.status(200).send(`Doctor ${user.username} created successfully!`);
+  } catch (error) {
+    res.status(400).json({err:error.message});
+  }
+});
+
 router.post('/register/patient', async (req, res) => {
   // Add user to database
   const {username, name, email, password, dateOfBirth, gender, mobile, emergency_name, emergency_mobile, emergency_relation} = req.body;
@@ -16,13 +36,39 @@ router.post('/register/patient', async (req, res) => {
   };
   const type = "patient";
 
-
-
   try {
     const user = await userModel.create({username, name, email, password, dateOfBirth, gender, mobile, type, emergencyContact});
     await user.save();
 
-    res.status(200).send(`User ${user.username} created successfully!`);
+    res.status(200).send(`Patient ${user.username} created successfully!`);
+  } catch (error) {
+    res.status(400).json({err:error.message});
+  }
+  // res.send('Registered patient');
+});
+
+router.post('/login', async (req, res) => {
+  const {username, password} = req.body;
+  
+  try {
+    // Check for user in database
+    const user = await userModel.findOne({username: username});
+    
+    if (!user || password != user.password || user.type == 'pharmacist') {
+      // If not found reload page with error message
+      return res.redirect('/login')
+
+    } else if (user?.type == 'doctor' && !user.isAccepted) {
+      return res.status(400).send(`Doctor ${user.name} not yet approved.`)
+
+    } else {
+      // Else load session variables
+      req.session.loggedin = true;
+      req.session.userId = user?._id;
+      req.session.userType = user?.type;
+
+      return res.redirect('/home');
+    }
   } catch (error) {
     res.status(400).json({err:error.message});
   }

@@ -1,19 +1,37 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
-});
-
-/* GET login page */
 router.get('/login', (req, res) => {
+  if (req.session.loggedin) {
+    return res.redirect('home')
+  }
   res.render('login');
 })
 
-/* GET register page */
 router.get('/register', (req, res) => {
-  res.render('register');
+  if (req.session.loggedin) {
+    return res.redirect('home')
+  }
+  const registerType = req.query.type ?? "patient";
+  res.status(200).render('register', {registerType});
+})
+
+router.get('*', function(req, res, next) {
+  // If not logged in, go to login page
+  if (!req.session.loggedin) {
+    return res.redirect('/login')
+  }
+  
+  next();
+});
+
+router.get('/', (req, res) => {
+  res.redirect('/home');
+})
+
+router.get('/home', (req, res) => {
+  // Go to home page
+  res.render('home', {userType: req.session.userType ?? "patient"})
 })
 
 module.exports = router;

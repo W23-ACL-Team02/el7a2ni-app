@@ -29,24 +29,23 @@ const userSchema = new Schema({
     type: String,
   },
   emergencyContact: {
-    type: Object,
-    default: {
-      name: {
-        type: String,
-      },
-      mobile: {
-        type: String,
-      },
-      relation: {
-        type: String,
-      }
+    name: {
+      type: String,
+    },
+    mobile: {
+      type: String,
+    },
+    relation: {
+      type: String,
     }
   },
   family: {
     type: Array,
+    default: undefined
   },
   prescriptions: {
     type: Array,
+    default: undefined
   },
   payRate: {
     type: Number,
@@ -55,17 +54,11 @@ const userSchema = new Schema({
     type: String,
   },
   education: {
-    type: Object,
-    default: {
-      name: {
-        type: String,
-      },
-      startYear: {
-        type: Number,
-      },
-      endYear: {
-        type: Number,
-      }
+    name: {
+      type: String,
+    },
+    endYear: {
+      type: Number,
     }
   },
   isAccepted: {
@@ -95,14 +88,6 @@ const userSchema = new Schema({
     viewfamilymember()
     {
       return this.family;
-    },
-    addprescription(prescription)
-    {
-      this.prescriptions.push(prescription)
-    },
-    viewprescriptions()
-    {
-      return this.prescriptions;
     }
   }
   
