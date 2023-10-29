@@ -3,19 +3,22 @@ const familymemberSchema=require("../models/familymembers.js");
 const userModel = require('../models/user.js');
 var router = express.Router(); 
 
+router.get('/addfamily',(req,res) => {
+  res.render('addfamilymember')   
+})
 
-
-router.get('/addfamily',(req,res)=>
- {
-      res.render('addfamilymember')   
- })
 router.post('/addFamily', async (req,res) => {
-  try {
-    const {name, nationalID, age, gender, relationship} = req.body;
-    const familymember =  await familymemberSchema.create({name,nationalID,age,gender,relationship});
+  const {name, nationalID, age, gender, relationship} = req.body;
 
+  try {
+    const familymember =  await familymemberSchema.create({name,nationalID,age,gender,relationship});
+    
     const userId = req.session.userId;
     let user = await userModel.findOne({_id: userId});
+    
+    if (user == null) {
+      throw new Error("User not found. Maybe Session timed out.")
+    }
 
     // Add family member
     user.addFamilyMember(familymember);
@@ -29,9 +32,14 @@ router.post('/addFamily', async (req,res) => {
 })
 
 router.get('/viewfamilymember', async (req,res) => {
+  const userId = req.session.userId;
+  
   try {
-    const userId = req.session.userId;
     let user = await userModel.findOne({_id: userId});
+
+    if (user == null) {
+      throw new Error("User not found. Maybe Session timed out.")
+    }
 
     const familymembers = user.viewfamilymember();
 
