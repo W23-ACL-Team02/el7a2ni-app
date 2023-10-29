@@ -8,14 +8,15 @@ const userSchema = new Schema({
   },
   type: {
     type: String,
-    required: true
+    enum: ['admin', 'patient', 'doctor', 'pharmacist'],
+    required: true,
+    default: 'patient'
   },
   name: {
     type: String,
   },
   email: {
     type: String,
-    required: true,
   },
   password: {
     type: String,
@@ -24,26 +25,10 @@ const userSchema = new Schema({
   dateOfBirth: {
     type: Date,
   },
-  gender: {
-    type: String,
-  },
   mobile: {
     type: String,
   },
-  status: { //for pharmacists, 'approved, pending or declined'
-    type: String,
-  },
-  hourlyRate:{
-    type: Number,
-  },
-  affiliation: {
-    type: String,
-  },
-  eduBackground: {
-    type: String,
-  },
   emergencyContact: {
-    type: Object,
     name: {
       type: String,
     },
@@ -53,8 +38,51 @@ const userSchema = new Schema({
     relation: {
       type: String,
     }
+  },
+  family: {
+    type: Array,
+    default: undefined
+  },
+  prescriptions: {
+    type: Array,
+    default: undefined
+  },
+  payRate: {
+    type: Number,
+  },
+  affiliation: {
+    type: String,
+  },
+  education: {
+    name: {
+      type: String,
+    },
+    endYear: {
+      type: Number,
+    }
+  },
+  isAccepted: {
+    type: Boolean,
   }
-}, { timestamps: true });
+}, 
+{ 
+  timestamps: true,
+  methods: {
+    isAdmin() {
+      return this.type == 'admin';
+    },
+    isDoctor() {
+      return this.type == 'doctor';
+    },
+    isPatient() {
+      return this.type == 'patient';
+    },
+    isPharmacist() {
+      return this.type == 'pharmacist';
+    }
+  }
+}
+);
 
 const User = mongoose.model('user', userSchema);
 module.exports = User;
