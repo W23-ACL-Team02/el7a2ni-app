@@ -14,10 +14,10 @@ router.post('/register/doctor', async (req, res) => {
     endYear: education_end.split("-")[0]
   }
   const type = "doctor";
-  const isAccepted = false;
+  const acceptanceStatus = 'pending';
 
   try {
-    const user = await userModel.create({username, name, email, password, dateOfBirth, hourlyRate, affiliation, education, type, isAccepted});
+    const user = await userModel.create({username, name, email, password, dateOfBirth, hourlyRate, affiliation, education, type, acceptanceStatus});
     await user.save();
 
     res.status(200).send(`Doctor ${user.username} created successfully!`);
@@ -44,7 +44,6 @@ router.post('/register/patient', async (req, res) => {
   } catch (error) {
     res.status(400).json({err:error.message});
   }
-  // res.send('Registered patient');
 });
 
 router.post('/login', async (req, res) => {
@@ -58,8 +57,8 @@ router.post('/login', async (req, res) => {
       // If not found reload page with error message
       return res.redirect('/login')
 
-    } else if (user?.type == 'doctor' && !user.isAccepted) {
-      return res.status(400).send(`Doctor ${user.name} not yet approved.`)
+    } else if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
+      return res.status(400).send(`Doctor ${user.name} ${(user.acceptanceStatus == 'pending' ? "not yet approved.":"rejected.")}`)
 
     } else {
       // Else load session variables
