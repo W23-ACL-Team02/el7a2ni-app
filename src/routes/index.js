@@ -34,4 +34,20 @@ router.get('/home', (req, res) => {
   res.render('home', {userType: req.session.userType ?? "patient"})
 })
 
+/* GET admin page */
+router.get('/admin', (req, res) => {
+  if(req.session.userType=="admin"){
+    res.render('admin');
+  }
+  else{
+    res.status(400).send("Unauthorized Access")
+  }
+})
+
 module.exports = router;
+
+
+
+
+//////
+

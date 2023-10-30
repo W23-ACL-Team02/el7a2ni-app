@@ -2,10 +2,14 @@ var express = require('express');
 const userModel = require('../models/user.js');
 var router = express.Router();
 
+const familymemberSchema=require("../models/familymembers.js"); 
+
 /* return to home */
 router.get('/', (req, res) => {
   res.redirect('/');
 })
+
+
 
 router.post('/register/patient', async (req, res) => {
   // Add user to database
@@ -83,5 +87,129 @@ router.post('/login', async (req, res) => {
     res.status(400).json({err:error.message});
   }
 })
+
+
+
+//fetching patient info route
+router.get('/patient/:id', async (req,res) => { 
+
+  
+  if(req.session.userType=="admin"){
+
+    try{
+        const patient= await userModel.findById(req.params.id);
+        const familyMembers= patient.family;
+        res.render('viewpatient', {patient: patient, family:familyMembers});
+    } catch(error){
+      res.status(400).send("Cannot fetch patient"); //change to error message?
+    }
+  }
+  else{
+    res.status(400).send("Unauthorized Access");
+  }
+
+
+})
+
+
+//fetching pharmacist info route
+router.get('/pharmacist/:id', async (req,res) => {
+
+      if(req.session.userType=="admin"){
+
+        try{
+          const pharmacist= await userModel.findById(req.params.id);
+          res.render('viewpharmacist', {pharmacist})
+        } catch(error){
+          res.status(400).send("Cannot fetch pharmacist");
+        }
+
+      }
+      else{
+        res.status(400).send("Unauthorized Access");
+      }
+
+    
+})
+
+
+//all patients
+router.get('/admin/patients', async(req,res)  => { 
+
+
+  if(req.session.userType=="admin"){
+
+        try{
+
+         const users = await userModel.find();
+         const usersFiltered= users.filter( (user) => user.type === "patient") //only patient types
+
+         res.render('patients', {patients: usersFiltered})
+  
+     
+        } catch(error){
+          res.status(400).json({err:error.message})
+        }
+  }
+      else{
+       res.status(400).send("Unauthorized Access");
+      }
+  
+
+ })
+
+
+
+
+
+
+//all pharmacists
+ router.get('/admin/pharmacists', async(req,res)  => { 
+  
+  
+
+    if(req.session.userType=="admin"){
+  
+      try{
+         const users = await userModel.find();
+         const usersFiltered= users.filter( (user) => user.isAccepted && user.type == "pharmacist") 
+          //retrieve only pharmacist types
+         //only registered/accepted pharmacists 
+
+        res.render('pharmacists', {pharmacists: usersFiltered})
+      
+         } catch(error){
+           res.status(400).json({err:error.message})
+          }
+        }
+        else{
+          res.status(400).send("Unauthorized Access");
+        }
+ })
+
+ //admin views info of pending pharmacists
+ router.get('/admin/viewpendingpharma', async(req,res)  => { 
+  
+
+    if(req.session.userType=="admin"){
+ 
+         try{
+
+           const users = await userModel.find();
+
+            const usersFiltered= users.filter( (user) => (!(user.isAccepted)) && user.type == "pharmacist") //retrieve only pending pharmacists
+
+            res.render('viewpendingpharma', {pharmacists: usersFiltered})  
+  
+           } catch(error){
+            res.status(400).json({err:error.message})
+          }
+        }
+        else{
+          res.status(400).send("Unauthorized Access");
+        }
+  
+ })
+
 
 module.exports = router;
