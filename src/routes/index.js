@@ -16,6 +16,8 @@ router.get('/register', (req, res) => {
   res.status(200).render('register', {registerType});
 })
 
+
+
 router.get('*', function(req, res, next) {
   // If not logged in, go to login page
   if (!req.session.loggedin) {
@@ -37,7 +39,13 @@ router.get('/home', (req, res) => {
 
 /* GET admin page */
 router.get('/admin', (req, res) => {
-  res.render('admin');
+  if(req.session.userType=="admin"){
+    res.render('admin');
+  }
+  else{
+    res.status(400).send("Unauthorized Access")
+  }
+  
 })
 
 module.exports = router;

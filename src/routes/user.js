@@ -2,50 +2,12 @@ var express = require('express');
 const userModel = require('../models/user.js');
 var router = express.Router();
 
+const familymemberSchema=require("../models/familymembers.js"); 
+
 /* return to home */
 router.get('/', (req, res) => {
   res.redirect('/');
 })
-
-
-/////TEMP METHOD/////
-/////DELETEEEE////
-router.get('/adduser', async(req,res) => { //temp method for testing
-
-  const {username, name, email, password, dateOfBirth, gender, mobile, type,
-   emergency_name, emergency_mobile, emergency_relation,
-  payRate, affiliation, education_name, education_year, isAccepted} = req.body;
-  const emergencyContact = {
-    name: emergency_name,
-    mobile: emergency_mobile,
-    relation: emergency_relation
-  };
-  const education = {
-    name: education_name,
-    endYear: education_year
-  };
-
-  try {
-    const user = await userModel.create({username, type, name, email, password, dateOfBirth, gender, mobile,
-       emergencyContact, payRate, affiliation, education, isAccepted});
-    
-    // TODO: Ensure username not taken
-
-    // TODO: Ensure email not taken
-    
-    await user.save();
-
-    res.status(200).send(`User ${user.username} created successfully!`);
-  } catch (error) {
-    res.status(400).json({err:error.message});
-  }
-
-})
-/////TEMP METHOD/////
-/////DELETEEEE////
-
-
-
 
 
 
@@ -131,12 +93,13 @@ router.post('/login', async (req, res) => {
 //fetching patient info route
 router.get('/patient/:id', async (req,res) => { 
 
-    //TODO: show patient's family members (fetch from familyMember schema)
+  
   if(req.session.userType=="admin"){
 
     try{
         const patient= await userModel.findById(req.params.id);
-        res.render('viewpatient', {patient})
+        const familyMembers= patient.family;
+        res.render('viewpatient', {patient: patient, family:familyMembers});
     } catch(error){
       res.status(400).send("Cannot fetch patient"); //change to error message?
     }
@@ -171,7 +134,7 @@ router.get('/pharmacist/:id', async (req,res) => {
 
 
 //all patients
-router.get('/admin/patients', async(req,res)  => { //CHECK ADMIN CREDENTIALS
+router.get('/admin/patients', async(req,res)  => { 
 
 
   if(req.session.userType=="admin"){
@@ -201,16 +164,17 @@ router.get('/admin/patients', async(req,res)  => { //CHECK ADMIN CREDENTIALS
 
 
 //all pharmacists
- router.get('/admin/pharmacists', async(req,res)  => { //CHECK ADMIN CREDENTIALS
+ router.get('/admin/pharmacists', async(req,res)  => { 
   
   
 
     if(req.session.userType=="admin"){
   
       try{
-         const filter= "pharmacist";
-         const users = await userModel.find(filter); //retrieve only pharmacist types
-         const usersFiltered= users.filter( (user) => user.isAccepted) //only registered/accepted pharmacists 
+         const users = await userModel.find();
+         const usersFiltered= users.filter( (user) => user.isAccepted && user.type == "pharmacist") 
+          //retrieve only pharmacist types
+         //only registered/accepted pharmacists 
 
         res.render('pharmacists', {pharmacists: usersFiltered})
       
@@ -224,18 +188,16 @@ router.get('/admin/patients', async(req,res)  => { //CHECK ADMIN CREDENTIALS
  })
 
  //admin views info of pending pharmacists
- router.get('/admin/viewpendingpharma', async(req,res)  => { //CHECK ADMIN CREDENTIALS
+ router.get('/admin/viewpendingpharma', async(req,res)  => { 
   
 
     if(req.session.userType=="admin"){
  
          try{
 
-           const filter= "pharmacist"  //only pharmacists
+           const users = await userModel.find();
 
-           const users = await userModel.find(filter);
-
-            const usersFiltered= users.filter( (user) => !(user.isAccepted)) //retrieve only pending pharmacists
+            const usersFiltered= users.filter( (user) => (!(user.isAccepted)) && user.type == "pharmacist") //retrieve only pending pharmacists
 
             res.render('viewpendingpharma', {pharmacists: usersFiltered})  
   

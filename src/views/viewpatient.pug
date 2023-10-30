@@ -40,3 +40,22 @@ html(lang='en')
            td #{patient.emergencyContact.name}
            td #{patient.emergencyContact.mobile}
            td #{patient.emergencyContact.relation}
+     h2 Family Members:
+     table 
+         thead 
+         tr 
+          th Name 
+          th National ID 
+          th Age 
+          th Gender 
+          th Relationship 
+         tbody 
+          each member in family
+           tr 
+            td #{member.name}
+            td #{member.nationalID}
+            td #{member.age}
+            td #{member.gender}
+            td #{member.relationship}
+
+           

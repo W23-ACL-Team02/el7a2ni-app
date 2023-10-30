@@ -33,7 +33,7 @@ app.use(session({
   secret: 'el7a2ni',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 600000 }
 }))
 
 // Define Routes
