@@ -5,6 +5,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: true,
+    unique: true
   },
   type: {
     type: String,
@@ -17,6 +18,7 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
+    unique: true
   },
   password: {
     type: String,
@@ -61,8 +63,9 @@ const userSchema = new Schema({
       type: Number,
     }
   },
-  isAccepted: {
-    type: Boolean,
+  acceptanceStatus: {
+    type: String,
+    enum: ['accepted', 'rejected', 'pending']
   }
 }, 
 { 
@@ -82,14 +85,14 @@ const userSchema = new Schema({
     },
     addFamilyMember(familymember) {
       if (this.family == undefined) this.family = [];
-       this.family.push(familymember)
-    
+      
+      this.family.push(familymember)
     },
-    viewfamilymember()
-    {
+    viewfamilymember() {
       return this.family;
     }
   }
+  
 }
 );
 
