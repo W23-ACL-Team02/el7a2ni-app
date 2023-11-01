@@ -11,6 +11,7 @@ const MongoURI = process.env.MONGO_URI;
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
+var adminRouter = require('./routes/admin');
 var familyMemberRouter = require('./routes/familymember');
 
 var app = express();
@@ -38,6 +39,7 @@ app.use(session({
 // Routes
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/admin', adminRouter);
 app.use('/familymember', familyMemberRouter);
 
 
