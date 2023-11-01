@@ -16,6 +16,7 @@ router.get('/register', (req, res) => {
   res.status(200).render('register', {registerType});
 })
 
+
 router.get('*', function(req, res, next) {
   // If not logged in, go to login page
   if (!req.session.loggedin) {
@@ -33,5 +34,22 @@ router.get('/home', (req, res) => {
   // Go to home page
   res.render('home', {userType: req.session.userType ?? "patient"})
 })
+
+/* GET addAdmin page */
+router.get('/addAdmin', (req, res) => {
+  res.render('addAdmin');
+})
+
+/* GET removeUser page */
+router.get('/removeUser', (req, res) => {
+  res.render('removeUser');
+})
+
+
+
+router.get('/filterAppointments', (req, res) => {
+  res.render('filterAppointments', { date: '', status: '', username: '' });
+});
+
 
 module.exports = router;
