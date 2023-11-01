@@ -1,6 +1,6 @@
 var express= require('express');
 const familymemberSchema=require("../models/familymembers.js");
-const userModel = require('../models/user.js');
+// ! const userModel = require('../models/user.js'); Causing duplicate declaration
 var router = express.Router(); 
 
 router.get('/addfamily',(req,res) => {
