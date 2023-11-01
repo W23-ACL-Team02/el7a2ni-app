@@ -5,3 +5,10 @@ html(lang='en')
         title Pharmacy | Home
     body
         h2 Home Page for type #{userType}
+        case userType
+            when 'admin'
+                include includes/adminHome.pug 
+            when 'patient'
+                include includes/patientHome.pug
+            when 'doctor'
+                include includes/doctorHome.pug

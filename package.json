@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./src/app"
+    "start": "nodemon ./src/app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -29,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/FadluW/Pharmacy_Team02/issues"
   },
-  "homepage": "https://github.com/FadluW/Pharmacy_Team02#readme"
+  "homepage": "https://github.com/FadluW/Pharmacy_Team02#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
 }

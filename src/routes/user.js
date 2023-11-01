@@ -1,7 +1,6 @@
 var express = require('express');
 const userModel = require('../models/user.js');
 var router = express.Router();
-const familymemberSchema = require("../models/familymembers.js"); 
 
 /* return to home */
 router.get('/', (req, res) => {
@@ -28,6 +27,50 @@ router.post('/register/patient', async (req, res) => {
     res.status(400).json({err:error.message});
   }
 })
+
+
+router.post('/addAdmin' , async(req,res)=>{
+  try{
+    if (req.session.userType !== 'admin') {
+      return res.status(403).json({ message: 'Permission denied. You must be an admin to add another administrator.' });
+    }
+
+      const{username,password}=req.body;
+      const admin = await userModel.create({username:username,password:password,type:"admin"})
+      await admin.save()
+      res.status(200).send("Admin added successfully")
+  
+
+
+  }catch(error){
+    res.status(400).json({err:error.message})
+ }
+
+})
+
+router.post('/removeUser',async(req,res)=>{
+
+  try{
+    if (req.session.userType !== 'admin') {
+      return res.status(403).json({ message: 'Permission denied. You must be an admin to remove a user.' });
+    }
+      const {username}= req.body
+      const user = await userModel.findOneAndRemove({username:username});
+      if(!user){
+         res.status(404).json({ message: 'User not found' });
+         return;
+      }
+      res.status(200).send({ message: 'User removed successfully ' });
+   
+  
+
+
+  }catch(error){
+    res.status(400).json({err:error.message})
+ }
+
+})
+
 
 
 router.post('/register/pharmacist', async (req, res) => {

@@ -25,6 +25,13 @@ router.get('*', function(req, res, next) {
   next();
 });
 
+router.get('/logout', (req, res) => {
+  let userType = req.session.userType;
+  req.session.destroy();
+
+  res.status(200).send(`Successfully logged out of ${userType} account.`);
+})
+
 router.get('/', (req, res) => {
   res.redirect('/home');
 })
@@ -43,6 +50,18 @@ router.get('/admin', (req, res) => {
     res.status(400).send("Unauthorized Access")
   }
 })
+
+/* GET addAdmin page */
+router.get('/addAdmin', (req, res) => {
+  res.render('addAdmin');
+})
+
+/* GET removeUser page */
+router.get('/removeUser', (req, res) => {
+  res.render('removeUser');
+})
+
+
 
 module.exports = router;
 

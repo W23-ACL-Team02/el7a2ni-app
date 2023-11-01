@@ -14,7 +14,11 @@ const MongoURI = process.env.MONGO_URI;
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 
+
+
 var app = express();
+
+
 
 // Set port
 var port = process.env.PORT || '3000';
@@ -36,7 +40,7 @@ app.use(session({
   cookie: { maxAge: 600000 }
 }))
 
-// Define Routes
+// Routes
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 
