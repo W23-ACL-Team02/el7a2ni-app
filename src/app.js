@@ -7,6 +7,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 
+
+
 const MongoURI = process.env.MONGO_URI;
 
 var indexRouter = require('./routes/index');
@@ -32,7 +34,7 @@ app.use(session({
   secret: 'el7a2ni',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 600000 }
 }))
 
 // Routes
@@ -51,5 +53,6 @@ mongoose.connect(MongoURI)
   })
 })
 .catch(err => console.log(err));
+
 
 module.exports = app;

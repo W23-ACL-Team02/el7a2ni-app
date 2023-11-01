@@ -1,0 +1,15 @@
+
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Clinic | Remove User
+  body
+    h1 Remove User
+    form(action='/user/removeUser', method='POST')
+      .form-group
+        label(for='username') Username
+        input.form-control(type='text', name='username', placeholder='Enter username', required)
+      br
+      button.btn.btn-danger(type='submit') Remove User
+

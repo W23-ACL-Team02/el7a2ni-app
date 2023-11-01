@@ -10,8 +10,8 @@ const userSchema = new Schema({
   type: {
     type: String,
     enum: ['admin', 'patient', 'doctor', 'pharmacist'],
-    required: true,
-    default: 'patient'
+    default: 'patient',
+    required: true
   },
   name: {
     type: String,
