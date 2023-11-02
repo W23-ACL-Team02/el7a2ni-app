@@ -26,6 +26,13 @@ router.get('*', function(req, res, next) {
   next();
 });
 
+router.get('/logout', (req, res) => {
+  let userType = req.session.userType;
+  req.session.destroy();
+
+  res.status(200).send(`Successfully logged out of ${userType} account.`);
+})
+
 router.get('/', (req, res) => {
   res.redirect('/home');
 })

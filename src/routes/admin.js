@@ -1,6 +1,7 @@
 var express = require('express');
-const { getPendingDoctors } = require('../controllers/userController');
 var router = express.Router();
+const {addHealthPackage, updateHealthPackage, deleteHealthPackage, viewHealthPackage} = require("../controllers/healthPackage")
+const { getPendingDoctors } = require('../controllers/userController');
 
 router.all('*', (req, res, next) => {
   // Ensure admin
@@ -10,6 +11,19 @@ router.all('*', (req, res, next) => {
 
   next();
 });
+
+router.route('/healthPackage')
+  .post(addHealthPackage)
+  .put(updateHealthPackage)
+  .delete(deleteHealthPackage)
+  .get(viewHealthPackage)
+
+// Temporary routes before react
+router.post('/deleteHealthPackage', deleteHealthPackage);
+router.post('/updateHealthPackage', updateHealthPackage);
+router.get('/addHealthPackage', (req, res) => {
+  res.status(200).render('adminHealthPackageAdd');
+})
 
 router.get('/pendingDoctors', (req, res) => {
   // Get doctor list
