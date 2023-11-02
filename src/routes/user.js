@@ -1,6 +1,6 @@
 var express = require('express');
 
-const userModel = require('../models/User.js');
+const userModel = require('../models/user.js');
 const appointmentModel = require('../models/appointment.js')
 const { default: mongoose } = require('mongoose');
 
