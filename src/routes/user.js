@@ -89,45 +89,6 @@ router.post('/removeUser', async (req, res) => {
   }
 })
 
-// router.get('/filterAppointments/patient', async (req, res) => {
-//   //TODO
-
-//   //if (user.type!='admin'){
-//   try {
-//     //const ID=req.session.userId
-
-//     const { status, date, username } = req.query
-//     const filter = {}
-
-//     if (date) {
-//       filter.date = new Date(date);
-//     }
-
-//     if (status) {
-//       filter.status = status;
-//     }
-//     if (username) {
-//       filter.patientUsername = username;
-//     }
-//     const appointments = await appointmentModel.find(filter);
-//     if (appointments.length === 0) {
-//       res.status(404).json({ message: 'No appointments' });
-//       return;
-//     }
-
-//     res.render('patientAppointments', { appointments });
-
-
-//   } catch (error) {
-//     res.status(400).json({ err: error.message })
-//   }
-
-//   //}
-//   //else{
-//   //return res.status(403).json({ message: 'Permission denied.' });
-//   //}
-
-// })
 
 
 router.get('/filterAppointments', async (req, res) => {
