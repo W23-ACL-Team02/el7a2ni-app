@@ -54,24 +54,15 @@ router.post('/register/patient', async (req, res) => {
 
 
 router.post('/addAdmin', async (req, res) => {
-
-
-
   try {
     if (req.session.userType !== 'admin') {
       return res.status(403).json({ message: 'Permission denied. You must be an admin to add another administrator.' });
     }
 
     const { username, password } = req.body
-    const user=await userModel.find({username: username})
-    if(user){
-      return res.status(403).json({ message: 'Username already exists.' });
-    }
     const admin = await userModel.create({ username: username, password: password, type: "admin" })
-    await admin.save
+    await admin.save()
     res.status(200).send("Admin added successfully")
-
-
 
   } catch (error) {
     res.status(400).json({ err: error.message })
@@ -80,12 +71,8 @@ router.post('/addAdmin', async (req, res) => {
 })
 
 router.post('/removeUser', async (req, res) => {
-
-  // Authenticate that the user is an admin first
-
-
   try {
-    
+    // Authenticate that the user is an admin first
     if (req.session.userType !== 'admin') {
         return res.status(403).json({ message: 'Permission denied. You must be an admin to remove a user.' });
       }
@@ -97,54 +84,11 @@ router.post('/removeUser', async (req, res) => {
     }
     res.status(200).json({ message: 'User removed successfully ' });
 
-
-
-
   } catch (error) {
     res.status(400).json({ err: error.message })
   }
-
 })
 
-// router.get('/filterAppointments/patient', async (req, res) => {
-//   //TODO
-
-//   //if (user.type!='admin'){
-//   try {
-//     //const ID=req.session.userId
-
-//     const { status, date, username } = req.query
-//     const filter = {}
-
-//     if (date) {
-//       filter.date = new Date(date);
-//     }
-
-//     if (status) {
-//       filter.status = status;
-//     }
-//     if (username) {
-//       filter.patientUsername = username;
-//     }
-//     const appointments = await appointmentModel.find(filter);
-//     if (appointments.length === 0) {
-//       res.status(404).json({ message: 'No appointments' });
-//       return;
-//     }
-
-//     res.render('patientAppointments', { appointments });
-
-
-//   } catch (error) {
-//     res.status(400).json({ err: error.message })
-//   }
-
-//   //}
-//   //else{
-//   //return res.status(403).json({ message: 'Permission denied.' });
-//   //}
-
-// })
 
 
 router.get('/filterAppointments', async (req, res) => {
