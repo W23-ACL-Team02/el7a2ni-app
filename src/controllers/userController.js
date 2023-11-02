@@ -2,7 +2,7 @@ const userModel = require('../models/user');
 
 module.exports = {
     getPendingDoctors: async (req, res) => {
-        const id = req.body?.id ?? null;
+        const id = req.query?.id ?? null;
         let query = {acceptanceStatus: 'pending'};
 
         if (id !== null) {
