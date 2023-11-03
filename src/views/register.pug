@@ -24,8 +24,14 @@ html(lang='en')
                 label(for='dateOfBirth') Date of Birth
                 input.form-control(type='date', name='dateOfBirth' placeholder='Date of Birth' required )
             .form-group
-                label(for='hourlyRate') Hourly Rate
-                input.form-control(type='number' id="hourlyRate" name='hourlyRate' placeholder='0.00' step=".01" required )
+                label(for='speciality') Choose your Speciality:
+                select#selectOption(name='speciality')
+                    - const specialityEnum = ['All', 'General Practitioner', 'Cardiologist', 'Neurologist', 'Dermatologist', 'Surgeon', 'Ophthalmologist', 'Optometrist', 'Pediatrician', 'Family Medicine', 'Radiologist', 'Psychiatrist', 'Anesthesiologist']
+                    each value in specialityEnum
+                        option(value=value)= value
+            .form-group
+                label(for='payRate') Hourly Rate
+                input.form-control(type='number' id="payRate" name='payRate' placeholder='0.00' step=".01" required )
             .form-group
                 label(for='affiliation') Affiliation
                 input.form-control(type='text' id="affiliation" name='affiliation' placeholder='Hospital Name' required )

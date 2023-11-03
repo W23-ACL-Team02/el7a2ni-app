@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/register/doctor', async (req, res) => {
-  const { username, name, email, password, dateOfBirth, hourlyRate, affiliation, education_name, education_end } = req.body;
+  const {username, name, email, password, dateOfBirth, speciality, payRate, affiliation, education_name, education_end} = req.body;
   const education = {
     name: education_name,
     endYear: education_end.split("-")[0]
@@ -22,7 +22,7 @@ router.post('/register/doctor', async (req, res) => {
   const acceptanceStatus = 'pending';
 
   try {
-    const user = await userModel.create({username, name, email, password, dateOfBirth, hourlyRate, affiliation, education, type, acceptanceStatus});
+    const user = await userModel.create({username, name, email, password, dateOfBirth, speciality, payRate, affiliation, education, type, acceptanceStatus});
     await user.save();
 
     res.status(200).send(`Doctor ${user.username} created successfully!`);
@@ -188,8 +188,8 @@ router.post('/login', async (req, res) => {
       // If not found reload page with error message
       return res.redirect('/login')
 
-    // } else if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
-    //   return res.status(400).send(`Doctor ${user.name} ${(user.acceptanceStatus == 'pending' ? "not yet approved.":"rejected.")}`)
+    } else if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
+      return res.status(400).send(`Doctor ${user.name} ${(user.acceptanceStatus == 'pending' ? "not yet approved.":"rejected.")}`)
 
     } else {
       // Else load session variables

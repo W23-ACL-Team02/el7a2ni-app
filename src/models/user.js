@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -63,9 +64,17 @@ const userSchema = new Schema({
       type: Number,
     }
   },
+  speciality: {
+    type: String,
+    enum: ['General Practitioner', 'Cardiologist', 'Neurologist', 'Dermatologist', 'Surgeon', 'Ophthalmologist', 'Optometrist', 'Pediatrician', 'Family Medicine', 'Radiologist', 'Psychiatrist', 'Anesthesiologist'],
+  },
   acceptanceStatus: {
     type: String,
     enum: ['accepted', 'rejected', 'pending']
+  },
+  healthPackage: {
+    type: ObjectId,
+    ref: 'healthPackage'
   }
 }, 
 { 

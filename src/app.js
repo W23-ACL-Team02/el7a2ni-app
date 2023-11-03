@@ -12,6 +12,7 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 var familyMemberRouter = require('./routes/familymember');
+var doctorRouter = require('./routes/doctors');
 var prescriptionRouter= require('./routes/prescription');
 var doctorController = require("./routes/doctorController");
 
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 app.use(session({
   secret: 'el7a2ni',
   resave: false,
@@ -45,6 +47,7 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/familymember', familyMemberRouter);
+app.use('/doctors', doctorRouter);
 app.use('/prescription',prescriptionRouter);
 app.use('/patients', doctorController)
 

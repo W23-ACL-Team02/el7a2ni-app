@@ -1,0 +1,11 @@
+doctype
+html
+  head
+    //- link(rel="stylesheet", href="/stylesheets/style.css")
+  body
+    h1 Doctor: #{doctor.name}
+    p Speciality: #{doctor.speciality}
+    p Affiliated with: #{doctor.affiliation}
+    p Graduated from: #{doctor.education.name} at #{doctor.education.endYear}
+    p Doctor Rate: #{Math.ceil(doctor.payRate*1.1*(1 - discountRate))}
+    
