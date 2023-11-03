@@ -6,15 +6,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
-
-
-
 const MongoURI = process.env.MONGO_URI;
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 var familyMemberRouter = require('./routes/familymember');
+var doctorController = require("./routes/doctorController");
 
 var app = express();
 
@@ -25,6 +23,9 @@ app.set('port', port);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -43,7 +44,7 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/familymember', familyMemberRouter);
-
+app.use('/patients', doctorController)
 
 // Mongo DB
 mongoose.connect(MongoURI)
@@ -55,6 +56,5 @@ mongoose.connect(MongoURI)
   })
 })
 .catch(err => console.log(err));
-
 
 module.exports = app;

@@ -1,0 +1,83 @@
+html 
+  head 
+    link(rel="stylesheet", href="/stylesheets/style.css")
+    script(type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js")
+    script(nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js")
+  body
+    input(type="text", id="searchInput", placeholder="Search for patients...")
+    button(id="searchListener", onclick="search()")
+      ion-icon(class="searchIcon" name="search-outline")
+    div(class="filter")  
+      label Appointments From 
+      input(type="date", id="FromDateInput")  
+      label To 
+      input(type="date", id="ToDateInput")  
+      button(id="filterListener", onclick="filter()") filter  
+    table
+      thead
+        tr
+          th 
+          th Username
+          th Name
+          th Email
+      tbody
+        each patient in patients
+          tr 
+            td
+              a(href="/patients/viewDetails/" + patient._id) 
+                ion-icon(name="open-outline")
+            td= patient.username
+            td= patient.name
+            td= patient.email    
+    button(class="backBtn" onclick="window.location.href = '/home';") back      
+  script. 
+    function search(){
+      const searchInput = document.getElementById("searchInput");
+      const tableRows = document.querySelectorAll("tbody tr");
+      const searchQuery = searchInput.value.toLowerCase();
+
+      tableRows.forEach(row => {
+        const name = row.querySelector("td:nth-child(3)").textContent.toLowerCase();
+        if (name.includes(searchQuery)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+    function filter(){
+        const tableRows = document.querySelectorAll("tbody tr");
+        const apps = JSON.parse('!{JSON.stringify(appointments)}')
+        const FromDateInput = document.getElementById("FromDateInput")
+        const ToDateInput = document.getElementById("ToDateInput")
+        const FromDate = new Date(FromDateInput.value)
+        const ToDate = new Date(ToDateInput.value)
+
+        tableRows.forEach(row => {
+          const username = row.querySelector("td:nth-child(2)").textContent;
+          const app = apps.filter((data) => {
+             const date = new Date(data.date)
+             if(FromDateInput.value=="" && ToDateInput.value=="")
+                return data.patientUsername == username
+             if(FromDateInput.value=="")
+                return data.patientUsername == username && date <= ToDate
+             if(ToDateInput.value=="")
+                return data.patientUsername == username && date >= FromDate 
+
+             return data.patientUsername == username && date >= FromDate && date <= ToDate         
+          })
+          if(app.length==0){
+            row.style.display = "none"
+          }else{
+            row.style.display = "";
+          }
+        })
+    }
+     
+    
+
+
+
+
+
+  

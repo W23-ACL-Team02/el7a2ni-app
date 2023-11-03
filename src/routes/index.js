@@ -18,7 +18,11 @@ router.get('/register', (req, res) => {
 
 
 router.get('*', function(req, res, next) {
-  // If not logged in, go to login page
+  if (req.path.startsWith('/patients/api')) {
+    // This is an API request, so we allow it to proceed without session checking
+    return next();
+  }
+  // If not logged in, go to login page\
   if (!req.session.loggedin) {
     return res.redirect('/login')
   }

@@ -1,0 +1,21 @@
+html 
+    head 
+        link(rel="stylesheet", href="/stylesheets/style.css")
+    body 
+        h1 Patient Details
+            p Username: #{patient.username}
+            p Name: #{patient.name}
+            p Email: #{patient.email}
+            p Date of Birth: #{patient.dateOfBirth}
+            p Mobile Number: #{patient.mobile}
+            p 
+                if(patient.emergencyContact && Object.keys(patient.emergencyContact.name).length!=0)
+                    | Emergency Contact Name: #{patient.emergencyContact.name}
+                else    
+                    | Emergency Contact Name: not provided    
+            p 
+                if(patient.emergencyContact && Object.keys(patient.emergencyContact.mobile).length!=0)
+                    | Emergency Contact mobile: #{patient.emergencyContact.mobile}
+                else    
+                    | Emergency Contact mobile: not provided
+    button(class="backBtn" onclick="window.location.href = '/patients';") back   

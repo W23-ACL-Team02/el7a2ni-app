@@ -1,6 +1,6 @@
 var express = require('express');
 
-const userModel = require('../models/User.js');
+const userModel = require('../models/user.js');
 const appointmentModel = require('../models/appointment.js')
 const { default: mongoose } = require('mongoose');
 
@@ -96,7 +96,7 @@ router.get('/filterAppointments', async (req, res) => {
   try {
     const userId=req.session.userId 
     const user = await userModel.findById(userId)
-    console.log(user)
+
     if(req.session.userType=="admin"){
       return res.status(400).send("Admin cannot filter appointments")
     }
@@ -188,8 +188,8 @@ router.post('/login', async (req, res) => {
       // If not found reload page with error message
       return res.redirect('/login')
 
-    } else if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
-      return res.status(400).send(`Doctor ${user.name} ${(user.acceptanceStatus == 'pending' ? "not yet approved.":"rejected.")}`)
+    // } else if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
+    //   return res.status(400).send(`Doctor ${user.name} ${(user.acceptanceStatus == 'pending' ? "not yet approved.":"rejected.")}`)
 
     } else {
       // Else load session variables
