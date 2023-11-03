@@ -1,0 +1,59 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Selected Prescriptions
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh', crossorigin='anonymous')
+    style.
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+
+            .table-container {
+                width: 600px;
+                margin: 0 auto;
+            }
+
+  body
+    .table-container
+      h3 Prescription
+      table
+        thead
+          tr
+            th Patient Name
+            th Doctor Name
+            th Doctor specialization
+            th IsFilled 
+            th Date and time
+            th Medicine Name 1
+            th Dosage 1
+            th Instructions 1
+            th Medicine Name 2
+            th Dosage 2
+            th Instructions 2
+            th 
+        tbody(id='prescriptionsTable')
+          tr(id=`row-${index}`)
+            td #{prescription.patient.name}
+            td #{prescription.doctor.name}
+            td #{prescription.doctor.specialization}
+            td #{prescription.isFilled} 
+            td #{prescription.createdAt} 
+            each medication in prescription.medications.slice(0, 2)
+              td= medication.name
+              td= medication.dosage
+              td= medication.instructions
+

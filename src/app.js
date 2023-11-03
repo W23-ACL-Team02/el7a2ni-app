@@ -12,6 +12,7 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 var familyMemberRouter = require('./routes/familymember');
+var prescriptionRouter= require('./routes/prescription');
 var doctorController = require("./routes/doctorController");
 
 var app = express();
@@ -44,6 +45,7 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/familymember', familyMemberRouter);
+app.use('/prescription',prescriptionRouter);
 app.use('/patients', doctorController)
 
 // Mongo DB

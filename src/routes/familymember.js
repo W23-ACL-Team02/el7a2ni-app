@@ -17,7 +17,8 @@ router.post('/addFamily', async (req,res) => {
     let user = await userModel.findOne({_id: userId});
     
     if (user == null) {
-      throw new Error("User not found. Maybe Session timed out.")
+      // throw new Error("User not found. Maybe Session timed out.")
+      return res.redirect('/login')
     }
 
     // Add family member

@@ -90,6 +90,15 @@ const userSchema = new Schema({
     },
     viewfamilymember() {
       return this.family;
+    },
+    addprescription(prescription){
+      if (this.prescriptions== undefined) this.prescriptions=[];
+      this.prescriptions.push(prescription)
+
+    },
+    viewprescription()
+    {
+      return this.prescriptions
     }
   }
   
