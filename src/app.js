@@ -13,8 +13,7 @@ const MongoURI = process.env.MONGO_URI;
 // Import routers
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
-
-
+var medicineRouter= require('./routes/medicineController');
 
 var app = express();
 
@@ -40,9 +39,11 @@ app.use(session({
   cookie: { maxAge: 600000 }
 }))
 
-// Routes
+// Define Routes
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/medicine', medicineRouter);
+
 
 // Mongo DB
 mongoose.connect(MongoURI)

@@ -64,9 +64,3 @@ router.get('/removeUser', (req, res) => {
 
 
 module.exports = router;
-
-
-
-
-//////
-
