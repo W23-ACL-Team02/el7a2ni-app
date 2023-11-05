@@ -10,6 +10,10 @@ const medicineSchema = new Schema({
     type: String,
     required: true
   },
+  category: {
+    type: String,
+    required: true
+  },
   activeIngredients: {
     type: Object,
     name: {
@@ -22,7 +26,6 @@ const medicineSchema = new Schema({
     type: Number,
     required: true
   },
-  
   price: {
     type: Number,
     required: true

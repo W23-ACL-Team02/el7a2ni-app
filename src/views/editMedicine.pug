@@ -1,0 +1,76 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        //- meta(http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate")
+        //- meta(http-equiv="Pragma" content="no-cache")
+        //- meta(http-equiv="Expires" content="0")
+        style
+            include ../public/stylesheets/style.css
+        title='Pharmacy | ' + medicine._doc.name
+        
+    body
+        h1 Edit Medicine
+        form(onSubmit="edit(); return false;")
+            .form-group
+                label(for='name') Name
+                input.form-control(id="name" type='text', name='name' placeholder='Name' autofocus=true value=medicine._doc.name autcomplete="off" required)
+            br
+            .form-group
+                label(for='details') Details
+                input.form-control(id="details" type='text', name='details' placeholder='Details' class='textField' value=medicine._doc.details required)
+            br
+            .form-group
+                label(for='category') Category
+                input.form-control(id="category" type='text' name='category' placeholder='Category' class='textField' value=medicine._doc.category required )
+            br
+            .form-group
+                label(for='name') Active Ingredients divided by |
+                input.form-control(id="activeIngredients" type='text', name='activeIngredients' placeholder='Ingredients' required class='textField' value=medicine._doc.activeIngredients)
+            br
+            .form-group
+                label(for='quantity') Quantity
+                input.form-control(id="quantity" type='number', min = 1 name='quantity' placeholder='Quantity' class='textField' value=medicine._doc.quantity required)
+            br
+            .form-group
+                label(for='price') Price
+                input.form-control(id="price" type='text', name='price' placeholder='Price' class='textField' value=medicine._doc.price required)
+            br
+            button(onclick="history.back();") Back
+            button(type="submit") Save
+            br
+            p(hidden id="message")
+
+        script.
+            function edit(){
+                const id = "!{medicine._doc._id}";
+                const name = document.getElementById("name").value;
+                const details = document.getElementById("details").value;
+                const category = document.getElementById("category").value;
+                const activeIngredients = document.getElementById("activeIngredients").value;
+                const quantity = document.getElementById("quantity").value;
+                const price = document.getElementById("price").value;
+                const newMedicine = {
+                    id: id,
+                    name: name,
+                    details: details,
+                    category: category,
+                    activeIngredients: activeIngredients,
+                    quantity: quantity,
+                    price: price
+                };
+                fetch('/medicine/edit', {method:'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(newMedicine)}).then(response =>{
+                    if (response.status == 200){
+                        document.title = name;
+
+                        document.getElementById("message").innerHTML = name + " updated successfully";
+                        
+                    }
+                    else{
+                        document.getElementById("message").innerHTML = "Error " + response.status + ": " + response.text().errorMessage;
+                    }
+                    document.getElementById("message").hidden = false;
+                });
+                
+            }
+             

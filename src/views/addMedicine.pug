@@ -1,0 +1,36 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        style
+            include ../public/stylesheets/style.css
+        title='Pharmacy | Add Medicine'
+    body
+        h1 Add Medicine
+        form(action='/medicine/add' method='POST')
+            .form-group
+                label(for='name') Name
+                input.form-control(type='text', name='name' placeholder='Name' required autofocus=true)
+            br
+            .form-group
+                label(for='details') Details
+                input.form-control(type='text', name='details' placeholder='Details' class='textField' required )
+            br
+            .form-group
+                label(for='category') Category
+                input.form-control(type='text' list="myList" name='category' placeholder='Category' class='textField' required )
+            br
+            .form-group
+                label(for='ingredients') Active Ingredients divided by |
+                input.form-control(id="ingredients" type='text', name='activeIngredients' placeholder='Ingredients' class='textField' required)
+            br
+            .form-group   
+                label(for='quantity') Quantity
+                input.form-control(type='number', min = 1, value=1, name='quantity' placeholder='Quantity' class='textField' required )
+            br
+            .form-group
+                label(for='price') Price
+                input.form-control(type='text', name='price' placeholder='Price' class='textField' required)
+            br
+            button(onclick="history.back();") Back
+            button.btn.btn-primary(type='submit') Add Medicine

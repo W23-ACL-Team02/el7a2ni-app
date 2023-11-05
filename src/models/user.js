@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -23,6 +24,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+    // ! select: false currently need password in handling login server-side
   },
   dateOfBirth: {
     type: Date,
@@ -96,5 +98,11 @@ const userSchema = new Schema({
 }
 );
 
+// * Commented out encryption
+// userSchema.pre('save', async function() {
+//   if (this.isModified('password')){
+//     this.password = await bcrypt.hash(this.password, 12)
+//   }
+// })
 const User = mongoose.model('user', userSchema);
 module.exports = User;

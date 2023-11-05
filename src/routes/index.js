@@ -61,6 +61,4 @@ router.get('/removeUser', (req, res) => {
   res.render('removeUser');
 })
 
-
-
 module.exports = router;
