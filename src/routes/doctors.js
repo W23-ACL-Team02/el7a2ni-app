@@ -3,11 +3,35 @@ const userModel = require('../models/user.js');
 const appointmentsModel = require('../models/appointment.js');
 const healthPackageModel = require(`../models/healthPackage.js`)
 var router = express.Router();
+const axios = require('axios');
 
+const apiURL = 'http://localhost:3000/doctors/api';
+
+//UI
 router.get('/', function(req, res, next) {
     // Redirect back to home
     res.redirect('/');
 });
+
+router.get('/updateInfo', (req, res) => {
+    const userId = req.session.userId;
+    return res.render('doctorUpdateInfo', {userId});
+})
+
+router.post('/updateInfo', async(req, res) => {
+    try {
+        if (req.body.userId != req.session.userId) {
+            throw new Error("Error authenticating user.")
+        }
+
+        const response = await axios.put(apiURL + "/editDoctor", req.body);
+
+        // console.log(response)
+        return res.status(200).send(`Updated`);
+    } catch (error) {
+        return res.status(400).json({err: error.message})
+    }
+})
 
 router.get('/viewDoctors', async (req, res) => {
     //37
@@ -119,6 +143,38 @@ router.get('/viewDoctorDetails/:id', async (req, res) => {
         discountRate = userHealthPackage.discountSession;
     }
     res.render('viewOneDoctor', {doctor,discountRate});
+});
+
+//API
+const editDoctor = async (req, res) => {
+    const {userId, email, payRate, affiliation} = req.body;
+
+    try {
+        let updateResponse = await userModel.updateOne({_id: userId}, {email: email || undefined, payRate: payRate || undefined, affiliation: affiliation || undefined})
+        
+        if (updateResponse.matchedCount < 1) {
+            throw new Error(`No document found with id: ${userId}`);
+        } else if (updateResponse.modifiedCount < 1) {
+            throw new Error(`Document not modified.`);
+        }
+
+        return res.status(200).send("Updated doctor");
+    } catch (error) {
+        return res.status(400).json({err: error.message});
+    }
+}
+
+router.put('/api/editDoctor', editDoctor)
+
+module.exports= router;var express = require('express');
+const userModel = require('../models/user.js');
+const appointmentsModel = require('../models/appointment.js');
+const healthPackageModel = require(`../models/healthPackage.js`)
+var router = express.Router();
+
+router.get('/', function(req, res, next) {
+    // Redirect back to home
+    res.redirect('/');
 });
 
 module.exports= router;

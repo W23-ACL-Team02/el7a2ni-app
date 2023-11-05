@@ -48,7 +48,7 @@ html(lang='en')
             button.btn.btn-primary(type='submit') Register
     else if registerType == "patient"
         h2 Registering as a Patient
-        a(href='/register?type=doctor') Register doctor br
+        a(href='/register?type=doctor') Register doctor
         form(action='/user/register/patient' method='POST')
             .form-group
                 label(for='username') Username
@@ -83,7 +83,8 @@ html(lang='en')
             .form-group
                 label(for='emergency_relation') Relation to you
                 select.form-control(name="emergency_relation" id="emergency_relation" required)
-                    option(value='spouse') Wife/Husband
+                    option(value='wife') Wife
+                    option(value='husband') Husband
                     option(value='child') Child
             button.btn.btn-primary(type='submit') Register
     else 
