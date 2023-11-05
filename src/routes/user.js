@@ -12,9 +12,9 @@ router.post('/register/patient', async (req, res) => {
     relation: emergency_relation
   };
   const type = "patient";
-
+  const family=[];
   try {
-    const user = await userModel.create({username, name, email, password, dateOfBirth, gender, mobile, type, emergencyContact});
+    const user = await userModel.create({username, name, email, password, dateOfBirth, gender, mobile, type, emergencyContact, family});
     await user.save();
 
     res.status(200).send(`User ${user.username} created successfully!`);

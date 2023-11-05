@@ -31,10 +31,6 @@ html(lang='en')
          th Educational Background: 
          th University Name
          th Graduation Year
-         th Emergency Contact 
-         th Name
-         th Mobile 
-         th Relation
         tbody
          each pharmacist in pharmacists
           tr 
@@ -49,7 +45,3 @@ html(lang='en')
            td 
            td #{pharmacist.education.name}
            td #{pharmacist.education.endYear}
-           td 
-           td #{pharmacist.emergencyContact.name}
-           td #{pharmacist.emergencyContact.mobile}
-           td #{pharmacist.emergencyContact.relation}
