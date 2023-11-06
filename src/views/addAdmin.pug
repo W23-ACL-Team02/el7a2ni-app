@@ -1,0 +1,17 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title='Clinic | addAdmin'
+    body
+    h1 Add Admin
+    form(action='/user/addAdmin' method='POST')
+        .form-group
+            label(for='username') Username
+            input.form-control(type='username', name='username' placeholder='username' autofocus=true,required)
+        .form-group
+            label(for='password') Password
+            input.form-control(type='password', name='password', required)
+            br
+        button.btn.btn-primary(type='submit') Add Admin
+        

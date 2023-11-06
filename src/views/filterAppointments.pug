@@ -1,0 +1,18 @@
+doctype
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title='Filter Appointments'
+  body
+    h1 Filter Appointments
+    form(action='/user/filterAppointments' method='get')
+      .form-group
+        label(for='status') Status
+        input.form-control(type='text', name='status', placeholder='Status')
+      .form-group
+        label(for='date') Date
+        input.form-control(type='date', name='date')
+      //- .form-group
+      //-   label(for='username') Username
+      //-   input.form-control(type='text', name='username', placeholder='Username')
+      button.btn.btn-primary(type='submit') Filter Appointments

@@ -1,0 +1,118 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Prescriptions
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh', crossorigin='anonymous')
+    style.
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+
+            .table-container {
+                width: 600px;
+                margin: 0 auto;
+            }
+            .filter-bar {
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+            }
+
+            .filter-bar input {
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-right: 10px;
+            }
+
+            .filter-bar button {
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                background-color: #f2f2f2;
+                cursor: pointer;
+            }
+
+            .filter-bar button:hover {
+                background-color: #e0e0e0;
+            }
+
+  body
+    .table-container
+      h3 Prescriptions
+      select(name="doctor", id='doctorDropdown')
+        option(value='') - Select Doctor -
+        each doctorName in uniqueDoctorNames 
+          option=doctorName
+      input(type="date", id="dateFilter")
+      select(name="filled", id='isFilled')
+        option(value='') - Filled/Not Filled -
+        option(value='true') Filled
+        option(value='false') Not Filled
+      table
+        thead
+          tr
+            th Doctor Name
+            th IsFilled 
+            th Date and time
+            th 
+        tbody(id='prescriptionsTable')
+          each prescription in prescriptions
+            tr(id=`row-${index}`)
+              td #{prescription.doctor.name}
+              td #{prescription.isFilled} 
+              td #{prescription.createdAt} 
+              td 
+                button
+                  a(href=`selectedPrescription/${prescription._id}`) Select                
+
+
+    script.
+      function filterPrescriptions() {
+        const inputDoctor = document.getElementById('doctorDropdown');
+        const inputDate = document.getElementById('dateFilter');
+        const inputFilled = document.getElementById('isFilled');
+
+        const filterDoctor = inputDoctor.value.toUpperCase();
+        const filterDate = inputDate.value;
+        const filterFilled = inputFilled.value;
+
+        const table = document.getElementById('prescriptionsTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+          const doctorName = rows[i].getElementsByTagName('td')[0];
+          const prescriptionDate = new Date(rows[i].getElementsByTagName('td')[2].innerText);
+          const isFilled = rows[i].getElementsByTagName('td')[1];
+          
+          const formattedPrescriptionDate = prescriptionDate.toISOString().split('T')[0];
+
+          const doctorMatch = doctorName.innerText.toUpperCase().indexOf(filterDoctor) > -1 || filterDoctor === '';
+          const dateMatch = formattedPrescriptionDate === filterDate || filterDate === '';
+          const filledMatch = isFilled.innerText.trim() == filterFilled.trim() || filterFilled === '';
+
+          if (doctorMatch && dateMatch && filledMatch) {
+            rows[i].style.display = '';
+          } else {
+            rows[i].style.display = 'none';
+          }
+        }
+      }
+
+      document.getElementById('doctorDropdown').addEventListener('change', filterPrescriptions);
+      document.getElementById('dateFilter').addEventListener('change', filterPrescriptions);
+      document.getElementById('isFilled').addEventListener('change', filterPrescriptions);
