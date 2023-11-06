@@ -98,6 +98,7 @@ const userSchema = new Schema({
       this.family.push(familymember)
     },
     viewfamilymember() {
+      if (this.family== undefined) this.family=[]; //if the patient wants to view family members and there is no family members yet it will open family member page without family members 
       return this.family;
     },
     addprescription(prescription){
@@ -107,6 +108,7 @@ const userSchema = new Schema({
     },
     viewprescription()
     {
+      if (this.prescriptions== undefined) this.prescriptions=[]; //if the patient wants to view prescription and there is no prescriptions yet it will open prescription page without prescriptions 
       return this.prescriptions
     }
   }

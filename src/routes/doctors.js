@@ -167,9 +167,6 @@ const editDoctor = async (req, res) => {
 router.put('/api/editDoctor', editDoctor)
 
 module.exports= router;var express = require('express');
-const userModel = require('../models/user.js');
-const appointmentsModel = require('../models/appointment.js');
-const healthPackageModel = require(`../models/healthPackage.js`)
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
