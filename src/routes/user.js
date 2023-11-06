@@ -13,8 +13,10 @@ router.post('/register/patient', async (req, res) => {
   };
   const type = "patient";
   const family=[];
+  const prescriptions = [];
+
   try {
-    const user = await userModel.create({username, name, email, password, dateOfBirth, gender, mobile, type, emergencyContact, family});
+    const user = await userModel.create({username, name, email, password, dateOfBirth, gender, mobile, type, emergencyContact, family, prescriptions});
     await user.save();
 
     res.status(200).send(`User ${user.username} created successfully!`);
