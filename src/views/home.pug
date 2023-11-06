@@ -1,0 +1,14 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title Pharmacy | Home
+    body
+        h2 Home Page for type #{userType}
+        case userType
+            when 'admin'
+                include includes/adminHome.pug 
+            when 'patient'
+                include includes/patientHome.pug
+            when 'pharmacist'
+                include includes/pharmacistHome.pug

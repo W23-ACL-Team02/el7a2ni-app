@@ -6,13 +6,18 @@ require("dotenv").config();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
 
 const MongoURI = process.env.MONGO_URI;
 
+// Import routers
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
+var medicineRouter= require('./routes/medicineController');
 
 var app = express();
+
+
 
 // Set port
 var port = process.env.PORT || '3000';
@@ -27,10 +32,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'el7a2ni',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 600000 }
+}))
 
-// Routes
+// Define Routes
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/medicine', medicineRouter);
+
 
 // Mongo DB
 mongoose.connect(MongoURI)

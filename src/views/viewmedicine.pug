@@ -1,0 +1,67 @@
+doctype
+html(lang='en')
+    head
+     meta(charset='utf-8')
+     meta(name='viewport', content='width=device-width, initial-scale=1.0')
+     title='Pharmacy | View medicine Info' 
+     link(rel='stylesheet', href= 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
+      integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh', crossorigin='anonymous')
+     style.
+        = {
+            width= 600px
+            margin: 0 auto;
+         }
+
+
+    body 
+     h3 medicines
+     table 
+       thead
+        tr 
+         th Name 
+         th Details 
+         th Active Ingredients 
+         th Price 
+         th Image
+        tbody 
+         
+          each med in medicine 
+            tr 
+              td #{med.name}
+              td #{med.details}
+              td #{med.activeIngredients}
+              td #{med.price}
+              td
+                img(src=med.imageUrl, alt=med.name, width='100')
+          
+//- doctype html
+//- html(lang='en')
+//-   head
+//-     meta(charset='utf-8')
+//-     meta(name='viewport', content='width=device-width, initial-scale=1.0')
+//-     title Pharmacy | View medicine Info
+//-     link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh', crossorigin='anonymous')
+//-     style
+//-       | body {
+//-       |   width: 600px;
+//-       |   margin: 0 auto;
+//-       | }
+
+//-   body
+//-     h3 Medicines
+//-     table
+//-       thead
+//-         tr
+//-           th Name
+//-           th Details
+//-           th Active Ingredients
+//-           th Quantity
+//-           th Price
+//-       tbody
+//-         each med in medicine
+//-           tr
+//-             td= med.name
+//-             td= med.details
+//-             td= med.activeIngredients
+//-             td= med.quantity
+//-             td= med.price

@@ -1,0 +1,77 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        style
+            include ../public/stylesheets/style.css
+        title='Pharmacy | All Medicine'
+    body(onload="getSearchKey();")
+        
+        button(onclick="location.href = '/medicine/'" action="GET") Home
+        form(id="search-form" action="/medicine/find")
+            input(id="searchBox" name="search" type="text")
+            button(type="submit") Search
+        select(id="category-filter" onchange="filter();")
+            option All Categories
+            each cat in categories.length ? categories : ['no categories']
+                option= cat
+        div(id="list")
+            form(method=GET action="/medicine/view")
+                table(id="medicineList")
+                    th
+                    th Name
+                    th Details
+                    th Category
+                    th Quantity
+                    th Price
+                    if (medicine.length > 0)
+                        each med in medicine.length ? medicine : ['There are no values']
+                            tr(id="medicine-row")
+                                td
+                                    image(height=32 width=32 src="https://www.shutterstock.com/image-vector/medicine-capsule-flat-icon-design-260nw-1618280719.jpg")
+                                td= med.name
+                                td= med.details
+                                td= med.category
+                                td= med.quantity
+                                td= med.price
+                                if userType == 'pharmacist'
+                                    td
+                                        button(type="submit" name="id" value=med._id) Edit
+            if userType == 'pharmacist'
+                button(onclick="location.href = '/medicine/add'" action="GET") Add
+    script.
+        function getSearchKey(){
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            var searchKey = "";
+            if (urlParams.has('search')){
+                searchKey = urlParams.get('search');
+                if (searchKey != ""){
+                    document.title = "Search: " + searchKey;
+                }
+            }
+            document.getElementById("searchBox").value = searchKey;
+        }
+        function filter(){
+            const category = document.getElementById("category-filter").value;
+            const medicineRows = document.querySelectorAll("#medicine-row");
+            //KEFAYA BA2AAAAAAAAAAA
+            if (category != "All Categories"){
+                medicineRows.forEach(row => {
+                    const rowCategory = row.querySelector("td:nth-child(4)").textContent;
+                    console.log(rowCategory);
+                    if(rowCategory != category){
+                        row.style.display = "none";
+                    }else{
+                        row.style.display = "";
+                    }
+                });
+            }
+            else{
+                medicineRows.forEach(row => {
+                        row.style.display = "";
+                });
+            }
+
+        }
+    
