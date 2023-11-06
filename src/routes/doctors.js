@@ -166,12 +166,4 @@ const editDoctor = async (req, res) => {
 
 router.put('/api/editDoctor', editDoctor)
 
-module.exports= router;var express = require('express');
-var router = express.Router();
-
-router.get('/', function(req, res, next) {
-    // Redirect back to home
-    res.redirect('/');
-});
-
 module.exports= router;
