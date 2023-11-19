@@ -1,5 +1,4 @@
 /node_modules
-/pharmacy-ui
 .env
 /.vscode
 package-lock.json
