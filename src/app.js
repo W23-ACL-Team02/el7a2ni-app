@@ -5,7 +5,6 @@ require("dotenv").config();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session');
 const MongoURI = process.env.MONGO_URI;
 
 var indexRouter = require('./routes/index');
@@ -35,12 +34,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
-app.use(session({
-  secret: 'el7a2ni',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 600000 }
-}))
 
 // Routes
 app.use('/', indexRouter);
