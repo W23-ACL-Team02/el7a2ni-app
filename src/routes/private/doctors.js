@@ -1,7 +1,7 @@
 var express = require('express');
-const userModel = require('../models/user.js');
-const appointmentsModel = require('../models/appointment.js');
-const healthPackageModel = require(`../models/healthPackage.js`)
+const userModel = require('../../models/user.js');
+const appointmentsModel = require('../../models/appointment.js');
+const healthPackageModel = require(`../../models/healthPackage.js`)
 var router = express.Router();
 const axios = require('axios');
 
@@ -29,7 +29,7 @@ router.post('/updateInfo', async(req, res) => {
         // console.log(response)
         return res.status(200).send(`Updated`);
     } catch (error) {
-        return res.status(400).json({err: error.message})
+        return res.status(400).json({errors: [error.message]})
     }
 })
 
@@ -160,7 +160,7 @@ const editDoctor = async (req, res) => {
 
         return res.status(200).send("Updated doctor");
     } catch (error) {
-        return res.status(400).json({err: error.message});
+        return res.status(400).json({errors: [error.message]});
     }
 }
 

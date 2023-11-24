@@ -20,7 +20,7 @@ module.exports = {
             
             return res.status(200).send(`Successfully added ${name} health package.`);
         } catch (error) {
-            return res.status(400).json({err: error.message});
+            return res.status(400).json({errors: [error.message]});
         }
     },
     updateHealthPackage: async (req, res) => {
@@ -36,7 +36,7 @@ module.exports = {
             
             return res.status(200).send(`Successfully updated ${name} health package.`);
         } catch (error) {
-            return res.status(400).json({err: error.message});
+            return res.status(400).json({errors: [error.message]});
         }
     },
     deleteHealthPackage: async (req, res) => {
@@ -52,7 +52,7 @@ module.exports = {
             
             return res.status(200).send(`Successfully deleted health package ${_id}.`)
         } catch (error) {
-        return res.status(400).json({err: error.message});
+        return res.status(400).json({errors: [error.message]});
         }
     },
     viewHealthPackage: async (req, res) => {
@@ -62,7 +62,7 @@ module.exports = {
         try {
             var healthPackages = await getHealthPackages(_id);
         } catch (error) {
-            return res.status(400).json({err: error.message});
+            return res.status(400).json({errors: [error.message]});
         }
         
         if (_id == null) {

@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const userModel = require('../models/user.js');
-const {addHealthPackage, updateHealthPackage, deleteHealthPackage, viewHealthPackage} = require("../controllers/healthPackage")
-const { getPendingDoctors } = require('../controllers/userController');
+const userModel = require('../../models/user.js');
+const {addHealthPackage, updateHealthPackage, deleteHealthPackage, viewHealthPackage} = require("../../controllers/healthPackage.js")
+const { getPendingDoctors } = require('../../controllers/userController.js');
 
 router.all('*', (req, res, next) => {
   // Ensure admin
@@ -37,7 +37,7 @@ router.get('/pendingDoctors', async (req, res) => {
       return res.status(200).render('adminPendingDoctorsViewOne', {doctors, count:doctors.length});
     }
   } catch (error) {
-    return res.status(400).json({err: error.message})
+    return res.status(400).json({errors: [error.message]})
   }
 })
 
@@ -50,7 +50,7 @@ router.post('/approveDoctor', async (req, res) => {
 
     return res.status(200).send(`Successfully approved doctor ${_id}`);
   } catch (error) {
-    return res.status(400).json({err: error.message});
+    return res.status(400).json({errors: [error.message]});
   }
 })
 
@@ -63,7 +63,7 @@ router.post('/rejectDoctor', async (req, res) => {
 
     return res.status(200).send(`Successfully rejected doctor ${_id}`);
   } catch (error) {
-    return res.status(400).json({err: error.message});
+    return res.status(400).json({errors: [error.message]});
   }
 })
 
