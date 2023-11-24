@@ -1,7 +1,7 @@
 var express = require('express');
-const userModel = require('../models/user.js');
-const appointmentsModel = require('../models/appointment.js');
-const healthPackageModel = require(`../models/healthPackage.js`)
+const userModel = require('../../models/user.js');
+const appointmentsModel = require('../../models/appointment.js');
+const healthPackageModel = require(`../../models/healthPackage.js`)
 var router = express.Router();
 const axios = require('axios');
 
@@ -29,7 +29,7 @@ router.post('/updateInfo', async(req, res) => {
         // console.log(response)
         return res.status(200).send(`Updated`);
     } catch (error) {
-        return res.status(400).json({err: error.message})
+        return res.status(400).json({errors: [error.message]})
     }
 })
 
@@ -150,6 +150,10 @@ const editDoctor = async (req, res) => {
     const {userId, email, payRate, affiliation} = req.body;
 
     try {
+        if (userId != req.session?.userId) {
+            return res.status(403).json({errors: [`Edited doctor does not match with authentication.`]})
+        }
+
         let updateResponse = await userModel.updateOne({_id: userId}, {email: email || undefined, payRate: payRate || undefined, affiliation: affiliation || undefined})
         
         if (updateResponse.matchedCount < 1) {
@@ -160,7 +164,7 @@ const editDoctor = async (req, res) => {
 
         return res.status(200).send("Updated doctor");
     } catch (error) {
-        return res.status(400).json({err: error.message});
+        return res.status(400).json({errors: [error.message]});
     }
 }
 

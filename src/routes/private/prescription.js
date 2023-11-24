@@ -1,7 +1,7 @@
 var express= require('express');
-const prescriptionModel=require("../models/prescription.js");
-const userModel = require('../models/user.js');
-const prescription = require('../models/prescription.js');
+const prescriptionModel=require("../../models/prescription.js");
+const userModel = require('../../models/user.js');
+const prescription = require('../../models/prescription.js');
 var router = express.Router(); 
 
    router.get('/selectedPrescription/:id', async (req, res) => {

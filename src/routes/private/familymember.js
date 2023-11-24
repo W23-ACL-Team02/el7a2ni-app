@@ -1,6 +1,6 @@
 var express= require('express');
-const familymemberSchema=require("../models/familymembers.js");
-const userModel = require('../models/user.js');
+const familymemberSchema=require("../../models/familymembers.js");
+const userModel = require('../../models/user.js');
 var router = express.Router(); 
 
 router.get('/addfamily',(req,res) => {
