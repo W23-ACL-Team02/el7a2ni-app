@@ -150,6 +150,10 @@ const editDoctor = async (req, res) => {
     const {userId, email, payRate, affiliation} = req.body;
 
     try {
+        if (userId != req.session?.userId) {
+            return res.status(403).json({errors: [`Edited doctor does not match with authentication.`]})
+        }
+
         let updateResponse = await userModel.updateOne({_id: userId}, {email: email || undefined, payRate: payRate || undefined, affiliation: affiliation || undefined})
         
         if (updateResponse.matchedCount < 1) {
