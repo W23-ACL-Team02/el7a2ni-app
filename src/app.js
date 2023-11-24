@@ -16,13 +16,6 @@ var app = express();
 var port = process.env.PORT || '3000';
 app.set('port', port);
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
