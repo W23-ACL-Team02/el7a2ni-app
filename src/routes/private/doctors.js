@@ -2,7 +2,7 @@ var express = require('express');
 const userModel = require('../../models/user.js');
 const appointmentsModel = require('../../models/appointment.js');
 const healthPackageModel = require(`../../models/healthPackage.js`)
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 const axios = require('axios');
 
 const apiURL = 'http://localhost:3000/doctors/api';

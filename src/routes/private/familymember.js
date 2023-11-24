@@ -1,7 +1,7 @@
 var express= require('express');
 const familymemberSchema=require("../../models/familymembers.js");
 const userModel = require('../../models/user.js');
-var router = express.Router(); 
+var router = express.Router({mergeParams: true}); 
 
 router.get('/addfamily',(req,res) => {
   res.render('addfamilymember')   

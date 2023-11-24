@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 
@@ -29,12 +29,13 @@ router.post('/login', async (req, res) => {
             userType: user?.type
         }
 
-        const token = jwt.sign(payload, secret, {expiresIn: '1h'});
+        // const token = jwt.sign(payload, secret, {expiresIn: '1h'});
+        const token = jwt.sign(payload, secret);
 
         req.session = payload;
 
-        // return res.status(200).send(token);
-        return res.status(200).end();
+        return res.status(200).send(token);
+        // return res.status(200).end();
     } catch (error) {
         res.status(400).json({ errors: [error.message] });
     }
