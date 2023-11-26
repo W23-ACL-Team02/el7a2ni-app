@@ -4,9 +4,9 @@ const { default: mongoose } = require('mongoose');
 const app = require('../app.js');
 var router = express.Router();
 
-router.get('/add', (req, res) => {
-    res.render('addMedicine');
-})
+// router.get('/add', (req, res) => {
+//     res.render('addMedicine');
+// })
 
 router.post('/add', async (req, res) => {
     const {name, details, activeIngredients, category, quantity, price} = req.body;
@@ -20,12 +20,12 @@ router.post('/add', async (req, res) => {
     try {
         const exists = await medicineModel.findOne({name: name})
         if (exists != null){
-            res.status(400).send(`${name} is already in the database`);
+            res.status(400).json(`${name} is already in the database`);
             return
         }
         const medicine = await medicineModel.create({name, details, category, activeIngredients: jsonIngredients, quantity, sales: 0, price})
         await medicine.save()
-        res.status(200).send(`${name} created successfully!`);
+        res.status(200).json(medicine);
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -43,7 +43,7 @@ router.put('/edit', async (req, res) => {
     try {
         const updatedMedicine = await medicineModel.findOneAndUpdate({_id: id}, {_id: id, name, details, category, activeIngredients, quantity, price})
         await updatedMedicine.save()
-        res.status(200).send(`Updated ${name} successfully`)
+        res.status(200).json(updatedMedicine)
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -56,12 +56,12 @@ router.delete('/delete', async (req, res) => {
         //check if name exists
         const exists = await medicineModel.find({name: name})
         if (exists == null){
-            res.status(400).send(`${name} is not in the database`);
+            res.status(400).json(`${name} is not in the database`);
             return
         }
         
         const deletedMedicine = await medicineModel.deleteOne({name: name})
-        res.status(200).send(`Deleted ${name} successfully`)
+        res.status(200).json({message: `Deleted ${name} successfully`})
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -70,7 +70,7 @@ router.delete('/delete', async (req, res) => {
 router.delete('/nuke', async (req, res) => {    
     try {
         const medicine = await medicineModel.deleteMany()
-        res.status(200).send(`nuked the model 💣`);
+        res.status(200).json({message: `nuked the model 💣`});
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -81,8 +81,9 @@ router.get('/find', async (req, res) => {
 
     try {
         const medicine = await medicineModel.find({"$or": [{name: {"$regex": searchKey, "$options": "i"}}, {activeIngredients: {"$regex": searchKey, "$options": "i"}}]})
-        const categories = await medicineModel.find().distinct("category")
-        res.render("allMedicine", {medicine, categories, userType: req.session.userType})
+        // const categories = await medicineModel.find().distinct("category")
+        res.status(200).json({medicine: medicine, userType: req.session.userType})
+        // res.render("allMedicine", {medicine, categories, userType: req.session.userType})
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -94,15 +95,15 @@ router.get('/findmedicine', async (req,res) => {
 
       try{
         const medicine= await medicineModel.find({});
-       // res.status(200).json(medicine);
-        res.render('viewmedicine', {medicine:medicine})
+       res.status(200).json(medicine);
+        // res.render('viewmedicine', {medicine:medicine})
       } catch(error){
-        res.status(400).send("no medicine");
+        res.status(400).json({message: "no medicine"});
       }
 
     }
     else{
-     res.status(400).send("Unauthorized Access");
+     res.status(400).json("Unauthorized Access");
     }
 })
 
@@ -112,16 +113,16 @@ router.get('/getmedstats', async (req,res)=> {
         
       try{
         const medicine= await medicineModel.find({});
-       //res.status(400).json(medicine);
+       res.status(200).json(medicine);
        //console.log(medicine)
-       res.render('getmedstats', {medicine:medicine})
+    //    res.render('getmedstats', {medicine:medicine})
       } catch(error){
-        res.status(400).send("no medicine");
+        res.status(400).json("no medicine");
       }
 
     }
     else{
-     res.status(400).send("Unauthorized Access");
+     res.status(400).json("Unauthorized Access");
     }
 })
 
@@ -140,8 +141,8 @@ router.get('/view', async (req, res) => {
         }
         activeIngredientsString = activeIngredientsString.substring(0, activeIngredientsString.length - 1) //for the extra | at the end
         medicine._doc.activeIngredients = activeIngredientsString
-
-        res.render("editMedicine", {"medicine": medicine})
+        res.status(200).json(medicine);
+        // res.render("editMedicine", {"medicine": medicine})
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -152,10 +153,10 @@ router.get('/findByIngredient', async (req, res) => {
     try {
         const medicine = await medicineModel.find({activeIngredients: {name: {$regex: String(name), $options: 'i'}}})
         if (medicine == null){
-            res.status(400).send(`Couldn't find ${name}`);
+            res.status(400).json(`Couldn't find ${name}`);
             return
         }
-        res.status(200).send(medicine);
+        res.status(200).json(medicine);
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -164,7 +165,7 @@ router.get('/findByIngredient', async (req, res) => {
 router.get('/all', async (req, res) => { 
     try {
         const medicine = await medicineModel.find()
-        res.status(200).send(medicine);
+        res.status(200).json(medicine);
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -174,8 +175,8 @@ router.get('/', async (req, res) => {
     try {
         const medicine = await medicineModel.find()
         const categories = await medicineModel.find().distinct("category")
-        
-        res.render("allMedicine", {"medicine": medicine, "categories": categories, userType: req.session.userType})
+        res.status(200).json(medicine, categories, req.session.userType)
+        // res.render("allMedicine", {"medicine": medicine, "categories": categories, userType: req.session.userType})
     } catch (error) {
         res.status(400).json({err:error.message});
     }
