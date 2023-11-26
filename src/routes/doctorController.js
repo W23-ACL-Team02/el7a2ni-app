@@ -7,7 +7,7 @@ var router = express.Router();
 const axios = require('axios');
 
 // Define the API endpoint URL
-const apiURL = 'http://localhost:3000/patients/api';
+const apiURL = 'http://localhost:4000/patients/api';
 
 //UI
 router.get('/', async (req, res) => {

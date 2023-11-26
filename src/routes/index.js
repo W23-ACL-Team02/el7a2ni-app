@@ -18,7 +18,7 @@ router.get('/register', (req, res) => {
 
 
 router.get('*', function(req, res, next) {
-  if (req.path.startsWith('/patients/api')) {
+  if (req.path.startsWith('/patients/api') || req.path.startsWith('/api')) {
     // This is an API request, so we allow it to proceed without session checking
     return next();
   }
