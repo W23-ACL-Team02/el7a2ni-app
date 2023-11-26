@@ -1,8 +1,8 @@
 const { default: mongoose } = require('mongoose');
-const userModel = require('../models/user.js');
-const appointmentModel = require('../models/appointment.js');
+const userModel = require('../../models/user.js');
+const appointmentModel = require('../../models/appointment.js');
 const express = require("express");
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 
 const axios = require('axios');
 

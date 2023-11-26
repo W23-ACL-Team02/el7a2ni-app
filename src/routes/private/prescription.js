@@ -1,8 +1,8 @@
 var express= require('express');
-const prescriptionModel=require("../models/prescription.js");
-const userModel = require('../models/user.js');
-const prescription = require('../models/prescription.js');
-var router = express.Router(); 
+const prescriptionModel=require("../../models/prescription.js");
+const userModel = require('../../models/user.js');
+const prescription = require('../../models/prescription.js');
+var router = express.Router({mergeParams: true}); 
 
    router.get('/selectedPrescription/:id', async (req, res) => {
     if (req.session.userType != 'patient') {
