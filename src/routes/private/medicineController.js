@@ -1,7 +1,7 @@
 var express = require('express');
-const medicineModel = require('../models/medicine.js');
+const medicineModel = require('../../models/medicine.js');
 const { default: mongoose } = require('mongoose');
-const app = require('../app.js');
+// const app = require('../../app.js');
 var router = express.Router();
 
 router.get('/add', (req, res) => {
