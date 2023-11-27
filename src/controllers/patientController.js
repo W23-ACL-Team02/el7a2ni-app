@@ -1,6 +1,5 @@
 const userModel = require('../models/user');
 
-
 module.exports = {
     subscribeToHealthPackage: async (req, res) => {
         try{
@@ -8,18 +7,21 @@ module.exports = {
             
             // TODO: add package to specified family members 
 
+            const startDate = new Date()
+            const endDate = new Date()
+            endDate.setDate(endDate.getDate() + 30)
+
             const package = {
                 packageId: packageId,
-                startDate: new Date().getDate(),
+                startDate: endDate,
                 includedFamilyMembers: [],
                 status: `Subscribed`,
-                endDate: new Date().setDate(new Date.getDate() + 30)
+                endDate: endDate
             }
 
-            const patient = await userModel.updateOne({_id:req.session.userId}, {healthPackage: package})
-            await patient.save()
+            const patient = await userModel.updateOne({_id:req.session.userId}, {healthPackage: package});
 
-            res.status(200).json(patient)
+            res.status(200).json(package)
         } catch (error) {
         res.status(400).json({ errors: [error.message] })
       }
