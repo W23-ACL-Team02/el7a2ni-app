@@ -21,11 +21,15 @@ module.exports = {
     const _id = req.body._id;
   
     try {
+      if (_id == undefined) {
+        throw new Error("No user id provided to reject.")
+      }
+      
       // Update user
       let result = await userModel.findByIdAndUpdate(_id, {acceptanceStatus: 'rejected'});
   
       if (result.modifiedCount < 1) {
-        throw new Error(`Health package ${_id} does not exist.`);
+        throw new Error(`Doctor ${_id} does not exist.`);
       }
   
       return res.status(200).json({successes: [`Successfully rejected doctor ${_id}`]});
@@ -34,6 +38,10 @@ module.exports = {
     }
   },
   acceptDoctor: async (req, res) => {
+    if (_id == undefined) {
+      throw new Error("No user id provided to reject.")
+    }
+
     const _id = req.body._id;
   
     try {
@@ -41,7 +49,7 @@ module.exports = {
       let result = await userModel.findByIdAndUpdate(_id, {acceptanceStatus: 'accepted'});
   
       if (result.modifiedCount < 1) {
-        throw new Error(`Health package ${_id} does not exist.`);
+        throw new Error(`Doctor ${_id} does not exist.`);
       }
   
       return res.status(200).json({successes: [`Successfully approved doctor ${_id}`]});
