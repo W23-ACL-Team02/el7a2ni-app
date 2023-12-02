@@ -84,7 +84,7 @@ const getPatients = async(req,res) => {
             patientUsers[index] = appointment.patientUsername
         })
         const patients = await userModel.find({ username: { $in: patientUsers }})
-        res.status(200).send(patients)
+        res.status(200).json(patients)
     }catch(error){
         res.status(400).json({err:error.message})
     } 
@@ -137,11 +137,12 @@ const addAppointment = async(req,res) => {
 }
 
 const getAppointments = async(req, res) => {
+    // use jwt to make sure user is authorized
     const DocId = req.params.id
     try{
         const doctor = await userModel.findOne({_id: DocId, type: "doctor"})
         const appointments = await appointmentModel.find({doctorUsername: doctor.username})
-        res.status(200).send(appointments)
+        res.status(200).json(appointments)
     }catch(error){
         res.status(400).json({err:error.message})
     }
@@ -171,14 +172,14 @@ const addDoctor = async(req,res) => {
     }
 }
 
-router.post("/api/add", addPatient)
-router.delete("/api/delete/:id", deletePatient)
-router.get("/api/getAll/:id", getPatients)
-router.get("/api/getByName", getPatientbyName)
-router.get("/api/patient/:id", getPatientbyId)
-router.post("/api/addAppointment", addAppointment)
-router.delete("/api/allAppointments",deleteAllAppointments)
-router.get("/api/appointments/:id", getAppointments)
-router.post("/api/addDoctor", addDoctor)
+router.post("/add", addPatient)
+router.delete("/delete/:id", deletePatient)
+router.get("/getAll/:id", getPatients)
+router.get("/getByName", getPatientbyName)
+router.get("/patient/:id", getPatientbyId)
+router.post("/addAppointment", addAppointment)
+router.delete("/allAppointments",deleteAllAppointments)
+router.get("/appointments/:id", getAppointments)
+router.post("/addDoctor", addDoctor)
 
 module.exports = router;
