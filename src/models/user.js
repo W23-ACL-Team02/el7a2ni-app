@@ -76,6 +76,10 @@ const userSchema = new Schema({
   healthPackage: {
     type: ObjectId,
     ref: 'healthPackage'
+  },
+  files: {
+    type: Array,
+    default: undefined
   }
 }, 
 { 

@@ -1,0 +1,9 @@
+
+.frame {
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 13px;
+}
+.cardContainer {
+    margin: 10px;
+}

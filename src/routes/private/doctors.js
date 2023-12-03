@@ -4,6 +4,7 @@ const appointmentsModel = require('../../models/appointment.js');
 const healthPackageModel = require(`../../models/healthPackage.js`)
 var router = express.Router({mergeParams: true});
 const axios = require('axios');
+const { uploadHealthRecordForTesting } = require('../../controllers/patientController.js');
 
 const apiURL = 'http://localhost:3000/doctors/api';
 
@@ -169,5 +170,6 @@ const editDoctor = async (req, res) => {
 }
 
 router.put('/api/editDoctor', editDoctor)
+
 
 module.exports= router;
