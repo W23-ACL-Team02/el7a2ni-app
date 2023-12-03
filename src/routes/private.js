@@ -9,6 +9,7 @@ var prescriptionRouter= require('./private/prescription');
 var doctorController = require("./private/doctorController");
 var patientRouter = require("./private/patient");
 const authentiateToken = require("../middleware/authenticateToken");
+const patientController = require('./private/patient');
 
 router.all('*', authentiateToken,(req, res, next) => {
     if (!req.session?.loggedin) {
