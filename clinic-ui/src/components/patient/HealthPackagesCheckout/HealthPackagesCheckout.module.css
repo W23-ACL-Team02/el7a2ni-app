@@ -1,0 +1,34 @@
+.container {
+    background-color: aliceblue;
+}
+
+.failedContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust as needed */
+    text-align: center;
+}
+.failedIcon {
+    width: 400px;
+    height: 400px;
+    color: rgb(202, 40, 40);
+    margin-bottom: 10px;
+}
+
+.successContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust as needed */
+    text-align: center;
+}
+
+.successIcon {
+    width: 400px;
+    height: 400px;
+    color: rgb(16, 198, 16);
+    margin-bottom: 10px
+}

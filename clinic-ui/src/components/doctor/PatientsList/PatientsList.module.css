@@ -1,5 +1,8 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+
   .container {
     padding: 20px;
+    font-family: 'Roboto', sans-serif;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   }
  
@@ -24,7 +27,7 @@
     padding: 20px;
   }
   
-  #searchInput {
+  .search input {
     position:relative;
     padding: 5px;
     height: 40px;
@@ -34,7 +37,7 @@
     border-radius: 5px;
   }
   
-  #searchListener {
+  .search button {
     position: relative;
     background-color: #0074cc; /* Background color for the button */
     color: #fff; /* Text color */
@@ -65,13 +68,13 @@
     margin-bottom: 15px;
   }
   
-  p {
+  .Table p {
       font-size: 24px;
       color: #b721aa;
       margin: 10px 0;
   }
   
-  .filter button{
+  .dateFilter button{
     margin-left: 15px;
     background-color: #0074cc; /* Background color for the button */
     color: #fff; /* Text color */
@@ -82,20 +85,20 @@
     transition: background-color 0.3s; /* Add a smooth transition on hover */
   }
   
-  table{
+  .Table table{
     width:100%;
     table-layout: fixed;
   }
-  .tbl-header{
+  .Table .tbl-header{
     background-color: rgba(255,255,255,0.3);
    }
-  .tbl-content{
+   .Table .tbl-content{
     height:300px;
     overflow-x:auto;
     margin-top: 0px;
     border: 1px solid rgba(255,255,255,0.3);
   }
-  th{
+  .Table th{
     padding: 20px 15px;
     text-align: left;
     font-weight: 500;
@@ -103,7 +106,7 @@
     color: #fff;
     text-transform: uppercase;
   }
-  td{
+  .Table td{
     padding: 15px;
     text-align: left;
     vertical-align:middle;
@@ -124,12 +127,9 @@
   }
   
   /* demo styles */
-  
-  @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
   body{
     background: -webkit-linear-gradient(left, #25c481, #25b7c4);
     background: linear-gradient(to right, #25c481, #25b7c4);
-    font-family: 'Roboto', sans-serif;
   }
   section{
     margin: 50px;

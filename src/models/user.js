@@ -32,6 +32,9 @@ const userSchema = new Schema({
   mobile: {
     type: String,
   },
+  wallet: {
+    type: Number,
+  },
   emergencyContact: {
     name: {
       type: String,
@@ -74,10 +77,30 @@ const userSchema = new Schema({
     enum: ['accepted', 'rejected', 'pending']
   },
   healthPackage: {
-    type: ObjectId,
-    ref: 'healthPackage'
+    packageId: {
+      type: ObjectId,
+      ref: 'healthPackage'
+    },
+    startDate: {
+      type: Date
+    },
+    includedFamilyMembers: {
+      type: Array
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['Subscribed', 'Unsubscribed', 'Cancelled', 'Subscribed through family member'],
+      default: 'Unsubscribed'
+    },
+    endDate: {
+      type: Date
+    },
+    upgrade: {
+      type: ObjectId
+    }
   }
-}, 
+},  
 { 
   timestamps: true,
   methods: {

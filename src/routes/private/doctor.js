@@ -174,7 +174,7 @@ const addDoctor = async(req,res) => {
 
 router.post("/add", addPatient)
 router.delete("/delete/:id", deletePatient)
-router.get("/getAll/:id", getPatients)
+router.get("/getAllPatients/:id", getPatients)
 router.get("/getByName", getPatientbyName)
 router.get("/patient/:id", getPatientbyId)
 router.post("/addAppointment", addAppointment)

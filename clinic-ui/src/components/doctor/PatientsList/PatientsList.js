@@ -1,5 +1,5 @@
 import axios from 'axios';
-import './PatientsList.css'
+import styles from './PatientsList.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons' 
@@ -11,9 +11,9 @@ const PatientsList = () => {
     const [patients,setPatients] = useState([]);
     const [appointments,setAppointments] = useState([]);
     const navigate = useNavigate()
-    const currDoctorId = "654e4e8b0a311a1637fa44b5"; // should make api request to get current user
+    const currDoctorId = "6547cd2f63304dedceb8644b"; // should make api request to get current user
     const getPatients =  async () => {
-         await axios.get(`http://localhost:4000/private/patients/getAll/${currDoctorId}`).then(
+         await axios.get(`http://localhost:4000/private/doctor/getAllPatients/${currDoctorId}`).then(
          (res) => { 
             const patients = res.data
             console.log(patients)
@@ -23,7 +23,7 @@ const PatientsList = () => {
          ); 
     }
     const getAppointments =  async () => {
-      await axios.get(`http://localhost:4000/private/patients/appointments/${currDoctorId}`).then(
+      await axios.get(`http://localhost:4000/private/doctor/appointments/${currDoctorId}`).then(
       (res) => { 
          const appointments = res.data
          console.log(appointments)
@@ -90,48 +90,50 @@ const PatientsList = () => {
   }
 
     return(
-      <div class="container">
-        <div class="filterContainer">
-            <div class="search">
-                <input type="text" id="searchInput" placeholder="Search for patients..."/>
-                <button id="searchListener" onClick={search}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />   
-                </button>  
+        <div className={styles.container}>
+            <div className={styles.filterContainer}>
+                <div className={styles.search}>
+                    <input type="text" id="searchInput" placeholder="Search for patients..."/>
+                    <button id="searchListener" onClick={search}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />   
+                    </button>  
+                </div>
+                <div className={styles.dateFilter}>
+                    <label>Appointments From</label>
+                    <input type="date" id="FromDateInput"/>
+                    <label>To</label>
+                    <input type="date" id="ToDateInput"/>
+                    <button id="filterListener" onClick={filter}>filter</button>
+                </div>  
             </div>
-            <div class="dateFilter">
-                <label>Appointments From</label>
-                <input type="date" id="FromDateInput"/>
-                <label>To</label>
-                <input type="date" id="ToDateInput"/>
-                <button id="filterListener" onClick={filter}>filter</button>
-            </div>  
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-              {patients.map((patient) => (
-              <tr>
-                <td>            
-                   <a onClick={() => handleGoToPatientDetails(patient._id)}>
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                    </a>        
-                </td>
-                <td>{patient.username}</td>
-                <td>{patient.name}</td>
-                <td>{patient.email}</td>
-              </tr>
-              ))}
-            </tbody>
-        </table>
-        <button class="backBtn" onClick={handleGoBack}>back</button>
-      </div>
+            <div className={styles.Table}>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {patients.map((patient) => (
+                    <tr>
+                        <td>            
+                        <a onClick={() => handleGoToPatientDetails(patient._id)}>
+                                <FontAwesomeIcon icon={faPenToSquare} />
+                            </a>        
+                        </td>
+                        <td>{patient.username}</td>
+                        <td>{patient.name}</td>
+                        <td>{patient.email}</td>
+                    </tr>
+                    ))}
+                    </tbody>
+                </table>
+                <button className={styles.backBtn} onClick={handleGoBack}>back</button>
+            </div> 
+        </div>  
     )
 }
 export default PatientsList;

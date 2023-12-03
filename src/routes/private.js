@@ -24,7 +24,7 @@ router.use('/admin', adminRouter);
 router.use('/familymember', familyMemberRouter);
 router.use('/doctors', doctorRouter);
 router.use('/prescription',prescriptionRouter);
-router.use('/patients', doctor);
+router.use('/doctor', doctor);
 router.use('/payment', payment)
 
 module.exports = router;
