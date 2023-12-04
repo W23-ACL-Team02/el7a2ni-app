@@ -1,4 +1,8 @@
 const userModel = require('../models/user');
+const jwt = require('jsonwebtoken');
+const secret = process.env.JWT_SECRET;
+const bcrypt = require('bcrypt');
+const maxAge = 3 * 24 * 60 * 60;
 
 module.exports = {
   removeUser: async (req, res) => {
@@ -154,5 +158,90 @@ module.exports = {
     } catch (error) {
       return res.status(400).json({errors: [error.message]});
     }
+  },
+	loginUsernamePassword: async (req, res) => {
+    	const { username, password } = req.body;
+
+		try {
+			// Check for user in database
+			const user = await userModel.findOne({ username: username });
+
+			// If not or wrong user type
+			if (!user || user.type == 'pharmacist') {
+				return res.status(400).json({errors: ["Incorrect username/password"]});
+			}
+
+			// If hashed password doesn't match
+			if (!bcrypt.compareSync(password, user.password)) {
+				return res.status(400).json({errors: ["Incorrect username/password"]});
+			}
+			
+			// If a doctor and not yet accepted
+			if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
+				return res.status(400).json({errors: [`Doctor ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
+			}
+
+			// Else load session variables
+			let payload = {
+				loggedin: true,
+				userId: user?._id,
+				userType: user?.type
+			}
+
+			// const token = jwt.sign(payload, secret, {expiresIn: '1h'});
+			const token = jwt.sign(payload, secret);
+
+			req.session = payload;
+      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+      return res.status(200).send(token);
+			// return res.status(200).end();
+		} catch (error) {
+			res.status(400).json({ errors: [error.message] });
+		}
+	},
+	registerPharmacist: async (req, res) => {
+    const {username, name, email, password, dateOfBirth, hourlyRate, affiliation, education_name, education_end} = req.body;
+    const education = {
+      name: education_name,
+      endYear: education_end.split("-")[0]
+    }
+    const type = "pharmacist";
+    const acceptanceStatus = 'pending';
+
+    // Hash password using bcrypt and 10 rounds
+		password = bcrypt.hashSync(password, 10);
+  
+    try {
+      const user = await userModel.create({username, name, email, password, dateOfBirth, hourlyRate, affiliation, education, type, acceptanceStatus});
+      await user.save();
+  
+      res.status(200).send(`Pharmacist ${user.username} created successfully!`);
+    } catch (error) {
+      res.status(400).json({err:error.message});
+    }
+},
+	registerPatient: async (req, res) => {
+		// Add user to database
+		const { username, name, email, password, dateOfBirth, gender, mobile, emergency_name, emergency_mobile, emergency_relation } = req.body;
+		const emergencyContact = {
+			name: emergency_name,
+			mobile: emergency_mobile,
+			relation: emergency_relation
+		};
+		const type = "patient";
+		const family = [];
+		const prescriptions = [];
+	
+		// Hash password using bcrypt and 10 rounds
+		password = bcrypt.hashSync(password, 10);
+	  
+		try {
+			const user = await userModel.create({ username, name, email, password, dateOfBirth, gender, mobile, type, family, prescriptions, emergencyContact });
+			await user.save();
+		
+			res.status(200).send(`Patient ${user.username} created successfully!`);
+		} catch (error) {
+			res.status(400).json({ errors: [error.message] });
+		}
   }
 }
