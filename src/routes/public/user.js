@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router({mergeParams: true});
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
-
+const maxAge = 3 * 24 * 60 * 60;
 const userModel = require('../../models/user.js');
 
 router.post('/login', async (req, res) => {
@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
 
         // const token = jwt.sign(payload, secret, {expiresIn: '1h'});
         const token = jwt.sign(payload, secret);
-
+        
         req.session = payload;
 
         return res.status(200).send(token);

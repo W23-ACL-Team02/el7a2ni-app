@@ -65,7 +65,8 @@ const addPatient = async(req,res) => {
 const getPatients = async(req,res) => {
     const FromDate = req.body.FromDate
     const ToDate = req.body.ToDate
-    const DocId = req.params.id
+    //const DocId = req.session?.userId
+    const DocId = "6547cd2f63304dedceb8644b"
     try{
         const doctor = await userModel.findOne({_id: DocId, type: "doctor"})
         var appointments = null
@@ -137,8 +138,8 @@ const addAppointment = async(req,res) => {
 }
 
 const getAppointments = async(req, res) => {
-    // use jwt to make sure user is authorized
-    const DocId = req.params.id
+    //const DocId = req.session.userId
+    const DocId = "6547cd2f63304dedceb8644b"
     try{
         const doctor = await userModel.findOne({_id: DocId, type: "doctor"})
         const appointments = await appointmentModel.find({doctorUsername: doctor.username})
@@ -174,12 +175,12 @@ const addDoctor = async(req,res) => {
 
 router.post("/add", addPatient)
 router.delete("/delete/:id", deletePatient)
-router.get("/getAllPatients/:id", getPatients)
+router.get("/getAllPatients", getPatients)
 router.get("/getByName", getPatientbyName)
 router.get("/patient/:id", getPatientbyId)
 router.post("/addAppointment", addAppointment)
 router.delete("/allAppointments",deleteAllAppointments)
-router.get("/appointments/:id", getAppointments)
+router.get("/appointments", getAppointments)
 router.post("/addDoctor", addDoctor)
 
 module.exports = router;

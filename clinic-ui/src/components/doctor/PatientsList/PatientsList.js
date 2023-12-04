@@ -6,24 +6,38 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
 const { useState } = require("react");
 const { useEffect } = require("react");
+const serverURL = process.env.REACT_APP_SERVER_URL
 
 const PatientsList = () => { 
+    const [currUser, setCurrUser] = useState([]);
     const [patients,setPatients] = useState([]);
     const [appointments,setAppointments] = useState([]);
     const navigate = useNavigate()
-    const currDoctorId = "6547cd2f63304dedceb8644b"; // should make api request to get current user
     const getPatients =  async () => {
-         await axios.get(`http://localhost:4000/private/doctor/getAllPatients/${currDoctorId}`).then(
-         (res) => { 
-            const patients = res.data
-            console.log(patients)
-            setPatients(patients)
-            console.log("entered here")
+        try{
+            const response = await axios.get(`${serverURL}/private/doctor/getAllPatients`,{ withCredentials: true,})
+            console.log(response.data);  // Log the data directly
+            const patients = response.data;
+            setPatients(patients);
+        }catch (error) {
+            // Log the entire error object for debugging
+            console.error('Axios Error:', error);
+    
+            // Check if there's a response object with more details
+            if (error.response) {
+                console.error('Response Status:', error.response.status);
+                console.error('Response Data:', error.response.data);
+            }
+    
         }
-         ); 
+        
     }
     const getAppointments =  async () => {
-      await axios.get(`http://localhost:4000/private/doctor/appointments/${currDoctorId}`).then(
+      await axios({
+            url: `${serverURL}/private/doctor/appointments`,
+            method: 'get',
+            withCredentials: true,
+            }).then(
       (res) => { 
          const appointments = res.data
          console.log(appointments)

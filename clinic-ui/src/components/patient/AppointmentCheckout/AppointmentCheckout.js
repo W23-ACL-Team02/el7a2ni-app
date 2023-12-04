@@ -11,7 +11,7 @@ const serverURL = process.env.REACT_APP_SERVER_URL
 
 const AppointmentCheckout = () => {
     console.log(serverURL)
-    const publishableKey ='pk_test_51OGoo1J9XgJY7IQheYEJKzjO59nSHu1OMHpdb5mvemahLcimZn5yqlMiLfwhwVnmxt37jkDwMw1bFQ8JZeRyWa4J00rN0xdh3o';
+    const publishableKey =process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
     const [appointmentPrice,setAppointmentPrice] = useState([]);
     const navigate = useNavigate()
     // let { state } = useLocation();
