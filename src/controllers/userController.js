@@ -129,7 +129,7 @@ module.exports = {
 			const token = jwt.sign(payload, secret);
 
 			req.session = payload;
-			res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+			res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 , secure: false, domain: "localhost", sameSite: "lax", path: "/"});
 			return res.status(200).send(token);
 			// return res.status(200).end();
 		} catch (error) {
@@ -179,6 +179,20 @@ module.exports = {
 			res.status(200).send(`Patient ${user.username} created successfully!`);
 		} catch (error) {
 			res.status(400).json({ errors: [error.message] });
+		}
+	},
+	getSelf: async (req, res) => {
+		const userId = req.session?.userId;
+	
+		if (userId == undefined) {
+		  return res.status(401).json({errors: ['No authentication provided.']})
+		}
+	
+		try {
+		  let user = userModel.findById(userId).projection({password:0})
+		  res.status(200).json(user);
+		} catch (error) {
+		  res.status(500).json({errors: [error.message]});
 		}
 	}
 }

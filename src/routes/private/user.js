@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 
 const userModel = require('../../models/user.js');
 const appointmentModel = require('../../models/appointment.js');
+const { getSelf } = require('../../controllers/userController.js');
 const { filterAppointments, allAppointments } = require('../../controllers/appointmentController.js');
 
 router.get('/filterAppointments', filterAppointments);
@@ -36,5 +37,7 @@ router.post( '/addDoctor' , async(req,res) => {
       res.status(400).json({err:error.message})
   }
 })
+
+router.get('/getSelfUser', getSelf);
 
 module.exports = router;
