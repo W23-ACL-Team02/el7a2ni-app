@@ -3,6 +3,53 @@ const medicineModel = require('../../models/medicine.js');
 const { default: mongoose } = require('mongoose');
 // const app = require('../../app.js');
 var router = express.Router();
+const multer = require('multer');
+const Grid = require('gridfs-stream');
+//const { MongoClient, ObjectID } = require('mongodb');
+const mongoURI = process.env.MONGO_URI; 
+const { GridFSBucket, ObjectID } = require('mongodb');
+
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+const conn = mongoose.connection;
+
+let gfs;
+conn.once('open', () => {
+  const db = conn.db; // Access the database instance
+  gfs = new mongoose.mongo.GridFSBucket(db); // Initialize GridFSBucket
+});
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+const encodeFileToBase64 = (file) => {
+  try {
+    const base64Data = file.buffer.toString('base64');
+    return base64Data;
+  } catch (error) {
+    throw new Error('Error encoding file to Base64:', error.message);
+  }
+};
+const saveFileToGridFS = async (file) => {
+  if (file) {
+    const db = conn.db;
+    const bucket = new mongoose.mongo.GridFSBucket(db);
+
+    const uploadStream = bucket.openUploadStream(file.originalname);
+    uploadStream.end(file.buffer);
+
+    return new Promise((resolve, reject) => {
+      uploadStream.on('finish', (file) => {
+        resolve(file);
+      });
+
+      uploadStream.on('error', (err) => {
+        reject(err);
+      });
+    });
+  }
+};
+
+
 
 router.get('/add', (req, res) => {
     res.render('addMedicine');
@@ -180,5 +227,43 @@ router.get('/', async (req, res) => {
         res.status(400).json({err:error.message});
     }
 })
+
+
+router.post('/uploadMedImg',upload.fields([
+    { name: 'medicineImg',maxCount: 1 }]),async(req,res)=>{
+  try{
+  //if (req.session.userType !== 'pharmacist') {
+         // return res.status(403).json({ message: 'Permission denied.' });
+        //}
+  
+        const {name}=req.body;
+        const medicine= await medicineModel.findOne({name:name})
+        if(!medicine){
+          return res.status(404).json({ message: 'Medicine not found.' });
+        }
+  
+        const medicineImgFile = req.files['medicineImg'] ? req.files['medicineImg'][0] : null;
+        if (!medicineImgFile) {
+          return res.status(400).json({ message: 'No file uploaded.' });
+        }
+  
+        const savedFile = await saveFileToGridFS(medicineImgFile);
+        //medicine.imageUrl = savedFile._id; // Assuming savedFile contains the GridFS file information
+        const img64=encodeFileToBase64(medicineImgFile);
+              medicine.imageUrl=img64;
+        // Save the updated medicine document
+        await medicine.save();
+  
+        //const [medicineImg] = await Promise.all([
+          //saveFileToGridFS(medicineImgF) ]);
+        //const img64=encodeFileToBase64(medicineImgF );
+        //medicine.imageUrl=img64;
+        res.status(200).json({ message: 'Medicine image uploaded successfully.' });
+  
+  
+  }catch(error) {
+    res.status(400).json({err:error.message})
+  }
+  })
 
 module.exports = router;

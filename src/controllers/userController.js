@@ -4,6 +4,63 @@ const secret = process.env.JWT_SECRET;
 const bcrypt = require('bcrypt');
 const maxAge = 3 * 24 * 60 * 60;
 
+var express = require('express');
+
+const { default: mongoose } = require('mongoose');
+const multer = require('multer');
+const Grid = require('gridfs-stream');
+const { MongoClient, ObjectID } = require('mongodb');
+
+var router = express.Router();
+
+const fileModel = require('../models/file.js');
+
+const mongoURI = process.env.MONGO_URI; 
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+const conn = mongoose.connection;
+
+let gfs;
+conn.once('open', () => {
+  const db = conn.db; // Access the database instance
+  gfs = new mongoose.mongo.GridFSBucket(db); // Initialize GridFSBucket
+});
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+const encodeFileToBase64 = (file) => {
+  try {
+    const base64Data = file.buffer.toString('base64');
+    return base64Data;
+  } catch (error) {
+    throw new Error('Error encoding file to Base64:', error.message);
+  }
+};
+
+
+
+const saveFileToGridFS = async (file) => {
+  if (file) {
+    const db = conn.db;
+    const bucket = new mongoose.mongo.GridFSBucket(db);
+
+    const uploadStream = bucket.openUploadStream(file.originalname);
+    uploadStream.end(file.buffer);
+
+    return new Promise((resolve, reject) => {
+      uploadStream.on('finish', (file) => {
+        resolve(file);
+      });
+
+      uploadStream.on('error', (err) => {
+        reject(err);
+      });
+    });
+  }
+};
+
+
+
 module.exports = {
   removeUser: async (req, res) => {
     try {
@@ -209,12 +266,29 @@ module.exports = {
     const acceptanceStatus = 'pending';
 
     // Hash password using bcrypt and 10 rounds
-		password = bcrypt.hashSync(password, 10);
+		let hashedPassword = bcrypt.hashSync(password, 10);
+
   
     try {
-      const user = await userModel.create({username, name, email, password, dateOfBirth, hourlyRate, affiliation, education, type, acceptanceStatus});
-      await user.save();
+      const idDocumentFile = req.files['idDocument'] ? req.files['idDocument'][0] : null;
+      const pharmacyDegreeFile = req.files['pharmacyDegree'] ? req.files['pharmacyDegree'][0] : null;
+      const workingLicenseFile = req.files['workingLicense'] ? req.files['workingLicense'][0] : null;
+     
   
+      const [idDocument, pharmacyDegree, workingLicense] = await Promise.all([
+        saveFileToGridFS(idDocumentFile),
+        saveFileToGridFS(pharmacyDegreeFile),
+        saveFileToGridFS(workingLicenseFile)
+      ]);
+      const idb64=encodeFileToBase64(idDocumentFile );
+      const degreeb64=encodeFileToBase64(pharmacyDegreeFile );
+      const licenseb64=encodeFileToBase64(workingLicenseFile);
+      const id= await fileModel.create({fileName:idDocument.filename,fileType:"ID",fileData:idb64});
+      const degree = await fileModel.create({fileName:pharmacyDegree.filename,fileType:"Degree",fileData:degreeb64});
+      const license=await fileModel.create({fileName:workingLicense.filename,fileType:"License",fileData:licenseb64});
+    
+      const user = await userModel.create({username, name, email, password:hashedPassword, dateOfBirth, hourlyRate, affiliation, education, type, acceptanceStatus, files:[id,degree,license]});
+      await user.save();
       res.status(200).send(`Pharmacist ${user.username} created successfully!`);
     } catch (error) {
       res.status(400).json({err:error.message});
