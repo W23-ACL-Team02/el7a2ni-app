@@ -1,6 +1,7 @@
 var express = require('express');
 const userModel = require('../../models/user.js');
 const { default: mongoose } = require('mongoose');
+const { getSelf } = require('../../controllers/userController.js');
 var router = express.Router();
 
 router.get('/', async(req, res) => {
@@ -24,5 +25,6 @@ router.get('/', async(req, res) => {
     }
   }
 })
+router.get('/getSelfUser', getSelf);
 
 module.exports = router;

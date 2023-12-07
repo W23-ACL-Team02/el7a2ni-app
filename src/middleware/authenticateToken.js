@@ -2,17 +2,24 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 
 const authenticateToken = (req, res, next) => {
-    const bearer = req.headers?.authorization;
-
-    if (bearer == undefined) {
+    // Assign bearer token to that provided in cookie, or if undefined, try from auth header
+    let token;
+    let bearer;
+    if (req.cookies?.jwt !== undefined) {
+        token = req.cookies.jwt;
+    } else {
+        bearer = req.headers?.authorization;
+        token = bearer.split(' ')[1];
+    }
+    
+    if (bearer == undefined && token == undefined) {
         return res.status(403).json({errors: ["No credentials provided"]});
     }
-
-    const token = bearer.split(' ')[1];
 
     jwt.verify(token, secret, (err, decode) => {
         // Error occured while verifying token
         if (err) {
+            console.log(err.message)
             res.status(400).send(err);
 
             return;

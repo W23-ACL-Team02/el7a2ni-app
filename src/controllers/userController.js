@@ -161,24 +161,23 @@ module.exports = {
   },
 	loginUsernamePassword: async (req, res) => {
     	const { username, password } = req.body;
-
 		try {
 			// Check for user in database
 			const user = await userModel.findOne({ username: username });
-
+      
 			// If not or wrong user type
 			if (!user || user.type == 'pharmacist') {
-				return res.status(400).json({errors: ["Incorrect username/password"]});
+				return res.status(401).json({errors: ["Incorrect username/password"]});
 			}
 
 			// If hashed password doesn't match
 			if (!bcrypt.compareSync(password, user.password)) {
-				return res.status(400).json({errors: ["Incorrect username/password"]});
+				return res.status(401).json({errors: ["Incorrect username/password"]});
 			}
 			
 			// If a doctor and not yet accepted
 			if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
-				return res.status(400).json({errors: [`Doctor ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
+				return res.status(401).json({errors: [`Doctor ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
 			}
 
 			// Else load session variables
@@ -192,7 +191,8 @@ module.exports = {
 			const token = jwt.sign(payload, secret);
 
 			req.session = payload;
-      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+      
+      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 , secure: false, domain: "localhost", sameSite: "lax", path: "/"});
       return res.status(200).send(token);
 			// return res.status(200).end();
 		} catch (error) {
@@ -209,10 +209,10 @@ module.exports = {
     const acceptanceStatus = 'pending';
 
     // Hash password using bcrypt and 10 rounds
-		password = bcrypt.hashSync(password, 10);
+		let hashedPassword = bcrypt.hashSync(password, 10);
   
     try {
-      const user = await userModel.create({username, name, email, password, dateOfBirth, hourlyRate, affiliation, education, type, acceptanceStatus});
+      const user = await userModel.create({username, name, email, password:hashedPassword, dateOfBirth, hourlyRate, affiliation, education, type, acceptanceStatus});
       await user.save();
   
       res.status(200).send(`Pharmacist ${user.username} created successfully!`);
@@ -233,15 +233,29 @@ module.exports = {
 		const prescriptions = [];
 	
 		// Hash password using bcrypt and 10 rounds
-		password = bcrypt.hashSync(password, 10);
+		hashedPassword = bcrypt.hashSync(password, 10);
 	  
 		try {
-			const user = await userModel.create({ username, name, email, password, dateOfBirth, gender, mobile, type, family, prescriptions, emergencyContact });
+			const user = await userModel.create({ username, name, email, password:hashedPassword, dateOfBirth, gender, mobile, type, family, prescriptions, emergencyContact });
 			await user.save();
 		
 			res.status(200).send(`Patient ${user.username} created successfully!`);
 		} catch (error) {
 			res.status(400).json({ errors: [error.message] });
 		}
+  },
+  getSelf: async (req, res) => {
+    const userId = req.session?.userId;
+
+    if (userId == undefined) {
+      return res.status(401).json({errors: ['No authentication provided.']})
+    }
+    
+    try {
+      let user = userModel.findById(userId).projection({password:0})
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({errors: [error.message]});
+    }
   }
 }
