@@ -189,7 +189,7 @@ module.exports = {
 		}
 	
 		try {
-		  let user = userModel.findById(userId).projection({password:0})
+		  let user = await userModel.findById(userId, {password: 0})
 		  res.status(200).json(user);
 		} catch (error) {
 		  res.status(500).json({errors: [error.message]});
