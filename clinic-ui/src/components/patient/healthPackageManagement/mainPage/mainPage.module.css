@@ -1,8 +1,17 @@
 
 .frame {
     display: flex;
-    justify-content: flex-start;
+    flex-flow: column;
+    height:100%;
+    width: 100%;
+    flex-grow: 1;
+    background-color: #eee;
+}
+.allCards {
+    display: flex;
+    justify-content: center;
     border-radius: 13px;
+    flex-wrap: wrap;
 }
 .cardContainer {
     margin: 10px;

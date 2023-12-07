@@ -2,6 +2,7 @@ var express = require('express');
 
 var router = express.Router({mergeParams: true});
 const healthRecordController = require(`./patient/healthRecord.js`);
+const healthPackageController = require(`./patient/healthPackage.js`);
 
 
 router.all('*', (req, res, next) => {
@@ -14,5 +15,6 @@ router.all('*', (req, res, next) => {
 });
 
 router.use(`/healthRecord`, healthRecordController);
+router.use(`/healthPackage`, healthPackageController);
 
 module.exports = router;

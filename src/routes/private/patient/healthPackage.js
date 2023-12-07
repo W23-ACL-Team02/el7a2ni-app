@@ -7,5 +7,6 @@ router.get('/view', patientController.viewSubscriptionDetails);
 router.post('/cancel', patientController.cancelSubscription);
 router.post('/upgrade', patientController.upgradeSubscription);
 router.post('/renew', patientController.renewSubscription);
+router.get('/all', patientController.getHealthPackages);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const userModel = require('../models/user');
 const fileModel = require('../models/file');
 const appointmentModel = require('../models/appointment');
+const healthPackageModel = require('../models/healthPackage');
 
 module.exports = {
 
@@ -44,7 +45,7 @@ module.exports = {
             res.status(400).json({error: error.message})
         }
     },
-    
+
     subscribeToHealthPackage: async (req, res) => {
         try{
             const packageId = req.body.packageId;
