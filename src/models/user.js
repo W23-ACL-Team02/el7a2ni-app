@@ -81,9 +81,33 @@ const userSchema = new Schema({
     type: String,
     enum: ['accepted', 'rejected', 'pending']
   },
+  files: {
+    type: Array,
+    default: []
+  },
   healthPackage: {
-    type: ObjectId,
-    ref: 'healthPackage'
+    packageId: {
+      type: ObjectId,
+      ref: 'healthPackage'
+    },
+    startDate: {
+      type: Date
+    },
+    includedFamilyMembers: {
+      type: Array
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['Subscribed', 'Unsubscribed', 'Cancelled', 'Subscribed through family member'],
+      default: 'Unsubscribed'
+    },
+    endDate: {
+      type: Date
+    },
+    upgrade: {
+      type: ObjectId
+    }
   }
 }, 
 { 

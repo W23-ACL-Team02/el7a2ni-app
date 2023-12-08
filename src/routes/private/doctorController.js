@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const userModel = require('../../models/user.js');
+const fileModel = require('../../models/file.js');
 const appointmentModel = require('../../models/appointment.js');
 const express = require("express");
 var router = express.Router({mergeParams: true});
@@ -170,6 +171,33 @@ const addDoctor = async(req,res) => {
         res.status(400).json({err:error.message})
     }
 }
+const viewHealthRecords = async (req, res) => {
+    try {
+        const patientUsername = req.body.patientUsername
+        //get doctor's username
+        const doctor = await userModel.findById(req.session.userId)
+        const doctorUsername = doctor.username
+        //check if there are shared appointments
+        const appointments = await appointmentModel.find({doctorUsername: doctorUsername, patientUsername: patientUsername})
+        if (!appointments.length){
+            res.status(400).json({error: "You don't have any appointments with this patient."});
+            return;
+        }
+        //send patient's health records
+        const patient = await userModel.findOne({username: patientUsername})
+        var patientFiles = []
+        if (patient.files){
+            patientFiles = patient.files
+            patientFiles.forEach(file => {
+                if (file.fileType == "healthRecord")
+                    file = fileModel.decodeBase64ToFile(file.fileData)
+            });
+        }
+        res.status(200).json({files: patientFiles})
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
 
 router.post("/api/add", addPatient)
 router.delete("/api/delete/:id", deletePatient)
@@ -180,5 +208,7 @@ router.post("/api/addAppointment", addAppointment)
 router.delete("/api/allAppointments",deleteAllAppointments)
 router.get("/api/appointments/:id", getAppointments)
 router.post("/api/addDoctor", addDoctor)
+router.get('/api/viewHealthRecords', viewHealthRecords)
+
 
 module.exports = router;

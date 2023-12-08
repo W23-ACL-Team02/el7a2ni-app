@@ -4,11 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+const MongoURI = process.env.MONGO_URI;
+const cors = require('cors')
 var publicRouter = require('./routes/public');
 var privateRouter = require('./routes/private');
 
 var app = express();
 
+// Set port
+var port = process.env.PORT || '3000';
+app.set('port', port);
+
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
