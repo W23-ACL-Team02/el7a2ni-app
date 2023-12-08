@@ -7,12 +7,10 @@ import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
 const { useState } = require("react");
 const { useEffect } = require("react");
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
-const serverURL = process.env.REACT_APP_SERVER_URL
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const publishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
 const HealthPackageCheckout = () => {
-    const publishableKey ='pk_test_51OGoo1J9XgJY7IQheYEJKzjO59nSHu1OMHpdb5mvemahLcimZn5yqlMiLfwhwVnmxt37jkDwMw1bFQ8JZeRyWa4J00rN0xdh3o';
-    console.log(publishableKey)
     const [selectedHealthPackages,setselectedHealthPackages] = useState([]);
     const navigate = useNavigate()
     // let { state } = useLocation();
@@ -75,22 +73,23 @@ const HealthPackageCheckout = () => {
    
 
     return (
-        <div className={styles.container}>
-            <div>
+        <div className={styles.checkout_container}>
+            <div className={styles.health_package_checkout_items}>
                 {selectedHealthPackages?.totalPackages?.map((p) => (
                         <div>
                             <div>
                                 <p>{p.packageName} subscription for {p.patientName}</p>
                                 {p.appliedDiscount === 0
                                     ? <p>price : {p.packagePrice}</p> 
-                                    : <p>price : {p.packagePrice}, applied discount: {p.appliedDiscount *100} </p>
+                                    : <p>price : {p.packagePrice}, applied discount: {p.appliedDiscount *100} %</p>
                                 }    
                             </div>
                         </div>
                 ))}
                 <p>Total Price: {selectedHealthPackages?.totalPrice}</p>
             </div>
-            <div>
+            <div className={styles.paymentOptions}>
+                <h2>Choose a Payment Method</h2>
                 <StripeCheckout 
                     stripeKey = {publishableKey}
                     label = "Credit and Debit Card"
@@ -100,14 +99,14 @@ const HealthPackageCheckout = () => {
                     description = {`Your total is ${selectedHealthPackages?.totalPrice}`}
                     token = {payByCard}
                 >
-                    <button>
+                    <button className={styles.paymentOptionBtn}>
                         Credit and Debit Card
-                        <FontAwesomeIcon icon={faCreditCard} />
+                        <FontAwesomeIcon className={styles.icon} icon={faCreditCard} />
                     </button>
                 </StripeCheckout>
-                <button onClick={payByWallet}>
+                <button className={styles.paymentOptionBtn} onClick={payByWallet}>
                     Wallet
-                    <FontAwesomeIcon icon={faWallet} />
+                    <FontAwesomeIcon className={styles.icon} icon={faWallet} />
                 </button>
             </div>
         </div>

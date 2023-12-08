@@ -9,42 +9,38 @@ const { useEffect } = require("react");
 const serverURL = process.env.REACT_APP_SERVER_URL
 
 const PatientsList = () => { 
-    const [currUser, setCurrUser] = useState([]);
     const [patients,setPatients] = useState([]);
     const [appointments,setAppointments] = useState([]);
     const navigate = useNavigate()
     const getPatients =  async () => {
         try{
-            const response = await axios.get(`${serverURL}/private/doctor/getAllPatients`,{ withCredentials: true,})
-            console.log(response.data);  // Log the data directly
-            const patients = response.data;
-            setPatients(patients);
+            await axios.get(`${serverURL}/private/doctor/getAllPatients`).then(
+            (res) => {
+                console.log(res.data);  // Log the data directly
+                const patients = res.data;
+                setPatients(patients);
+            })
         }catch (error) {
             // Log the entire error object for debugging
             console.error('Axios Error:', error);
-    
-            // Check if there's a response object with more details
-            if (error.response) {
-                console.error('Response Status:', error.response.status);
-                console.error('Response Data:', error.response.data);
-            }
-    
         }
         
     }
     const getAppointments =  async () => {
-      await axios({
-            url: `${serverURL}/private/doctor/appointments`,
-            method: 'get',
-            withCredentials: true,
-            }).then(
-      (res) => { 
-         const appointments = res.data
-         console.log(appointments)
-         setAppointments(appointments)
-     }
-      ); 
- }
+      try{
+        await axios.get(`${serverURL}/private/doctor/appointments`).then(
+            (res) => { 
+               const appointments = res.data
+               console.log(appointments)
+               setAppointments(appointments)
+           }
+            ); 
+      }catch(error){
+            console.error('Axios Error:', error);
+      }  
+      
+    }
+
     useEffect(() =>{
        getPatients();
        getAppointments();
@@ -120,8 +116,8 @@ const PatientsList = () => {
                     <button id="filterListener" onClick={filter}>filter</button>
                 </div>  
             </div>
-            <div className={styles.Table}>
-                <table>
+            <div className={styles.patientTable}>
+                <table className={styles.table_fill}>
                     <thead>
                         <tr>
                             <th></th>

@@ -37,7 +37,7 @@ router.post( '/addDoctor' , async(req,res) => {
   }
 })
 
-async function getCurrUser(req, res){
+router.get('/getCurrUser', async (req, res) => {
     //const currUserID = req.session?.userId
     const currUserID = "6547cd2f63304dedceb8644b"
     try{ 
@@ -46,9 +46,6 @@ async function getCurrUser(req, res){
     } catch(error){
       res.status(400).json({error: error})
     }
-}
-
-router.get('/getCurrUser', getCurrUser)
-
+})
 
 module.exports = router;

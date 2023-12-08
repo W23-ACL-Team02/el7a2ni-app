@@ -1,5 +1,5 @@
 import axios from 'axios';
-import styles from '../HealthPackagesCheckout/HealthPackagesCheckout.module.css'
+import styles from '../AppointmentCheckout/AppointmentCheckout.module.css'
 import StripeCheckout from 'react-stripe-checkout'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
@@ -8,10 +8,9 @@ import { useNavigate } from "react-router-dom";
 const { useState } = require("react");
 const { useEffect } = require("react");
 const serverURL = process.env.REACT_APP_SERVER_URL
+const publishableKey =process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
 
-const AppointmentCheckout = () => {
-    console.log(serverURL)
-    const publishableKey =process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
+const AppointmentCheckout = () => {    
     const [appointmentPrice,setAppointmentPrice] = useState([]);
     const navigate = useNavigate()
     // let { state } = useLocation();
@@ -19,7 +18,7 @@ const AppointmentCheckout = () => {
     const appointment = {doctorID: "6547cd2f63304dedceb8644b", patientID: "6547b96606043724533eedbf", date: "10-10-2024"}
 
     const getAppointmetPrice =  async () => {
-    await axios.get(`http://localhost:4000/private/payment/getDoctorPayRate`, {params: { doctorID: appointment.doctorID }}).then(
+    await axios.get(`${serverURL}/private/payment/getAppointmentPrice`, {params: { doctorID: appointment.doctorID }}).then(
     (res) => { 
        const appointmentPrice = res.data
        setAppointmentPrice(appointmentPrice)
@@ -33,11 +32,11 @@ const AppointmentCheckout = () => {
                 url: `${serverURL}/private/payment/payByCard`,
                 method: 'post',
                 data: {
-                    amount: appointmentPrice,
+                    amount: appointmentPrice.price,
                     token,
                 },
             });
-            if(response.body.status === "success"){
+            if(response.data === "success"){
                 console.log('your payment was successful')
                 //call subscribe to health packages Api
                 navigate("/checkout-success")
@@ -52,7 +51,7 @@ const AppointmentCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post("http://localhost:4000/private/payment/payByWallet", {totalPrice : appointmentPrice}).then(
+        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : appointmentPrice.price}).then(
             (res) =>{
                 console.log(res)
                 if(res.data === "success"){
@@ -74,9 +73,15 @@ const AppointmentCheckout = () => {
    
 
     return (
-        <div className={styles.container}>
-                <p>Appointment Price: {appointmentPrice}</p>
-            <div>
+        <div className={styles.checkout_container}>
+            <div className={styles.items}>
+                {appointmentPrice.appliedDiscount === 0
+                    ? <p>Appointment Price: {appointmentPrice.price}</p>
+                    : <p>Appointment Price: {appointmentPrice.price}, applied discount: {appointmentPrice.appliedDiscount *100} % </p>
+                }
+            </div>    
+            <div className={styles.paymentOptions}>
+                <h2>Choose a Payment Method</h2>
                 <StripeCheckout 
                     stripeKey = {publishableKey}
                     label = "Credit and Debit Card"
@@ -86,14 +91,14 @@ const AppointmentCheckout = () => {
                     description = {`Your total is ${appointmentPrice}`}
                     token = {payByCard}
                 >
-                    <button>
+                    <button className={styles.paymentOptionBtn}>
                         Credit and Debit Card
-                        <FontAwesomeIcon icon={faCreditCard} />
+                        <FontAwesomeIcon className={styles.icon} icon={faCreditCard} />
                     </button>
                 </StripeCheckout>
-                <button onClick={payByWallet}>
+                <button className={styles.paymentOptionBtn} onClick={payByWallet}>
                     Wallet
-                    <FontAwesomeIcon icon={faWallet} />
+                    <FontAwesomeIcon className={styles.icon} icon={faWallet} />
                 </button>
             </div>
         </div>

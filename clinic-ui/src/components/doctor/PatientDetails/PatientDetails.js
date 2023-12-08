@@ -3,15 +3,16 @@ import { useNavigate } from "react-router-dom";
 const { useState } = require("react");
 const { useEffect } = require("react");
 const { useLocation } = require("react-router-dom")
+const serverURL = process.env.REACT_APP_SERVER_URL
 
 const PatientDetails = () => {
     const [patient,setPatient] = useState([]);
     let { state } = useLocation();
     const navigate = useNavigate();
+
     const patientID = state.patientID
-    console.log("id:" + patientID)
     const getPatient = async () => {
-        await axios.get(`http://localhost:4000/private/doctor/patient/${patientID}`).then(
+        await axios.get(`${serverURL}/private/doctor/patient/${patientID}`).then(
             (res) => { 
                const patient = res.data
                console.log(patient)
@@ -51,7 +52,7 @@ const PatientDetails = () => {
                 ? <p>Emergency Contact Mobile: {patient.emergencyContact.mobile}</p>
                 : <p>Emergency Contact Mobile: not provided </p>
             }
-            <button  onClick={handleGoBack}>back</button>
+            <button className="backBtn" onClick={handleGoBack}>back</button>
         </div>
     );
 }

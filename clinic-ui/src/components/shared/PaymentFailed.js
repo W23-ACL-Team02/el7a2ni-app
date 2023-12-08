@@ -7,9 +7,7 @@ const { useEffect } = require("react");
 export default function PaymentFailed () {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setTimeout(() => {navigate(-1)}, 4000)
-    }, [])
+    setTimeout(() => {navigate(-1)}, 4000)
     
     return(
         <div className={styles.failedContainer}>
