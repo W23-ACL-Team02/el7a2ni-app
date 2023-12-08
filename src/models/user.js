@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: {
     type: String,
-    required: true,
-    unique: true
+    unique: true,
+    required: true
   },
   type: {
     type: String,
@@ -24,7 +24,11 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: true
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
   },
   dateOfBirth: {
     type: Date,
@@ -44,8 +48,12 @@ const userSchema = new Schema({
     }
   },
   family: {
-    type: Array,
-    default: undefined
+    linked: {
+      type: Array
+    },
+    created: {
+      type: Array
+    }
   },
   prescriptions: {
     type: Array,
@@ -117,13 +125,27 @@ const userSchema = new Schema({
     isPharmacist() {
       return this.type == 'pharmacist';
     },
-    addFamilyMember(familymember) {
-      if (this.family == undefined) this.family = [];
-      
-      this.family.push(familymember)
+    async addFamilyMember(familymember) {
+      if (this.family == undefined) {
+        this.family = {
+          linked: {},
+          created: {}
+        }
+      }
+
+      this.family.created.push({
+        id: familymember._id,
+        relationship: familymember.relationship
+      })
     },
     viewfamilymember() {
-      if (this.family== undefined) this.family=[]; //if the patient wants to view family members and there is no family members yet it will open family member page without family members 
+      if (this.family == undefined) {
+        this.family = {
+          linked: {},
+          created: {}
+        }
+      }
+      
       return this.family;
     },
     addprescription(prescription){
