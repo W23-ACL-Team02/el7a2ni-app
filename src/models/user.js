@@ -75,7 +75,7 @@ const userSchema = new Schema({
   },
   files: {
     type: Array,
-    default: undefined
+    default: []
   },
   healthPackage: {
     packageId: {

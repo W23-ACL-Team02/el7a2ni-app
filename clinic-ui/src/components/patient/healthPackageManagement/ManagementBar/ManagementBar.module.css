@@ -1,6 +1,37 @@
 .bar {
-    height: 30px;
+    align-self: center;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    height: 60px;
     width: 70%;
     background-color: #ffffff;
-    border-radius: 15px;
+    border-radius: 13px;
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.status {
+    color: black;
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    font-size: 14px;
+}
+.renewalDate {
+    color: black;
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    font-size: 10px;
+}
+.commonButton {
+    border-radius: 20px;
+    align-self: center;
+    height: 25px;
+    background-color: black;
+    color: white;
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    font-size: 12px;
+    margin-left: auto;
+    /* border: none; */
 }

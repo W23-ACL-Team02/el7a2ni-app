@@ -30,6 +30,7 @@ export default function ManagementBar(props) {
   return (
     <div className={classes.bar}>
       <Status status={details?.subscription?.status} renewalDate={details?.subscription?.endDate} />
+      <button className={classes.commonButton}>Cancel</button>
     </div>
   );
 }
