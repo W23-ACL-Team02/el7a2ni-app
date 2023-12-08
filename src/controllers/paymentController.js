@@ -2,12 +2,12 @@ const express = require("express");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const userModel = require("../models/user")
 const healthPackageModel = require("../models/healthPackage");
+const familyModel = require("../models/familymembers");
 
 module.exports = {
     payByCard : async (req, res) => {
         let status, error;
         const {token, amount} = req.body;
-        console.log(amount)
         try{
             await stripe.charges.create({
                 source: token.id,
@@ -25,8 +25,8 @@ module.exports = {
         let status
         const totalPrice = req.body.totalPrice;
     
-        //const patientID = req.session.userId;
-        const patientID = "6547b96606043724533eedbf"
+        const patientID = req.session.userId;
+        //const patientID = "6547b96606043724533eedbf"
         try{
             const patient = await userModel.findOne({_id: patientID})
             const balance = patient.wallet
@@ -55,25 +55,32 @@ module.exports = {
     
         try{
             const AllPatients = await userModel.find({type: 'patient'});
+            const AllFamilyMembers = await familyModel.find();
             const AllHealthPackages = await healthPackageModel.find();
-            //const currUserID = req.session.userId;
-            const currUserID = "6547b96606043724533eedbf"
+            const currUserID = req.session.userId;
+            //const currUserID = "6547b96606043724533eedbf"
             const currUser = await userModel.findOne({_id: currUserID})
             const currUserHealthPackageID = currUser.healthPackage ? currUser.healthPackage.packageId : null
             const healthPackageDiscount = currUserHealthPackageID ? AllHealthPackages.filter(hp => hp._id == currUserHealthPackageID.valueOf())[0].discountFamilySubscription : 0
         
             let totalPackages = [];
-           
+
             packages.forEach(package => {
-                // check if id is of a registered user or a family member
-                let patient = AllPatients.filter(p => p._id == package.patientID)[0]
-                patient = patient ? patient : currUser.family.filter(fm => fm._id == package.patientID)[0] 
-    
+                let patient;
+                if(package.patientType == "self" || package.patientType == "linked" ){
+                    patient = AllPatients.filter(p => p._id == package.patientID)[0]
+                }else{
+                    patient = AllFamilyMembers.filter(p => p._id == package.patientID)[0]
+                    console.log(patient)
+                }
+            
+                
+
                 let selectedPackage = AllHealthPackages.filter(hp => hp._id == package.packageID)[0];
                 let patientName = patient.name;
                 let packageName = selectedPackage.name;
                 let packagePrice = selectedPackage.price; 
-                let appliedDiscount = patient._id != currUserID ? healthPackageDiscount : 0;
+                let appliedDiscount = package.patientType !== "self" ? healthPackageDiscount : 0;
                 if(patient._id != currUserID){
                     let discount = packagePrice * appliedDiscount
                     packagePrice = packagePrice - discount;
@@ -106,8 +113,8 @@ module.exports = {
         const doctorID = req.query.doctorID
         try{
             const AllHealthPackages = await healthPackageModel.find();
-            //const currUserID = req.session.userId;
-            const currUserID = "6547b96606043724533eedbf"
+            const currUserID = req.session.userId;
+            //const currUserID = "6547b96606043724533eedbf"
             const currUser = await userModel.findOne({_id: currUserID})
             const currUserHealthPackageID = currUser.healthPackage ? currUser.healthPackage.packageId : null
             const healthPackageDiscount = currUserHealthPackageID ? AllHealthPackages.filter(hp => hp._id == currUserHealthPackageID.valueOf())[0].discountSession : 0

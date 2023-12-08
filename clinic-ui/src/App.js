@@ -12,7 +12,6 @@ import RegisterUser from './components/RegisterUser';
 import Home from './components/Home';
 import { useState } from 'react';
 
-
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 

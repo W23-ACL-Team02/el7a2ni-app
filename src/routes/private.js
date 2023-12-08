@@ -12,14 +12,14 @@ var payment = require("./private/payment")
 const authentiateToken = require("../middleware/authenticateToken");
 const patientController = require('./private/patient');
 
-// router.all('*', authentiateToken,(req, res, next) => {
-//     if (!req.session?.loggedin) {
-//         return res.end();
-//     }
+router.all('*', authentiateToken,(req, res, next) => {
+    if (!req.session?.loggedin) {
+        return res.end();
+    }
 
-//     // Ensure any route through here is authenticated
-//     next();
-// })
+    // Ensure any route through here is authenticated
+    next();
+})
 
 router.use('/user', userRouter);
 router.use('/admin', adminRouter);

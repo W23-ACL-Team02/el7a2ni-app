@@ -14,7 +14,7 @@ const PatientsList = () => {
     const navigate = useNavigate()
     const getPatients =  async () => {
         try{
-            await axios.get(`${serverURL}/private/doctor/getAllPatients`).then(
+            await axios.get(`${serverURL}/private/doctor/getAllPatients`, {withCredentials: true}).then(
             (res) => {
                 console.log(res.data);  // Log the data directly
                 const patients = res.data;
@@ -28,7 +28,7 @@ const PatientsList = () => {
     }
     const getAppointments =  async () => {
       try{
-        await axios.get(`${serverURL}/private/doctor/appointments`).then(
+        await axios.get(`${serverURL}/private/doctor/appointments`, {withCredentials: true}).then(
             (res) => { 
                const appointments = res.data
                console.log(appointments)

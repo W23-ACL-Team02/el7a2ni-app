@@ -18,7 +18,7 @@ const AppointmentCheckout = () => {
     const appointment = {doctorID: "6547cd2f63304dedceb8644b", patientID: "6547b96606043724533eedbf", date: "10-10-2024"}
 
     const getAppointmetPrice =  async () => {
-    await axios.get(`${serverURL}/private/payment/getAppointmentPrice`, {params: { doctorID: appointment.doctorID }}).then(
+    await axios.get(`${serverURL}/private/payment/getAppointmentPrice`, {params: { doctorID: appointment.doctorID }, withCredentials:true}).then(
     (res) => { 
        const appointmentPrice = res.data
        setAppointmentPrice(appointmentPrice)
@@ -32,9 +32,10 @@ const AppointmentCheckout = () => {
                 url: `${serverURL}/private/payment/payByCard`,
                 method: 'post',
                 data: {
-                    amount: appointmentPrice.price,
+                    amount: Math.ceil( appointmentPrice.price  * 100),
                     token,
                 },
+                withCredentials: true
             });
             if(response.data === "success"){
                 console.log('your payment was successful')
@@ -51,7 +52,7 @@ const AppointmentCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : appointmentPrice.price}).then(
+        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : appointmentPrice.price}, {withCredentials:true}).then(
             (res) =>{
                 console.log(res)
                 if(res.data === "success"){
@@ -87,8 +88,8 @@ const AppointmentCheckout = () => {
                     label = "Credit and Debit Card"
                     name = "Pay With Credit Card"
                     billingAddress
-                    amount = {appointmentPrice * 100}
-                    description = {`Your total is ${appointmentPrice}`}
+                    amount = {Math.ceil( appointmentPrice.price * 100 )}
+                    description = {`Your total is ${appointmentPrice.price}`}
                     token = {payByCard}
                 >
                     <button className={styles.paymentOptionBtn}>

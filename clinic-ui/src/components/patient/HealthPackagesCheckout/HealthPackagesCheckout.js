@@ -16,10 +16,11 @@ const HealthPackageCheckout = () => {
     const navigate = useNavigate()
     // let { state } = useLocation();
     // const healthPackages = state.healthPackages
-    const selectedPackages = [{packageID: "655ffa2f8066173be32d7373", patientID: "6547b96606043724533eedbf"}]
+    const selectedPackages = [{packageID: "655ffa2f8066173be32d7373", patientID: "6547b96606043724533eedbf", patientType: "self"},
+{packageID: "655ffa2f8066173be32d7373", patientID: "6548f2293575471b2b1d3547", patientType: "created"}]
 
     const getCurrUser =  async () => {
-        await axios.get(`${serverURL}/private/user/getCurrUser`).then(
+        await axios.get(`${serverURL}/private/user/getSelfUser`, {withCredentials:true}).then(
         (res) => { 
            const currUser = res.data
            setCurrUser(currUser)
@@ -28,12 +29,15 @@ const HealthPackageCheckout = () => {
     }
 
     const getAllSelectedHealthPackages =  async () => {
-        await axios.get(`${serverURL}/private/payment/getAllSelectedHealthPackages`, {params: { packages: selectedPackages }}).then(
-        (res) => { 
-            const selectedHealthPackages = res.data
-            setselectedHealthPackages(selectedHealthPackages)
-            console.log(selectedHealthPackages)
-        }); 
+        await axios.get(`${serverURL}/private/payment/getAllSelectedHealthPackages`, {
+            params: { packages: selectedPackages}, 
+            withCredentials:true})
+            .then(
+            (res) => { 
+                const selectedHealthPackages = res.data
+                setselectedHealthPackages(selectedHealthPackages)
+                console.log(selectedHealthPackages)
+            }); 
     }
 
     const payByCard = async token => {
@@ -42,9 +46,10 @@ const HealthPackageCheckout = () => {
                 url: `${serverURL}/private/payment/payByCard`,
                 method: 'post',
                 data: {
-                    amount: selectedHealthPackages?.totalPrice,
+                    amount: Math.ceil(selectedHealthPackages?.totalPrice * 100),
                     token,
                 },
+                withCredentials:true
             });
             if(response.data === "success"){
                 console.log('your payment was successful')
@@ -62,13 +67,13 @@ const HealthPackageCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : selectedHealthPackages?.totalPrice}).then(
-            (res) =>{
+        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : selectedHealthPackages?.totalPrice}, {withCredentials:true})
+            .then((res) =>{
                 console.log(res)
                 if(res.data === "success"){
                     console.log('your payment was successful')
                     //call subscribe to health packages Api
-                    subscribeToHealthPackages()
+                    //subscribeToHealthPackages()
                     navigate("/checkout-success")
                 }else{
                     console.log('your payment was unsuccessful')
@@ -84,23 +89,17 @@ const HealthPackageCheckout = () => {
         if(currUserSelectedPackage) {
             subscribeForCurrUser(currUserSelectedPackage.packageID) 
         }
-        
-       const restOfPackages = currUserSelectedPackage ? selectedPackages.filter(p => p.patientID != currUser._id) : selectedPackages
-       if(restOfPackages.length != 0){
-            subscribeForFamily(restOfPackages) 
-       }
     }
 
     const subscribeForCurrUser = async (packageID) => {
-        await axios.post(`${serverURL}/private/patient/healthPackage/subscribe`, {packageId : packageID}).then((res) => {
-            if(res){
-                console.log("current user subscribed");
-            }
-        })
-    }
-
-    const subscribeForFamily = async (packages) => {
-        
+        await axios.post(`${serverURL}/private/patient/healthPackage/subscribe`, {
+            data: {packageId : packageID},
+            withCredentials:true})
+            .then((res) => {
+                if(res){
+                    console.log("current user subscribed");
+                }
+            })
     }
 
     useEffect(() =>{ 
@@ -132,7 +131,7 @@ const HealthPackageCheckout = () => {
                     label = "Credit and Debit Card"
                     name = "Pay With Credit Card"
                     billingAddress
-                    amount = {selectedHealthPackages?.totalPrice * 100}
+                    amount = {Math.ceil(selectedHealthPackages?.totalPrice * 100)}
                     description = {`Your total is ${selectedHealthPackages?.totalPrice}`}
                     token = {payByCard}
                 >
