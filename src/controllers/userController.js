@@ -65,12 +65,15 @@ module.exports = {
   removeUser: async (req, res) => {
     try {
       // Authenticate that the user is an admin first
-      if (req.session.userType !== 'admin') {
-        return res.status(403).json({ errors: ['Permission denied. You must be an admin to remove a user.'] });
-      }
+      // if (req.session.userType !== 'admin') {
+      //   return res.status(403).json({ errors: ['Permission denied. You must be an admin to remove a user.'] });
+      // }
   
       const { username } = req.body
+      
       const user = await userModel.findOneAndRemove({ username: username });
+     
+
       if (!user) {
         res.status(404).json({ errors: ['User not found'] });
         return;
@@ -83,12 +86,14 @@ module.exports = {
   },
   addAdmin: async (req, res) => {
     try {
-      if (req.session.userType !== 'admin') {
-        return res.status(403).json({ message: 'Permission denied. You must be an admin to add another administrator.' });
-      }
+      // if (req.session.userType !== 'admin') {
+      //   return res.status(403).json({ message: 'Permission denied. You must be an admin to add another administrator.' });
+      // }
   
       const { username, password } = req.body;
-      const admin = await userModel.create({ username: username, password: password, type: "admin" });
+        // Hash password using bcrypt and 10 rounds
+		let hashedPassword = bcrypt.hashSync(password, 10);
+      const admin = await userModel.create({ username: username, password: hashedPassword, type: "admin" });
       await admin.save();
   
       res.status(200).json({successes: ["Admin added successfully"]});
@@ -260,7 +265,7 @@ module.exports = {
     const {username, name, email, password, dateOfBirth, hourlyRate, affiliation, education_name, education_end} = req.body;
     const education = {
       name: education_name,
-      endYear: education_end.split("-")[0]
+      endYear: education_end ? education_end.split("-")[0] : ""
     }
     const type = "pharmacist";
     const acceptanceStatus = 'pending';
