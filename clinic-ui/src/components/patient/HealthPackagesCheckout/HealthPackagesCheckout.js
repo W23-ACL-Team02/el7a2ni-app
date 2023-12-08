@@ -11,20 +11,30 @@ const serverURL = process.env.REACT_APP_SERVER_URL;
 const publishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
 const HealthPackageCheckout = () => {
+    const [currUser, setCurrUser] = useState(null)
     const [selectedHealthPackages,setselectedHealthPackages] = useState([]);
     const navigate = useNavigate()
     // let { state } = useLocation();
     // const healthPackages = state.healthPackages
-    const SelectedPackages = [{packageID: "655ffa2f8066173be32d7373", patientID: "6547b96606043724533eedbf"}]
+    const selectedPackages = [{packageID: "655ffa2f8066173be32d7373", patientID: "6547b96606043724533eedbf"}]
+
+    const getCurrUser =  async () => {
+        await axios.get(`${serverURL}/private/user/getCurrUser`).then(
+        (res) => { 
+           const currUser = res.data
+           setCurrUser(currUser)
+           console.log(currUser)
+       }); 
+    }
 
     const getAllSelectedHealthPackages =  async () => {
-    await axios.get(`http://localhost:4000/private/payment/getAllSelectedHealthPackages`, {params: { packages: SelectedPackages }}).then(
-    (res) => { 
-       const selectedHealthPackages = res.data
-       setselectedHealthPackages(selectedHealthPackages)
-       console.log(selectedHealthPackages)
-   }); 
-}
+        await axios.get(`${serverURL}/private/payment/getAllSelectedHealthPackages`, {params: { packages: selectedPackages }}).then(
+        (res) => { 
+            const selectedHealthPackages = res.data
+            setselectedHealthPackages(selectedHealthPackages)
+            console.log(selectedHealthPackages)
+        }); 
+    }
 
     const payByCard = async token => {
         try {
@@ -39,6 +49,7 @@ const HealthPackageCheckout = () => {
             if(response.data === "success"){
                 console.log('your payment was successful')
                 //call subscribe to health packages Api
+                subscribeToHealthPackages()
                 navigate("/checkout-success")
             }else{
                 console.log('your payment was unsuccessful')
@@ -51,12 +62,13 @@ const HealthPackageCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post("http://localhost:4000/private/payment/payByWallet", {totalPrice : selectedHealthPackages?.totalPrice}).then(
+        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : selectedHealthPackages?.totalPrice}).then(
             (res) =>{
                 console.log(res)
                 if(res.data === "success"){
                     console.log('your payment was successful')
                     //call subscribe to health packages Api
+                    subscribeToHealthPackages()
                     navigate("/checkout-success")
                 }else{
                     console.log('your payment was unsuccessful')
@@ -67,7 +79,32 @@ const HealthPackageCheckout = () => {
         )
     }
 
+    const subscribeToHealthPackages = async () => {
+        const currUserSelectedPackage = selectedPackages.filter(p => p.patientID === currUser._id)[0] || null
+        if(currUserSelectedPackage) {
+            subscribeForCurrUser(currUserSelectedPackage.packageID) 
+        }
+        
+       const restOfPackages = currUserSelectedPackage ? selectedPackages.filter(p => p.patientID != currUser._id) : selectedPackages
+       if(restOfPackages.length != 0){
+            subscribeForFamily(restOfPackages) 
+       }
+    }
+
+    const subscribeForCurrUser = async (packageID) => {
+        await axios.post(`${serverURL}/private/patient/healthPackage/subscribe`, {packageId : packageID}).then((res) => {
+            if(res){
+                console.log("current user subscribed");
+            }
+        })
+    }
+
+    const subscribeForFamily = async (packages) => {
+        
+    }
+
     useEffect(() =>{ 
+        getCurrUser();
         getAllSelectedHealthPackages();   
      }, []);
    

@@ -19,14 +19,9 @@
     "mongodb": "^6.2.0",
     "mongoose": "^7.6.3",
     "morgan": "~1.9.1",
-<<<<<<< HEAD
-    "punycode": "^2.3.1",
-    "stripe": "^14.7.0"
-=======
     "multer": "^1.4.5-lts.1",
     "punycode": "^2.3.1",
-    "react": "^18.2.0"
->>>>>>> b04cfa0ad03fcdb8f1176d87c0ab48981431980c
+    "stripe": "^14.7.0"
   },
   "description": "This repository tracks the Virtual Clinic module of the El7a2ni project.",
   "main": "index.js",

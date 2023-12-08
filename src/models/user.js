@@ -50,14 +50,14 @@ const userSchema = new Schema({
       type: String,
     }
   },
-  family: {
+  family: [{
     linked: {
       type: Array
     },
     created: {
       type: Array
     }
-  },
+  }],
   prescriptions: {
     type: Array,
     default: undefined

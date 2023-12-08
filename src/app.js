@@ -6,11 +6,9 @@ require("dotenv").config();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors = require('cors');
-const MongoURI = process.env.MONGO_URI;
-const cors = require('cors')
 var publicRouter = require('./routes/public');
 var privateRouter = require('./routes/private');
+const MongoURI = process.env.MONGO_URI;
 
 var app = express();
 

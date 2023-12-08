@@ -45,6 +45,7 @@ module.exports = {
             }
     
         } catch(error){
+            console.log(error)
             res.status(400).json(error)
         }
         
@@ -77,12 +78,14 @@ module.exports = {
                     let discount = packagePrice * appliedDiscount
                     packagePrice = packagePrice - discount;
                 }
-                console.log()
+                let forCurrUser = false;
+                package.patientID === currUserID ? forCurrUser = true : forCurrUser = false ;
                 totalPackages.push({
                     patientName : patientName,
                     packageName : packageName,
                     packagePrice : packagePrice,
-                    appliedDiscount : appliedDiscount
+                    appliedDiscount : appliedDiscount,
+                    forCurrUser : forCurrUser
                 })
             });     
     

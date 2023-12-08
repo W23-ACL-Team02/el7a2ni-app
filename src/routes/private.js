@@ -5,6 +5,7 @@ var userRouter = require('./private/user');
 var adminRouter = require('./private/admin');
 var familyMemberRouter = require('./private/familymember');
 var doctorRouter = require('./private/doctors');
+var patientRouter = require('./private/patient');
 var prescriptionRouter= require('./private/prescription');
 var doctor = require("./private/doctor");
 var payment = require("./private/payment")
@@ -22,9 +23,8 @@ const patientController = require('./private/patient');
 
 router.use('/user', userRouter);
 router.use('/admin', adminRouter);
-router.use('/family', familyRouter);
 router.use('/familymember', familyMemberRouter);
-router.use('/doctors', [doctorRouter, doctorController]);
+router.use('/doctors', doctorRouter);
 router.use('/prescription',prescriptionRouter);
 router.use('/doctor', doctor);
 router.use('/payment', payment)

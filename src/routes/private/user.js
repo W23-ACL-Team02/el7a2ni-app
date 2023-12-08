@@ -39,7 +39,7 @@ router.post( '/addDoctor' , async(req,res) => {
 
 router.get('/getCurrUser', async (req, res) => {
     //const currUserID = req.session?.userId
-    const currUserID = "6547cd2f63304dedceb8644b"
+    const currUserID = "6547b96606043724533eedbf"
     try{ 
       const currUser = await userModel.findOne({_id: currUserID}, '-Password') 
       res.status(200).json(currUser)
