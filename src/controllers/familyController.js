@@ -22,7 +22,7 @@ module.exports = {
             let resultLinkedArr = [];
             for (let memberID of parentUser.family?.linked) {
                 let member = await userModel.findById(memberID.id, {password: 0});
-                resultLinkedArr.push({id: member._id, name: member.name});
+                resultLinkedArr.push({id: member.id, name: member.name});
             }
             // await Promise.all(resultLinkedArr);
 

@@ -7,7 +7,10 @@ const { useState, useEffect } = require("react");
 
 export default function HealthPackageManagement(props) {
   const [packages, setPackages] = useState([]);
-  const [mySubscription, setSubscription] = useState(null);
+  const [mySubscription, setSubscription] = useState();
+  const [familyMembers, setFamilyMembers] = useState();
+
+  useEffect(() => {
 
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRpbiI6dHJ1ZSwidXNlcklkIjoiNjU0N2I5NjYwNjA0MzcyNDUzM2VlZGJmIiwidXNlclR5cGUiOiJwYXRpZW50IiwiaWF0IjoxNzAxNjQ2NDE5fQ.gvM2L1f_JjOZFzRYgWalnc5QQhRM8R_N0ofC60FAHbU";
   const getPackages = async () => {
@@ -18,55 +21,60 @@ export default function HealthPackageManagement(props) {
         setPackages(packages.healthPackages)
     });
   }
+
   var showPackagesCards = true
   const getSubscriptionDetails = async () => {
-    await axios.get('http://localhost:3000/private/patient/healthPackage/view', {headers: {'Authorization': `Bearer ${token}`}}).then(
-   (res) => { 
+    try {
+      const res  = await axios.get('http://localhost:3000/private/patient/healthPackage/view', {headers: {'Authorization': `Bearer ${token}`}})
       setSubscription(res.data)
       console.log(mySubscription)
-   }).catch((error) => {
-      console.log(error);
-   });
+    } catch (error) {
+        console.log(error);
+    }
+    
+
    if (!mySubscription){
     console.log('subscription is null')
    }
+   else{
+    console.log(mySubscription)
+   }
    if (!mySubscription || mySubscription.subscription.status === "Cancelled" || mySubscription.subscription.status === "Unsubscribed"){
     showPackagesCards = false
-    getPackages();
+    // getPackages();
+    // getFamilyMembers();
     console.log("not subscribed")
    }
  }
+
  const getFamilyMembers = async () => {
-  await axios.get('http://localhost:3000/private/patient/healthPackage/view', {headers: {'Authorization': `Bearer ${token}`}}).then(
+  await axios.get('http://localhost:3000/private/family', {headers: {'Authorization': `Bearer ${token}`}}).then(
  (res) => { 
-    setSubscription(res.data)
-    console.log(mySubscription)
+    setFamilyMembers(res.data)
+    if (!familyMembers){
+      console.log('family is null')
+     }
+    console.log(familyMembers)
  }).catch((error) => {
     console.log(error);
  });
- if (!mySubscription){
-  console.log('subscription is null')
- }
- if (!mySubscription || mySubscription.subscription.status === "Cancelled" || mySubscription.subscription.status === "Unsubscribed"){
-  showPackagesCards = false
-  getPackages();
-  console.log("not subscribed")
- }
 }
  
 
-  useEffect(() => {
     console.log("inside useEffect")
+    getPackages();
     getSubscriptionDetails()
     getFamilyMembers()
+    console.log('family useEffect')
+    console.log(familyMembers)
   }, []);
 
   return (
     // hidden={showPackagesCards ? 'hidden': ''}
     <div className={classes.frame}>
       <PersonalBar  details={mySubscription}/>
-      <FamilyBar  details={mySubscription}/>
-      <div className={classes.allCards} hidden={showPackagesCards ? '': 'hidden'}>
+      <FamilyBar  family={familyMembers}/>
+      <div className={classes.allCards}>
         {packages.map((healthPackage) => (
           <div className={classes.cardContainer} key={healthPackage._id}>
             <SubscriptionComparisonCard 

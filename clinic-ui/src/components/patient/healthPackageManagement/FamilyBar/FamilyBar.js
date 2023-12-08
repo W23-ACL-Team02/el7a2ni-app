@@ -4,15 +4,16 @@ import axios from 'axios';
 const { useState, useEffect } = require("react");
 
 export default function ManagementBar(props) {
-  
-
-    
   // console.log(props)
   const details = props.details
-  const linked = props.family.linked
-  const created = props.family.created
+  const linked = props.family?.linked
+  const created = props.family?.created
     
   if (details == null || details == undefined)
+    return (null)
+  if (linked == null || linked == undefined)
+    return (null)
+  if (created == null || created == undefined)
     return (null)
 
   function getDateFromIso(date){
