@@ -7,6 +7,7 @@ var familyMemberRouter = require('./private/familymember');
 var doctorRouter = require('./private/doctors');
 var prescriptionRouter= require('./private/prescription');
 var doctorController = require("./private/doctorController");
+var familyRouter = require(`./private/family`)
 const authentiateToken = require("../middleware/authenticateToken");
 
 router.all('*', authentiateToken,(req, res, next) => {
@@ -20,6 +21,7 @@ router.all('*', authentiateToken,(req, res, next) => {
 
 router.use('/user', userRouter);
 router.use('/admin', adminRouter);
+router.use('/family', familyRouter);
 router.use('/familymember', familyMemberRouter);
 router.use('/doctors', doctorRouter);
 router.use('/prescription',prescriptionRouter);

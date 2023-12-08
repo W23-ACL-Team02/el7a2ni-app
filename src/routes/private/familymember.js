@@ -13,7 +13,7 @@ router.post('/addFamily', async (req,res) => {
   try {
     const familymember =  await familymemberSchema.create({name,nationalID,age,gender,relationship});
     
-    const userId = req.session.userId;
+    const userId = req.session?.userId;
     let user = await userModel.findOne({_id: userId});
     
     if (user == null) {
@@ -23,6 +23,7 @@ router.post('/addFamily', async (req,res) => {
 
     // Add family member
     user.addFamilyMember(familymember);
+    console.log(user.family.created)
   
     await familymember.save()
     await user.save()
