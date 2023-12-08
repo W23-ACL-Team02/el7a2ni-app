@@ -6,8 +6,9 @@ require("dotenv").config();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 const MongoURI = process.env.MONGO_URI;
-
+const cors = require('cors')
 var publicRouter = require('./routes/public');
 var privateRouter = require('./routes/private');
 
@@ -24,20 +25,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
+app.use(cors());
 
 // Routes
 app.use('/public', publicRouter);
 app.use('/private', privateRouter);
 
-// Mongo DB
-mongoose.connect(MongoURI)
-.then(()=>{
-  console.log("MongoDB is now connected!")
-// Starting server
- app.listen(port, () => {
-    console.log(`Listening to requests on http://localhost:${port}`);
-  })
-})
-.catch(err => console.log(err));
+/**
+ * MongoDB connection and port listening were extracted to ('./server.js')
+ * Please use run script (npm run start)
+ */
 
 module.exports = app;

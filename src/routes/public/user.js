@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router({mergeParams: true});
+<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 const maxAge = 3 * 24 * 60 * 60;
@@ -81,5 +82,12 @@ router.post('/register/doctor', async (req, res) => {
       res.status(400).json({ errors: [error.message] });
     }
 });
+=======
+const { loginUsernamePassword, registerDoctor, registerPatient } = require('../../controllers/userController.js');
+
+router.post('/login', loginUsernamePassword);
+router.post('/register/doctor', registerDoctor);
+router.post('/register/patient', registerPatient);
+>>>>>>> b04cfa0ad03fcdb8f1176d87c0ab48981431980c
 
 module.exports = router;

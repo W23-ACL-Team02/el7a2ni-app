@@ -1,0 +1,25 @@
+
+.frame {
+    display: flex;
+    flex-flow: column;
+    max-width: 80%;
+    height:100%;
+    /* width: 50%;  */
+    flex-shrink: 1;
+    background-color: #eee;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    margin: auto;
+    /* margin: auto; */
+}
+.allCards {
+    display: flex;
+    justify-content: center;
+    border-radius: 13px;
+    flex-wrap: wrap;
+}
+.cardContainer {
+    margin: 10px;
+}
