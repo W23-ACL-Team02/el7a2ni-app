@@ -2,26 +2,39 @@
     align-self: center;
     margin: 10px;
     display: flex;
-    flex-direction: row;
-    height: 60px;
+    flex-direction: column;
+    /* height: 60px; */
     width: 70%;
     background-color: #ffffff;
     border-radius: 13px;
-    padding: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 7px;
 }
 .status {
     color: black;
     font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
+    align-self: center;
     font-size: 14px;
+}
+.title {
+    color: black;
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+.row {
+    display: flex;
+    margin: 5px;
 }
 .renewalDate {
     color: black;
     font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
-    font-size: 10px;
+    margin-left: auto;
+    font-size: 12px;
+    align-self: center;
+    font-weight: 600;
 }
 .commonButton {
     border-radius: 20px;
@@ -32,6 +45,6 @@
     font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
     font-size: 12px;
-    margin-left: auto;
+    margin-left: 5px;
     /* border: none; */
 }

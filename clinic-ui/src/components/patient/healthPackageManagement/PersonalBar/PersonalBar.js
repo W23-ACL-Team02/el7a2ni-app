@@ -1,4 +1,4 @@
-import classes from './ManagementBar.module.css';
+import classes from './PersonalBar.module.css';
 import SubscriptionComparisonCard from '../SubscriptionComparisonCard/SubscriptionComparisonCard.js';
 import axios from 'axios';
 const { useState, useEffect } = require("react");
@@ -18,19 +18,36 @@ export default function ManagementBar(props) {
     return `${realDate.getDate()}/${realDate.getMonth()}/${realDate.getFullYear()}`
   }
 
-  function Status({status, renewalDate}) {
+  function Status({status}) {
     return (
         <div className={classes.status}>
             Status: <strong>{status}</strong>
-            <div className={classes.renewalDate} hidden={status !== 'Cancelled' && status !== 'Unsubscribed' ? '' : 'hidden'}>Next Renewal: {getDateFromIso(renewalDate)}</div>
+        </div>
+    );
+  }
+  function RenewalDate({renewalDate}) {
+    return (
+      <div className={classes.renewalDate}>Ends on {getDateFromIso(renewalDate)}</div>
+    );
+  }
+  function Title({text}) {
+    return (
+        <div className={classes.title}>
+            {text}
         </div>
     );
   }
 
   return (
     <div className={classes.bar}>
-      <Status status={details?.subscription?.status} renewalDate={details?.subscription?.endDate} />
-      <button className={classes.commonButton}>Cancel</button>
+      <div className={classes.row}>
+        <Title text='Personal'/>
+      </div>
+      <div className={classes.row}>
+        <Status status={details?.subscription?.status} />
+        <RenewalDate renewalDate={details?.subscription?.endDate}/>
+        <button className={classes.commonButton}>Cancel</button>
+      </div>
     </div>
   );
 }

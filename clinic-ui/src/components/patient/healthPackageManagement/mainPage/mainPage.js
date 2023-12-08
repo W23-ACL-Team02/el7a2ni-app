@@ -1,6 +1,7 @@
 import classes from './mainPage.module.css';
 import SubscriptionComparisonCard from '../SubscriptionComparisonCard/SubscriptionComparisonCard.js';
-import ManagementBar from '../ManagementBar/ManagementBar.js';
+import PersonalBar from '../PersonalBar/PersonalBar.js';
+import FamilyBar from '../FamilyBar/FamilyBar.js';
 import axios from 'axios';
 const { useState, useEffect } = require("react");
 
@@ -35,17 +36,36 @@ export default function HealthPackageManagement(props) {
     console.log("not subscribed")
    }
  }
+ const getFamilyMembers = async () => {
+  await axios.get('http://localhost:3000/private/patient/healthPackage/view', {headers: {'Authorization': `Bearer ${token}`}}).then(
+ (res) => { 
+    setSubscription(res.data)
+    console.log(mySubscription)
+ }).catch((error) => {
+    console.log(error);
+ });
+ if (!mySubscription){
+  console.log('subscription is null')
+ }
+ if (!mySubscription || mySubscription.subscription.status === "Cancelled" || mySubscription.subscription.status === "Unsubscribed"){
+  showPackagesCards = false
+  getPackages();
+  console.log("not subscribed")
+ }
+}
  
 
   useEffect(() => {
     console.log("inside useEffect")
     getSubscriptionDetails()
+    getFamilyMembers()
   }, []);
 
   return (
     // hidden={showPackagesCards ? 'hidden': ''}
     <div className={classes.frame}>
-      <ManagementBar  details={mySubscription}/>
+      <PersonalBar  details={mySubscription}/>
+      <FamilyBar  details={mySubscription}/>
       <div className={classes.allCards} hidden={showPackagesCards ? '': 'hidden'}>
         {packages.map((healthPackage) => (
           <div className={classes.cardContainer} key={healthPackage._id}>
