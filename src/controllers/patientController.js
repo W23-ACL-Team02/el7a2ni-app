@@ -2,6 +2,7 @@ const userModel = require('../models/user');
 const fileModel = require('../models/file');
 const appointmentModel = require('../models/appointment');
 const healthPackageModel = require('../models/healthPackage');
+const familymemberSchema = require("../models/familymembers.js");
 
 module.exports = {
 
@@ -54,7 +55,7 @@ module.exports = {
 
             // TODO: add package to specified family members 
 
-            if (patient.healthPackage?.status !== "Cancelled"){
+            if (patient.healthPackage?.status !== "Unsubscribed"){
                 res.status(400).json({errors: ["Already subscribed"]})
                 return
             }
@@ -78,6 +79,87 @@ module.exports = {
         res.status(400).json({errors: [error.message]})
       }
     },
+    subscribeForFamilyMember: async (req, res) => {
+        const patientId = req.session.userId;
+        const memberId = req.body.memberId;
+        const memberType = req.body.memberType;
+        const packageId = req.body.packageId;
+
+        try{
+
+            var memberBelongsToUser = false;
+            const patient = await userModel.findById(patientId)
+            if(memberType == 'linked'){
+                patient.family.linked.map((member) => {
+                    if (member.id == memberId){
+                        memberBelongsToUser = true;
+                    }
+                })
+                if (!memberBelongsToUser){
+                    res.status(400).json({errors: ["This family member doesn't belong to you"]})
+                    return
+                }
+
+                const member = await userModel.findById({_id: memberId});
+
+                if (member.healthPackage?.status !== "Unsubscribed"){
+                    res.status(400).json({errors: ["Already subscribed"]})
+                    return
+                }
+                const startDate = new Date()
+                const endDate = new Date()
+                endDate.setDate(endDate.getDate() + 30)
+    
+                const package = {
+                    packageId: packageId,
+                    startDate: startDate,
+                    status: `Subscribed through family member`,
+                    endDate: endDate
+                }
+    
+                await member.updateOne({healthPackage: package});
+                await member.save();
+                res.status(200).json({healthPackage: package})
+            }
+
+            else if (memberType == 'created'){
+                patient.family.created.map((member) => {
+                    if (member.id == memberId){
+                        memberBelongsToUser = true;
+                    }
+                })
+                if (!memberBelongsToUser){
+                    res.status(400).json({errors: ["This family member doesn't belong to you"]})
+                    return
+                }
+
+                const member = await familymemberSchema.findById({_id: memberId});
+
+                if (member.healthPackage?.status !== "Unsubscribed"){
+                    res.status(400).json({errors: ["Already subscribed"]})
+                    return
+                }
+                const startDate = new Date()
+                const endDate = new Date()
+                endDate.setDate(endDate.getDate() + 30)
+    
+                const package = {
+                    packageId: packageId,
+                    startDate: startDate,
+                    status: `Subscribed through family member`,
+                    endDate: endDate
+                }
+    
+                await member.updateOne({healthPackage: package});
+                await member.save();
+                res.status(200).json({healthPackage: package})
+        }
+
+            
+        } catch (error){
+            res.status(400).json({errors: [error.message]})
+        }
+    },
     viewSubscriptionDetails: async (req, res) => {
         const patientId = req.session.userId;
 
@@ -97,20 +179,78 @@ module.exports = {
         try{
 
             const patient = await userModel.findById(patientId)
-            if (!patient.healthPackage || patient.healthPackage.status == "Cancelled"){
+            if (!patient.healthPackage || patient.healthPackage.status == "Unsubscribed"){
                 res.status(400).json({errors: ["No active subscription to cancel"]})
                 return
             }
-            if (patient.healthPackage.status == "Subscribed through family member"){
-                res.status(400).json({errors: ["Cannot cancel for yourself"]})
-                return
-            }
             const package = patient.healthPackage
-            package.status = "Cancelled"
+            package.status = "Unsubscribed"
             await patient.updateOne({_id: patientId}, {healthPackage: package})
             await patient.save()
 
             res.status(200).json({subscription: patient.healthPackage})
+            
+        } catch (error){
+            res.status(400).json({errors: [error.message]})
+        }
+    },
+    cancelSubscriptionForFamilyMember: async (req, res) => {
+        const patientId = req.session.userId;
+        const memberId = req.body.memberId;
+        const memberType = req.body.memberType;
+
+        try{
+
+            var memberBelongsToUser = false;
+            const patient = await userModel.findById(patientId)
+            if(memberType == 'linked'){
+                patient.family.linked.map((member) => {
+                    if (member.id == memberId){
+                        memberBelongsToUser = true;
+                    }
+                })
+                if (!memberBelongsToUser){
+                    res.status(400).json({errors: ["This family member doesn't belong to you"]})
+                    return
+                }
+
+                const member = await userModel.findById({_id: memberId});
+
+                if (!member.healthPackage || member.healthPackage.status == "Unsubscribed"){
+                    res.status(400).json({errors: ["No active subscription to cancel"]})
+                    return
+                }
+                const package = member.healthPackage
+                package.status = "Unsubscribed"
+                await member.updateOne({_id: memberId}, {healthPackage: package})
+                await member.save()
+                res.status(200).json({subscription: member.healthPackage})
+            }
+
+            else if (memberType == 'created'){
+                patient.family.created.map((member) => {
+                    if (member.id == memberId){
+                        memberBelongsToUser = true;
+                    }
+                })
+                if (!memberBelongsToUser){
+                    res.status(400).json({errors: ["This family member doesn't belong to you"]})
+                    return
+                }
+
+                const member = await familymemberSchema.findById({_id: memberId});
+
+                if (!member.healthPackage || member.healthPackage.status == "Unsubscribed"){
+                    res.status(400).json({errors: ["No active subscription to cancel"]})
+                    return
+                }
+                const package = member.healthPackage
+                package.status = "Unsubscribed"
+                await member.updateOne({_id: memberId}, {healthPackage: package})
+                await member.save()
+                res.status(200).json({subscription: member.healthPackage})
+        }
+
             
         } catch (error){
             res.status(400).json({errors: [error.message]})

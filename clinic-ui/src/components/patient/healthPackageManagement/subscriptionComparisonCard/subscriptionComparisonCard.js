@@ -1,8 +1,8 @@
 import classes from './SubscriptionComparisonCard.module.css';
 import axios from 'axios'
 
-export default function SubscriptionComparisonCard ({name, price, discountSession, discountMedicine, discountFamily, color, id}) {
-  
+export default function SubscriptionComparisonCard ({name, price, discountSession, discountMedicine, discountFamily, color, id, subscribeFunction}) {
+
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -11,16 +11,7 @@ export default function SubscriptionComparisonCard ({name, price, discountSessio
     var b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
     return b ? b.pop() : "";
   }
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRpbiI6dHJ1ZSwidXNlcklkIjoiNjU0N2I5NjYwNjA0MzcyNDUzM2VlZGJmIiwidXNlclR5cGUiOiJwYXRpZW50IiwiaWF0IjoxNzAxNjQ2NDE5fQ.gvM2L1f_JjOZFzRYgWalnc5QQhRM8R_N0ofC60FAHbU"
-  const subscribe = async () => {
-    await axios.post('http://localhost:3000/private/patient/healthPackage/subscribe', {packageId: id}, {headers: {Authorization: `Bearer ${token}`}}).then(
-    (res) => {
-        console.log(res.data)
-    }).catch((error) => {
-      console.log(error);
-   });
-
-  }
+  
 
   return (
     <div className={classes.frame}>
@@ -44,7 +35,7 @@ export default function SubscriptionComparisonCard ({name, price, discountSessio
           Family Member Subscriptions
         </div>
       </div>
-      <button className={classes.subscribeButton} style={{backgroundColor: color}} onClick={subscribe}>Subscribe</button>
+      <button className={classes.subscribeButton} style={{backgroundColor: color}} onClick={() => subscribeFunction(id)}>Subscribe</button>
     </div>
   );
 }

@@ -99,7 +99,7 @@ const userSchema = new Schema({
     status: {
       type: String,
       required: true,
-      enum: ['Subscribed', 'Unsubscribed', 'Cancelled', 'Subscribed through family member'],
+      enum: ['Subscribed', 'Unsubscribed', 'Subscribed through family member'],
       default: 'Unsubscribed'
     },
     endDate: {

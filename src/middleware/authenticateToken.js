@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 
 const authenticateToken = (req, res, next) => {
-    const bearer = req.headers?.authorization;
+    const bearer = req.cookies.jwt;
 
     if (bearer == undefined) {
         return res.status(403).json({errors: ["No credentials provided"]});

@@ -14,14 +14,16 @@ var app = express();
 var port = process.env.PORT || '3000';
 app.set('port', port);
 
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:4000"
+  }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
-app.use(cors());
 
 // Routes
 app.use('/public', publicRouter);

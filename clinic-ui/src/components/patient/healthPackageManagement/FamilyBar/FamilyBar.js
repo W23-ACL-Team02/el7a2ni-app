@@ -3,36 +3,35 @@ import SubscriptionComparisonCard from '../SubscriptionComparisonCard/Subscripti
 import axios from 'axios';
 const { useState, useEffect } = require("react");
 
-export default function ManagementBar(props) {
-  // console.log(props)
-  const details = props.details
-  const linked = props.family?.linked
-  const created = props.family?.created
-    
-  if (details == null || details == undefined)
-    return (null)
-  if (linked == null || linked == undefined)
-    return (null)
-  if (created == null || created == undefined)
+export default function FamilyBar({members, cancelFunction}) {
+  const [selectedMember, setSelectedMember] = useState('')
+  const [selectedMemberEndDate, setSelectedMemberEndDate] = useState('')
+  const [selectedMemberPackageName, setSelectedMemberPackageName] = useState('')
+  const [selectedMemberPackageColor, setSelectedMemberPackageColor] = useState('')
+  const [selectedMemberStatus, setSelectedMemberStatus] = useState('')
+  if (members == null || members == undefined)
     return (null)
 
   function getDateFromIso(date){
     const realDate = new Date(date)
-    return `${realDate.getDate()}/${realDate.getMonth()}/${realDate.getFullYear()}`
+    return `${realDate.getDate()}/${realDate.getMonth()+1}/${realDate.getFullYear()}`
   }
 
-  function Status({status}) {
+  function Status() {
+    // console.log('package color: ' + packageColor)
     return (
         <div className={classes.status}>
-            Status: <strong>{status}</strong>
+            <strong>Subscribed to <span style={{color: selectedMemberPackageColor}}>{selectedMemberPackageName}</span></strong>
         </div>
     );
   }
-  function RenewalDate({renewalDate}) {
+
+  function RenewalDate() {
     return (
-      <div className={classes.renewalDate}>Ends on {getDateFromIso(renewalDate)}</div>
+      <div className={classes.renewalDate}>Ends on {getDateFromIso(selectedMemberEndDate)}</div>
     );
   }
+
   function Title({text}) {
     return (
         <div className={classes.title}>
@@ -40,18 +39,49 @@ export default function ManagementBar(props) {
         </div>
     );
   }
+
+  function handleMemberSelection(event) {
+    changeSelectedMember(event.target.value);
+  }
+  function changeSelectedMember(name){
+    var member;
+    members.map((mem) => {
+      if (name == mem.name){
+        member = mem
+      }
+    })
+    setSelectedMember(member.name)
+    setSelectedMemberEndDate(member.endDate)
+    setSelectedMemberPackageName(member.packageName)
+    setSelectedMemberPackageColor(member.packageColor)
+    setSelectedMemberStatus(member.status)
+    console.log('changed selected to ')
+    console.log(member)
+  }
+
   function FamilyMemberSelector() {
+    if (members.length != 0 && selectedMember == ''){
+      changeSelectedMember(members[0].name)
+    }
     return (
-      <select>
-        {linked.map((member) => (
-          <option key={member.id}>{member.name}</option>
-        ))}
-        {created.map((member) => (
-          <option key={member.id}>{member.name}</option>
+      <select className={classes.selector} value={selectedMember} onChange={handleMemberSelection}>
+        {members.map((member) => (
+          <option value={member.name}>{member.name}</option>
         ))}
         </select>
     );
   }
+  function handleCancel() {
+    cancelFunction(selectedMember)
+    console.log('members after cancel')
+    console.log(members)
+    if (members.length > 1){
+      console.log('set selected to ' + members[1].name)
+      changeSelectedMember(members[1].name)
+    }
+  }
+  
+
 
   return (
     <div className={classes.bar}>
@@ -60,9 +90,9 @@ export default function ManagementBar(props) {
         <FamilyMemberSelector />
       </div>
       <div className={classes.row}>
-        <Status status={details?.subscription?.status} />
-        <RenewalDate renewalDate={details?.subscription?.endDate}/>
-        <button className={classes.commonButton}>Cancel</button>
+        <Status status={selectedMemberStatus} packageColor={selectedMemberPackageColor} packageName={selectedMemberPackageName}/>
+        <RenewalDate renewalDate={selectedMemberEndDate}/>
+        <button className={classes.commonButton} onClick={handleCancel}>Cancel</button>
       </div>
     </div>
   );
