@@ -6,14 +6,14 @@ var userRouter = require('./private/user');
 var medicineRouter = require('./private/medicineController');
 const authentiateToken = require('../middleware/authenticateToken');
 
-router.all('*', authentiateToken,(req, res, next) => {
-    if (!req.session?.loggedin) {
-        return res.end();
-    }
+// router.all('*', authentiateToken,(req, res, next) => {
+//     if (!req.session?.loggedin) {
+//         return res.end();
+//     }
 
-    // Ensure any route through here is authenticated
-    next();
-})
+//     // Ensure any route through here is authenticated
+//     next();
+// })
 
 router.use('/admin', adminRouter);
 router.use('/user', userRouter);

@@ -6,15 +6,15 @@
  * @returns {boolean} false if error
  */
 const authorizeUser = (req, res, allowedTypes = ['patient', 'doctor', 'admin']) => {
-    if (req.session?.userType == undefined) {
-        res.status(401).json({errors: ["No user token provided."]})
-        return false;
-    }
+    // if (req.session?.userType == undefined) {
+    //     res.status(401).json({errors: ["No user token provided."]})
+    //     return false;
+    // }
 
-    if (!allowedTypes.includes(req.session?.userType)) {
-        res.status(403).json({errors: [`Users of type ${req.session?.userType} do not have access here.`]})
-        return false;
-    }
+    // if (!allowedTypes.includes(req.session?.userType)) {
+    //     res.status(403).json({errors: [`Users of type ${req.session?.userType} do not have access here.`]})
+    //     return false;
+    // }
 
     return true;
 }

@@ -1,9 +1,15 @@
+import { useState } from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import UploadMedImg from './components/UploadMedImg';
 import Login from './components/Login';
 import RegisterUser from './components/RegisterUser';
 import Home from './components/Home';
-import { useState } from 'react';
+import AddAdmin from './components/AddAdmin';
+import RemoveUser from './components/RemoveUser';
+import MedicineList from './components/MedicineList';
+
+
 
 
 function App() {
@@ -16,6 +22,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/upload" element={<UploadMedImg />} />
+          <Route path="/addAdmin" element={<AddAdmin />} />
+          <Route path="/removeUser" element={<RemoveUser />} />
+          <Route path="/viewMedicine" element={<MedicineList />} />
         </Routes>
       </BrowserRouter>
     </div>
