@@ -7,7 +7,7 @@ export default function RegisterUser() {
 
     function toggleUserType() {
         if (userType === "Patient") {
-            setUserType("Pharmacist")
+            setUserType("Doctor")
         } else {
             setUserType("Patient")
         }

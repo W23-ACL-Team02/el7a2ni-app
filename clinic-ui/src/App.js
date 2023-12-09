@@ -1,10 +1,16 @@
+import { useState } from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+
 import Login from './components/Login';
 import RegisterUser from './components/RegisterUser';
 import Home from './components/Home';
-import { useState } from 'react';
-
+import AddAdmin from './components/AddAdmin';
+import RemoveUser from './components/RemoveUser';
+import ManageDocuments from './components/ManageDocuments';
+import AddTimeSlots from './components/AddTimeSlots';
+import FilterAppointments from './components/FilterAppointments';
+import UpcomingCompletedAppointments from './components/UpcomingCompletedAppointments';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -12,10 +18,27 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <h2>PUBLIC</h2>
+        <Link to={'login'}>Login</Link> <br/>
+        <Link to={'register'}>Register</Link> <br/>
+        <h2>PRIVATE</h2>
+        <Link to={'home'}>Home</Link> <br/>
+        <Link to={'addAdmin'}>Add Admin</Link> <br/>
+        <Link to={'removeUser'}>Remove User</Link> <br/>
+        <Link to={'manageDocuments'}>Manage Documents</Link> <br/>
+        <Link to={'addTimeSlots'}>Add Time Slots</Link> <br/> 
+        <Link to={'filterAppointments'}>Filter Appointments</Link> <br/> 
+        <Link to={'appointments'}>Upcoming Completed Appointments</Link> <br/> 
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/addAdmin" element={<AddAdmin />} />
+          <Route path="/removeUser" element={<RemoveUser />} />
+          <Route path="/manageDocuments" element={<ManageDocuments />} />
+          <Route path="/addTimeSlots" element={<AddTimeSlots />} />
+          <Route path="/filterAppointments" element={<FilterAppointments />} />
+          <Route path="/appointments" element={<UpcomingCompletedAppointments />} />
         </Routes>
       </BrowserRouter>
     </div>
