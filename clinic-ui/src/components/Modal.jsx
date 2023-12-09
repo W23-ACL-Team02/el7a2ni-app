@@ -1,5 +1,5 @@
 import React from 'react';
-import '/Users/marinaelwy/Documents/GitHub/VirtualClinic_Team02/clinic-ui/src/Modal.css'; // Import CSS for modal styles
+import '../Modal.css'; // Import CSS for modal styles
 
 const Modal = ({ onClose }) => {
   return (
