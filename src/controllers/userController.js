@@ -337,5 +337,9 @@ module.exports = {
     } catch (error) {
       res.status(500).json({errors: [error.message]});
     }
-  }
+  },
+	logout: (req, res) => {
+		res.clearCookie('jwt');
+		return res.status(200).json({successes: ["Successfully logged out"]});
+	}
 }
