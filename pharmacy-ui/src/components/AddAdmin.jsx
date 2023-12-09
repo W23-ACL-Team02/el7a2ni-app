@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const baseURL = `http://localhost:4000`;
+const baseURL = `http://localhost:3000`;
 
 const AddAdmin = () => {
   const [username, setUsername] = useState('');
