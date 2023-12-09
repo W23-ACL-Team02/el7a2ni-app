@@ -11,6 +11,7 @@ import ManageDocuments from './components/ManageDocuments';
 import AddTimeSlots from './components/AddTimeSlots';
 import FilterAppointments from './components/FilterAppointments';
 import UpcomingCompletedAppointments from './components/UpcomingCompletedAppointments';
+import Logout from './components/Logout';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -23,6 +24,7 @@ function App() {
         <Link to={'register'}>Register</Link> <br/>
         <h2>PRIVATE</h2>
         <Link to={'home'}>Home</Link> <br/>
+        <Link to={'logout'}>Logout</Link> <br/>
         <Link to={'addAdmin'}>Add Admin</Link> <br/>
         <Link to={'removeUser'}>Remove User</Link> <br/>
         <Link to={'manageDocuments'}>Manage Documents</Link> <br/>
@@ -33,6 +35,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/addAdmin" element={<AddAdmin />} />
           <Route path="/removeUser" element={<RemoveUser />} />
           <Route path="/manageDocuments" element={<ManageDocuments />} />

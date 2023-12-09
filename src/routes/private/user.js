@@ -3,7 +3,7 @@ var router = express.Router({mergeParams: true});
 
 const userModel = require('../../models/user.js');
 const appointmentModel = require('../../models/appointment.js');
-const { getSelf } = require('../../controllers/userController.js');
+const { getSelf, logout } = require('../../controllers/userController.js');
 const { filterAppointments, allAppointments,upcomingCompAppointments } = require('../../controllers/appointmentController.js');
 const { default: mongoose } = require('mongoose');
 const multer = require('multer');
@@ -125,6 +125,8 @@ router.post( '/addDoctor' , async(req,res) => {
 })
 
 router.get('/getSelfUser', getSelf);
+
+router.get('/logout', logout);
 
 
 router.post('/uploadDocuments', upload.fields([
