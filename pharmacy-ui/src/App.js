@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import UploadMedImg from './components/UploadMedImg';
 import Login from './components/Login';
 import RegisterUser from './components/RegisterUser';
@@ -18,6 +18,15 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <h2>PUBLIC</h2>
+        <Link to={'login'}>Login</Link> <br/>
+        <Link to={'register'}>Register</Link> <br/>
+        <h2>PRIVATE</h2>
+        <Link to={'home'}>Home</Link> <br/>
+        <Link to={'upload'}>Upload</Link> <br/>
+        <Link to={'addAdmin'}>Add Admin</Link> <br/>
+        <Link to={'removeUser'}>Remove User</Link> <br/>
+        <Link to={'viewMedicine'}>View Medicine</Link> <br/>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
