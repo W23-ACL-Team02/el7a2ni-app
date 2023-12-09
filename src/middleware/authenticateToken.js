@@ -9,7 +9,7 @@ const authenticateToken = (req, res, next) => {
         token = req.cookies.jwt;
     } else {
         bearer = req.headers?.authorization;
-        token = bearer.split(' ')[1];
+        if (bearer !== undefined) token = bearer.split(' ')[1];
     }
     
     if (bearer == undefined && token == undefined) {
