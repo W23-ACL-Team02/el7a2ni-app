@@ -27,7 +27,8 @@ const UploadMedicineImage = () => {
       const response = await axios.post(`${baseURL}/private/medicine/uploadMedImg`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-        },
+        }, 
+        withCredentials: true
       });
 
       setUploadMessage('Medicine image uploaded successfully!');

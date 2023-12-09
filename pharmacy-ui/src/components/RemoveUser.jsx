@@ -19,7 +19,7 @@ const RemoveUser = () => {
     try {
       const response = await axios.post(`${baseURL}/private/admin/user/removeUser`, {
         username: username,
-      });
+      }, {withCredentials: true});
       
       if (response && response.data && response.data.successes && response.data.successes.length > 0) {
         setMessage(response.data.successes[0]); // Display success message

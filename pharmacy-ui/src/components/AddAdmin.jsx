@@ -23,7 +23,7 @@ const AddAdmin = () => {
       const response = await axios.post(`${baseURL}/private/admin/user/addAdmin`, {
         username: username,
         password: password,
-      });
+      }, {withCredentials: true});
 
       setMessage('Admin added successfully'); // Display success message
     } catch (error) {
