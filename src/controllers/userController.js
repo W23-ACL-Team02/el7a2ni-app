@@ -258,7 +258,7 @@ module.exports = {
 		const password = bcrypt.hashSync(req.body.password, 10);
 	  
 		try {
-			const user = await userModel.create({ username, name, email, password, dateOfBirth, gender, mobile, type, family, prescriptions, emergencyContact });
+			const user = await userModel.create({ username, name, email, password, dateOfBirth, gender, mobile, type, family, prescriptions, emergencyContact,files });
 			await user.save();
 		
 			res.status(200).send(`Patient ${user.username} created successfully!`);
