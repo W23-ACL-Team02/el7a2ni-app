@@ -161,12 +161,13 @@ router.post('/uploadDocuments', upload.fields([
 
   // Create File documents and save their details
   const createdFiles = await fileModel.create(filesData);
+  if (patient.files == undefined) patient.files = [];
 
   createdFiles.forEach(file => {
       patient.files.push(file);
     });
     await patient.save();
-    console.log(patient.files)
+    
     res.status(200).json({ message: 'Files uploaded and associated with the patient successfully.' });
   }catch (error) {
       res.status(400).json({ err: error.message })
