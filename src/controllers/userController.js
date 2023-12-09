@@ -64,10 +64,10 @@ const saveFileToGridFS = async (file) => {
 module.exports = {
   removeUser: async (req, res) => {
     try {
-      // Authenticate that the user is an admin first
-      // if (req.session.userType !== 'admin') {
-      //   return res.status(403).json({ errors: ['Permission denied. You must be an admin to remove a user.'] });
-      // }
+     // Authenticate that the user is an admin first
+      if (req.session.userType !== 'admin') {
+        return res.status(403).json({ errors: ['Permission denied. You must be an admin to remove a user.'] });
+      }
   
       const { username } = req.body
       
@@ -86,9 +86,9 @@ module.exports = {
   },
   addAdmin: async (req, res) => {
     try {
-      // if (req.session.userType !== 'admin') {
-      //   return res.status(403).json({ message: 'Permission denied. You must be an admin to add another administrator.' });
-      // }
+      if (req.session.userType !== 'admin') {
+        return res.status(403).json({ message: 'Permission denied. You must be an admin to add another administrator.' });
+      }
   
       const { username, password } = req.body;
         // Hash password using bcrypt and 10 rounds

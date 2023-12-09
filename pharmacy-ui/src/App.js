@@ -7,6 +7,7 @@ import RegisterUser from './components/RegisterUser';
 import Home from './components/Home';
 import AddAdmin from './components/AddAdmin';
 import RemoveUser from './components/RemoveUser';
+import MedicineList from './components/MedicineList';
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/upload" element={<UploadMedImg />} />
           <Route path="/addAdmin" element={<AddAdmin />} />
           <Route path="/removeUser" element={<RemoveUser />} />
+          <Route path="/viewMedicine" element={<MedicineList />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -209,13 +209,13 @@ router.get('/findByIngredient', async (req, res) => {
 })
 
 router.get('/all', async (req, res) => { 
-    try {
-        const medicine = await medicineModel.find()
-        res.status(200).send(medicine);
-    } catch (error) {
-        res.status(400).json({err:error.message});
-    }
-})
+  try {
+      const medicines = await medicineModel.find();
+      res.status(200).json(medicines);
+  } catch (error) {
+      res.status(400).json({ err: error.message });
+  }
+});
 
 router.get('/', async (req, res) => {
     try {
@@ -232,9 +232,9 @@ router.get('/', async (req, res) => {
 router.post('/uploadMedImg',upload.fields([
     { name: 'medicineImg',maxCount: 1 }]),async(req,res)=>{
   try{
-  //if (req.session.userType !== 'pharmacist') {
-         // return res.status(403).json({ message: 'Permission denied.' });
-        //}
+  if (req.session.userType !== 'pharmacist') {
+         return res.status(403).json({ message: 'Permission denied.' });
+        }
   
         const {name}=req.body;
         const medicine= await medicineModel.findOne({name:name})
