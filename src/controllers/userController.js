@@ -86,13 +86,15 @@ module.exports = {
   },
   addAdmin: async (req, res) => {
     try {
-      if (req.session.userType !== 'admin') {
+      if (req.session?.userType !== 'admin') {
         return res.status(403).json({ message: 'Permission denied. You must be an admin to add another administrator.' });
       }
   
       const { username, password } = req.body;
-        // Hash password using bcrypt and 10 rounds
-		let hashedPassword = bcrypt.hashSync(password, 10);
+      
+      // Hash password using bcrypt and 10 rounds
+      let hashedPassword = bcrypt.hashSync(password, 10);
+      
       const admin = await userModel.create({ username: username, password: hashedPassword, type: "admin" });
       await admin.save();
   
