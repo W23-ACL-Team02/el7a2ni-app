@@ -138,7 +138,8 @@ router.post('/uploadDocuments', upload.fields([
      //const patient = await userModel.findOne({ username: username });
     
      // const patient = await userModel.findOne({_id:"656b78066ce088ba8dec8b38"});
-      const patient = await userModel.findOne({_id:req.session.userId});
+     const userId = req.session.userId;
+      const patient = await userModel.findById(userId)
       if (!patient) {
           return res.status(404).json({ message: 'Patient not found.' });
         }
@@ -163,6 +164,7 @@ router.post('/uploadDocuments', upload.fields([
       patient.files.push(file);
     });
     await patient.save();
+    console.log(patient.files)
     res.status(200).json({ message: 'Files uploaded and associated with the patient successfully.' });
   }catch (error) {
       res.status(400).json({ err: error.message })
@@ -171,11 +173,11 @@ router.post('/uploadDocuments', upload.fields([
 })
 
 router.post('/removeDocuments',async(req,res)=>{
-  const { userId, fileId } = req.body
+  const {fileId } = req.body
   
-
+  const userId = req.session.userId;
   try {
-   const user = await userModel.findById(req.session.userId);
+   const user = await userModel.findById(userId);
   // const user = await userModel.findOne({_id:"656b78066ce088ba8dec8b38"});
   if (!user) {
     return res.status(404).json({ message: 'User not found.' });
@@ -194,23 +196,52 @@ router.post('/removeDocuments',async(req,res)=>{
   }
 
 })
+// router.get('/documents', async (req, res) => {
+//   try {
+//       const patient = await userModel.findById(req.session.userId)
+//     //const patient = await userModel.findOne({_id:"656b78066ce088ba8dec8b38"});
+//       var patientFiles = []
+//       if (patient.files){
+//           patientFiles = patient.files
+//           patientFiles.forEach(file => {
+//               if (file.fileType == "Mediacl History")
+//                   file = fileModel.decodeBase64ToFile(file.fileData,file.fileName)
+//           });
+//       }
+//       res.status(200).json({files: patientFiles})
+//   } catch (error) {
+//       res.status(400).json({error: error.message})
+//   }
+// })
 router.get('/documents', async (req, res) => {
   try {
-      const patient = await userModel.findById(req.session.userId)
-    //const patient = await userModel.findOne({_id:"656b78066ce088ba8dec8b38"});
-      var patientFiles = []
-      if (patient.files){
-          patientFiles = patient.files
-          patientFiles.forEach(file => {
-              if (file.fileType == "Mediacl History")
-                  file = fileModel.decodeBase64ToFile(file.fileData,file.fileName)
-          });
-      }
-      res.status(200).json({files: patientFiles})
+    const userId = req.session.userId;
+    const patient = await userModel.findById(userId);
+
+    if (!patient) {
+      return res.status(404).json({ error: 'Patient not found.' });
+    }
+
+    // Assuming you want to decode the base64 data here for frontend use
+    // const patientFiles = patient.files.map(file => ({
+    //   ...file.toObject(),
+    //   fileData: fileModel.decodeBase64ToFile(file.fileData, file.fileName)
+    // }));
+    var patientFiles = []
+          if (patient.files){
+              patientFiles = patient.files
+              patientFiles.forEach(file => {
+                  if (file.fileType == "Mediacl History")
+                      file = fileModel.decodeBase64ToFile(file.fileData,file.fileName)
+              });
+            }
+   
+
+    res.status(200).json({ userId, files: patientFiles });
   } catch (error) {
-      res.status(400).json({error: error.message})
+    res.status(400).json({ error: error.message });
   }
-})
+});
 
 
 

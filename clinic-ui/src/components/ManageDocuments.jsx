@@ -7,7 +7,7 @@ const ManageDocuments = () => {
   const [documents, setDocuments] = useState([]);
   const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [userId, setUserId] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
 
   
@@ -16,6 +16,7 @@ const ManageDocuments = () => {
     try {
       const response = await axios.get(`${baseURL}/private/user/documents`, {withCredentials: true});
       setDocuments(response.data.files || []);
+      setUserId(response.data.userId);
     } catch (error) {
       setError('Error fetching documents.');
     }
@@ -53,7 +54,7 @@ const ManageDocuments = () => {
   const handleRemove = async (fileId) => {
     try {
       const response = await axios.post(`${baseURL}/private/user/removeDocuments`, {
-        userId: '656b78066ce088ba8dec8b38', // Replace with the actual user ID
+        userId:userId, // Replace with the actual user ID
         fileId: fileId,
       }, {withCredentials: true});
       // Refresh the documents list after removing the file

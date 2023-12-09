@@ -16,7 +16,7 @@ module.exports = {
           if(req.session.userType=="doctor") filter.doctorUsername = user.username;
           if(req.session.userType=="patient") filter.patientUsername = user.username;
       
-          filter.doctorUsername = "Doctor";
+         ;
       
           const unfilteredAppointments = await appointmentModel.find(filter);
       
@@ -70,7 +70,7 @@ module.exports = {
 
     upcomingCompAppointments: async (req, res) => {
         try {
- const userId=req.session.userId 
+            const userId=req.session.userId 
             const user = await userModel.findById(userId)
         
             if(req.session.userType=="admin"){
