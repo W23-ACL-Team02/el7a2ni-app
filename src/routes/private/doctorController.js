@@ -208,7 +208,7 @@ router.post("/api/addAppointment", addAppointment)
 router.delete("/api/allAppointments",deleteAllAppointments)
 router.get("/api/appointments/:id", getAppointments)
 router.post("/api/addDoctor", addDoctor)
-router.get('/api/viewHealthRecords', viewHealthRecords)
+router.post('/api/viewHealthRecords', viewHealthRecords)
 
 
 module.exports = router;

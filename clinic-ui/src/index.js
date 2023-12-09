@@ -5,13 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ErrorBoundary from './components/ErrorBoundary'
 import HealthPackageManagement from './components/patient/healthPackageManagement/mainPage/mainPage';
-import HealthRecordsPage from './components/patient/healthRecords/mainPage/mainPage';
+import PatientHealthRecordsPage from './components/patient/healthRecords/mainPage/mainPage';
+import DoctorHealthRecordsPage from './components/doctor/healthRecords/mainPage/mainPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
     <ErrorBoundary>
-      <HealthRecordsPage />
+      <DoctorHealthRecordsPage patientUsername='patient1'/>
     </ErrorBoundary>
   // </React.StrictMode>
 );

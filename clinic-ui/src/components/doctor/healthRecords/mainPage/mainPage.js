@@ -3,15 +3,15 @@ import axios from 'axios';
 import atob from 'atob';
 const { useState, useEffect, useRef } = require("react");
 
-export default function PatientHealthRecordsPage(props) {
+export default function DoctorHealthRecordsPage(props) {
   const [files, setFiles] = useState([])
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const  getFiles = async function(){
-      await axios.get('http://localhost:3000/private/patient/healthRecord', {withCredentials: true}).then(
+      await axios.post('http://localhost:3000/private/doctors/api/viewHealthRecords', {patientUsername: props.patientUsername}, {withCredentials: true}).then(
       (res) => { 
       const files = res.data.files
-      console.log(files)
+      // console.log(files)
       setFiles(files)
   });
   }
@@ -30,7 +30,7 @@ export default function PatientHealthRecordsPage(props) {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(blobUrl);
-
+      
     } catch (error) {
       console.error('Error downloading file:', error.message);
     }
@@ -55,7 +55,7 @@ export default function PatientHealthRecordsPage(props) {
 
   return (
     <div className={classes.frame}>
-      <div className={classes.title}>Health Records</div>
+      <div className={classes.title}>{props.patientUsername}'s Health Records</div>
       {files.map((file) => (
       <div className={classes.bar}>
           <div className={classes.fileName}>{file.fileName}</div>
