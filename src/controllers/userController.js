@@ -252,7 +252,7 @@ module.exports = {
     }
     
     try {
-      let user = await userModel.findById(userId)
+      let user = await userModel.findById(userId, {password: 0})
       res.status(200).json(user);
     } catch (error) {
       res.status(500).json({errors: [error.message]});
