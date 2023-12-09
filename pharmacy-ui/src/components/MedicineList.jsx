@@ -15,7 +15,7 @@ const MedicineList = () => {
 
   const fetchMedicines = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/private/medicine/all', {}, {withCredentials: true});
+      const response = await axios.get('http://localhost:3000/private/medicine/all', {withCredentials: true});
       setMedicines(response.data); // Assuming response.data is an array of medicine objects
       setError('');
     } catch (error) {
