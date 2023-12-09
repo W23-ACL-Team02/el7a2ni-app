@@ -80,7 +80,20 @@ const userSchema = new Schema({
   healthPackage: {
     type: ObjectId,
     ref: 'healthPackage'
-  }
+  },
+
+  files :{
+    type:Array,
+    default: undefined
+      },
+      timeSlots: [
+        {
+          date: Date,
+          startTime: Date, 
+          endTime: Date,   
+        }
+      ],
+
 }, 
 { 
   timestamps: true,
