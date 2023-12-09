@@ -196,7 +196,7 @@ router.post('/removeDocuments',async(req,res)=>{
 })
 router.get('/documents', async (req, res) => {
   try {
-      const patient = await userModel.findById(req.session.userId)
+      const patient = await userModel.findById(req.session?.userId)
     //const patient = await userModel.findOne({_id:"656b78066ce088ba8dec8b38"});
       var patientFiles = []
       if (patient.files){
@@ -208,6 +208,7 @@ router.get('/documents', async (req, res) => {
       }
       res.status(200).json({files: patientFiles})
   } catch (error) {
+    console.log(error.message);
       res.status(400).json({error: error.message})
   }
 })
