@@ -37,7 +37,17 @@ const medicineSchema = new Schema({
   imageUrl: {
      type: Object,
        }
-}, { timestamps: true });
+}, { timestamps: true,
+  methods: {
+    incrementSales(quantity) {
+      if (this.sales == undefined) this.sales = 0;
+      
+      this.sales= this.sales+ quantity
+    },
+    decrementQuantity(sales){
+      this.quantity= this.quantity- sales
+    }
+  } });
 
 const Medicine = mongoose.model('medicine', medicineSchema);
 module.exports = Medicine;
