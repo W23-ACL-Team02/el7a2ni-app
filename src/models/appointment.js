@@ -30,7 +30,7 @@ const appointSchema = new Schema({
     required: true,
   },
   start:{
-    type: Date,
+    type: Date, 
     required: true,
   },
   end:{
