@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Wallet from './home/Wallet';
 
-const baseURL = `http://localhost:3000`
+const baseURL = `http://localhost:4000`
 
 export default function Home() {
     const [user, setUser] = useState(null);

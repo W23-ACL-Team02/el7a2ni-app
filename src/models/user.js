@@ -36,6 +36,9 @@ const userSchema = new Schema({
   mobile: {
     type: String,
   },
+  wallet: {
+    type: Number,
+  },
   emergencyContact: {
     name: {
       type: String,

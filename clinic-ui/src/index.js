@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
     <ErrorBoundary>
-      <App></App>
+      <App />
       {/* <DoctorHealthRecordsPage patientUsername='patient1'/> */}
     </ErrorBoundary>
   // </React.StrictMode>

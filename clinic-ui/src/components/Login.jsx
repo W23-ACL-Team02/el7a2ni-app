@@ -3,7 +3,7 @@ import axios from 'axios'
 import ErrorBox from './ErrorsBox'
 import {useNavigate} from 'react-router-dom'
 
-const baseURL = `http://localhost:3000`
+const baseURL = `http://localhost:4000`
 
 export default function Login({loggedIn}) {
     const [username, setUsername] = useState("")

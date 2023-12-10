@@ -50,7 +50,8 @@ module.exports = {
     subscribeToHealthPackage: async (req, res) => {
         try{
             const packageId = req.body.packageId;
-            const patientId = req.session.userId;
+            //const patientId = req.session.userId;
+            const patientId = '6547b96606043724533eedbf'
             const patient = await userModel.findById(patientId);
 
             // TODO: add package to specified family members 
