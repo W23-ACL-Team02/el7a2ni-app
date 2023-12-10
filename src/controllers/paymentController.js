@@ -1,5 +1,6 @@
 const express = require("express");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+const nodemailer = require('nodemailer')
 const userModel = require("../models/user")
 const medicineModel = require("../models/medicine");
 
@@ -50,14 +51,15 @@ module.exports = {
         
     },
     getAllSelectedMedicine : async (req, res) => {
-        const medicine = req.body.medicine;
-    
+        const medicine = req.query.medicine;
+        console.log(medicine)
+
         try{
             const AllMedicine = await medicineModel.find();        
             let totalMedicine = [];
            
             medicine.forEach(med => {
-                let medicineInfo = AllMedicine.filter(m => m._id == med.id)[0]
+                let medicineInfo = AllMedicine.filter(m => m._id.valueOf() === med.id)[0]
                 let medicineName = medicineInfo.name;
                 let medicineUnitPrice = medicineInfo.price
                 let medicinePrice = medicineUnitPrice * med.quantity 
@@ -68,7 +70,7 @@ module.exports = {
                     medicineQuantity  : med.quantity 
                 })
             });     
-    
+
             let totalPrice = 0
             totalMedicine.forEach(m => totalPrice += m.medicinePrice)
             
@@ -81,6 +83,6 @@ module.exports = {
         } catch(error){
             res.status(400).json({ error: error.message});
         }
-    },
+    }
 }
 

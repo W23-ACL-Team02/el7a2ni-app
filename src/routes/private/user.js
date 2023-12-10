@@ -25,4 +25,15 @@ router.get('/', async(req, res) => {
   }
 })
 
+router.get('/getCurrUser', async (req, res) => {
+  //const currUserID = req.session?.userId
+  const currUserID = "6547cd2f63304dedceb8644b"
+  try{ 
+    const currUser = await userModel.findOne({_id: currUserID}, '-Password') 
+    res.status(200).json(currUser)
+  } catch(error){
+    res.status(400).json({error: error})
+  }
+})
+
 module.exports = router;
