@@ -12,6 +12,9 @@ import AddTimeSlots from './components/AddTimeSlots';
 import FilterAppointments from './components/FilterAppointments';
 import UpcomingCompletedAppointments from './components/UpcomingCompletedAppointments';
 import Logout from './components/Logout';
+import HealthPackageManagement from './components/patient/healthPackageManagement/mainPage/mainPage';
+import PatientHealthRecordsPage from './components/patient/healthRecords/mainPage/mainPage';
+import DoctorHealthRecordsPage from './components/doctor/healthRecords/mainPage/mainPage';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -31,6 +34,9 @@ function App() {
         <Link to={'addTimeSlots'}>Add Time Slots</Link> <br/> 
         <Link to={'filterAppointments'}>Filter Appointments</Link> <br/> 
         <Link to={'appointments'}>Upcoming Completed Appointments</Link> <br/> 
+        <Link to={'healthPackageManagement'}>Health Package Management</Link> <br/> 
+        <Link to={'patientHealthRecords'}>Patient Health Records</Link> <br/> 
+        <Link to={'doctorHealthRecords'}>Doctor Health Records</Link> <br/> 
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
@@ -42,6 +48,9 @@ function App() {
           <Route path="/addTimeSlots" element={<AddTimeSlots />} />
           <Route path="/filterAppointments" element={<FilterAppointments />} />
           <Route path="/appointments" element={<UpcomingCompletedAppointments />} />
+          <Route path="/healthPackageManagement" element={<HealthPackageManagement />} />
+          <Route path="/patientHealthRecords" element={<PatientHealthRecordsPage />} />
+          <Route path="/doctorHealthRecords" element={<DoctorHealthRecordsPage />} />
         </Routes>
       </BrowserRouter>
     </div>
