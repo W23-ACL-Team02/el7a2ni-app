@@ -77,6 +77,10 @@ const userSchema = new Schema({
     type: String,
     enum: ['accepted', 'rejected', 'pending']
   },
+  files :{
+    type:Array,
+    default: undefined
+      },
 }, 
 { 
   timestamps: true,
@@ -100,7 +104,10 @@ const userSchema = new Schema({
     },
     viewfamilymember() {
       return this.family;
-    }
+    },
+
+    
+      
   }
   
 }

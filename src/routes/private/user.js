@@ -1,6 +1,7 @@
 var express = require('express');
 const userModel = require('../../models/user.js');
 const { default: mongoose } = require('mongoose');
+const { getSelf, logout } = require('../../controllers/userController.js');
 var router = express.Router();
 
 router.get('/', async(req, res) => {
@@ -24,6 +25,8 @@ router.get('/', async(req, res) => {
     }
   }
 })
+router.get('/getSelfUser', getSelf);
+router.get('/logout', logout);
 
 router.get('/getCurrUser', async (req, res) => {
   //const currUserID = req.session?.userId
