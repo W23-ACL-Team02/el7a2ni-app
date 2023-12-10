@@ -30,6 +30,10 @@ const userSchema = new Schema({
   dateOfBirth: {
     type: Date,
   },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+  },
   mobile: {
     type: String,
   },
@@ -69,7 +73,11 @@ const userSchema = new Schema({
   acceptanceStatus: {
     type: String,
     enum: ['accepted', 'rejected', 'pending']
-  }
+  },
+  files :{
+    type:Array,
+    default: undefined
+      },
 }, 
 { 
   timestamps: true,
@@ -93,7 +101,10 @@ const userSchema = new Schema({
     },
     viewfamilymember() {
       return this.family;
-    }
+    },
+
+    
+      
   }
   
 }
