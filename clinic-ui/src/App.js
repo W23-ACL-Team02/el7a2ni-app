@@ -2,10 +2,10 @@ import './App.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import PatientsList from './components/doctor/PatientsList/PatientsList.js';
 import PatientDetails from './components/doctor/PatientDetails/PatientDetails.js';
-import HealthPackagesCheckout from './components/patient/HealthPackagesCheckout/HealthPackagesCheckout.js';
+import HealthPackagesPayment from './components/patient/HealthPackagesPayment/HealthPackagesPayment.js';
 import CheckoutSuccess from './components/shared/PaymentSuccess.js';
 import CheckoutFailed from './components/shared/PaymentFailed.js';
-import AppointmentCheckout from './components/patient/AppointmentCheckout/AppointmentCheckout.js';
+import AppointmentPayment from './components/patient/AppointmentPayment/AppointmentPayment.js';
 import HealthPackageManagement from './components/patient/healthPackageManagement/mainPage/mainPage';
 import Login from './components/Login';
 import RegisterUser from './components/RegisterUser';
@@ -24,8 +24,8 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/patients-list" element={<PatientsList/>}/>
       <Route path="/patient-details" element={<PatientDetails/>}/>
-      <Route path="/healthPackages-checkout" element={<HealthPackagesCheckout/>}/>
-      <Route path="/appointment-checkout" element={<AppointmentCheckout/>}/>
+      <Route path="/healthPackages-payment" element={<HealthPackagesPayment/>}/>
+      <Route path="/appointment-payment" element={<AppointmentPayment/>}/>
       <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
       <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
       <Route path="/healthPackage-management" element={<HealthPackageManagement/>}/>

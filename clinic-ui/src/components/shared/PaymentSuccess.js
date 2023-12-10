@@ -1,4 +1,4 @@
-import styles from '../../components/patient/HealthPackagesCheckout/HealthPackagesCheckout.module.css'
+import styles from '../../components/patient/HealthPackagesPayment/HealthPackagesPayment.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";

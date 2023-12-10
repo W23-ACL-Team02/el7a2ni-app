@@ -1,17 +1,19 @@
 import axios from 'axios';
-import styles from '../AppointmentCheckout/AppointmentCheckout.module.css'
+import styles from '../AppointmentPayment/AppointmentPayment.module.css'
 import StripeCheckout from 'react-stripe-checkout'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
-const { useState } = require("react");
-const { useEffect } = require("react");
+const { useState , useEffect, useRef } = require("react");
 const serverURL = process.env.REACT_APP_SERVER_URL
 const publishableKey =process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
 
 const AppointmentCheckout = () => {    
     const [appointmentPrice,setAppointmentPrice] = useState([]);
+    const [SelectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+    const cardRef = useRef(null);
     const navigate = useNavigate()
     // let { state } = useLocation();
     // const appointment = state.appointment
@@ -68,6 +70,20 @@ const AppointmentCheckout = () => {
         )
     }
 
+    const onSelectedPaymentChange = (event) => {
+        setSelectedPaymentMethod(event.target.value)
+    }
+
+    const handlePayment = (event) =>{
+        event.preventDefault();
+        console.log(SelectedPaymentMethod)  
+            if(SelectedPaymentMethod === "wallet"){
+                payByWallet()
+            }else if(SelectedPaymentMethod === "card"){
+                cardRef.current.click()
+            }  
+    }
+
     useEffect(() =>{
         getAppointmetPrice();   
      }, []);
@@ -82,25 +98,60 @@ const AppointmentCheckout = () => {
                 }
             </div>    
             <div className={styles.paymentOptions}>
-                <h2>Choose a Payment Method</h2>
+                <div className={styles.title}>
+                    <h4>Select a <span style={{color: "#6064b6",}} >Payment</span> method</h4>
+                </div>
+                <form onSubmit={handlePayment}>
+                    <input type="radio" 
+                           name="payment" 
+                           id="card" 
+                           value="card" 
+                           onChange={onSelectedPaymentChange}
+                           className={styles.cardRadio}/>
+                    <input type="radio" 
+                           name="payment" 
+                           id="wallet" 
+                           value="wallet" 
+                           onChange={onSelectedPaymentChange}
+                           className={styles.walletRadio}/>
+               
+                    <div className={styles.category}>
+                        <label htmlFor="card" className={styles.cardMethod}>
+                            <div className={styles.iconName}>
+                                    <div className={styles.iconContainer}>
+                                        <FontAwesomeIcon icon={faCreditCard} />
+                                    </div>
+                                    <span className={styles.name}>Credit or Debit Card</span>
+                            </div>
+                            <span className={styles.check}><FontAwesomeIcon icon={faCircleCheck} style={{color: "#6064b6",}} /></span>        
+                        </label>
+                        <label htmlFor="wallet" className={styles.walletMethod}>
+                            <div className={styles.iconName}>
+                                    <div className={styles.iconContainer}>
+                                        <FontAwesomeIcon icon={faWallet} />
+                                    </div>
+                                    <span className={styles.name}>Wallet</span>
+                            </div>
+                            <span className={styles.check}><FontAwesomeIcon icon={faCircleCheck} style={{color: "#6064b6",}} /></span>        
+                        </label>
+                    </div>
+                    <button type='submit' className={styles.payBtn}>Pay</button>
+                </form>
+                
                 <StripeCheckout 
+                    style={{ display: 'none' }}
                     stripeKey = {publishableKey}
                     label = "Credit and Debit Card"
                     name = "Pay With Credit Card"
                     billingAddress
-                    amount = {Math.ceil( appointmentPrice.price * 100 )}
-                    description = {`Your total is ${appointmentPrice.price}`}
+                    amount = {Math.ceil(appointmentPrice?.price * 100)}
+                    description = {`Your total is ${appointmentPrice?.price}`}
                     token = {payByCard}
                 >
-                    <button className={styles.paymentOptionBtn}>
-                        Credit and Debit Card
-                        <FontAwesomeIcon className={styles.icon} icon={faCreditCard} />
+                    <button ref = {cardRef} style={{ display: 'none' }}>
                     </button>
                 </StripeCheckout>
-                <button className={styles.paymentOptionBtn} onClick={payByWallet}>
-                    Wallet
-                    <FontAwesomeIcon className={styles.icon} icon={faWallet} />
-                </button>
+                            
             </div>
         </div>
     )
