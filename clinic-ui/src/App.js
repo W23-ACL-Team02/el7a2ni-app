@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 import Login from './components/Login';
 import RegisterUser from './components/RegisterUser';
@@ -21,7 +21,6 @@ import HealthPackagesPayment from './components/patient/HealthPackagesPayment/He
 import CheckoutSuccess from './components/shared/PaymentSuccess.js';
 import CheckoutFailed from './components/shared/PaymentFailed.js';
 import AppointmentPayment from './components/patient/AppointmentPayment/AppointmentPayment.js';
-import { useState } from 'react';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
