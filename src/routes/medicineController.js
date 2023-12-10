@@ -20,14 +20,14 @@ router.post('/add', async (req, res) => {
     try {
         const exists = await medicineModel.findOne({name: name})
         if (exists != null){
-            res.status(400).json(`${name} is already in the database`);
+            res.status(400).json({errors: [`${name} is already in the database`]});
             return
         }
         const medicine = await medicineModel.create({name, details, category, activeIngredients: jsonIngredients, quantity, sales: 0, price})
         await medicine.save()
         res.status(200).json(medicine);
     } catch (error) {
-        res.status(400).json({err:error.message});
+        res.status(400).json({errors: [error.message]});
     }
 })
 
@@ -45,7 +45,7 @@ router.put('/edit', async (req, res) => {
         await updatedMedicine.save()
         res.status(200).json(updatedMedicine)
     } catch (error) {
-        res.status(400).json({err:error.message});
+        res.status(400).json({errors: [error.message]});
     }
 })
 
@@ -56,12 +56,12 @@ router.delete('/delete', async (req, res) => {
         //check if name exists
         const exists = await medicineModel.find({name: name})
         if (exists == null){
-            res.status(400).json(`${name} is not in the database`);
+            res.status(400).json({errors: [`${name} is not in the database`]});
             return
         }
         
         const deletedMedicine = await medicineModel.deleteOne({name: name})
-        res.status(200).json({message: `Deleted ${name} successfully`})
+        res.status(200).json({successes: [`Deleted ${name} successfully`]})
     } catch (error) {
         res.status(400).json({err:error.message});
     }
@@ -70,9 +70,9 @@ router.delete('/delete', async (req, res) => {
 router.delete('/nuke', async (req, res) => {    
     try {
         const medicine = await medicineModel.deleteMany()
-        res.status(200).json({message: `nuked the model 💣`});
+        res.status(200).json({successes: [`nuked the model 💣`]});
     } catch (error) {
-        res.status(400).json({err:error.message});
+        res.status(400).json({errors: [error.message]});
     }
 })
 
@@ -85,7 +85,7 @@ router.get('/find', async (req, res) => {
         res.status(200).json({medicine: medicine, userType: req.session.userType})
         // res.render("allMedicine", {medicine, categories, userType: req.session.userType})
     } catch (error) {
-        res.status(400).json({err:error.message});
+        res.status(400).json({errors: [error.message]});
     }
 })
 
@@ -98,12 +98,12 @@ router.get('/findmedicine', async (req,res) => {
        res.status(200).json(medicine);
         // res.render('viewmedicine', {medicine:medicine})
       } catch(error){
-        res.status(400).json({message: "no medicine"});
+        res.status(400).json({successes: ["no medicine"]});
       }
 
     }
     else{
-     res.status(400).json("Unauthorized Access");
+     res.status(400).json({errors: ["Unauthorized Access"]});
     }
 })
 
@@ -117,7 +117,7 @@ router.get('/getmedstats', async (req,res)=> {
        //console.log(medicine)
     //    res.render('getmedstats', {medicine:medicine})
       } catch(error){
-        res.status(400).json("no medicine");
+        res.status(400).json({errors: ["no medicine"]});
       }
 
     }
@@ -144,7 +144,7 @@ router.get('/view', async (req, res) => {
         res.status(200).json(medicine);
         // res.render("editMedicine", {"medicine": medicine})
     } catch (error) {
-        res.status(400).json({err:error.message});
+        res.status(400).json({errprs: [error.message]});
     }
 })
 
@@ -153,12 +153,12 @@ router.get('/findByIngredient', async (req, res) => {
     try {
         const medicine = await medicineModel.find({activeIngredients: {name: {$regex: String(name), $options: 'i'}}})
         if (medicine == null){
-            res.status(400).json(`Couldn't find ${name}`);
+            res.status(400).json({errors: [`Couldn't find ${name}`]});
             return
         }
         res.status(200).json(medicine);
     } catch (error) {
-        res.status(400).json({err:error.message});
+        res.status(400).json({errors: [error.message]});
     }
 })
 
@@ -167,7 +167,7 @@ router.get('/all', async (req, res) => {
         const medicine = await medicineModel.find()
         res.status(200).json(medicine);
     } catch (error) {
-        res.status(400).json({err:error.message});
+        res.status(400).json({errors: [error.message]});
     }
 })
 
@@ -178,7 +178,7 @@ router.get('/', async (req, res) => {
         res.status(200).json(medicine, categories, req.session.userType)
         // res.render("allMedicine", {"medicine": medicine, "categories": categories, userType: req.session.userType})
     } catch (error) {
-        res.status(400).json({err:error.message});
+        res.status(400).json({errors: [error.message]});
     }
 })
 
