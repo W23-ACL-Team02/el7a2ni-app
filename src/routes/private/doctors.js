@@ -2,6 +2,7 @@ var express = require('express');
 const userModel = require('../../models/user.js');
 const appointmentsModel = require('../../models/appointment.js');
 const healthPackageModel = require(`../../models/healthPackage.js`)
+const fileModel = require(`../../models/file.js`)
 var router = express.Router({mergeParams: true});
 const axios = require('axios');
 const { uploadHealthRecordForTesting } = require('../../controllers/patientController.js');
@@ -237,7 +238,7 @@ router.post('/addTimeSlots', async (req, res) => {
         const doctor = await userModel.findById(req.session.userId)
         const doctorUsername = doctor.username
         //check if there are shared appointments
-        const appointments = await appointmentModel.find({doctorUsername: doctorUsername, patientUsername: patientUsername})
+        const appointments = await appointmentsModel.find({doctorUsername: doctorUsername, patientUsername: patientUsername})
         if (!appointments.length){
             res.status(400).json({error: "You don't have any appointments with this patient."});
             return;

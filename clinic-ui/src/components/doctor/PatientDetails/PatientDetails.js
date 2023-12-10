@@ -12,7 +12,7 @@ const PatientDetails = () => {
 
     const patientID = state.patientID
     const getPatient = async () => {
-        await axios.get(`${serverURL}/private/doctor/patient/${patientID}`).then(
+        await axios.get(`${serverURL}/private/doctor/patient/${patientID}`, {withCredentials: true}).then(
             (res) => { 
                const patient = res.data
                console.log(patient)
@@ -22,6 +22,12 @@ const PatientDetails = () => {
 
     const handleGoBack = () => {
         navigate(-1); // new line
+    }; 
+    const handleGoToPatientRecords = (event) => {
+        const data = {patientUsername: patient.username}
+        console.log('sending you to the patient\'s records...')
+        console.log(data)
+        navigate( "/doctorHealthRecords", {state: { ...data }}); // new line
     }; 
 
     useEffect(() =>{
@@ -52,6 +58,7 @@ const PatientDetails = () => {
                 ? <p>Emergency Contact Mobile: {patient.emergencyContact.mobile}</p>
                 : <p>Emergency Contact Mobile: not provided </p>
             }
+            <button className="backBtn" onClick={handleGoToPatientRecords}>view records</button>
             <button className="backBtn" onClick={handleGoBack}>back</button>
         </div>
     );

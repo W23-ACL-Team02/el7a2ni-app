@@ -160,7 +160,7 @@ router.post('/uploadDocuments', upload.fields([
   }));
 
   // Create File documents and save their details
-  const createdFiles = await fileModel.create(filesData);
+  const createdFiles = await fileModel.File.create(filesData);
   if (patient.files == undefined) patient.files = [];
 
   createdFiles.forEach(file => {
@@ -188,7 +188,7 @@ router.post('/removeDocuments',async(req,res)=>{
 
   user.files = user.files.filter(file => file._id != fileId);
   await user.save();
-    const file=await fileModel.findById(fileId)
+    const file = await fileModel.File.findById(fileId);
     if(!file){
       return res.status(404).json({ message: 'file not found.' });
     }

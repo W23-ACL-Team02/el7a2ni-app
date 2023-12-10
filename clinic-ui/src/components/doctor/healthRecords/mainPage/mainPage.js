@@ -2,13 +2,16 @@ import classes from './mainPage.module.css';
 import axios from 'axios';
 import atob from 'atob';
 const { useState, useEffect, useRef } = require("react");
+const { useLocation } = require("react-router-dom")
 
-export default function DoctorHealthRecordsPage(props) {
+export default function DoctorHealthRecordsPage() {
   const [files, setFiles] = useState([])
   const [buttonClicked, setButtonClicked] = useState(false);
+  let { state } = useLocation();
+  const patientUsername = state.patientUsername;
 
   const  getFiles = async function(){
-      await axios.post('http://localhost:3000/private/doctors/api/viewHealthRecords', {patientUsername: props.patientUsername}, {withCredentials: true}).then(
+      await axios.post('http://localhost:3000/private/doctors/api/viewHealthRecords', {patientUsername: patientUsername}, {withCredentials: true}).then(
       (res) => { 
       const files = res.data.files
       // console.log(files)
@@ -55,7 +58,7 @@ export default function DoctorHealthRecordsPage(props) {
 
   return (
     <div className={classes.frame}>
-      <div className={classes.title}>{props.patientUsername}'s Health Records</div>
+      <div className={classes.title}>{patientUsername}'s Health Records</div>
       {files.map((file) => (
       <div className={classes.bar}>
           <div className={classes.fileName}>{file.fileName}</div>

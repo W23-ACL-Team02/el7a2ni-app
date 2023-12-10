@@ -42,9 +42,9 @@ function App() {
         <Link to={'appointments'}>Upcoming Completed Appointments</Link> <br/> 
         <Link to={'healthPackageManagement'}>Health Package Management</Link> <br/> 
         <Link to={'patientHealthRecords'}>Patient Health Records</Link> <br/> 
-        <Link to={'doctorHealthRecords'}>Doctor Health Records</Link> <br/> 
+        {/* <Link to={'doctorHealthRecords'}>Doctor Health Records</Link> <br/>  */}
         <Link to={'patientsList'}>Patients List</Link> <br/> 
-        <Link to={'patientDetails'}>Patient Details</Link> <br/> 
+        {/* <Link to={'patientDetails'}>Patient Details</Link> <br/>  */}
         <Link to={'healthPackagesPayment'}>Health Packages Payment</Link> <br/> 
         <Link to={'checkoutSuccess'}>Checkout Success</Link> <br/> 
         <Link to={'checkoutFailed'}>Checkout Failed</Link> <br/> 
@@ -64,7 +64,7 @@ function App() {
           <Route path="/patientHealthRecords" element={<PatientHealthRecordsPage />} />
           <Route path="/doctorHealthRecords" element={<DoctorHealthRecordsPage />} />
           <Route path="/patientsList" element={<PatientsList />} />
-          <Route path="/patientDetails" element={<PatientDetails />} />
+          <Route path="/patient-details" element={<PatientDetails />} />
           <Route path="/healthPackagesPayment" element={<HealthPackagesPayment />} />
           <Route path="/checkoutSuccess" element={<CheckoutSuccess />} />
           <Route path="/checkoutFailed" element={<CheckoutFailed />} />

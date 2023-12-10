@@ -1,6 +1,6 @@
 const userModel = require('../models/user');
 const fileModel = require('../models/file');
-const appointmentModel = require('../models/appointment');
+const appointmentModel = require(`../models/appointment`);
 const healthPackageModel = require('../models/healthPackage');
 const familymemberSchema = require("../models/familymembers.js");
 
