@@ -169,7 +169,66 @@ const editDoctor = async (req, res) => {
     }
 }
 
+
 router.put('/api/editDoctor', editDoctor)
+
+
+router.post('/addTimeSlots', async (req, res) => {
+    const { date, start, end } = req.body;
+  
+    try {
+     // Check if the user making the request is a doctor (optional check)
+      if (req.session.userType !== 'doctor') {
+        return res.status(403).json({ message: 'Permission denied.' });
+      }
+  
+     // Find the doctor in the database
+       const doctor = await userModel.findOne({_id:req.session.userId});
+    //  const doctor = await userModel.findOne({_id: "6570ecc6b1779493b537acc7"} );
+  
+      // Check if the doctor exists
+      if (!doctor) {
+        return res.status(404).json({ message: 'Doctor not found.' });
+      }
+  
+      // Check if the doctor has been accepted
+      if (doctor.acceptanceStatus !== 'accepted') {
+        return res.status(403).json({ message: 'Doctor is not accepted yet' });
+      }
+  
+      // Create a new time slot object
+     // const dates= new Date(date)
+      const [hoursS, minutesS] = start.split(':');
+      const [hoursE, minutesE] = end.split(':');
+      const starts=new Date(date);
+        starts.setHours(hoursS);
+        starts.setMinutes(minutesS);
+
+        const ends=new Date(date);
+        ends.setHours(hoursE);
+        ends.setMinutes(minutesE);
+
+
+
+      const newTimeSlot = {
+        date: new Date(date), // Convert date string to Date object
+        startTime:starts,
+        endTime:ends
+      };
+  
+      // Push the new time slot to the doctor's time slots array
+      doctor.timeSlots.push(newTimeSlot);
+  
+      // Save the updated doctor information back to the database
+      await doctor.save();
+  
+      // Send a success response
+      return res.status(200).json({ message: 'Time slot added successfully.' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error.' });
+    }
+  });
 
 
 module.exports= router;

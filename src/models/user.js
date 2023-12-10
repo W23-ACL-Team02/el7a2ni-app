@@ -108,7 +108,19 @@ const userSchema = new Schema({
     upgrade: {
       type: ObjectId
     }
-  }
+  },
+  files :{
+    type:Array,
+    default: undefined
+  },
+  timeSlots: [
+    {
+      date: Date,
+      startTime: Date, 
+      endTime: Date,   
+    }
+  ],
+
 }, 
 { 
   timestamps: true,
