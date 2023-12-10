@@ -23,7 +23,6 @@ import CheckoutFailed from './components/shared/PaymentFailed.js';
 import AppointmentPayment from './components/patient/AppointmentPayment/AppointmentPayment.js';
 import { useState } from 'react';
 
-
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
