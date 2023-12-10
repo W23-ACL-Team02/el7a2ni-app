@@ -8,6 +8,7 @@ import Home from './components/Home';
 import AddAdmin from './components/AddAdmin';
 import RemoveUser from './components/RemoveUser';
 import MedicineList from './components/MedicineList';
+import Logout from './components/Logout';
 
 
 
@@ -23,6 +24,7 @@ function App() {
         <Link to={'register'}>Register</Link> <br/>
         <h2>PRIVATE</h2>
         <Link to={'home'}>Home</Link> <br/>
+        <Link to={'logout'}>Logout</Link> <br/>
         <Link to={'upload'}>Upload</Link> <br/>
         <Link to={'addAdmin'}>Add Admin</Link> <br/>
         <Link to={'removeUser'}>Remove User</Link> <br/>
@@ -31,6 +33,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/upload" element={<UploadMedImg />} />
           <Route path="/addAdmin" element={<AddAdmin />} />
           <Route path="/removeUser" element={<RemoveUser />} />
