@@ -17,7 +17,7 @@ export default function RegisterPharmacist() {
             <div className="form-group"><label for="password">Password</label><input className="form-control" type="password" name="password" required="required" onChange={e => setPassword(e.target.value)} /></div>
             <PasswordValidityBox password={password}></PasswordValidityBox>
             <div className="form-group"><label for="dateOfBirth">Date of Birth</label><input className="form-control" type="date" name="dateOfBirth" placeholder="Date of Birth" required="required" /></div>
-            <div className="form-group"><label for="hourlyRate">Hourly Rate</label><input className="form-control" type="number" id="hourlyRate" name="hourlyRate" placeholder="0.00" step=".01" required="required" /></div>
+            <div className="form-group"><label for="payRate">Hourly Rate</label><input className="form-control" type="number" id="payRate" name="payRate" placeholder="0.00" step=".01" required="required" /></div>
             <div className="form-group"><label for="affiliation">Affiliation</label><input className="form-control" type="text" id="affiliation" name="affiliation" placeholder="Hospital Name" required="required" /></div>
             <p>Educational Background</p>
             <div className="form-group"><label for="education_name">Name</label><input className="form-control" type="text" id="education_name" name="education_name" placeholder="University's Name" required="required" /></div>
@@ -55,7 +55,7 @@ export default function RegisterPharmacist() {
 //         email: '',
 //         password: '',
 //         dateOfBirth: '',
-//         hourlyRate: '',
+//         payRate: '',
 //         affiliation: '',
 //         educationName: '',
 //         educationEnd: '',
@@ -104,7 +104,7 @@ export default function RegisterPharmacist() {
 //             <input type="email" name="email" onChange={handleInputChange} />
 //             <input type="password" name="password" onChange={handleInputChange} />
 //             <input type="date" name="dateOfBirth" onChange={handleInputChange} />
-//             <input type="number" name="hourlyRate" onChange={handleInputChange} />
+//             <input type="number" name="payRate" onChange={handleInputChange} />
 //             <input type="text" name="affiliation" onChange={handleInputChange} />
 //             <input type="text" name="educationName" onChange={handleInputChange} />
 //             <input type="month" name="educationEnd" onChange={handleInputChange} />

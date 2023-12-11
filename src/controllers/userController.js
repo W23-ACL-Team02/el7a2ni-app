@@ -215,7 +215,7 @@ module.exports = {
       }
       
       // Update user
-      let result = await userModel.findByIdAndUpdate(_id, {acceptanceStatus: 'accepted'});
+      let result = await userModel.findByIdAndUpdate(_id, {acceptanceStatus: 'pendingContract'});
   
       if (result.modifiedCount < 1) {
         throw new Error(`Pharmacist ${_id} does not exist.`);

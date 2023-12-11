@@ -76,7 +76,7 @@ const userSchema = new Schema({
   },
   acceptanceStatus: {
     type: String,
-    enum: ['accepted', 'rejected', 'pending']
+    enum: ['accepted', 'rejected', 'pending', 'pendingContract']
   },
   healthPackage: {
     packageId: {
@@ -138,18 +138,33 @@ const userSchema = new Schema({
     isPharmacist() {
       return this.type == 'pharmacist';
     },
-    addFamilyMember(familymember) {
-      if (this.family == undefined) this.family = [];
+    async addFamilyMember(familymember) {
+      if (this.family == undefined) {
+        this.family = {
+          linked: [],
+          created: []
+        }
+      }
+
+      this.family.created.push({
+        id: familymember._id,
+        relationship: familymember.relationship
+      })
+    },
+    viewfamilymember() {
+      if (this.family == undefined) {
+        this.family = {
+          linked: [],
+          created: []
+        }
+      }
       
-      this.family.push(familymember)
+      return this.family;
     },
     additemTocart(cartItem) {
       if (this.cart == undefined) this.cart = [];
       
       this.cart.push(cartItem)
-    },
-    viewcartt() {
-      return this.cart;
     },
     deleteitemfromcart(medicineId){
       if (this.cart.length === 0) {
@@ -164,9 +179,6 @@ const userSchema = new Schema({
         this.cart.splice(cartItemIndex, 1);
       }
     },
-    viewfamilymember() {
-      return this.family;
-    },
     incrementq(index) {
       this.cart[index]+=1
       User.save()
@@ -180,10 +192,6 @@ const userSchema = new Schema({
       if (this.orders == undefined) this.oders = [];
       
       this.orders.push(order)
-    },
-    additemTocart(cartItem) {
-      if (this.cart==undefined) this.cart= [];
-      this.cart.push(cartItem);
     },
     emptyCart(){
       this.cart=[];

@@ -2,8 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import '../css/table.css';
 import { useHistory } from 'react-router-dom';
+import PendingPharmacistsButton from './PendingPharmacistsButton';
 
-function GetPharmacists(){
+const baseURL = process.env.REACT_APP_SERVER_URL; // Replace with your backend URL
+
+function GetPharmacists() {
+  const [isActioned, setIsActioned] = useState(false);
+  const [message, setMessage] = useState('');
   const [pharmacists, setPharmacists]= useState([]);
 
   useEffect(() => {
@@ -23,6 +28,7 @@ function GetPharmacists(){
     <div className='Container'>
       <div className='mt-3'> 
       <h3>Pending Pharmacists' Information</h3>
+      {isActioned && <h2>{message}</h2>}
       <table className='table'>
         <thead>
           <tr>
@@ -37,6 +43,7 @@ function GetPharmacists(){
             <th>Educational Background: <br></br>
             University Name</th>
             <th>Graduation Year</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -53,7 +60,9 @@ function GetPharmacists(){
                 <td>{user.affiliation}</td>
                 <td>{user.education && user.education.name}</td>
                 <td>{user.education && user.education.endYear}</td>
-
+                <td>
+                  <PendingPharmacistsButton _id={user._id} setIsActioned={setIsActioned} setMessage={setMessage}/>
+                </td>
               </tr>
             })
           }
