@@ -10,6 +10,7 @@ import AddAdmin from './components/AddAdmin';
 import RemoveUser from './components/RemoveUser';
 import MedicineList from './components/MedicineList';
 import Logout from './components/Logout';
+import ViewCart from './components/ViewCart'
 import Patients from './components/Patients';
 import ViewPatient from './components/ViewPatient';
 import Pharmacists from './components/Pharmacists';
@@ -39,6 +40,7 @@ function App() {
         <Link to={'addAdmin'}>Add Admin</Link> <br/>
         <Link to={'removeUser'}>Remove User</Link> <br/>
         <Link to={'viewMedicine'}>View Medicine</Link> <br/>
+        <Link to={'ViewCart'}>View Cart</Link> <br/>
         <Link to={'patients'}>View Patients' Information</Link> <br/>
         <Link to={'pharmacists'}>View Pharmacists' Information</Link> <br/>
         <Link to={'pendingpharmacists'}>View Pending Pharmacists</Link> <br/>
@@ -53,6 +55,7 @@ function App() {
           <Route path="/addAdmin" element={<AddAdmin />} />
           <Route path="/removeUser" element={<RemoveUser />} />
           <Route path="/viewMedicine" element={<MedicineList />} />
+          <Route path="/ViewCart" element={<ViewCart />} />
           <Route path="/patients" element={<Patients />} />
           <Route path="/patient" element={<ViewPatient />} />
           <Route path="/pharmacists" element={<Pharmacists />} />

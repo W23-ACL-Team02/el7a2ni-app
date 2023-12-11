@@ -4,7 +4,7 @@ var router = express.Router({mergeParams: true});
 var adminRouter = require('./private/admin');
 var userRouter = require('./private/user');
 var medicineRouter = require('./private/medicineController');
-var patientRouter = require('./private/patient');
+var patientRouter= require('./private/patient');
 const authentiateToken = require('../middleware/authenticateToken');
 
 router.all('*', authentiateToken,(req, res, next) => { //TODO: REMOVE COMMENT
