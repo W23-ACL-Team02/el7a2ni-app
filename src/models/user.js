@@ -143,13 +143,38 @@ const userSchema = new Schema({
       
       this.family.push(familymember)
     },
+    additemTocart(cartItem) {
+      if (this.cart == undefined) this.cart = [];
+      
+      this.cart.push(cartItem)
+    },
+    viewcartt() {
+      return this.cart;
+    },
+    deleteitemfromcart(medicineId){
+      if (this.cart.length === 0) {
+        return; // No items in the cart, nothing to delete
+      }
+    
+      // Find the index of the item with the specified medicineId in the cart
+      const cartItemIndex = this.cart.findIndex(item => item.medicineId === medicineId);
+    
+      if (cartItemIndex !== -1) {
+        // If the item is found, remove it from the cart
+        this.cart.splice(cartItemIndex, 1);
+      }
+    },
     viewfamilymember() {
       return this.family;
+    },
+    incrementq(index) {
+      this.cart[index]+=1
+      User.save()
     },
     addAddress(newaddress) {
       if (this.addresses == undefined) this.addresses = [];
       
-      this.addresses.push(newaddress)
+      this.addresses.push(newaddress);
     },
     addOrder(order) {
       if (this.orders == undefined) this.oders = [];
@@ -170,9 +195,7 @@ const userSchema = new Schema({
       this.orders[index].status="cancelled"
     }
   }
-  
-}
-);
+});
 
 // * Commented out encryption
 // userSchema.pre('save', async function() {
