@@ -117,8 +117,9 @@ module.exports = {
             const currUserID = req.session.userId;
             //const currUserID = "6547b96606043724533eedbf"
             const currUser = await userModel.findOne({_id: currUserID})
-    
-            const healthPackageDiscount = 0;
+            const currUserHealthPackageID = currUser.healthPackage ? currUser.healthPackage.packageId : null
+            let healthPackageDiscount = 0;
+            
             if(currUserHealthPackageID &&  currUser.healthPackage.status === "Subscribed"){
                 healthPackageDiscount = AllHealthPackages.filter(hp => hp._id == currUserHealthPackageID.valueOf())[0].discountSession 
             }

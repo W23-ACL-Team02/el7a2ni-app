@@ -3,6 +3,7 @@ import axios from 'axios';
 import atob from 'atob';
 const { useState, useEffect, useRef } = require("react");
 const { useLocation } = require("react-router-dom")
+const serverURL = process.env.REACT_APP_SERVER_URL
 
 export default function DoctorHealthRecordsPage() {
   const [files, setFiles] = useState([])
@@ -11,7 +12,7 @@ export default function DoctorHealthRecordsPage() {
   const patientUsername = state.patientUsername;
 
   const  getFiles = async function(){
-      await axios.post('http://localhost:3000/private/doctors/api/viewHealthRecords', {patientUsername: patientUsername}, {withCredentials: true}).then(
+      await axios.post(`${serverURL}/private/doctors/api/viewHealthRecords`, {patientUsername: patientUsername}, {withCredentials: true}).then(
       (res) => { 
       const files = res.data.files
       // console.log(files)
