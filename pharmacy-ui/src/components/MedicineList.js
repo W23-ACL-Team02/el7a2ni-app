@@ -172,7 +172,7 @@ const MedicineList = () => {
       const response = await axios.post('http://localhost:3000/private/patient/cart/addtocart', {
         medicineId,
         quantity: 1, // You can modify this to allow the user to input a quantity
-      });
+      }, {withCredentials: true});
 
       console.log(response.data);
       // Optionally, you can display a success message or update the UI to reflect the change

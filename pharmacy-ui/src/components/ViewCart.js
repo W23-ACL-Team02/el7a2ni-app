@@ -113,7 +113,7 @@ function ViewCart() {
       const res = await axios.post('http://localhost:3000/private/patient/cart/deletefromcart', {
         medicineId,
         quantity,
-      });
+      }, {withCredentials: true});
 
       // Refresh the cart and total after deleting the item
       Viewcart();
@@ -130,7 +130,7 @@ function ViewCart() {
       const res = await axios.put('http://localhost:3000/private/patient/cart/editquantity', {
         medicineId,
         quantity: newQuantity,
-      });
+      }, {withCredentials: true});
 
       // Refresh the cart and total after changing the quantity
       Viewcart();
@@ -144,7 +144,7 @@ function ViewCart() {
 
   const Viewcart = async () => {
     try {
-      const res1 = await axios.get('http://localhost:3000/private/patient/cart/viewcart');
+      const res1 = await axios.get('http://localhost:3000/private/patient/cart/viewcart', {withCredentials: true});
       setCart(res1.data);
     } catch (err) {
       console.log(err);
@@ -153,7 +153,7 @@ function ViewCart() {
 
   const getTotal = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/private/patient/order/gettotal');
+      const res = await axios.get('http://localhost:3000/private/patient/order/gettotal', {withCredentials: true});
       setTotal(res.data);
     } catch (err) {
       console.log(err);
