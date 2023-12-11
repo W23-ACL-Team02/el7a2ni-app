@@ -1,5 +1,5 @@
 import classes from './PersonalBar.module.css';
-import SubscriptionComparisonCard from '../SubscriptionComparisonCard/subscriptionComparisonCard.js';
+import SubscriptionComparisonCard from '../subscriptionComparisonCard/subscriptionComparisonCard.js';
 import axios from 'axios';
 import '../CommonComponents.css'
 const { useState, useEffect, useRef } = require("react");

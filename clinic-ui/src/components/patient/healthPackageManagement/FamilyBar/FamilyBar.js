@@ -1,5 +1,5 @@
 import classes from './FamilyBar.module.css';
-import SubscriptionComparisonCard from '../SubscriptionComparisonCard/subscriptionComparisonCard.js';
+import SubscriptionComparisonCard from '../subscriptionComparisonCard/subscriptionComparisonCard';
 import axios from 'axios';
 const { useState, useEffect } = require("react");
 

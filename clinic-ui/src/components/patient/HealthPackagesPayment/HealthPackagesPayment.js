@@ -5,34 +5,58 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 const { useState , useEffect, useRef } = require("react");
 const serverURL = process.env.REACT_APP_SERVER_URL;
 const publishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
 const HealthPackageCheckout = () => {
-    const [currUser, setCurrUser] = useState([null])
+    const [currUser, setCurrUser] = useState({})
+    const [requiredPackages, setRequiredPackages] = useState([]);
     const [selectedHealthPackages,setselectedHealthPackages] = useState([]);
     const [SelectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+    const [member, setMember] = useState({})
     const cardRef = useRef(null);
     const navigate = useNavigate()
-    // let { state } = useLocation();
-    // const healthPackages = state.healthPackages
-    const selectedPackages = [{packageID: "655ffa2f8066173be32d7373", patientID: "6547b96606043724533eedbf", patientType: "self"},
-{packageID: "655ffa2f8066173be32d7373", patientID: "6548f2293575471b2b1d3547", patientType: "created"}]
+    let { state } = useLocation();
+    
 
-    const getCurrUser =  async () => {
-        await axios.get(`${serverURL}/private/user/getSelfUser`, {withCredentials:true}).then(
-        (res) => { 
-           const currUser = res.data
-           setCurrUser(currUser)
-           console.log(currUser)
-       }); 
+    useEffect(() =>{ 
+        const fetchData = async () =>{
+            const user = await getCurrUser(); 
+            setMember(state) 
+            const packages = getRequiredPackages(user, state);
+            getAllSelectedHealthPackages(packages);
+        }
+
+        fetchData();
+     }, []);
+
+
+     const getCurrUser =  async () => {
+        const response = await axios.get(`${serverURL}/private/user/getSelfUser`, {withCredentials:true})
+        const user = response.data;
+        setCurrUser(user);
+        return user;     
     }
 
-    const getAllSelectedHealthPackages =  async () => {
+    const getRequiredPackages = (user, member) => {
+        if(member.selectedMember == "Myself"){
+            const requiredPackages = [{packageID: member.packageId, patientID: user._id, patientType: member.type}]
+            setRequiredPackages(requiredPackages)
+            return requiredPackages;
+        }else{
+            const requiredPackages = [{packageID: member.packageId, patientID: member.patient._id,  patientType: member.type}]
+            setRequiredPackages(requiredPackages)
+            return requiredPackages;
+        } 
+    }
+    //const selectedPackages = [{packageID: "655ffa2f8066173be32d7373", patientID: "6547b96606043724533eedbf", patientType: "self"},
+//{packageID: "655ffa2f8066173be32d7373", patientID: "6548f2293575471b2b1d3547", patientType: "created"}]
+
+    const getAllSelectedHealthPackages =  async (packages) => {
         await axios.get(`${serverURL}/private/payment/getAllSelectedHealthPackages`, {
-            params: { packages: selectedPackages}, 
+            params: { packages: packages}, 
             withCredentials:true})
             .then(
             (res) => { 
@@ -56,7 +80,7 @@ const HealthPackageCheckout = () => {
             if(response.data === "success"){
                 console.log('your payment was successful')
                 //call subscribe to health packages Api
-                subscribeToHealthPackages()
+                subscribe(requiredPackages[0].packageID);
                 navigate("/checkout-success")
             }else{
                 console.log('your payment was unsuccessful')
@@ -75,7 +99,7 @@ const HealthPackageCheckout = () => {
                 if(res.data === "success"){
                     console.log('your payment was successful')
                     //call subscribe to health packages Api
-                    //subscribeToHealthPackages()
+                    subscribe(requiredPackages[0].packageID);
                     navigate("/checkout-success")
                 }else{
                     console.log('your payment was unsuccessful')
@@ -100,29 +124,27 @@ const HealthPackageCheckout = () => {
             }  
     }
 
-    const subscribeToHealthPackages = async () => {
-        const currUserSelectedPackage = selectedPackages.filter(p => p.patientID === currUser._id)[0] || null
-        if(currUserSelectedPackage) {
-            subscribeForCurrUser(currUserSelectedPackage.packageID) 
+    const subscribe = async (packageId) => {
+        console.log('subscribing to package: ' + packageId)
+        if (member.selectedMember == 'Myself'){
+          await axios.post(`${serverURL}/private/patient/healthPackage/subscribe`, {packageId: packageId}, {withCredentials: true}).then(
+          (res) => {
+              console.log("subscribed for myself")
+          }).catch((error) => {
+            console.log(error);
+          });
         }
-    }
-
-    const subscribeForCurrUser = async (packageID) => {
-        await axios.post(`${serverURL}/private/patient/healthPackage/subscribe`, {
-            data: {packageId : packageID},
-            withCredentials:true})
-            .then((res) => {
-                if(res){
-                    console.log("current user subscribed");
-                }
-            })
-    }
-
-    useEffect(() =>{ 
-        getCurrUser();
-        getAllSelectedHealthPackages();   
-     }, []);
-   
+        else{
+            await axios.post(`${serverURL}/private/family/subscribe`, {packageId: packageId, memberId: member.packageID, memberType: member.type}, {withCredentials: true}).then(
+            (res) => {
+              console.log(res.data)
+              // console.log('unsubbed array after subbing')
+              // console.log(unsubscribedFamilyMembers)
+            }).catch((error) => {
+              console.log(error);
+            });
+          }
+        }
 
     return (
         <div className={styles.checkout_container}>

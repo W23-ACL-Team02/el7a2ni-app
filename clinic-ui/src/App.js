@@ -66,8 +66,8 @@ function App() {
           <Route path="/patientsList" element={<PatientsList />} />
           <Route path="/patient-details" element={<PatientDetails />} />
           <Route path="/healthPackagesPayment" element={<HealthPackagesPayment />} />
-          <Route path="/checkoutSuccess" element={<CheckoutSuccess />} />
-          <Route path="/checkoutFailed" element={<CheckoutFailed />} />
+          <Route path="/checkout-success" element={<CheckoutSuccess />} />
+          <Route path="/checkout-failed" element={<CheckoutFailed />} />
           <Route path="/appointmentPayment" element={<AppointmentPayment />} />
         </Routes>
       </BrowserRouter>

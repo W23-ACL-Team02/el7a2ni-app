@@ -52,7 +52,7 @@ module.exports = {
     },
     getAllSelectedHealthPackages : async (req, res) => {
         const packages = req.query.packages;
-    
+        console.log(packages)
         try{
             const AllPatients = await userModel.find({type: 'patient'});
             const AllFamilyMembers = await familyModel.find();
@@ -61,26 +61,27 @@ module.exports = {
             //const currUserID = "6547b96606043724533eedbf"
             const currUser = await userModel.findOne({_id: currUserID})
             const currUserHealthPackageID = currUser.healthPackage ? currUser.healthPackage.packageId : null
-            const healthPackageDiscount = currUserHealthPackageID ? AllHealthPackages.filter(hp => hp._id == currUserHealthPackageID.valueOf())[0].discountFamilySubscription : 0
-        
+            const healthPackageDiscount = 0;
+            if(currUserHealthPackageID &&  currUser.healthPackage.status === "Subscribed"){
+                healthPackageDiscount = AllHealthPackages.filter(hp => hp._id == currUserHealthPackageID.valueOf())[0].discountFamilySubscription 
+            }
+            
             let totalPackages = [];
 
             packages.forEach(package => {
                 let patient;
-                if(package.patientType == "self" || package.patientType == "linked" ){
+                if(package.patientType == "Myself" || package.patientType == "linked" ){
                     patient = AllPatients.filter(p => p._id == package.patientID)[0]
                 }else{
                     patient = AllFamilyMembers.filter(p => p._id == package.patientID)[0]
                     console.log(patient)
                 }
-            
-                
 
                 let selectedPackage = AllHealthPackages.filter(hp => hp._id == package.packageID)[0];
                 let patientName = patient.name;
                 let packageName = selectedPackage.name;
                 let packagePrice = selectedPackage.price; 
-                let appliedDiscount = package.patientType !== "self" ? healthPackageDiscount : 0;
+                let appliedDiscount = package.patientType !== "Myself" ? healthPackageDiscount : 0;
                 if(patient._id != currUserID){
                     let discount = packagePrice * appliedDiscount
                     packagePrice = packagePrice - discount;
@@ -116,8 +117,11 @@ module.exports = {
             const currUserID = req.session.userId;
             //const currUserID = "6547b96606043724533eedbf"
             const currUser = await userModel.findOne({_id: currUserID})
-            const currUserHealthPackageID = currUser.healthPackage ? currUser.healthPackage.packageId : null
-            const healthPackageDiscount = currUserHealthPackageID ? AllHealthPackages.filter(hp => hp._id == currUserHealthPackageID.valueOf())[0].discountSession : 0
+    
+            const healthPackageDiscount = 0;
+            if(currUserHealthPackageID &&  currUser.healthPackage.status === "Subscribed"){
+                healthPackageDiscount = AllHealthPackages.filter(hp => hp._id == currUserHealthPackageID.valueOf())[0].discountSession 
+            }
             const doctor = await userModel.findOne({_id : doctorID})
             const payRate = doctor.payRate
             const price = payRate - (payRate * healthPackageDiscount)    

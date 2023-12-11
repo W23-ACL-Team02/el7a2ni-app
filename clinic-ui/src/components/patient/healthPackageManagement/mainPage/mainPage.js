@@ -1,9 +1,11 @@
 import classes from './mainPage.module.css';
-import SubscriptionComparisonCard from '../SubscriptionComparisonCard/subscriptionComparisonCard.js';
+import SubscriptionComparisonCard from '../subscriptionComparisonCard/subscriptionComparisonCard.js';
 import PersonalBar from '../PersonalBar/PersonalBar.js';
 import FamilyBar from '../FamilyBar/FamilyBar.js';
 import axios from 'axios';
-const { useState, useEffect, useRef } = require("react");
+import { useNavigate } from "react-router-dom";
+const { useState, useEffect, useRef} = require("react");
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 export default function HealthPackageManagement(props) {
   const [packages, setPackages] = useState([]);
@@ -12,71 +14,94 @@ export default function HealthPackageManagement(props) {
   const [subscribedFamilyMembers, setSubscribedFamilyMembers] = useState([]);
   const [unsubscribedFamilyMembers, setUnsubscribedFamilyMembers] = useState([]);
   const [selectedMember, setSelectedMember] = useState('')
+  const navigate = useNavigate()
 
   const getPackages = async () => {
-    await axios.get('http://localhost:3000/private/patient/healthPackage/all', {withCredentials: true}).then(
+    await axios.get(`${serverURL}/private/patient/healthPackage/all`, {withCredentials: true}).then(
     (res) => { 
         const packages = res.data
         // console.log(packages.healthPackages)
         setPackages(packages.healthPackages)
     });
   }
-  const subscribe = async (packageId) => {
+
+  const goToPayment = async(packageId) => {
     console.log('subscribing to package: ' + packageId)
-    if (selectedMember == 'Myself'){
-      await axios.post('http://localhost:3000/private/patient/healthPackage/subscribe', {packageId: packageId}, {withCredentials: true}).then(
-      (res) => {
-          getSubscriptionDetails()
-          getFamilyMembers()    
-          const unsubbed = unsubscribedFamilyMembers.filter((element) => element.name != 'Myself')
-          if (unsubbed.length > 0){
-            setSelectedMember(unsubbed[0].name)
-            console.log('set subbed selection as \'' + unsubbed[0].name + '\'')
+      if (selectedMember == 'Myself'){
+          const data = {selectedMember: selectedMember, patient : {}, packageId: packageId,  type:"Myself"}
+          navigate( "/healthPackagesPayment", {state: data});
+      }else{  
+          var member;
+          console.log('looking for ' + selectedMember)
+          unsubscribedFamilyMembers.forEach(element => {
+          console.log(element)
+            if (element.name == selectedMember){
+              member = element;
+              console.log('member found')
           }
-          setUnsubscribedFamilyMembers(unsubbed)
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
-    else{
-      var member;
-      // console.log('looking for ' + selectedMember)
-      unsubscribedFamilyMembers.forEach(element => {
-        // console.log(element)
-        if (element.name == selectedMember){
-          member = element;
-          // console.log('member found')
-        }
-      });
-      if (member){
-        await axios.post('http://localhost:3000/private/family/subscribe', {packageId: packageId, memberId: member.id, memberType: member.type}, {withCredentials: true}).then(
-        (res) => {
-          console.log('Subscribed for ' + selectedMember)
-          console.log(res.data)
-          getSubscriptionDetails()
-          getFamilyMembers()
-          const unsubbed = unsubscribedFamilyMembers.filter((element) => element.name != member.name)
-          if (unsubbed.length > 0){
-            setSelectedMember(unsubbed[0].name)
-            console.log('set subbed selection as \'' + unsubbed[0].name + '\'')
-
-          }
-          setUnsubscribedFamilyMembers(unsubbed)
-
-          // console.log('unsubbed array after subbing')
-          // console.log(unsubscribedFamilyMembers)
-        }).catch((error) => {
-          console.log(error);
         });
+       if (member){
+          const data = {selectedMember: selectedMember, patient : member, packageId: packageId, type: member.type}
+          navigate( "/healthPackagesPayment", {state: data});
       }
     }
-  }
+  }  
+  // const subscribe = async (packageId) => {
+  //   console.log('subscribing to package: ' + packageId)
+  //   if (selectedMember == 'Myself'){
+  //     await axios.post(`${serverURL}/private/patient/healthPackage/subscribe`, {packageId: packageId}, {withCredentials: true}).then(
+  //     (res) => {
+  //         getSubscriptionDetails()
+  //         getFamilyMembers()    
+  //         const unsubbed = unsubscribedFamilyMembers.filter((element) => element.name != 'Myself')
+  //         if (unsubbed.length > 0){
+  //           setSelectedMember(unsubbed[0].name)
+  //           console.log('set subbed selection as \'' + unsubbed[0].name + '\'')
+  //         }
+  //         setUnsubscribedFamilyMembers(unsubbed)
+  //     }).catch((error) => {
+  //       console.log(error);
+  //     });
+  //   }
+  //   else{
+  //     var member;
+  //     // console.log('looking for ' + selectedMember)
+  //     unsubscribedFamilyMembers.forEach(element => {
+  //       // console.log(element)
+  //       if (element.name == selectedMember){
+  //         member = element;
+  //         // console.log('member found')
+  //       }
+  //     });
+  //     if (member){
+  //       await axios.post(`${serverURL}/private/family/subscribe`, {packageId: packageId, memberId: member.id, memberType: member.type}, {withCredentials: true}).then(
+  //       (res) => {
+  //         console.log('Subscribed for ' + selectedMember)
+  //         console.log(res.data)
+  //         getSubscriptionDetails()
+  //         getFamilyMembers()
+  //         const unsubbed = unsubscribedFamilyMembers.filter((element) => element.name != member.name)
+  //         if (unsubbed.length > 0){
+  //           setSelectedMember(unsubbed[0].name)
+  //           console.log('set subbed selection as \'' + unsubbed[0].name + '\'')
+
+  //         }
+  //         setUnsubscribedFamilyMembers(unsubbed)
+
+  //         // console.log('unsubbed array after subbing')
+  //         // console.log(unsubscribedFamilyMembers)
+  //       }).catch((error) => {
+  //         console.log(error);
+  //       });
+  //     }
+  //   }
+  // }
 
   const cancelPersonal = async () => {
     //, headers: {Authorization: `Bearer ${token}`}
     console.log('cancelling my sub')
 
-    await axios.post('http://localhost:3000/private/patient/healthPackage/cancel', {},{withCredentials: true}).then(
+    await axios.post(`${serverURL}/private/patient/healthPackage/cancel`, {},{withCredentials: true}).then(
     (res) => {
         // console.log(res.data)
         getSubscriptionDetails()
@@ -97,7 +122,7 @@ export default function HealthPackageManagement(props) {
       })
     console.log('cancelling ' + member.name)
 
-    await axios.post('http://localhost:3000/private/family/cancel', {memberId: member.id, memberType: member.type}, {withCredentials: true}).then(
+    await axios.post(`${serverURL}/private/family/cancel`, {memberId: member.id, memberType: member.type}, {withCredentials: true}).then(
     (res) => {
         console.log(res.data)
         getSubscriptionDetails()
@@ -119,7 +144,7 @@ export default function HealthPackageManagement(props) {
   const getSubscriptionDetails = async () => {
       try {
         console.log('getting subscription')
-        const res  = await axios.get('http://localhost:3000/private/patient/healthPackage/view', {withCredentials: true})
+        const res  = await axios.get(`${serverURL}/private/patient/healthPackage/view`, {withCredentials: true})
         setSubscription(res.data)
         // console.log(res.data)
         // console.log(res.data.subscription.status)
@@ -137,7 +162,7 @@ export default function HealthPackageManagement(props) {
   }
 
   const getFamilyMembers = async () => {
-    await axios.get('http://localhost:3000/private/family', {withCredentials: true}).then(
+    await axios.get(`${serverURL}/private/family`, {withCredentials: true}).then(
     (res) => { 
         const familyMembers = res.data.family
         setFamilyMembers(familyMembers)
@@ -230,7 +255,7 @@ export default function HealthPackageManagement(props) {
                 color={healthPackage.color}
                 price={healthPackage.price}
                 id={healthPackage._id}
-                subscribeFunction={subscribe}
+                subscribeFunction={goToPayment}
                 />
         </div>
         ))}
