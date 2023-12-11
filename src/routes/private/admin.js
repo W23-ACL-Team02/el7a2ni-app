@@ -5,7 +5,7 @@ const userRouter = require(`./admin/user.js`);
 const pendingPharmacistsRouter = require('./admin/pendingPharmacists.js');
 const authorizeUser = require('../../middleware/authorizeUser.js');
 
-router.all('*', (req, res, next) => {
+router.all('*', (req, res, next) => { //TODO: remove comment
   // Ensure admin
   if (!authorizeUser(req, res, ["admin"])) return;
 

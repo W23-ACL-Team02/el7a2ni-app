@@ -46,7 +46,19 @@ const medicineSchema = new Schema({
     },
     decrementQuantity(sales){
       this.quantity= this.quantity- sales
+<<<<<<< HEAD
     }
+=======
+    },
+    decrementSales(quantity) {
+      if (this.sales == undefined) this.sales = 0;
+      
+      this.sales= this.sales- quantity
+    },
+    incrementQuantity(sales){
+      this.quantity= this.quantity+sales
+    },
+>>>>>>> a2b2fcb3c991e470ba305c1626a803c1110f554a
   } });
 
 const Medicine = mongoose.model('medicine', medicineSchema);

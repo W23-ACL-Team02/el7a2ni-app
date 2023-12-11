@@ -1,0 +1,20 @@
+#wrapper {
+    width: 1000px;
+    height:fit-content;
+   
+    overflow: hidden;
+    /* will contain if #first is longer than #second */
+}
+#first {
+    width: 300px;
+    height:fit-content;
+    float:left; /* add this */
+    
+}
+#second {
+ 
+    height:fit-content;
+    overflow: hidden;
+   
+     /* if you don't want #second to wrap below #first */
+}

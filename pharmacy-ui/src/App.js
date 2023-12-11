@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import MedicinePayment from './components/patient/MedicinePayment/MedicinePayment.js';
@@ -12,15 +13,16 @@ import AddAdmin from './components/AddAdmin';
 import RemoveUser from './components/RemoveUser';
 import MedicineList from './components/MedicineList';
 import Logout from './components/Logout';
-// import Patients from './components/Patients';
-// import ViewPatient from './components/ViewPatient';
-// import Pharmacists from './components/Pharmacists';
-// import ViewPharmacist from './components/ViewPharmacist';
-// import PendingPharmacists from './components/PendingPharmacists';
-// import Orders from './components/Orders';
-// import ChooseAddress from './components/ChooseAddress'
-// import OrderDetails from './components/OrderDetails'
-// import AddAddress from './components/AddAddress'
+import Patients from './components/Patients';
+import ViewPatient from './components/ViewPatient';
+import Pharmacists from './components/Pharmacists';
+import ViewPharmacist from './components/ViewPharmacist';
+import PendingPharmacists from './components/PendingPharmacists';
+import Orders from './components/Orders';
+import ChooseAddress from './components/ChooseAddress'
+import OrderDetails from './components/OrderDetails'
+import AddAddress from './components/AddAddress'
+import axios from 'axios'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -40,7 +42,9 @@ function App() {
         <Link to={'viewMedicine'}>View Medicine</Link> <br/>
         <Link to={'patients'}>View Patients' Information</Link> <br/>
         <Link to={'pharmacists'}>View Pharmacists' Information</Link> <br/>
-        <Link to={'pendingpharmacists'}>View Pending Pharmacists' Information</Link> <br/>
+        <Link to={'pendingpharmacists'}>View Pending Pharmacists</Link> <br/>
+        <Link to={'vieworders'}>View Orders</Link> <br/>
+        <Link to={'addaddress'}>Add Address</Link> <br/>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
@@ -53,11 +57,16 @@ function App() {
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
          <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
-          {/* <Route path="/patients" element={<Patients />} />
+          <Route path="/patients" element={<Patients />} />
           <Route path="/patient" element={<ViewPatient />} />
           <Route path="/pharmacists" element={<Pharmacists />} />
           <Route path="/pharmacist" element={<ViewPharmacist />} />
-          <Route path="/pendingpharmacists" element={<PendingPharmacists />} /> */}
+          <Route path="/pendingpharmacists" element={<PendingPharmacists />} />
+          <Route path="/vieworders" element={<Orders />} />
+          <Route path="/chooseaddress" element={<ChooseAddress />} />
+          <Route path="/orderdetails" element={<OrderDetails />} />
+          <Route path="/addaddress" element={<AddAddress />} />
+
         </Routes>
       </BrowserRouter>
     </div>

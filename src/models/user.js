@@ -101,6 +101,22 @@ const userSchema = new Schema({
     upgrade: {
       type: ObjectId
     }
+  },  
+  addresses: {
+    type: Array,
+    default: []
+  },
+  deliveryAddress: {
+    type: mongoose.Schema.ObjectId,
+    ref: "address"
+  },
+  orders: {
+    type: Array,
+    default: []
+  },
+  cart: {
+    type: Array,
+    default: []
   },
   files :{
     type:Array,
@@ -130,7 +146,29 @@ const userSchema = new Schema({
     viewfamilymember() {
       return this.family;
     },
+    addAddress(newaddress) {
+      if (this.addresses == undefined) this.addresses = [];
       
+      this.addresses.push(newaddress)
+    },
+    addOrder(order) {
+      if (this.orders == undefined) this.oders = [];
+      
+      this.orders.push(order)
+    },
+    additemTocart(cartItem) {
+      if (this.cart==undefined) this.cart= [];
+      this.cart.push(cartItem);
+    },
+    emptyCart(){
+      this.cart=[];
+    },
+    viewcartt() {
+      return this.cart;
+    },
+    cancelOrder(index){
+      this.orders[index].status="cancelled"
+    }
   }
   
 }

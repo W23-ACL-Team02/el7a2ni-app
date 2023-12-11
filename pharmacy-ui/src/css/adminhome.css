@@ -1,0 +1,20 @@
+.container{  
+    text-align: center;   
+    height: 500px;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    }  
+
+button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+    text-align: center;
+    position: center;
+    background-color:#00008B;
+    color: #fff;
+    border:none;
+    border-radius:10px;
+  }

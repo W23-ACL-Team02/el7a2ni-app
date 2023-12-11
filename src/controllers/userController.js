@@ -106,9 +106,9 @@ module.exports = {
   },
   getPatientById: async (req,res) => { //json done
     // Ensure admin access
-    // if(req.session.userType != "admin") { //TODO: remove comment
-    //   return res.status(403).json({message: "Unauthorized Access"});
-    // }
+    if(req.session.userType != "admin") { 
+      return res.status(403).json({message: "Unauthorized Access"});
+    }
     
     try {
       const patient = await userModel.findById(req.params.id);
@@ -122,9 +122,9 @@ module.exports = {
   },
   getPharmacistById: async (req,res) => { //json done
     // TODO: Ensure admin access
-    // if(req.session.userType != "admin") {
-    //   return res.status(400).json({message: "Unauthorized Access"});
-    // }
+    if(req.session.userType != "admin") {
+      return res.status(400).json({message: "Unauthorized Access"});
+    }
     
     try {
       const pharmacist = await userModel.findById(req.params.id);
@@ -136,9 +136,9 @@ module.exports = {
   },
   getPatients: async(req,res)  => { //json done
     
-   // if(req.session.userType != "admin") {
-     // return res.status(400).json({message: "Unauthorized Access"}); 
-    //}
+   if(req.session.userType != "admin") {
+     return res.status(400).json({message: "Unauthorized Access"}); 
+    }
 
     //TODO Ensure admin access
     
@@ -152,9 +152,9 @@ module.exports = {
   },
   getPharmacists:  async(req,res)  => { //json done
     // TODO: Ensure admin access
-    // if(req.session.userType != "admin") {
-    //     return res.status(400).json({message: "Unauthorized Access"});
-    // }
+    if(req.session.userType != "admin") {
+        return res.status(400).json({message: "Unauthorized Access"});
+    }
 
     try {
         //retrieve only pharmacist types who are accepted
@@ -168,9 +168,9 @@ module.exports = {
   },
   getPendingPharmacists: async(req,res)  => { //json done
     // TODO: Ensure admin access
-    // if(req.session.userType != "admin") {
-    //   return res.status(400).json({message: "Unauthorized Access"});
-    // }
+    if(req.session.userType != "admin") {
+      return res.status(400).json({message: "Unauthorized Access"});
+    }
 
    const id = req.query?.id ?? null; 
    
