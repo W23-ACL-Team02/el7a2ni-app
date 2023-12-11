@@ -104,25 +104,27 @@ module.exports = {
       res.status(400).json({ errors: [error.message] })
     }
   },
-  getPatientById: async (req,res) => {
+  getPatientById: async (req,res) => { //json done
     // Ensure admin access
-    if(req.session.userType != "admin") {
-      return res.status(403).send("Unauthorized Access");
-    }
+    // if(req.session.userType != "admin") { //TODO: remove comment
+    //   return res.status(403).json({message: "Unauthorized Access"});
+    // }
     
     try {
       const patient = await userModel.findById(req.params.id);
-      
+      if (!patient){
+        return res.status(404).json({ message: "Patient not found" });
+      }
       return res.status(200).json(patient);
     } catch(error) {
       res.status(400).json({err: error.message});
     }
   },
-  getPharmacistById: async (req,res) => {
-    // Ensure admin access
-    if(req.session.userType != "admin") {
-      return res.status(400).send("Unauthorized Access");
-    }
+  getPharmacistById: async (req,res) => { //json done
+    // TODO: Ensure admin access
+    // if(req.session.userType != "admin") {
+    //   return res.status(400).json({message: "Unauthorized Access"});
+    // }
     
     try {
       const pharmacist = await userModel.findById(req.params.id);
@@ -132,26 +134,27 @@ module.exports = {
       res.status(400).json({err: error.message});
     }  
   },
-  getPatients: async(req,res)  => { 
-    // Ensure admin access
-    if(req.session.userType != "admin") {
-      return res.status(400).send("Unauthorized Access");
-    }
-  
+  getPatients: async(req,res)  => { //json done
+    
+   // if(req.session.userType != "admin") {
+     // return res.status(400).json({message: "Unauthorized Access"}); 
+    //}
+
+    //TODO Ensure admin access
+    
     try {
       const users = await userModel.find();
-      const usersFiltered= users.filter( (user) => user.type === "patient") //only patient types
-  
-      return res.status(200).json(usersFiltered)
+      const patients= users.filter( (user) => user.type === "patient") //only patient types
+      return res.status(200).json(patients)
     } catch(error){
       res.status(400).json({err:error.message})
     }
   },
-  getPharmacists:  async(req,res)  => { 
-    // Ensure admin access
-    if(req.session.userType != "admin") {
-        return res.status(400).send("Unauthorized Access");
-    }
+  getPharmacists:  async(req,res)  => { //json done
+    // TODO: Ensure admin access
+    // if(req.session.userType != "admin") {
+    //     return res.status(400).json({message: "Unauthorized Access"});
+    // }
 
     try {
         //retrieve only pharmacist types who are accepted
@@ -163,13 +166,13 @@ module.exports = {
         res.status(400).json({err:error.message})
     }
   },
-  getPendingPharmacists: async(req,res)  => { 
-    // Ensure admin access
-    if(req.session.userType != "admin") {
-      return res.status(400).send("Unauthorized Access");
-    }
+  getPendingPharmacists: async(req,res)  => { //json done
+    // TODO: Ensure admin access
+    // if(req.session.userType != "admin") {
+    //   return res.status(400).json({message: "Unauthorized Access"});
+    // }
 
-    const id = req.query?.id ?? null;
+   const id = req.query?.id ?? null; 
    
     try {
       //retrieve only pending pharmacists
