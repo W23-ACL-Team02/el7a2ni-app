@@ -102,6 +102,7 @@
 // export default ViewCart;
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+const serverURL = process.env.REACT_APP_SERVER_URL 
 
 function ViewCart() {
   const [cart, setCart] = useState([]);
@@ -110,7 +111,7 @@ function ViewCart() {
 
   const handleDelete = async (medicineId, quantity) => {
     try {
-      const res = await axios.post('http://localhost:3000/private/patient/cart/deletefromcart', {
+      const res = await axios.post(`${serverURL}/private/patient/cart/deletefromcart`, {
         medicineId,
         quantity,
       }, {withCredentials: true});
@@ -127,7 +128,7 @@ function ViewCart() {
 
   const handleChangeQuantity = async (medicineId, newQuantity) => {
     try {
-      const res = await axios.put('http://localhost:3000/private/patient/cart/editquantity', {
+      const res = await axios.put(`${serverURL}/private/patient/cart/editquantity`, {
         medicineId,
         quantity: newQuantity,
       }, {withCredentials: true});
@@ -144,7 +145,7 @@ function ViewCart() {
 
   const Viewcart = async () => {
     try {
-      const res1 = await axios.get('http://localhost:3000/private/patient/cart/viewcart', {withCredentials: true});
+      const res1 = await axios.get(`${serverURL}/private/patient/cart/viewcart`, {withCredentials: true});
       setCart(res1.data);
     } catch (err) {
       console.log(err);
@@ -153,7 +154,7 @@ function ViewCart() {
 
   const getTotal = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/private/patient/order/gettotal', {withCredentials: true});
+      const res = await axios.get(`${serverURL}/private/patient/order/gettotal`, {withCredentials: true});
       setTotal(res.data);
     } catch (err) {
       console.log(err);

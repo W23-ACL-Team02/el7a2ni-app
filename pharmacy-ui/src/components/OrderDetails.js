@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import '../css/orders.css';
 //show order details aka cart + address + total
 //button redirects to payment page
-
+const serverURL = process.env.REACT_APP_SERVER_URL 
 
 
 function GetOrder(){
@@ -18,7 +18,10 @@ function GetOrder(){
   useEffect(() => {
     const chooseAddress = async () => {
         try{
-           await axios.post(`http://localhost:3000/private/patient/order/chooseaddress/${id}`, {withCredentials: true});
+           await axios({
+            method: 'post',
+            url:`${serverURL}/private/patient/order/chooseaddress/${id}`, 
+            withCredentials: true});
         }
         catch(err){
             console.log(err)
@@ -26,7 +29,7 @@ function GetOrder(){
     }
     const getAddress = async () => {
         try {
-            const res1 = await axios.get('http://localhost:3000/private/patient/order/getaddress', {withCredentials: true});
+            const res1 = await axios.get(`${serverURL}/private/patient/order/getaddress`, {withCredentials: true});
             setAddress(res1.data);
             console.log("address is set to ")
             console.log(address);
@@ -36,7 +39,7 @@ function GetOrder(){
     }
     const getTotal = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/private/patient/order/gettotal', {withCredentials: true});
+            const res = await axios.get(`${serverURL}/private/patient/order/gettotal`, {withCredentials: true});
             setTotal(res.data);
           } catch (err) {
             console.log(err);
@@ -44,7 +47,7 @@ function GetOrder(){
     }
     const fetchData = async () => {
       try {
-        const res2 = await axios.get('http://localhost:3000/private/patient/cart/viewcart', {withCredentials: true}); //monika
+        const res2 = await axios.get(`${serverURL}/private/patient/cart/viewcart`, {withCredentials: true}); //monika
         setCart(res2.data);
         console.log("cart is set to ")
         console.log(cart);

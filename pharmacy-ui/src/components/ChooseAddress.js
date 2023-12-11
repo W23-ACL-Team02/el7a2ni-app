@@ -5,6 +5,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import '../css/orders.css';
+const serverURL = process.env.REACT_APP_SERVER_URL 
 
 function GetAddresses(){
   const [addresses, setAddresses]= useState([]);
@@ -12,8 +13,8 @@ function GetAddresses(){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/private/patient/order/viewaddress', {withCredentials: true});
-        setAddresses(res.data);
+        const res = await axios.get(`${serverURL}/private/patient/order/viewaddress`, {withCredentials: true});
+        setAddresses(res.data)
       } catch (err) {
         console.log(err);
       }

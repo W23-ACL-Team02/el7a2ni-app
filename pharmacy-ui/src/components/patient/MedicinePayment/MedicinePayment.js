@@ -40,7 +40,7 @@ const MedicineCheckout = () => {
                 url: `${serverURL}/private/payment/payByCard`,
                 method: 'post',
                 data: {
-                    amount: selectedMedicine?.totalPrice,
+                    amount: selectedMedicine?.totalPrice *100,
                     token,
                 },
                 withCredentials:true
@@ -138,7 +138,12 @@ const MedicineCheckout = () => {
                 <p>Total Price:${selectedMedicine.totalPrice}`
         
         try{
-            await axios.post(`${serverURL}/private/email/sendEmail`, {subject, html}).then((res) => {
+            await axios({
+                method:'post',
+                url:`${serverURL}/private/email/sendEmail`, 
+                data: {subject, html},
+                withCredentials: true })
+                .then((res) => {
                 console.log(res)
             })
         }catch(error){

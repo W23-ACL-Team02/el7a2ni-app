@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+const serverURL = process.env.REACT_APP_SERVER_URL
 
 const MedicineList = () => {
   const [medicines, setMedicines] = useState([]);
@@ -15,7 +16,7 @@ const MedicineList = () => {
 
   const fetchMedicines = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/private/medicine/all', {withCredentials: true});
+      const response = await axios.get(`${serverURL}/private/medicine/all`, {withCredentials: true});
       setMedicines(response.data); // Assuming response.data is an array of medicine objects
       setError('');
     } catch (error) {

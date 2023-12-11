@@ -9,11 +9,11 @@ module.exports = {
     payByCard : async (req, res) => {
         let status, error;
         const {token, amount} = req.body;
-        console.log(amount)
+        console.log(Math.ceil(amount))
         try{
             await stripe.charges.create({
                 source: token.id,
-                amount,
+                amount: Math.ceil(amount),
                 currency: 'eur',
             });
             status = "success"
@@ -58,7 +58,6 @@ module.exports = {
             const AllMedicine = await medicineModel.find(); 
             const currUser = await userModel.findOne({_id: currUserID})
             const cart = currUser.cart;
-            console.log(cart)
             const currUserHealthPackageID = currUser.healthPackage ? currUser.healthPackage.packageId : null
             
             let healthPackageDiscount = 0;

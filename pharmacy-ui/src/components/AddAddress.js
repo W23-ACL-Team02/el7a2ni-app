@@ -1,7 +1,8 @@
 import '../css/orders.css';
 import React, { useEffect, useState } from 'react';
-
 import axios from "axios"
+const serverURL = process.env.REACT_APP_SERVER_URL 
+
 function AddAddress() {
 
     const[addressline1, setAddressline1]= useState("");
@@ -16,7 +17,7 @@ function AddAddress() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3000/private/patient/order/addaddress', {
+            await axios.post(`${serverURL}/private/patient/order/addaddress`, {
                 addressline1,
                 addressline2,
                 floor,
