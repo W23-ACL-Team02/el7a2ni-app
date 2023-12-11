@@ -51,12 +51,14 @@ module.exports = {
         
     },
     getAllSelectedMedicine : async (req, res) => {
-        const medicine = req.query.medicine;
+        //const medicine = req.query.medicine;
         const currUserID = req.session.userId;
         try{
             const AllHealthPackages = await healthPackageModel.find();
             const AllMedicine = await medicineModel.find(); 
             const currUser = await userModel.findOne({_id: currUserID})
+            const cart = currUser.cart;
+            console.log(cart)
             const currUserHealthPackageID = currUser.healthPackage ? currUser.healthPackage.packageId : null
             
             let healthPackageDiscount = 0;
@@ -66,8 +68,8 @@ module.exports = {
             
             let totalMedicine = [];
            
-            medicine.forEach(med => {
-                let medicineInfo = AllMedicine.filter(m => m._id.valueOf() === med.id)[0]
+            cart.forEach(med => {
+                let medicineInfo = med.medicine
                 let medicineName = medicineInfo.name; 
                 let medicineUnitPrice = medicineInfo.price - healthPackageDiscount*medicineInfo.price
                 let medicinePrice = medicineUnitPrice * med.quantity 

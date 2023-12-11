@@ -190,5 +190,18 @@ router.post('/addaddress', async(req,res) => { //initialize empty address array 
     }
   })
 
+  router.get("/getCart", async(req, res) => {
+    const userId= req.session.userId; 
+    try{
+      const user= await userModel.findById(userId);
+      const userCart = user.cart;
+      const items = await cartModel.find({ _id : { $in: userCart }});
+      console.log(items)
+      res.status(200).json(items)
+    }catch(error){
+      res.status(400).json(error)
+    }  
+  })
+
 
   module.exports = router;

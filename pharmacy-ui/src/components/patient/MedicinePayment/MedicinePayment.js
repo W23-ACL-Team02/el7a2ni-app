@@ -9,12 +9,11 @@ const publishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 const serverURL = process.env.REACT_APP_SERVER_URL
 
 const MedicineCheckout = () => { 
+    const [cart, setCart] = useState([]);
     const [selectedMedicine,setselectedMedicine] = useState([]);
     const [SelectedPaymentMethod, setSelectedPaymentMethod] = useState("");
     const cardRef = useRef(null);
     const navigate = useNavigate()
-    // const healthPackages = state.healthPackages
-    const SelectedMedicine = [{id: "6547be4bb0ed8581dac7059d", quantity: 2}]
 
     useEffect(() =>{
         const fetchData = async () => {
@@ -26,7 +25,7 @@ const MedicineCheckout = () => {
 
     const getAllSelectedMedicine =  async () => {
     try{
-        const response = await axios.get(`${serverURL}/private/payment/getAllSelectedMedicine`, {params: { medicine: SelectedMedicine }, withCredentials:true}) 
+        const response = await axios.get(`${serverURL}/private/payment/getAllSelectedMedicine`, {withCredentials:true}) 
         const selectedMedicine = response.data
         setselectedMedicine(selectedMedicine)
         console.log(selectedMedicine)
@@ -48,7 +47,7 @@ const MedicineCheckout = () => {
             });
             if(response.data === "success"){
                 console.log('your payment was successful')
-                //call subscribe to health packages Api
+                placeOrder()
                 sendEmailwithReceipt()
                 navigate("/checkout-success")
             }else{
@@ -67,7 +66,7 @@ const MedicineCheckout = () => {
                 console.log(res)
                 if(res.data === "success"){
                     console.log('your payment was successful')
-                    //call subscribe to health packages Api
+                    placeOrder()
                     sendEmailwithReceipt()
                     navigate("/checkout-success")
                 }else{
@@ -80,6 +79,7 @@ const MedicineCheckout = () => {
     }
 
     const payByCash = async() => {
+        placeOrder()
         sendEmailwithReceipt()
         navigate("/checkout-success")
     }
@@ -98,6 +98,18 @@ const MedicineCheckout = () => {
             }else if(SelectedPaymentMethod === "cash"){
                 payByCash()
             }  
+    }
+
+    const placeOrder = async() => {
+        try{
+            const response = await axios({
+                method:'post',
+                url:`${serverURL}/private/patient/order/placeOrder`,
+                withCredentials:true
+            })
+        }catch(error){
+            console.log(error)
+        }
     }
 
     const sendEmailwithReceipt = async() => {

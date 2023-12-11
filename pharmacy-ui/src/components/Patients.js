@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import '../css/table.css';
 import { useHistory } from 'react-router-dom';
+const serverURL = process.env.REACT_APP_SERVER_URL
 
 function GetPatients(){
   const [patients, setPatients]= useState([]);
@@ -9,7 +10,7 @@ function GetPatients(){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/private/admin/user/patients', {withCredentials: true});
+        const res = await axios.get(`${serverURL}/private/admin/user/patients`, {withCredentials: true});
         setPatients(res.data);
       } catch (err) {
         console.log(err);
