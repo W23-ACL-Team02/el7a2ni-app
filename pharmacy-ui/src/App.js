@@ -12,15 +12,15 @@ import AddAdmin from './components/AddAdmin';
 import RemoveUser from './components/RemoveUser';
 import MedicineList from './components/MedicineList';
 import Logout from './components/Logout';
-import Patients from './components/Patients';
-import ViewPatient from './components/ViewPatient';
-import Pharmacists from './components/Pharmacists';
-import ViewPharmacist from './components/ViewPharmacist';
-import PendingPharmacists from './components/PendingPharmacists';
-import Orders from './components/Orders';
-import ChooseAddress from './components/ChooseAddress'
-import OrderDetails from './components/OrderDetails'
-import AddAddress from './components/AddAddress'
+// import Patients from './components/Patients';
+// import ViewPatient from './components/ViewPatient';
+// import Pharmacists from './components/Pharmacists';
+// import ViewPharmacist from './components/ViewPharmacist';
+// import PendingPharmacists from './components/PendingPharmacists';
+// import Orders from './components/Orders';
+// import ChooseAddress from './components/ChooseAddress'
+// import OrderDetails from './components/OrderDetails'
+// import AddAddress from './components/AddAddress'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -53,11 +53,11 @@ function App() {
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
          <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
-          <Route path="/patients" element={<Patients />} />
+          {/* <Route path="/patients" element={<Patients />} />
           <Route path="/patient" element={<ViewPatient />} />
           <Route path="/pharmacists" element={<Pharmacists />} />
           <Route path="/pharmacist" element={<ViewPharmacist />} />
-          <Route path="/pendingpharmacists" element={<PendingPharmacists />} />
+          <Route path="/pendingpharmacists" element={<PendingPharmacists />} /> */}
         </Routes>
       </BrowserRouter>
     </div>
