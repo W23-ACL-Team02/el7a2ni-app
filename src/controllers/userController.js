@@ -13,7 +13,7 @@ const { MongoClient, ObjectID } = require('mongodb');
 
 var router = express.Router();
 
-const fileModel = require('../models/file.js');
+const {File} = require('../models/file.js');
 
 const mongoURI = process.env.MONGO_URI; 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -101,15 +101,15 @@ module.exports = {
 		}
 	},
 	acceptDoctor: async (req, res) => {
-		if (_id == undefined) {
-			throw new Error("No user id provided to reject.")
-		}
-
 		const _id = req.body._id;
-	
+		
 		try {
+			if (_id == undefined) {
+				throw new Error("No user id provided to reject.")
+			}
+
 			// Update user
-			let result = await userModel.findByIdAndUpdate(_id, {acceptanceStatus: 'accepted'});
+			let result = await userModel.findByIdAndUpdate(_id, {acceptanceStatus: 'pendingContract'});
 		
 			if (result.modifiedCount < 1) {
 				throw new Error(`Doctor ${_id} does not exist.`);
@@ -224,9 +224,9 @@ module.exports = {
 			const idb64=encodeFileToBase64(idDocumentFile );
 			const degreeb64=encodeFileToBase64(medicalDegreeFile );
 			const licenseb64=encodeFileToBase64(medicalLicenseFile);
-			const id= await fileModel.create({fileName:idDocument.filename,fileType:"ID",fileData:idb64});
-			const degree = await fileModel.create({fileName:medicalDegree.filename,fileType:"Degree",fileData:degreeb64});
-			const license=await fileModel.create({fileName:medicalLicense.filename,fileType:"License",fileData:licenseb64});
+			const id= await File.create({fileName:idDocument.filename,fileType:"ID",fileData:idb64});
+			const degree = await File.create({fileName:medicalDegree.filename,fileType:"Degree",fileData:degreeb64});
+			const license=await File.create({fileName:medicalLicense.filename,fileType:"License",fileData:licenseb64});
 		
 		
 

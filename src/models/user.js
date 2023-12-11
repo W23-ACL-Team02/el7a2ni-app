@@ -82,7 +82,7 @@ const userSchema = new Schema({
   },
   acceptanceStatus: {
     type: String,
-    enum: ['accepted', 'rejected', 'pending']
+    enum: ['accepted', 'rejected', 'pending', 'pendingContract']
   },
   files: {
     type: Array,
@@ -143,8 +143,8 @@ const userSchema = new Schema({
     async addFamilyMember(familymember) {
       if (this.family == undefined) {
         this.family = {
-          linked: {},
-          created: {}
+          linked: [],
+          created: []
         }
       }
 
@@ -156,8 +156,8 @@ const userSchema = new Schema({
     viewfamilymember() {
       if (this.family == undefined) {
         this.family = {
-          linked: {},
-          created: {}
+          linked: [],
+          created: []
         }
       }
       

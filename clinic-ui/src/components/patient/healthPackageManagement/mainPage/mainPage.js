@@ -1,5 +1,5 @@
 import classes from './mainPage.module.css';
-import SubscriptionComparisonCard from '../subscriptionComparisonCard/subscriptionComparisonCard.js';
+import SubscriptionComparisonCard from '../subscriptionComparisonCard/SubscriptionComparisonCard.js';
 import PersonalBar from '../PersonalBar/PersonalBar.js';
 import FamilyBar from '../FamilyBar/FamilyBar.js';
 import axios from 'axios';

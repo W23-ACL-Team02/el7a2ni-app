@@ -21,6 +21,7 @@ import HealthPackagesPayment from './components/patient/HealthPackagesPayment/He
 import CheckoutSuccess from './components/shared/PaymentSuccess.js';
 import CheckoutFailed from './components/shared/PaymentFailed.js';
 import AppointmentPayment from './components/patient/AppointmentPayment/AppointmentPayment.js';
+import PendingDoctors from './components/admin/PendingDoctors.jsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -35,6 +36,7 @@ function App() {
         <Link to={'home'}>Home</Link> <br/>
         <Link to={'logout'}>Logout</Link> <br/>
         <Link to={'addAdmin'}>Add Admin</Link> <br/>
+        <Link to={'pendingDoctors'}>Admin Pending Doctors</Link> <br/>
         <Link to={'removeUser'}>Remove User</Link> <br/>
         <Link to={'manageDocuments'}>Manage Documents</Link> <br/>
         <Link to={'addTimeSlots'}>Add Time Slots</Link> <br/> 
@@ -55,6 +57,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/addAdmin" element={<AddAdmin />} />
+          <Route path="/pendingDoctors" element={<PendingDoctors />} />
           <Route path="/removeUser" element={<RemoveUser />} />
           <Route path="/manageDocuments" element={<ManageDocuments />} />
           <Route path="/addTimeSlots" element={<AddTimeSlots />} />

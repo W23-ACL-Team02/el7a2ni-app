@@ -1,4 +1,4 @@
-import classes from './subscriptionComparisonCard.module.css';
+import classes from './SubscriptionComparisonCard.module.css';
 import axios from 'axios'
 
 export default function SubscriptionComparisonCard ({name, price, discountSession, discountMedicine, discountFamily, color, id, subscribeFunction}) {

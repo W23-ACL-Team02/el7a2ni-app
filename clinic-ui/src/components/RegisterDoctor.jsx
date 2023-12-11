@@ -40,7 +40,7 @@ export default function RegisterDoctor() {
             </select>
             </div>
 
-            <div class="form-group"><label for="hourlyRate">Hourly Rate</label><input class="form-control" type="number" id="hourlyRate" name="hourlyRate" placeholder="0.00" step=".01" required="required" /></div>
+            <div class="form-group"><label for="payRate">Hourly Rate</label><input class="form-control" type="number" id="payRate" name="payRate" placeholder="0.00" step=".01" required="required" /></div>
             <div class="form-group"><label for="affiliation">Affiliation</label><input class="form-control" type="text" id="affiliation" name="affiliation" placeholder="Hospital Name" required="required" /></div>
             <p>Educational Background</p>
             <div class="form-group"><label for="education_name">Name</label><input class="form-control" type="text" id="education_name" name="education_name" placeholder="University's Name" required="required" /></div>
@@ -78,7 +78,7 @@ export default function RegisterDoctor() {
 //         email: '',
 //         password: '',
 //         dateOfBirth: '',
-//         hourlyRate: '',
+//         payRate: '',
 //         affiliation: '',
 //         educationName: '',
 //         educationEnd: '',
@@ -127,7 +127,7 @@ export default function RegisterDoctor() {
 //             <input type="email" name="email" onChange={handleInputChange} />
 //             <input type="password" name="password" onChange={handleInputChange} />
 //             <input type="date" name="dateOfBirth" onChange={handleInputChange} />
-//             <input type="number" name="hourlyRate" onChange={handleInputChange} />
+//             <input type="number" name="payRate" onChange={handleInputChange} />
 //             <input type="text" name="affiliation" onChange={handleInputChange} />
 //             <input type="text" name="educationName" onChange={handleInputChange} />
 //             <input type="month" name="educationEnd" onChange={handleInputChange} />
