@@ -1,0 +1,167 @@
+
+.checkout_container {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.failedContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust as needed */
+    text-align: center;
+}
+.failedIcon {
+    width: 400px;
+    height: 400px;
+    color: rgb(202, 40, 40);
+    margin-bottom: 10px;
+}
+
+.successContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust as needed */
+    text-align: center;
+}
+
+.successIcon {
+    width: 400px;
+    height: 400px;
+    color: rgb(16, 198, 16);
+    margin-bottom: 10px
+}
+
+.items{
+    width: 400px;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
+                0 5px 12px -2px rgba(0, 0, 0, 0.1),
+                0 18px 36px -6px rgba(0, 0, 0, 0.1);  
+}
+
+.paymentOptions{
+    width: 400px;
+    border-radius: 8px;
+    padding: 40px;
+    margin-left: 40px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
+                0 5px 12px -2px rgba(0, 0, 0, 0.1),
+                0 18px 36px -6px rgba(0, 0, 0, 0.1);
+}
+
+.paymentOptions .title{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.paymentOptions form input{
+    display: none;
+}
+
+.paymentOptions form .category{
+    margin-top: 10px;
+    margin-right: 35px;
+    padding-top: 20px;
+}
+
+.category label{
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+label:nth-child(2), label:nth-child(3){
+    margin: 15px 0;
+}
+
+.cardRadio:checked ~ .category .cardMethod{
+    box-shadow: 0px 0px 0px 1px #6064b6;
+}
+
+.walletRadio:checked ~ .category .walletMethod{
+    box-shadow: 0px 0px 0px 1px #6064b6;
+}
+
+.cardRadio:checked ~ .category .cardMethod .check{
+    display: block;
+}
+
+.walletRadio:checked ~ .category .walletMethod .check{
+    display: block;
+}
+
+label .iconName{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.iconName span{
+    margin-left: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.iconName .iconContainer{
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.check{
+    display: none;
+}
+
+.check FontAwesomeIcon{
+    font-size : 18px;
+}
+
+.paymentOptions form .payBtn{
+    width: 20%;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background: #6064b6;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.paymentOptions form .payBtn:hover{
+    cursor: pointer;
+    background: rgb(118, 114, 114);
+}
+
+.paymentOptionBtn{
+    margin-left: 30px;
+    width: 80%;
+    margin-top: 30px;
+    color: black;
+    font-size: 1.3em;
+    text-align: center;
+    background: transparent;
+    border: 1px solid black;
+    border-radius: 5px;
+    transition: .5s;
+}
+
+
+.paymentOptionBtn:hover{
+    background: rgb(118, 114, 114);
+}
+
+.icon{
+    position: inherit;
+    margin-left: 10px;
+}

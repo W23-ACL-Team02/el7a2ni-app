@@ -5,9 +5,12 @@ var userRouter = require('./private/user');
 var adminRouter = require('./private/admin');
 var familyMemberRouter = require('./private/familymember');
 var doctorRouter = require('./private/doctors');
+var patientRouter = require('./private/patient');
 var prescriptionRouter= require('./private/prescription');
-var doctorController = require("./private/doctorController");
+var doctor = require("./private/doctor");
+var payment = require("./private/payment")
 const authentiateToken = require("../middleware/authenticateToken");
+const patientController = require('./private/patient');
 
 router.all('*', authentiateToken,(req, res, next) => {
     if (!req.session?.loggedin) {
@@ -23,6 +26,8 @@ router.use('/admin', adminRouter);
 router.use('/familymember', familyMemberRouter);
 router.use('/doctors', doctorRouter);
 router.use('/prescription',prescriptionRouter);
-router.use('/patients', doctorController)
+router.use('/doctor', doctor);
+router.use('/payment', payment)
+router.use('/patient', patientRouter)
 
 module.exports = router;

@@ -3,7 +3,8 @@ require("dotenv").config();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors = require('cors');
+const cors = require('cors')
+
 var publicRouter = require('./routes/public');
 var privateRouter = require('./routes/private');
 

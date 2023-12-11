@@ -1,0 +1,99 @@
+
+.frame {
+  display: flex;
+  width: 164px;
+  height: 368px;
+  border-radius: 13px;
+  background-color: #fff;
+  flex-direction: column;
+  align-items: center;
+}
+.line {
+  width: 109px;
+  background-color: #c5c5c5;
+  max-width: 100%;
+  border-radius: 13px;
+  height: 2px;
+  max-height: 100%;
+  /* overflow: visible; */
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  align-self: center;
+}
+
+.name {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  font-weight: 700;
+  font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: 126px;
+  height: 39px;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+}
+.subscribeButton {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 124px;
+  height: 28px;
+  border-radius: 8px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  /* white-space: nowrap; */
+  margin-top: auto;
+  margin-bottom: 10px;
+}
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: 110px;
+  height: 50px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: 130px;
+  height: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.peryear {
+  align-self: flex-end;
+  color: #000;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+}

@@ -4,12 +4,11 @@ const MongoURI = process.env.MONGO_URI;
 const FgCyan = "\x1b[36m"
 const FgGreen = "\x1b[32m"
 const FgWhite = "\x1b[37m"
-const cors = require('cors');
 
 // Set port
 var port = process.env.PORT || '3000';
 app.set('port', port);
-app.use(cors());
+
 // Mongo DB
 mongoose.set('strictQuery', false);
 mongoose.connect(MongoURI)

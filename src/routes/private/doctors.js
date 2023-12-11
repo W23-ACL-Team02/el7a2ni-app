@@ -2,8 +2,10 @@ var express = require('express');
 const userModel = require('../../models/user.js');
 const appointmentsModel = require('../../models/appointment.js');
 const healthPackageModel = require(`../../models/healthPackage.js`)
+const fileModel = require(`../../models/file.js`)
 var router = express.Router({mergeParams: true});
 const axios = require('axios');
+const { uploadHealthRecordForTesting } = require('../../controllers/patientController.js');
 
 const apiURL = 'http://localhost:3000/doctors/api';
 
@@ -229,5 +231,33 @@ router.post('/addTimeSlots', async (req, res) => {
     }
   });
 
+  const viewHealthRecords = async (req, res) => {
+    try {
+        const patientUsername = req.body.patientUsername
+        //get doctor's username
+        const doctor = await userModel.findById(req.session.userId)
+        const doctorUsername = doctor.username
+        //check if there are shared appointments
+        const appointments = await appointmentsModel.find({doctorUsername: doctorUsername, patientUsername: patientUsername})
+        if (!appointments.length){
+            res.status(400).json({error: "You don't have any appointments with this patient."});
+            return;
+        }
+        //send patient's health records
+        const patient = await userModel.findOne({username: patientUsername})
+        var patientFiles = []
+        if (patient.files){
+            patientFiles = patient.files
+            patientFiles.forEach(file => {
+                if (file.fileType == "healthRecord")
+                    file = fileModel.decodeBase64ToFile(file.fileData)
+            });
+        }
+        res.status(200).json({files: patientFiles})
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+router.post('/api/viewHealthRecords', viewHealthRecords)
 
 module.exports= router;
