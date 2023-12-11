@@ -13,6 +13,7 @@ const authenticateToken = (req, res, next) => {
     }
     
     if (bearer == undefined && token == undefined) {
+        console.log("bearer or cookie undefined")
         return res.status(403).json({errors: ["No credentials provided"]});
     }
 

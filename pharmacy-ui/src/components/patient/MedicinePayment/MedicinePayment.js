@@ -16,13 +16,23 @@ const MedicineCheckout = () => {
     // const healthPackages = state.healthPackages
     const SelectedMedicine = [{id: "6547be4bb0ed8581dac7059d", quantity: 2}]
 
+    useEffect(() =>{
+        const fetchData = async () => {
+            await getAllSelectedMedicine(); 
+        } 
+        
+        fetchData();
+     }, []);
+
     const getAllSelectedMedicine =  async () => {
-    await axios.get(`${serverURL}/private/payment/getAllSelectedMedicine`, {params: { medicine: SelectedMedicine }}).then(
-    (res) => { 
-       const selectedMedicine = res.data
-       setselectedMedicine(selectedMedicine)
-       console.log(selectedMedicine)
-   }); 
+    try{
+        const response = await axios.get(`${serverURL}/private/payment/getAllSelectedMedicine`, {params: { medicine: SelectedMedicine }, withCredentials:true}) 
+        const selectedMedicine = response.data
+        setselectedMedicine(selectedMedicine)
+        console.log(selectedMedicine)
+    }catch(error){
+       console.log(error) 
+    }        
 }
 
     const payByCard = async token => {
@@ -34,6 +44,7 @@ const MedicineCheckout = () => {
                     amount: selectedMedicine?.totalPrice,
                     token,
                 },
+                withCredentials:true
             });
             if(response.data === "success"){
                 console.log('your payment was successful')
@@ -51,7 +62,7 @@ const MedicineCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : selectedMedicine?.totalPrice}).then(
+        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : selectedMedicine?.totalPrice}, {withCredentials:true}).then(
             (res) =>{
                 console.log(res)
                 if(res.data === "success"){
@@ -122,10 +133,6 @@ const MedicineCheckout = () => {
             console.log(error)
         }        
     }
-
-    useEffect(() =>{ 
-        getAllSelectedMedicine();   
-     }, []);
    
 
     return (
@@ -134,7 +141,7 @@ const MedicineCheckout = () => {
                 {selectedMedicine?.totalMedicine?.map((m) => (
                         <div>
                             <div>
-                                <p>item: {m.medicineName}, quantity: {m.medicineQuantity}, price: {m.medicinePrice}</p>
+                                <p>item: {m.medicineName}, quantity: {m.medicineQuantity}, price: {m.medicinePrice}, applied discount: {m.appliedDiscount*100}%</p>
                             </div>
                         </div>
                 ))}

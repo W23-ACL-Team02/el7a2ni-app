@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -76,6 +77,30 @@ const userSchema = new Schema({
   acceptanceStatus: {
     type: String,
     enum: ['accepted', 'rejected', 'pending']
+  },
+  healthPackage: {
+    packageId: {
+      type: ObjectId,
+      ref: 'healthPackage'
+    },
+    startDate: {
+      type: Date
+    },
+    includedFamilyMembers: {
+      type: Array
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['Subscribed', 'Unsubscribed', 'Subscribed through family member'],
+      default: 'Unsubscribed'
+    },
+    endDate: {
+      type: Date
+    },
+    upgrade: {
+      type: ObjectId
+    }
   },
   files :{
     type:Array,

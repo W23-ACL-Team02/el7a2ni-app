@@ -8,8 +8,7 @@ const { useEffect } = require("react");
 export default function PaymentSuccess() {
     const navigate = useNavigate();
 
-    //setTimeout(() => {navigate("/home")}, 4000)
-    setTimeout(() => {navigate(-1)}, 4000)
+    setTimeout(() => {navigate("/home")}, 4000)
   
     return(
         <div className={styles.successContainer}>
