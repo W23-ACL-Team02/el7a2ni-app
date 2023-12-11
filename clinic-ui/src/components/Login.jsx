@@ -17,7 +17,12 @@ export default function Login({loggedIn}) {
             .post(`${baseURL}/public/user/login`, {username, password}, {withCredentials:true})
             .then((response) => {
                 setErrors([]);
-                navigate('/home')
+                if(response.data.pendingContract=='pendingcontract'){
+                    navigate('/contractpage') 
+                }
+                else{
+                    navigate('/home')
+                }
             })
             .catch((error) => {
                 setErrors(error.response?.data?.errors)

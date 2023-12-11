@@ -174,23 +174,32 @@ module.exports = {
 				return res.status(400).json({errors: ["Incorrect username/password"]});
 			}
 			
-			// If a doctor and not yet accepted
-			if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
+			// If a doctor and not yet accepted 
+			// changed if condition as we added pendingcontract as new status go to line 198 for refrence
+			// now it has to make sure doctor is rejected or pending not just != accepted
+			if (user?.type == 'doctor' && (user.acceptanceStatus == 'rejected' || user.acceptanceStatus == 'pending')) {
 				return res.status(400).json({errors: [`Doctor ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
 			}
 
+			
 			// Else load session variables
 			let payload = {
 				loggedin: true,
 				userId: user?._id,
 				userType: user?.type
 			}
-
+			
 			// const token = jwt.sign(payload, secret, {expiresIn: '1h'});
 			const token = jwt.sign(payload, secret);
-
+			
 			req.session = payload;
 			res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 , secure: false, domain: "localhost", sameSite: "lax", path: "/"});
+			
+			// If a doctor and HAS NOT accepted the employment contract
+			// The first Time the doctor logs in after being accepted and he has to accept the employment contract
+			if (user?.type == 'doctor' && user.acceptanceStatus == 'pendingcontract') {
+				return res.status(200).json({pendingContract:'pendingcontract'});
+			}
 			return res.status(200).send(token);
 			// return res.status(200).end();
 		} catch (error) {

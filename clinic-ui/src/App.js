@@ -22,6 +22,10 @@ import CheckoutSuccess from './components/shared/PaymentSuccess.js';
 import CheckoutFailed from './components/shared/PaymentFailed.js';
 import AppointmentPayment from './components/patient/AppointmentPayment/AppointmentPayment.js';
 import PendingDoctors from './components/admin/PendingDoctors.jsx';
+import Contract from './components/Contract';
+import PatientSearchDoctors from './components/PatientSearchDoctors';
+import ViewDoctorDetails from './components/ViewDoctorDetails';
+import ScheduleFollowUp from './components/ScheduleFollowUp';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -51,7 +55,15 @@ function App() {
         <Link to={'checkoutSuccess'}>Checkout Success</Link> <br/> 
         <Link to={'checkoutFailed'}>Checkout Failed</Link> <br/> 
         <Link to={'appointmentPayment'}>Appointment Payment</Link> <br/> 
+        <Link to={'searchdoctors'}>Patient Search Doctors</Link> <br/> 
+        <Link to={'schedulefollowup'}>Doctor Schedules Follow Up</Link> <br/> 
         <Routes>
+        {/*  */}
+        <Route path="/contractpage" element={<Contract/>} />
+        <Route path="/searchdoctors" element={<PatientSearchDoctors />} />
+        <Route path="/viewdocdetails" element={<ViewDoctorDetails />} />
+        <Route path="/schedulefollowup" element={<ScheduleFollowUp />} />
+        {/*  */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/home" element={<Home />} />
