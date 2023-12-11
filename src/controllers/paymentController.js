@@ -52,7 +52,7 @@ module.exports = {
     },
     getAllSelectedHealthPackages : async (req, res) => {
         const packages = req.query.packages;
-        console.log(packages)
+    
         try{
             const AllPatients = await userModel.find({type: 'patient'});
             const AllFamilyMembers = await familyModel.find();
