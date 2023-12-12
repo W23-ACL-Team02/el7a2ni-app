@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -30,8 +31,15 @@ const userSchema = new Schema({
   dateOfBirth: {
     type: Date,
   },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+  },
   mobile: {
     type: String,
+  },
+  wallet: {
+    type: Number,
   },
   emergencyContact: {
     name: {
@@ -68,8 +76,52 @@ const userSchema = new Schema({
   },
   acceptanceStatus: {
     type: String,
-    enum: ['accepted', 'rejected', 'pending']
-  }
+    enum: ['accepted', 'rejected', 'pending', 'pendingContract']
+  },
+  healthPackage: {
+    packageId: {
+      type: ObjectId,
+      ref: 'healthPackage'
+    },
+    startDate: {
+      type: Date
+    },
+    includedFamilyMembers: {
+      type: Array
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['Subscribed', 'Unsubscribed', 'Subscribed through family member'],
+      default: 'Unsubscribed'
+    },
+    endDate: {
+      type: Date
+    },
+    upgrade: {
+      type: ObjectId
+    }
+  },  
+  addresses: {
+    type: Array,
+    default: []
+  },
+  deliveryAddress: {
+    type: mongoose.Schema.ObjectId,
+    ref: "address"
+  },
+  orders: {
+    type: Array,
+    default: []
+  },
+  cart: {
+    type: Array,
+    default: []
+  },
+  files :{
+    type:Array,
+    default: undefined
+      },
 }, 
 { 
   timestamps: true,
@@ -86,18 +138,72 @@ const userSchema = new Schema({
     isPharmacist() {
       return this.type == 'pharmacist';
     },
-    addFamilyMember(familymember) {
-      if (this.family == undefined) this.family = [];
-      
-      this.family.push(familymember)
+    async addFamilyMember(familymember) {
+      if (this.family == undefined) {
+        this.family = {
+          linked: [],
+          created: []
+        }
+      }
+
+      this.family.created.push({
+        id: familymember._id,
+        relationship: familymember.relationship
+      })
     },
     viewfamilymember() {
+      if (this.family == undefined) {
+        this.family = {
+          linked: [],
+          created: []
+        }
+      }
+      
       return this.family;
+    },
+    additemTocart(cartItem) {
+      if (this.cart == undefined) this.cart = [];
+      
+      this.cart.push(cartItem)
+    },
+    deleteitemfromcart(medicineId){
+      if (this.cart.length === 0) {
+        return; // No items in the cart, nothing to delete
+      }
+    
+      // Find the index of the item with the specified medicineId in the cart
+      const cartItemIndex = this.cart.findIndex(item => item.medicineId === medicineId);
+    
+      if (cartItemIndex !== -1) {
+        // If the item is found, remove it from the cart
+        this.cart.splice(cartItemIndex, 1);
+      }
+    },
+    incrementq(index) {
+      this.cart[index]+=1
+      User.save()
+    },
+    addAddress(newaddress) {
+      if (this.addresses == undefined) this.addresses = [];
+      
+      this.addresses.push(newaddress);
+    },
+    addOrder(order) {
+      if (this.orders == undefined) this.oders = [];
+      
+      this.orders.push(order)
+    },
+    emptyCart(){
+      this.cart=[];
+    },
+    viewcartt() {
+      return this.cart;
+    },
+    cancelOrder(index){
+      this.orders[index].status="cancelled"
     }
   }
-  
-}
-);
+});
 
 // * Commented out encryption
 // userSchema.pre('save', async function() {
