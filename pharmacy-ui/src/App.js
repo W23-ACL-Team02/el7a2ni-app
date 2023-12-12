@@ -23,7 +23,13 @@ import Orders from './components/Orders';
 import ChooseAddress from './components/ChooseAddress'
 import OrderDetails from './components/OrderDetails'
 import AddAddress from './components/AddAddress'
-import axios from 'axios'
+import ChangePassword from './components/ChangePassword';
+import ResetPassword from './components/ResetPassword';
+import OTPVErification from './components/OTPVErification';
+import VerifyEmail from './components/VerifyEmail';
+import axios from 'axios';
+//import viewpatient from './components/viewpatient'
+
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -34,9 +40,12 @@ function App() {
         <h2>PUBLIC</h2>
         <Link to={'login'}>Login</Link> <br/>
         <Link to={'register'}>Register</Link> <br/>
+        <Link to={'VerifyEmail'}>Froget Password</Link> <br/>
+
         <h2>PRIVATE</h2>
         <Link to={'home'}>Home</Link> <br/>
         <Link to={'logout'}>Logout</Link> <br/>
+        <Link to={'changePassword'}>ChangePassword</Link> <br/>
         <Link to={'upload'}>Upload</Link> <br/>
         <Link to={'addAdmin'}>Add Admin</Link> <br/>
         <Link to={'removeUser'}>Remove User</Link> <br/>
@@ -47,6 +56,9 @@ function App() {
         <Link to={'pendingpharmacists'}>View Pending Pharmacists</Link> <br/>
         <Link to={'vieworders'}>View Orders</Link> <br/>
         <Link to={'addaddress'}>Add Address</Link> <br/>
+        
+
+
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterUser />} />
@@ -69,7 +81,10 @@ function App() {
           <Route path="/chooseaddress" element={<ChooseAddress />} />
           <Route path="/orderdetails" element={<OrderDetails />} />
           <Route path="/addaddress" element={<AddAddress />} />
-
+          <Route path='/changePassword' element={<ChangePassword/>}/>
+          <Route path='/VerifyEmail' element={<VerifyEmail/>} />
+          <Route path='/OTPVerifcation' element={<OTPVErification/>} />
+          <Route path='/ResetPassword' element={<ResetPassword/>} />
         </Routes>
       </BrowserRouter>
     </div>

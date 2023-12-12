@@ -1,4 +1,8 @@
 const userModel = require('../models/user');
+const nodemailer = require('nodemailer');
+const OTPModel = require('../models/OTP');
+
+
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 const bcrypt = require('bcrypt');
@@ -344,5 +348,166 @@ module.exports = {
 	logout: (req, res) => {
 		res.clearCookie('jwt');
 		return res.status(200).json({successes: ["Successfully logged out"]});
-	}
+	},
+  verifyEmail:async(req,res) =>
+	{
+		const {email}= req.body
+		console.log(email)
+		try
+		{
+		  const user=await userModel.findOne({email:email});
+		  console.log (user)
+		  if (user)
+		  {
+		  res.status(200).json({msg:"Email verified",isVerified:true})
+		  }
+		  else{
+			res.status(200).json({ msg: 'Email not verified', isVerified: false });
+	  
+		  }
+		}catch(error)
+		{res.status(400).json({errors:[error.message]})}
+	},
+	sendOTP:async(req,res) =>
+     {
+		const email= req.body.email
+		var code = Math.floor(Math.random()*90000) + 10000;
+		try{
+		 await OTPModel.deleteMany({ email: email });
+		const OTP = await OTPModel.create({code:code,email:email})
+		}catch(error)
+		{
+		   res.status(400).json({err:error.message})
+		}
+	 
+		const mailTransporter = nodemailer.createTransport({
+		  // host: "smtp.mailtrap.io",
+		  // port: 2525,
+		 
+		   service: 'gmail',
+		 
+		   auth: {
+		 
+			   user: 'ahmedyousry2002@gmail.com',
+		 
+			   pass: 'dpan zepx knqd mdai'
+		 
+		   }
+		 });
+		 
+		 const mailDetails = {
+		 
+		   from: 'ahmedyousry2002@gmail.com',
+		 
+		   to: email,
+		 
+		   subject: 'Change password',
+		  
+		   html: '<p> Change Password requires further verification <br> your Verification code:'+code+'<p> <br> <br> Thanks, <br> El7a2ny Clinic & pharmacy'
+		 
+		 };
+		 
+		 
+		 mailTransporter.sendMail(mailDetails, function(err, data) {
+			  if(err) {
+				 res.status(400).json({errors:err.message})
+				 } 
+			else {
+				 res.status(200).json("send mail")
+				 }
+		 })
+		 
+		  },
+		  VerifyOTP:async(req,res) =>{
+			const enteredOTP= req.body.verificationCode
+			const email = req.body.email;
+			console.log(email)
+			console.log(enteredOTP)
+			try{
+
+			  const OTP =await OTPModel.find({ code: enteredOTP,email:email })
+			  console.log (OTP)
+			  if (OTP.length !== 0)
+			  {
+				res.status(200).json({msg:"OTP verified",isCodeVerified:true})
+			  }
+			  else
+			  {
+				res.status(200).json({msg:"OTP is not verified",isCodeVerified:false})
+			  }
+		  
+			}catch(error)
+			{
+			  res.status(400).json({err:error.message})
+			}
+		  },
+		  resetPassword:async(req,res) =>
+		  {
+			try{
+				const email= req.body.email;
+				const newPassword=req.body.newPassword;
+			  const user = await userModel.findOne({email:email});
+        const result = await bcrypt.compare(newPassword, user.password);
+
+        if (result) {
+          res.status(400).json({ errors: ["Attention the new password should not be the same as the old password"] });
+        } else {
+          const hashedPassword = bcrypt.hashSync(newPassword, 10);
+          user.password = hashedPassword;
+          await user.save();
+          res.status(200).send("Change password successfully");
+        }
+        
+			  }catch(error)
+			  {
+				res.status(400).json({err:error.message})
+			  }
+		  },
+      changePassword:async(req,res)=>
+      {
+        const {oldPassword,newPassword,confirmedNewpassword}=req.body;
+        console.log ({oldPassword,newPassword,confirmedNewpassword})
+        try{
+          //if i want to test in postman
+          // username = req.params.username;
+          // const user=userModel.findOne({name:username})
+          const user = await userModel.findOne({_id:req.session.userId});
+          console.log(user)
+          if (user)
+          {
+            await bcrypt.compare(oldPassword,user.password).then ((result) =>{
+              
+              if (result) {
+                if (oldPassword ==newPassword)
+                {
+                  res.status(400).json({errors:["New password must be different from old password"]})
+                }
+                else if(newPassword === confirmedNewpassword)
+                {
+                  const hashedPassword =bcrypt.hashSync(newPassword, 10);; // awiat removed 
+                  user.password=hashedPassword // we will check if we should use updateOne or not
+                  user.save();
+                  res.status(200).send("Change password successfully")
+                }
+                else 
+                {
+                  res.send(400).json({errors:["Confirmed password does not match the new password"]})
+                }
+                
+              } else {
+                res.status(400).json({errors:["Wrong Old Password"]})   
+              }
+            })
+          }
+          else{
+            res.status(400).json({errors:["Unlogged User"]})
+          }
+          
+        }catch(error)
+        {
+          res.status(400).json({ errors: [error.message] })
+        }
+      }  
+	  
+
 }
