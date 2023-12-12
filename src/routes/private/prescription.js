@@ -1,17 +1,8 @@
 var express= require('express');
-const prescriptionModel=require("../models/prescription.js");
-const userModel = require('../models/user.js');
-const prescription = require('../models/prescription.js');
-var router = express.Router(); 
+const prescriptionModel=require("../../models/prescription.js");
+const userModel = require('../../models/user.js');
+var router = express.Router({mergeParams: true}); 
 
-   router.get('/selectedPrescription/:id', async (req, res) => {
-    if (req.session.userType != 'patient') {
-        return res.status(400).send("Only patients can access this.")
-    }
-
-    const prescription = await prescriptionModel.findOne({_id:req.params.id})
-    res.render('selectedprescription', {prescription});
-   });
 
    router.get('/addprescription',async(req,res) =>
    {
@@ -58,13 +49,31 @@ var router = express.Router();
  
  
  })
+   router.get('/selectedPrescription',async(req,res)=>{
+    const prescriptionId= req.query.prescriptionId
+    try{
+      let prescription = await prescriptionModel.findOne({_id:prescriptionId})
+      if (prescription){
+       res.status(200).json({prescription})
+      }
+      else { throw new Error ("prescription not found")}
+
+    }
+    catch(error)
+    {
+      res.status(400).json({err:error.message})
+    }
+   })
+
    router.get ('/viewprescription', async (req, res) => { 
     if (req.session.userType != 'patient') {
       return res.status(400).send("Only patients can access this.")
     }
     const userId = req.session.userId;
+    // const name = req.params.name
     try{
-      let user = await userModel.findOne({_id: userId});
+      let user = await userModel.findOne({_id:userId});
+      console.log(user.prescriptions);
 
       if (user == null) {
         throw new Error("User not found. Maybe Session timed out.")
@@ -76,8 +85,7 @@ var router = express.Router();
       }
       uniqueDoctorNames = uniqueDoctorNames.filter(onlyUnique);
 
-      res.render('prescriptions',{prescriptions, uniqueDoctorNames})
-    res.status(200)
+     res.status(200).json({prescriptions,uniqueDoctorNames})
 
     }
     catch(error)

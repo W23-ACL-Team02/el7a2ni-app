@@ -1,0 +1,57 @@
+.frame {
+    display: flex;
+    flex-flow: column;
+    width: 100%px;
+    height: 100%px;
+    /* width: 50%;  */
+    /* flex-shrink: 1; */
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    /* margin: auto; */
+    /* margin: auto; */
+}
+.title {
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.bar {
+    display: flex;
+    background-color: #eee;
+    width: 90%;
+    height: 70px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 20px;
+}
+.downloadButton {
+    border-radius: 20px;
+    align-self: center;
+    height: 40px;
+    width: 120px;
+    background-color: black;
+    color: white;
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: auto;
+    /* border: none; */
+}
+.fileName {
+    color: black;
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    align-self: center;
+    font-size: 18px;
+    font-weight: 600;
+}

@@ -1,9 +1,11 @@
 var express = require('express');
-const userModel = require('../models/user.js');
-const appointmentsModel = require('../models/appointment.js');
-const healthPackageModel = require(`../models/healthPackage.js`)
-var router = express.Router();
+const userModel = require('../../models/user.js');
+const appointmentsModel = require('../../models/appointment.js');
+const healthPackageModel = require(`../../models/healthPackage.js`)
+const fileModel = require(`../../models/file.js`)
+var router = express.Router({mergeParams: true});
 const axios = require('axios');
+const { uploadHealthRecordForTesting } = require('../../controllers/patientController.js');
 
 const apiURL = 'http://localhost:3000/doctors/api';
 
@@ -29,7 +31,7 @@ router.post('/updateInfo', async(req, res) => {
         // console.log(response)
         return res.status(200).send(`Updated`);
     } catch (error) {
-        return res.status(400).json({err: error.message})
+        return res.status(400).json({errors: [error.message]})
     }
 })
 
@@ -150,6 +152,10 @@ const editDoctor = async (req, res) => {
     const {userId, email, payRate, affiliation} = req.body;
 
     try {
+        if (userId != req.session?.userId) {
+            return res.status(403).json({errors: [`Edited doctor does not match with authentication.`]})
+        }
+
         let updateResponse = await userModel.updateOne({_id: userId}, {email: email || undefined, payRate: payRate || undefined, affiliation: affiliation || undefined})
         
         if (updateResponse.matchedCount < 1) {
@@ -160,10 +166,98 @@ const editDoctor = async (req, res) => {
 
         return res.status(200).send("Updated doctor");
     } catch (error) {
-        return res.status(400).json({err: error.message});
+        return res.status(400).json({errors: [error.message]});
     }
 }
 
+
 router.put('/api/editDoctor', editDoctor)
+
+
+router.post('/addTimeSlots', async (req, res) => {
+    const { date, start, end } = req.body;
+  
+    try {
+     // Check if the user making the request is a doctor (optional check)
+      if (req.session.userType !== 'doctor') {
+        return res.status(403).json({ message: 'Permission denied.' });
+      }
+  
+     // Find the doctor in the database
+       const doctor = await userModel.findOne({_id:req.session.userId});
+    //  const doctor = await userModel.findOne({_id: "6570ecc6b1779493b537acc7"} );
+  
+      // Check if the doctor exists
+      if (!doctor) {
+        return res.status(404).json({ message: 'Doctor not found.' });
+      }
+  
+      // Check if the doctor has been accepted
+      if (doctor.acceptanceStatus !== 'accepted') {
+        return res.status(403).json({ message: 'Doctor is not accepted yet' });
+      }
+  
+      // Create a new time slot object
+     // const dates= new Date(date)
+      const [hoursS, minutesS] = start.split(':');
+      const [hoursE, minutesE] = end.split(':');
+      const starts=new Date(date);
+        starts.setHours(hoursS);
+        starts.setMinutes(minutesS);
+
+        const ends=new Date(date);
+        ends.setHours(hoursE);
+        ends.setMinutes(minutesE);
+
+
+
+      const newTimeSlot = {
+        date: new Date(date), // Convert date string to Date object
+        startTime:starts,
+        endTime:ends
+      };
+  
+      // Push the new time slot to the doctor's time slots array
+      doctor.timeSlots.push(newTimeSlot);
+  
+      // Save the updated doctor information back to the database
+      await doctor.save();
+  
+      // Send a success response
+      return res.status(200).json({ message: 'Time slot added successfully.' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error.' });
+    }
+  });
+
+  const viewHealthRecords = async (req, res) => {
+    try {
+        const patientUsername = req.body.patientUsername
+        //get doctor's username
+        const doctor = await userModel.findById(req.session.userId)
+        const doctorUsername = doctor.username
+        //check if there are shared appointments
+        const appointments = await appointmentsModel.find({doctorUsername: doctorUsername, patientUsername: patientUsername})
+        if (!appointments.length){
+            res.status(400).json({error: "You don't have any appointments with this patient."});
+            return;
+        }
+        //send patient's health records
+        const patient = await userModel.findOne({username: patientUsername})
+        var patientFiles = []
+        if (patient.files){
+            patientFiles = patient.files
+            patientFiles.forEach(file => {
+                if (file.fileType == "healthRecord")
+                    file = fileModel.decodeBase64ToFile(file.fileData)
+            });
+        }
+        res.status(200).json({files: patientFiles})
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+router.post('/api/viewHealthRecords', viewHealthRecords)
 
 module.exports= router;

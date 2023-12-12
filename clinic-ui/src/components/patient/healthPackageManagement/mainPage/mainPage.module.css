@@ -1,0 +1,54 @@
+
+.frame {
+    display: flex;
+    flex-flow: column;
+    max-width: 80%;
+    height: 100%;
+    /* width: 50%;  */
+    flex-shrink: 1;
+    background-color: #eee;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    margin: auto;
+    /* margin: auto; */
+}
+.allCards {
+    display: flex;
+    justify-content: center;
+    border-radius: 13px;
+    flex-wrap: wrap;
+}
+.cardContainer {
+    margin: 10px;
+}
+.memberSelectorBar {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    height: 40px;
+    gap: 10px;
+}
+.memberSelectorBarText {
+    color: black;
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    /* align-self: center; */
+    font-weight: 600;
+    font-size: 14px;
+}
+.selector {
+    margin-left: auto;
+    font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    height: 30px;
+    border-radius: 15px;
+    width: 180px;
+    font-size: 12px;
+    font-weight: 600;
+    padding-left: 10px;
+    background-color: #dadada;
+}

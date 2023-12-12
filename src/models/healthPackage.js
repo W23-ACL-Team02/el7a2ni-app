@@ -29,7 +29,8 @@ const healthPackageSchema = new Schema({
     min: 0,
     max: 1,
     default: 0
-  }
+  },
+  color: String
 }, {
   timestamps: true
 });
