@@ -1,5 +1,9 @@
 const userModel = require('../models/user');
+const OTPModel = require('../models/OTP');
+
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+
 const secret = process.env.JWT_SECRET;
 const bcrypt = require('bcrypt');
 const maxAge = 3 * 24 * 60 * 60;
@@ -292,5 +296,110 @@ module.exports = {
 	logout: (req, res) => {
 		res.clearCookie('jwt');
 		return res.status(200).json({successes: ["Successfully logged out"]});
+	},
+	verifyEmail: async (req,res) => {
+		const {email}= req.body
+
+		try
+		{
+		  const user = await userModel.findOne({email:email});
+		  
+		  if (user) {
+		  res.status(200).json({msg:"Email verified",isVerified:true})
+		  } else {
+			res.status(200).json({ msg: 'Email not verified', isVerified: false });
+		  }
+		} catch(error) {
+			res.status(400).json({errors:[error.message]})
+		}
+	},
+	sendOTP: async (req,res) => {
+		const email= req.body.email
+		var code = Math.floor(Math.random()*90000) + 10000;
+
+		try {
+			await OTPModel.deleteMany({ email: email });
+			const OTP = await OTPModel.create({code:code,email:email})
+		} catch(error) {
+			res.status(400).json({err:error.message})
+		}
+	 
+		const mailTransporter = nodemailer.createTransport({
+		  // host: "smtp.mailtrap.io",
+		  // port: 2525,
+		 
+			service: 'gmail',
+			auth: {
+			   user: 'ahmedyousry2002@gmail.com',
+		 
+			   pass: 'dpan zepx knqd mdai'
+		 
+			}
+		});
+		 
+		const mailDetails = {
+		 
+		   from: 'ahmedyousry2002@gmail.com',
+		 
+		   to: email,
+		 
+		   subject: 'Change password',
+		  
+		   html: '<p> Change Password requires further verification <br> your Verification code:'+code+'<p> <br> <br> Thanks, <br> El7a2ny Clinic & pharmacy'
+		 
+		};
+
+		mailTransporter.sendMail(mailDetails, function(err, data) {
+			if(err) {
+				res.status(400).json({errors:err.message})
+			} else {
+				res.status(200).json("send mail")
+			}
+		})
+	},
+	VerifyOTP: async (req,res) => {
+		const enteredOTP= req.body.verificationCode
+		const email = req.body.email;
+		console.log(email)
+		console.log(enteredOTP)
+		try {
+			const OTP =await OTPModel.find({ code: enteredOTP,email:email })
+			console.log (OTP)
+			if (OTP.length !== 0)
+			{
+			res.status(200).json({msg:"OTP verified",isCodeVerified:true})
+			}
+			else
+			{
+			res.status(200).json({msg:"OTP is not verified",isCodeVerified:false})
+			}
+		
+		} catch(error) {
+			res.status(400).json({err:error.message})
+		}
+	},
+	resetPassword: async (req,res) => {
+		try {
+			const email= req.body.email;
+			const newPassword=req.body.newPassword;
+			const user = await userModel.findOne({email:email});
+			const result = await bcrypt.compare(newPassword, user.password);
+     
+			if (result) {
+			  res.status(400).json({ errors: ["Attention the new password should not be the same as the old password"] });
+			} else {
+			  const hashedPassword = bcrypt.hashSync(newPassword, 10);
+			  user.password = hashedPassword;
+			  await user.save();
+			  res.status(200).send("Change password successfully");
+			}
+			
+			
+
+		} catch(error) {
+			res.status(400).json({err:error.message})
+		}
 	}
+	
+
 }

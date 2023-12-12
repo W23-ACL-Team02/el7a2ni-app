@@ -4,6 +4,7 @@ var router = express.Router({mergeParams: true});
 var userRouter = require('./private/user');
 var adminRouter = require('./private/admin');
 var familyMemberRouter = require('./private/familymember');
+var familyRouter = require('./private/family');
 var doctorRouter = require('./private/doctors');
 var patientRouter = require('./private/patient');
 var prescriptionRouter= require('./private/prescription');
@@ -22,14 +23,20 @@ router.all('*', authentiateToken,(req, res, next) => {
 })
 
 router.use('/admin', adminRouter);
-router.use('/patientRouter', patientRouter);
 router.use('/user', userRouter);
+
+router.use('/family', familyRouter);
 router.use('/familymember', familyMemberRouter);
+
 router.use('/prescription', prescriptionRouter);
+
 router.use('/doctor', doctor);
 router.use('/doctors', doctorRouter);
-router.use('/payment', payment)
-router.use('/patient', patientRouter)
 router.use('/doctorPatient', doctorPatient)
+
+router.use('/payment', payment)
+
+router.use('/patient', patientRouter)
+router.use('/patientRouter', patientRouter);
 
 module.exports = router;

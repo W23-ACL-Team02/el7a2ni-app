@@ -1,6 +1,6 @@
+import {BrowserRouter, Route, Link, Routes} from 'react-router-dom'
 import { useState } from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 import Login from './components/Login';
 import RegisterUser from './components/RegisterUser';
@@ -26,6 +26,16 @@ import Contract from './components/Contract';
 import PatientSearchDoctors from './components/PatientSearchDoctors';
 import ViewDoctorDetails from './components/ViewDoctorDetails';
 import ScheduleFollowUp from './components/ScheduleFollowUp';
+import ViewPrescriptions from './pages/ViewPrescriptions';
+import OTPVErification from './components/OTPVErification.jsx';
+import VerifyEmail from './components/VerifyEmail.jsx';
+import LinkFmailyMember from './pages/LinkFmailyMember';
+import ViewFamilyMemebrs from './pages/ViewFamilyMemebrs';
+import AddFamilyMembers from './pages/AddFamilyMembers'
+import SelectedPrescriptions from './pages/SelectedPrescriptions';
+import ChangePassword from './components/ChangePassword.jsx';
+import ResetPassword from './components/ResetPassword.jsx';
+
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -36,9 +46,11 @@ function App() {
         <h2>PUBLIC</h2>
         <Link to={'login'}>Login</Link> <br/>
         <Link to={'register'}>Register</Link> <br/>
+        <Link to={'VerifyEmail'}>Froget Password</Link> <br/>
         <h2>PRIVATE</h2>
         <Link to={'home'}>Home</Link> <br/>
         <Link to={'logout'}>Logout</Link> <br/>
+        <Link to={'changePassword'}>ChangePassword</Link> <br/>
         <Link to={'addAdmin'}>Add Admin</Link> <br/>
         <Link to={'pendingDoctors'}>Admin Pending Doctors</Link> <br/>
         <Link to={'removeUser'}>Remove User</Link> <br/>
@@ -57,6 +69,14 @@ function App() {
         <Link to={'appointmentPayment'}>Appointment Payment</Link> <br/> 
         <Link to={'searchdoctors'}>Patient Search Doctors</Link> <br/> 
         <Link to={'schedulefollowup'}>Doctor Schedules Follow Up</Link> <br/> 
+        <Link to={'addFamilyMembers'}>Add Family Members</Link> <br/> 
+        <Link to={'viewFamilyMembers'}>View Family Members</Link> <br/> 
+        <Link to={'viewPrescriptions'}>View Prescriptions</Link> <br/>
+        <Link to={'LinkFamilyMembers'}>Link familymember</Link> <br/>
+
+
+
+
         <Routes>
         {/*  */}
         <Route path="/contractpage" element={<Contract/>} />
@@ -84,6 +104,16 @@ function App() {
           <Route path="/checkout-success" element={<CheckoutSuccess />} />
           <Route path="/checkout-failed" element={<CheckoutFailed />} />
           <Route path="/appointmentPayment" element={<AppointmentPayment />} />
+          
+          <Route path='/viewFamilyMembers' element={<ViewFamilyMemebrs/>} /> 
+          <Route path='/addFamilyMembers' element={<AddFamilyMembers/>} /> 
+          <Route path='/viewPrescriptions' element={<ViewPrescriptions/>} />
+          <Route path='prescriptions/selectedPrescription' element={<SelectedPrescriptions/>} />
+          <Route path='/changePassword' element={<ChangePassword/>}/>
+          <Route path='/VerifyEmail' element={<VerifyEmail/>} />
+          <Route path='/OTPVerifcation' element={<OTPVErification/>} />
+          <Route path='/ResetPassword' element={<ResetPassword/>} />
+          <Route path='/LinkFamilyMembers' element={<LinkFmailyMember/>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -163,6 +163,16 @@ const userSchema = new Schema({
       
       return this.family;
     },
+    addLinkedFamilyMember(LinkedFamilyMember){
+      if (this.family == undefined) {
+        this.family = {
+          linked: {},
+          created: {}
+        }
+      }
+
+      this.family.linked.push(LinkedFamilyMember)
+    },
     addprescription(prescription){
       if (this.prescriptions== undefined) this.prescriptions=[];
       this.prescriptions.push(prescription)

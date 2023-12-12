@@ -2,6 +2,15 @@ const express = require("express");
 var router = express.Router({mergeParams: true});
 const {getPatients, getPatientbyId, getPatientbyName, getAppointments} = require('../../controllers/doctorController.js')
 
+router.all('*', (req, res, next) => {
+    // Ensure patient
+    if (req.session.userType != 'doctor') {
+      return res.status(403).send('Unauthorized Access.')
+    }
+  
+    next();
+});
+
 router.get("/getAllPatients", getPatients)
 router.get("/getByName", getPatientbyName)
 router.get("/patient/:id", getPatientbyId)

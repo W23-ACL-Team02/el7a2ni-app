@@ -15,8 +15,10 @@ module.exports = {
             let resultCreatedArr = [];
             for (let memberID of parentUser.family?.created) {
                 let member = await familymemberSchema.findById(memberID.id);
+                if (member == null || member == undefined) continue;
+
                 let package = await healthPackageModel.findById(member.healthPackage.packageId)
-                resultCreatedArr.push({id: member._id, name: member.name, status: member.healthPackage.status, endDate: member.healthPackage.endDate, packageName: package.name, packageColor: package.color});
+                resultCreatedArr.push({id: member._id, name: member.name, status: member.healthPackage.status, endDate: member.healthPackage.endDate, packageName: package?.name ?? member.healthPackage.status, packageColor: package?.color ?? "#AEAEAE"});
             }
             // await Promise.all(resultCreatedArr);
             
@@ -24,8 +26,10 @@ module.exports = {
             let resultLinkedArr = [];
             for (let memberID of parentUser.family?.linked) {
                 let member = await userModel.findById(memberID.id, {password: 0});
-                let package = await healthPackageModel.findById(member.healthPackage.packageId)
-                resultLinkedArr.push({id: member._id, name: member.name, status: member.healthPackage.status, endDate: member.healthPackage.endDate, packageName: package.name, packageColor: package.color});
+                if (member == null || member == undefined) continue;
+
+                let package = await healthPackageModel.findById(member.healthPackage?.packageId)
+                resultLinkedArr.push({id: member._id, name: member.name, status: member.healthPackage.status, endDate: member.healthPackage.endDate, packageName: package?.name ?? member.healthPackage.status, packageColor: package?.color ?? "#AEAEAE"});
             }
             // await Promise.all(resultLinkedArr);
 
