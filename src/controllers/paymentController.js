@@ -61,7 +61,7 @@ module.exports = {
             //const currUserID = "6547b96606043724533eedbf"
             const currUser = await userModel.findOne({_id: currUserID})
             const currUserHealthPackageID = currUser.healthPackage ? currUser.healthPackage.packageId : null
-            const healthPackageDiscount = 0;
+            let healthPackageDiscount = 0;
             if(currUserHealthPackageID &&  currUser.healthPackage.status === "Subscribed"){
                 healthPackageDiscount = AllHealthPackages.filter(hp => hp._id == currUserHealthPackageID.valueOf())[0].discountFamilySubscription 
             }

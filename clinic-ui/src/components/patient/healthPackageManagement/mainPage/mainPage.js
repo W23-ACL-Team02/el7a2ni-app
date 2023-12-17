@@ -230,7 +230,7 @@ export default function HealthPackageManagement(props) {
         <select className={classes.selector} onChange={handleMemberSelection} value={selectedMember}>
           {unsubscribed && <option value='Myself'>Myself</option>}
           {unsubscribedFamilyMembers.map((member) => (
-            <option value={member.name}>{member.name}</option>
+            <option value={member.name} key={member.id}>{member.name}</option>
           ))}
         </select>
       </div>

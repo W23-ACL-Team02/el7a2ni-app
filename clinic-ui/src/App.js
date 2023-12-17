@@ -114,6 +114,7 @@ function App() {
           <Route path='/OTPVerifcation' element={<OTPVErification/>} />
           <Route path='/ResetPassword' element={<ResetPassword/>} />
           <Route path='/LinkFamilyMembers' element={<LinkFmailyMember/>} />
+          <Route path='/contract' element={<Contract/>} />
         </Routes>
       </BrowserRouter>
     </div>

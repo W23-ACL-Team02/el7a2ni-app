@@ -11,7 +11,7 @@ module.exports = {
         try {
             let discountRate = 0;       
             let docs = await userModel.find({type:'doctor',acceptanceStatus:'accepted'})
-            let user = await userModel.findById(req.session.userId);
+            let user = await userModel.findOne({_id: req.session.userId});
             if (user?.healthPackage != undefined) {
                 let userHealthPackage = await healthPackageModel.findById(user?.healthPackage);
                 discountRate = userHealthPackage.discountSession;

@@ -66,7 +66,7 @@ export default function FamilyBar({members, cancelFunction}) {
     return (
       <select className={classes.selector} value={selectedMember} onChange={handleMemberSelection}>
         {members.map((member) => (
-          <option value={member.name}>{member.name}</option>
+          <option value={member.name} key={member._id}>{member.name}</option>
         ))}
         </select>
     );

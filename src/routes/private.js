@@ -7,6 +7,7 @@ var familyMemberRouter = require('./private/familymember');
 var familyRouter = require('./private/family');
 var doctorRouter = require('./private/doctors');
 var patientRouter = require('./private/patient');
+var patientRouter2 = require('./private/patientRouter');
 var prescriptionRouter= require('./private/prescription');
 var doctor = require("./private/doctor");
 var payment = require("./private/payment")
@@ -37,6 +38,6 @@ router.use('/doctorPatient', doctorPatient)
 router.use('/payment', payment)
 
 router.use('/patient', patientRouter)
-router.use('/patientRouter', patientRouter);
+router.use('/patientRouter', patientRouter2);
 
 module.exports = router;
