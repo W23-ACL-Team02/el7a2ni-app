@@ -1,6 +1,8 @@
 const userModel = require('../models/user');
 const OTPModel = require('../models/OTP');
+const fileModel = require('../models/file.js');
 
+const multer = require('multer');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
@@ -8,17 +10,7 @@ const secret = process.env.JWT_SECRET;
 const bcrypt = require('bcrypt');
 const maxAge = 3 * 24 * 60 * 60;
 
-var express = require('express');
-
 const { default: mongoose } = require('mongoose');
-const multer = require('multer');
-const Grid = require('gridfs-stream');
-const { MongoClient, ObjectID } = require('mongodb');
-
-var router = express.Router();
-
-const {File} = require('../models/file.js');
-
 const mongoURI = process.env.MONGO_URI; 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 const conn = mongoose.connection;
@@ -29,9 +21,6 @@ conn.once('open', () => {
   gfs = new mongoose.mongo.GridFSBucket(db); // Initialize GridFSBucket
 });
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
 const encodeFileToBase64 = (file) => {
   try {
     const base64Data = file.buffer.toString('base64');
@@ -40,8 +29,6 @@ const encodeFileToBase64 = (file) => {
     throw new Error('Error encoding file to Base64:', error.message);
   }
 };
-
-
 
 const saveFileToGridFS = async (file) => {
   if (file) {
@@ -63,9 +50,39 @@ const saveFileToGridFS = async (file) => {
   }
 };
 
-
-
-
+const decodeBase64ToFile = (base64String, fileName) => {
+	try {
+	  // Detect the file type from the file name or any other relevant information
+	  const fileType = fileName.split('.').pop(); // Get the file extension
+  
+	  // Convert Base64 string to Buffer
+	  const buffer = Buffer.from(base64String, 'base64');
+  
+	  // Set appropriate content type based on the file type
+	  let contentType = '';
+	  switch (fileType) {
+		case 'png':
+		  contentType = 'image/png';
+		  break;
+		case 'jpeg':
+		case 'jpg':
+		  contentType = 'image/jpeg';
+		  break;
+		case 'pdf':
+		  contentType = 'application/pdf';
+		  break;
+		// Add more cases for other file types as needed
+		default:
+		  contentType = 'application/octet-stream'; // Generic binary file type
+		  break;
+	  }
+  
+	  // Return the data URI with appropriate content type
+	  return `data:${contentType};base64,${buffer.toString('base64')}`;
+	} catch (error) {
+	  throw new Error('Error decoding Base64 to file:', error.message);
+	}
+};
 
 module.exports = {
 	getPendingDoctors: async (req, res) => {
@@ -237,9 +254,9 @@ module.exports = {
 			const idb64=encodeFileToBase64(idDocumentFile );
 			const degreeb64=encodeFileToBase64(medicalDegreeFile );
 			const licenseb64=encodeFileToBase64(medicalLicenseFile);
-			const id= await File.create({fileName:idDocument.filename,fileType:"ID",fileData:idb64});
-			const degree = await File.create({fileName:medicalDegree.filename,fileType:"Degree",fileData:degreeb64});
-			const license=await File.create({fileName:medicalLicense.filename,fileType:"License",fileData:licenseb64});
+			const id= await fileModel.File.create({fileName:idDocument.filename,fileType:"ID",fileData:idb64});
+			const degree = await fileModel.File.create({fileName:medicalDegree.filename,fileType:"Degree",fileData:degreeb64});
+			const license=await fileModel.File.create({fileName:medicalLicense.filename,fileType:"License",fileData:licenseb64});
 		
 		
 
@@ -399,7 +416,132 @@ module.exports = {
 		} catch(error) {
 			res.status(400).json({err:error.message})
 		}
-	}
-	
+	},
+	changePassword: async(req,res)=>{
+		const {oldPassword,newPassword,confirmedNewpassword} = req.body;
+		
+		try {
+			//if i want to test in postman
+			// username = req.params.username;
+			// const user=userModel.findOne({name:username})
+			
+			const user = await userModel.findOne({_id:req.session.userId});
+			if (user) {
+				await bcrypt.compare(oldPassword,user.password).then ((result) => {
+					if (result) {
+						if (oldPassword ==newPassword) {
+							res.status(400).json({errors:["New password must be different from old password"]})
+						} else if(newPassword === confirmedNewpassword) {
+							const hashedPassword =bcrypt.hashSync(newPassword, 10);; // awiat removed 
+							user.password=hashedPassword // we will check if we should use updateOne or not
+							user.save();
+							res.status(200).send("Change password successfully")
+						} else {
+							res.send(400).json({errors:["Confirmed password does not match the new password"]})
+						}
+					} else {
+						res.status(400).json({errors:["Wrong Old Password"]})   
+					}
+				})
+			} else {
+				res.status(400).json({errors:["Unlogged User"]})
+			}
+		} catch(error) {
+		  res.status(400).json({ errors: [error.message] })
+		}
+	},
+	uploadDocument: async (req, res) => {
+		//Authenticate 
+		try {
+			if (req.session.userType !== 'patient') {
+			 	return res.status(403).json({ message: 'Permission denied.' });
+			}
+			
+		   	//const patient = await userModel.findOne({ username: username });
+		  
+		   	// const patient = await userModel.findOne({_id:"656b78066ce088ba8dec8b38"});
+		   	const userId = req.session.userId;
+			const patient = await userModel.findById(userId)
+			if (!patient) {
+				return res.status(404).json({ message: 'Patient not found.' });
+			}
+	  
+			const uploadedMedicalHistoryFiles = req.files['medicalHistory'];
+		
+			if (!uploadedMedicalHistoryFiles || !uploadedMedicalHistoryFiles.length) {
+			return res.status(400).json({ message: 'No files uploaded.' });
+			}
+		  const filesData = uploadedMedicalHistoryFiles.map(file => ({
+		
+			fileName: file.originalname,
+			fileType: "Medical History",
+			fileData: encodeFileToBase64(file) // Or any other way you are storing file data
+			// Add other file details as needed
+			}));
+	  
+		// Create File documents and save their details
+		const createdFiles = await fileModel.File.create(filesData);
+		if (patient.files == undefined) patient.files = [];
+	  
+		createdFiles.forEach(file => {
+			patient.files.push(file);
+		  });
+		  await patient.save();
+		  
+		  res.status(200).json({ message: 'Files uploaded and associated with the patient successfully.' });
+		} catch (error) {
+			res.status(400).json({ err: error.message })
+		}	
+	},
+	removeDocument: async(req,res)=>{
+		const {fileId } = req.body
+		
+		const userId = req.session.userId;
+		try {
+		  const user = await userModel.findById(userId);
+		  // const user = await userModel.findOne({_id:"656b78066ce088ba8dec8b38"});
+		  if (!user) {
+			return res.status(404).json({ message: 'User not found.' });
+		  }
+	  
+		  user.files = user.files.filter(file => file._id != fileId);
+		  await user.save();
+			const file = await fileModel.File.findById(fileId);
+			if(!file){
+			  return res.status(404).json({ message: 'file not found.' });
+			}
+			await fileModel.findByIdAndRemove(fileId)
+			res.status(200).json({ message: 'File removed successfully.'});
+		} catch (error) {
+		  res.status(500).json({ error: error.message });
+		}
+	},
+	getDocuments: async (req, res) => {
+		try {
+			const userId = req.session.userId;
+			const patient = await userModel.findById(userId);
+		
+			if (!patient) {
+				return res.status(404).json({ error: 'Patient not found.' });
+			}
+		
+			// Decode the base64 data here for frontend use
+			// const patientFiles = patient.files.map(file => ({
+			//   ...file.toObject(),
+			//   fileData: fileModel.decodeBase64ToFile(file.fileData, file.fileName)
+			// }));
+			var patientFiles = []
+			if (patient.files) {
+				patientFiles = patient.files
+				patientFiles.forEach(file => {
+					if (file.fileType == "Medical History")
+						file = fileModel.decodeBase64ToFile(file.fileData,file.fileName)
+				});
+			}
 
+			res.status(200).json({ userId, files: patientFiles });
+		} catch (error) {
+			res.status(400).json({ error: error.message });
+		}
+	}
 }

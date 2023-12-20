@@ -16,7 +16,7 @@ export default function ViewPrescriptions() {
     
 
     useEffect(()=>{
-            axios.get(`http://localhost:3000/private/prescription/viewprescription`,{withCredentials: true}).then((result)=>{
+            axios.get(`http://localhost:3000/private/patient/prescription/viewprescription`,{withCredentials: true}).then((result)=>{
             setPrescriptions(result.data.prescriptions)
             setUniqueDoctorNames(result.data.uniqueDoctorNames)
           })

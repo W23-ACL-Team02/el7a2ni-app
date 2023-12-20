@@ -10,7 +10,7 @@ export default function ViewFamilyMemebrs() {
     
 
     useEffect(()=>{
-        axios.get("http://localhost:3000/private/familymember/viewfamilymember",{withCredentials: true})
+        axios.get("http://localhost:3000/private/family/viewfamilymember",{withCredentials: true})
         .then((res)=>{
           console.log(res)
             setFamilyMembers(res.data.createdFamilyMembers)

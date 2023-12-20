@@ -12,7 +12,7 @@ const AddTimeSlots = () => {
 
   const handleAddTimeSlot = async () => {
     try {
-      const response = await axios.post(`${baseURL}/private/doctors/addTimeSlots`, { date, start, end }, {withCredentials: true});
+      const response = await axios.post(`${baseURL}/private/doctor/addTimeSlots`, { date, start, end }, {withCredentials: true});
       console.log('Response:', response.data);
       setSuccessMessage('Time slot added successfully.'); // Set success message
       // Optionally, handle success actions like updating UI, etc.

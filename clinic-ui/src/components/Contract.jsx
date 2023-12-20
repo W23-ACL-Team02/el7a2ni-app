@@ -11,7 +11,7 @@ const Contract = () => {
     // Fetch doctor details when the component mounts
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/private/doctorPatient/viewContract', {withCredentials: true});
+        const response = await axios.get('http://localhost:3000/private/doctor/viewContract', {withCredentials: true});
         const { doctor, clinicMarkUp } = response.data;
         console.log(response.data)
         console.log(clinicMarkUp)
@@ -33,7 +33,7 @@ const Contract = () => {
     try {
       //redirect to homepage
       await axios({ method: 'put',
-      url: 'http://localhost:3000/private/doctorPatient/acceptContract',
+      url: 'http://localhost:3000/private/doctor/acceptContract',
       withCredentials: true})
       // Redirect to homepage
       navigate('/home')

@@ -12,7 +12,7 @@ export default function DoctorHealthRecordsPage() {
   const patientUsername = state.patientUsername;
 
   const  getFiles = async function(){
-      await axios.post(`${serverURL}/private/doctors/api/viewHealthRecords`, {patientUsername: patientUsername}, {withCredentials: true}).then(
+      await axios.post(`${serverURL}/private/doctor/api/viewHealthRecords`, {patientUsername: patientUsername}, {withCredentials: true}).then(
       (res) => { 
       const files = res.data.files
       // console.log(files)

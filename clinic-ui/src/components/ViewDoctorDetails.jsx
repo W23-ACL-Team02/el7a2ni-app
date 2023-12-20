@@ -13,7 +13,7 @@ const ViewDoctorDetails = () => {
         if (doctorId) {
           const response = await axios({
             method: 'get',
-            url: `http://localhost:3000/private/patientRouter/viewDoctorDetails/${doctorId}`,
+            url: `http://localhost:3000/private/patient/viewDoctorDetails/${doctorId}`,
             withCredentials: true,
           });
 
@@ -37,7 +37,7 @@ const ViewDoctorDetails = () => {
 
       console.log('Selected Appointment:', selectedAppointmentStartTime);
   
-      const response = await axios.post('http://localhost:3000/private/patientRouter/bookAppointment',
+      const response = await axios.post('http://localhost:3000/private/patient/bookAppointment',
         {
           timeSlotStartTime: selectedAppointmentStartTime,
           doctorUsername: doctorVar.username,

@@ -94,8 +94,15 @@ module.exports = {
         } catch (error) {
           res.status(400).json({ errors: [error.message] });
         }
+      },
+      addAppointmentTest: async (req, res) => {
+        const { doctorUsername, patientUsername, date, status } = req.body
+        try {
+          const appointment = await appointmentModel.create({ doctorUsername, patientUsername, date, status })
+          await appointment.save()
+          res.status(200).send("Appointment created successfully")
+        } catch (error) {
+          res.status(400).json({ errors: [error.message] })
+        }
       }
-      
-
-
 }

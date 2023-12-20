@@ -28,7 +28,7 @@ export default function LinkFmailyMember() {
 
     event.preventDefault();
     try {
-      const response=axios.post("http://localhost:3000/private/familymember/linkFamilyMember",{phoneNumber,email,relationship},{withCredentials: true})
+      const response=axios.post("http://localhost:3000/private/family/linkFamilyMember",{phoneNumber,email,relationship},{withCredentials: true})
       .then((res)=>{
         setMessage('Linked family member successfully!');
       })      

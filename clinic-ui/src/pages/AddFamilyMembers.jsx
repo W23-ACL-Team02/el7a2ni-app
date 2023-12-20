@@ -18,7 +18,7 @@ export default function AddFamilyMembers() {
   const handlesubmit= async (event) =>{
     event.preventDefault();
     try {
-      axios.post("http://localhost:3000/private/familymember/addFamily",familymember,{withCredentials: true})
+      axios.post("http://localhost:3000/private/family/addFamily",familymember,{withCredentials: true})
       .then((res)=>{
         setVerificationMessage('add family member successfully')
       })

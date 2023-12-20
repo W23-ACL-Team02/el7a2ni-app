@@ -1,20 +1,39 @@
 const express = require("express");
 var router = express.Router({mergeParams: true});
-const {getPatients, getPatientbyId, getPatientbyName, getAppointments} = require('../../controllers/doctorController.js')
+const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords } = require('../../controllers/doctorCont');
+const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../controllers/doctorController.js')
+const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors } = require('../../controllers/doctorController.js');
+const authorizeUser = require('../../middleware/authorizeUser');
 
-router.all('*', (req, res, next) => {
-    // Ensure patient
-    if (req.session.userType != 'doctor') {
-      return res.status(403).send('Unauthorized Access.')
-    }
-  
-    next();
-});
+router.all("*", (req, res, next) => {
+  // Ensure doctor
+  if (!authorizeUser(req, res, ["doctor"])) return;
 
+  next();
+})
+
+// ? Add under /doctor/contract router?
+router.get("/viewContract", viewContract);
+router.put("/acceptContract", acceptContract);
+router.put("/rejectContract", rejectContract);
+
+// ? Add under /doctor/appointment router?
+router.get("/selectFollowUpMenu", selectFollowUpMenu)
+router.post("/scheduleFollowUp", scheduleFollowUp)
+router.post("/addHealthRecords", addHealthRecords)
+router.get("/appointments", getAppointments)
+
+// ? Add all the rest under /doctor/user router?
 router.get("/getAllPatients", getPatients)
 router.get("/getByName", getPatientbyName)
 router.get("/patient/:id", getPatientbyId)
-router.get("/appointments", getAppointments)
+
+router.get('/viewDoctors', viewDoctors); // TODO: Remove/Update endpoint? 
+router.post('/searchDoctors', searchDoctors); // TODO: Remove/Update endpoint?
+router.get('/viewDoctorDetails/:id', viewDoctorDetails); // TODO: Remove/Update endpoint?
+router.put('/api/editDoctor', editDoctor);
+router.post('/addTimeSlots', addTimeSlot);
+router.post('/api/viewHealthRecords', viewHealthRecords);
 
 module.exports = router;
 

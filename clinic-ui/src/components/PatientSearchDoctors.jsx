@@ -19,7 +19,7 @@ const PatientSearchDoctors = () => {
       try {
 
         const response = await axios({ method: 'get',
-        url: 'http://localhost:3000/private/patientRouter/viewDoctors',
+        url: 'http://localhost:3000/private/patient/viewDoctors',
         withCredentials: true})
         
         setDoctorList(response.data.docs);
@@ -40,7 +40,7 @@ const PatientSearchDoctors = () => {
 
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/private/patientRouter/searchDoctors',
+        url: 'http://localhost:3000/private/patient/searchDoctors',
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
