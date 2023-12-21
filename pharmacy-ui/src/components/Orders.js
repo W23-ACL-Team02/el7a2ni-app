@@ -36,7 +36,7 @@ function Orders(){
    
   console.log("here");
     try{
-      await axios.post(`http://localhost:3000/private/patient/order/cancelorder/${id}`, {withCredentials: true});
+      await axios.post(`http://localhost:3000/private/patient/order/cancelorder/${id}`,{}, {withCredentials: true});
     } catch(err){
       console.log(err);
     }
