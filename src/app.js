@@ -4,8 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-var publicRouter = require('./routes/public');
-var privateRouter = require('./routes/private');
+var pharmacyRouter = require('./routes/pharmacy');
+var clinicRouter = require('./routes/clinic');
 
 var app = express();
 
@@ -18,8 +18,8 @@ app.use(express.static('public'));
 app.use(cors({origin: "http://localhost:4000", credentials: true})); //Take cross origin cookies from port 4000
 
 // Routes
-app.use('/public', publicRouter);
-app.use('/private', privateRouter);
+app.use('/pharmacy', pharmacyRouter);
+app.use('/clinic', clinicRouter);
 
 /**
  * MongoDB connection and port listening were extracted to ('./server.js')

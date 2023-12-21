@@ -7,7 +7,7 @@ var medicineRouter = require('./private/medicine');
 var paymentRouter = require('./private/payment')
 var emailRouter = require('./private/email')
 var patientRouter = require('./private/patient');
-const authentiateToken = require('../middleware/authenticateToken');
+const authentiateToken = require('../../middleware/authenticateToken');
 
 router.all('*', authentiateToken,(req, res, next) => { //TODO: REMOVE COMMENT
     if (!req.session?.loggedin) {

@@ -1,7 +1,7 @@
 const multer = require('multer');
 var express = require('express');
 var router = express.Router({mergeParams: true});
-const { registerPharmacist, registerPatient, loginUsernamePassword,verifyEmail,sendOTP,VerifyOTP,resetPassword } = require('../../controllers/userController.js');
+const { registerPharmacist, registerPatient, loginUsernamePassword,verifyEmail,sendOTP,VerifyOTP,resetPassword } = require('../../../controllers/userController.js');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
