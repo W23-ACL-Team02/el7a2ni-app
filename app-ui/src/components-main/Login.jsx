@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import ErrorBox from './ErrorsBox'
+import ErrorBox from '../components-pharmacy/ErrorsBox'
 import {useNavigate} from 'react-router-dom'
 
 const baseURL = process.env.REACT_APP_SERVER_URL
