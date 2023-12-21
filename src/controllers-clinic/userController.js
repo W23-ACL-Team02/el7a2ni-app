@@ -1,5 +1,5 @@
-const userModel = require('../models/user');
-const OTPModel = require('../models/OTP');
+const userModel = require('../models/user.js');
+const OTPModel = require('../models/OTP.js');
 const fileModel = require('../models/file.js');
 
 const multer = require('multer');

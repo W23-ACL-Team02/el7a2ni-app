@@ -1,5 +1,5 @@
 var express = require('express');
-const { getPrescriptions } = require('../../../controllers/prescriptionController');
+const { getPrescriptions } = require('../../../../controllers-clinic/prescriptionController');
 var router = express.Router();
 
 router.get ('/viewprescription', getPrescriptions)

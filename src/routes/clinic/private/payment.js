@@ -1,6 +1,6 @@
 const express = require("express");
 var router = express.Router()
-const {payByCard, payByWallet, getAllSelectedHealthPackages, getAppointmentPrice} = require("../../controllers/paymentController.js")
+const {payByCard, payByWallet, getAllSelectedHealthPackages, getAppointmentPrice} = require("../../../controllers-clinic/paymentController.js")
 
 router.post('/payByCard', payByCard)
 router.post('/payByWallet', payByWallet)

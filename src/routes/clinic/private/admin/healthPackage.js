@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {addHealthPackage, updateHealthPackage, deleteHealthPackage, getHealthPackages} = require("../../../controllers/healthPackageController.js")
+const {addHealthPackage, updateHealthPackage, deleteHealthPackage, getHealthPackages} = require("../../../../controllers-clinic/healthPackageController.js")
 
 router.route('/')
   .post(addHealthPackage)

@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 const multer = require('multer');
 
-const { getSelf, logout, changePassword, uploadDocument, removeDocument, getDocuments } = require('../../../controllers/userController.js');
-const { filterAppointments, allAppointments,upcomingCompAppointments, addAppointmentTest } = require('../../../controllers/appointmentController.js');
+const { getSelf, logout, changePassword, uploadDocument, removeDocument, getDocuments } = require('../../../controllers-clinic/userController.js');
+const { filterAppointments, allAppointments,upcomingCompAppointments, addAppointmentTest } = require('../../../controllers-clinic/appointmentController.js');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });

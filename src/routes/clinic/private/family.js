@@ -1,6 +1,6 @@
 var express= require('express');
-const { cancelSubscriptionForFamilyMember, subscribeForFamilyMember } = require('../../controllers/patientController.js');
-const { getFamilyIDs, linkFamilyMember, viewFamilyMember, createFamilyMember } = require('../../controllers/familyController.js');
+const { cancelSubscriptionForFamilyMember, subscribeForFamilyMember } = require('../../../controllers-clinic/patientController.js');
+const { getFamilyIDs, linkFamilyMember, viewFamilyMember, createFamilyMember } = require('../../../controllers-clinic/familyController.js');
 var router = express.Router({mergeParams: true}); 
 
 router.get(`/`, getFamilyIDs)
