@@ -1,6 +1,6 @@
-const userModel = require('../models/user');
+const userModel = require('../models/user.js');
 const nodemailer = require('nodemailer');
-const OTPModel = require('../models/OTP');
+const OTPModel = require('../models/OTP.js');
 
 
 const jwt = require('jsonwebtoken');
