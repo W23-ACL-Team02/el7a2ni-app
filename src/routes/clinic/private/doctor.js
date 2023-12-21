@@ -1,9 +1,9 @@
 const express = require("express");
 var router = express.Router({mergeParams: true});
-const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords } = require('../../controllers/doctorCont');
-const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../controllers/doctorController.js')
-const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors } = require('../../controllers/doctorController.js');
-const authorizeUser = require('../../middleware/authorizeUser');
+const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords } = require('../../../controllers-clinic/doctorCont');
+const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../../controllers-clinic/doctorController.js')
+const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors } = require('../../../controllers-clinic/doctorController.js');
+const authorizeUser = require('../../../middleware/authorizeUser');
 
 router.all("*", (req, res, next) => {
   // Ensure doctor

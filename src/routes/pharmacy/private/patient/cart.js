@@ -1,5 +1,5 @@
 var express = require('express');
-const { addToCart, deleteFromCart, viewCart, editCartQuantity } = require('../../../controllers/cartController');
+const { addToCart, deleteFromCart, viewCart, editCartQuantity } = require('../../../../controllers-pharmacy/cartController');
 
 var router = express.Router();
 

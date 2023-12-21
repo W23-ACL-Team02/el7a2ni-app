@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { removeUser, addAdmin, getPatientById, getPharmacistById, getPatients, getPharmacists, getPendingPharmacists } = require('../../../controllers/userController');
+const { removeUser, addAdmin, getPatientById, getPharmacistById, getPatients, getPharmacists, getPendingPharmacists } = require('../../../../controllers-pharmacy/userController');
 
 
 

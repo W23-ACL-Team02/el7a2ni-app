@@ -132,7 +132,6 @@ const userSchema = new Schema({
   files :{
     type:Array,
     default: undefined
-      },
   },
   timeSlots: [
     {

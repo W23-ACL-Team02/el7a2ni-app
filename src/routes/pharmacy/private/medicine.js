@@ -5,7 +5,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const { addMedicine, editMedicine, deleteMedicine, findMedicine, findMedicine2, getMedStats, viewMedicine, findByIngredient, getAllMedicine, renderAllMedicine, uploadMedImage} = require(`../../controllers/medicineController.js`)
+const { addMedicine, editMedicine, deleteMedicine, findMedicine, findMedicine2, getMedStats, viewMedicine, findByIngredient, getAllMedicine, renderAllMedicine, uploadMedImage} = require(`../../../controllers-pharmacy/medicineController.js`)
 
 router.post('/add', addMedicine);
 router.put('/edit', editMedicine)

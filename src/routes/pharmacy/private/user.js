@@ -1,5 +1,5 @@
 var express = require('express');
-const { getSelf, logout, changePassword, getUserInSession, getUsers } = require('../../../controllers/userController.js');
+const { getSelf, logout, changePassword, getUserInSession, getUsers } = require('../../../controllers-pharmacy/userController.js');
 var router = express.Router();
 
 router.get('/', getUsers)

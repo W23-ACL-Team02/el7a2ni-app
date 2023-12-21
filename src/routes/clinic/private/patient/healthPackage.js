@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const patientController = require('../../../controllers/patientController.js');
+const patientController = require('../../../../controllers-clinic/patientController');
 
 router.post('/subscribe', patientController.subscribeToHealthPackage);
 router.get('/view', patientController.viewSubscriptionDetails);

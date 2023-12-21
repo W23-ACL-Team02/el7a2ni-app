@@ -1,6 +1,6 @@
 var express = require('express');
-const { getAddress, getOrderTotal, addAddress, viewAddress, chooseAddress, viewOrders, cancelOrder, placeOrder } = require('../../../controllers/orderController.js');
-const { getCart } = require('../../../controllers/cartController.js');
+const { getAddress, getOrderTotal, addAddress, viewAddress, chooseAddress, viewOrders, cancelOrder, placeOrder } = require('../../../../controllers-pharmacy/orderController.js');
+const { getCart } = require('../../../../controllers-pharmacy/cartController.js');
 
 var router = express.Router();
 
