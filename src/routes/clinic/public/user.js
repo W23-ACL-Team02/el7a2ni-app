@@ -4,7 +4,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const { loginUsernamePassword, registerDoctor, registerPatient, verifyEmail, sendOTP, VerifyOTP, resetPassword } = require('../../controllers/userController.js');
+const { loginUsernamePassword, registerDoctor, registerPatient, verifyEmail, sendOTP, VerifyOTP, resetPassword } = require('../../../controllers/userController.js');
 
 router.post('/login', loginUsernamePassword);
 router.post('/register/doctor',upload.fields([
