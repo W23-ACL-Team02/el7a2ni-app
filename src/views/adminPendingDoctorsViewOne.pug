@@ -1,0 +1,43 @@
+doctype
+html(lang='en')
+   head
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+      title='Virtual Clinic | Pending Doctors' 
+      link(rel='stylesheet', href= 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
+      integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh', crossorigin='anonymous')
+
+   body 
+      h3 View doctor request
+      if doctors[0] == null || count < 1
+         p This doctor does not exist.
+      else
+         table
+            tr
+               th Name 
+               td #{doctors[0].name}
+            tr
+               th Username
+               td #{doctors[0].username}
+            tr
+               th E-mail 
+               td #{doctors[0].email}
+            tr
+               th Date of Birth 
+               td #{doctors[0].dateOfBirth}
+            tr
+               th Hourly Rate 
+               td #{doctors[0].payRate} LE/h
+            tr
+               th Hospital Affiliation 
+               td #{doctors[0].affiliation}
+            tr
+               th Education 
+               td #{doctors[0].education.name}, class of #{doctors[0].education.endYear}
+            
+         form(action='/admin/approveDoctor', method='post')
+            input(type="hidden", name="_id", value=doctors[0]._id)
+            button.btn.btn-success(type='submit') Approve
+         form(action='/admin/rejectDoctor', method='post')
+            input(type="hidden", name="_id", value=doctors[0]._id)
+            button.btn.btn-danger(type='submit') Reject

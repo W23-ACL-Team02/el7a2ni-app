@@ -1,0 +1,43 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title='Virtual Clinic | Add Prescription'
+    body
+    h2 Add Prescription 
+    form(method='POST')
+        .form-group
+            h3 Patient
+            label(for='patientname') Name
+            input.form-control(type='text', name='name' placeholder='name' required autofocus=true)
+        .form-group
+            h3 Doctor
+            label(for='doctorname') name
+            input.form-control(type='text', name='doctorname' placeholder= docName  value= docName readonly,  required )
+        .form-group
+            label(for='specialization') specialization 
+            input.form-control(type='text', name='specialization' placeholder='specialization' required )
+        .form-group
+            h3 Medicine
+        .form-group    
+             label(for='medicineName1') Medicine Name
+             input.form-control(type='text', name='medicineName1', placeholder='Medicine Name', required)
+        .form-group        
+             label(for='dosage1') Dosage
+             input.form-control(type='text', name='dosage1', placeholder='Dosage', required)
+        .form-group        
+             label(for='instructions1') Instructions
+             input.form-control(type='text',name='instructions1', placeholder='Instructions', required)
+        .form-group
+            h3 Medicine 2
+        .form-group    
+             label(for='medicineName2') Medicine Name
+             input.form-control(type='text', name='medicineName2', placeholder='Medicine Name', required)
+        .form-group        
+             label(for='dosage2') Dosage
+             input.form-control(type='text', name='dosage2', placeholder='Dosage', required)
+        .form-group       
+             label(for='instructions2') Instructions
+             input.form-control(type='text',name='instructions2', placeholder='Instructions', required)
+
+        button.btn.btn-primary(type='submit') add prescription 

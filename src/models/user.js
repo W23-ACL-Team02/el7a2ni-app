@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -53,8 +52,12 @@ const userSchema = new Schema({
     }
   },
   family: {
-    type: Array,
-    default: undefined
+    linked: {
+      type: Array
+    },
+    created: {
+      type: Array
+    }
   },
   prescriptions: {
     type: Array,
@@ -74,9 +77,17 @@ const userSchema = new Schema({
       type: Number,
     }
   },
+  speciality: {
+    type: String,
+    enum: ['General Practitioner', 'Cardiologist', 'Neurologist', 'Dermatologist', 'Surgeon', 'Ophthalmologist', 'Optometrist', 'Pediatrician', 'Family Medicine', 'Radiologist', 'Psychiatrist', 'Anesthesiologist'],
+  },
   acceptanceStatus: {
     type: String,
     enum: ['accepted', 'rejected', 'pending', 'pendingContract']
+  },
+  files: {
+    type: Array,
+    default: []
   },
   healthPackage: {
     packageId: {
@@ -122,6 +133,14 @@ const userSchema = new Schema({
     type:Array,
     default: undefined
       },
+  },
+  timeSlots: [
+    {
+      date: Date,
+      startTime: Date, 
+      endTime: Date,   
+    }
+  ],
 }, 
 { 
   timestamps: true,
@@ -201,15 +220,30 @@ const userSchema = new Schema({
     },
     cancelOrder(index){
       this.orders[index].status="cancelled"
+    },
+    addLinkedFamilyMember(LinkedFamilyMember){
+      if (this.family == undefined) {
+        this.family = {
+          linked: {},
+          created: {}
+        }
+      }
+
+      this.family.linked.push(LinkedFamilyMember)
+    },
+    addprescription(prescription){
+      if (this.prescriptions== undefined) this.prescriptions=[];
+      this.prescriptions.push(prescription)
+
+    },
+    viewprescription()
+    {
+      if (this.prescriptions== undefined) this.prescriptions=[]; //if the patient wants to view prescription and there is no prescriptions yet it will open prescription page without prescriptions 
+      return this.prescriptions
     }
   }
-});
+}
+);
 
-// * Commented out encryption
-// userSchema.pre('save', async function() {
-//   if (this.isModified('password')){
-//     this.password = await bcrypt.hash(this.password, 12)
-//   }
-// })
 const User = mongoose.model('user', userSchema);
 module.exports = User;

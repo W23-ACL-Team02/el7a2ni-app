@@ -1,0 +1,37 @@
+doctype
+html
+  head
+    //- link(rel="stylesheet", href="/stylesheets/style.css")
+  body
+    h1 All Doctors
+      form(action="searchDoctors" method="POST")
+        p
+          |          Doctor's Name: 
+          input(type='text', name='docname', value='', placeholder='(optional)')
+          //- |          Speciality: 
+          //- input(type='text', name='speciality', value='', placeholder='unspecified')
+          label(for='speciality') Doctor's Speciality:
+                select#selectOption(name='speciality')
+                    - const specialityEnum = ['All', 'General Practitioner', 'Cardiologist', 'Neurologist', 'Dermatologist', 'Surgeon', 'Ophthalmologist', 'Optometrist', 'Pediatrician', 'Family Medicine', 'Radiologist', 'Psychiatrist', 'Anesthesiologist']
+                    each value in specialityEnum
+                        option(value=value)= value
+          |          Date: 
+          input(type='datetime-local', name='date', value='', placeholder='unspecified date and time')
+        input(type='submit', value='Search for doctors')
+table
+      thead
+        tr
+          th 
+          th Name
+          th Speciality
+          th Session Price
+      tbody
+        each doc in docs
+          tr 
+          td
+            button
+              a(href=`viewDoctorDetails/${doc._id}`) View doctor's details
+          td=doc.name
+          td=doc.speciality
+          td=Math.ceil(doc.payRate*1.1*(1 - discountRate))
+script.

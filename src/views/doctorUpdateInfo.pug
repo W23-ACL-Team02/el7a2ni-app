@@ -1,0 +1,19 @@
+doctype
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title='Clinic | Update Info'
+  body
+    h1 Update Info
+    form(action='/doctor/updateInfo' method='post')
+      input.form-control(type='hidden', name='userId', value=userId)
+      .form-group
+        label(for='email') Email
+        input.form-control(type='text', name='email', placeholder='Email')
+      .form-group
+        label(for='payRate') Hourly Rate
+        input.form-control(type='number' id="payRate" name='payRate' placeholder='0.00' step=".01" )
+      .form-group
+        label(for='affiliation') Affiliation
+        input.form-control(type='text' id="affiliation" name='affiliation' placeholder='Hospital Name' )
+      button.btn.btn-primary(type='submit') Update

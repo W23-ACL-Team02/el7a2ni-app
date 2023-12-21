@@ -1,0 +1,37 @@
+doctype
+html(lang='en')
+   head
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+      title='Virtual Clinic | Health Packages' 
+      link(rel='stylesheet', href= 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
+      integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh', crossorigin='anonymous')
+
+   body 
+      h3 Health Package
+      if healthPackage == null
+         p This health package does not exist.
+      else
+         form(action='/admin/updateHealthPackage', method='post')
+            input(type="hidden", name="_id", value=healthPackage._id)
+            .form-group
+               label(for='name') Name
+               input.form-control(type='text', name='name', value=healthPackage.name)
+            .form-group
+               label(for='price') Price
+               input.form-control(type='number', step='.01', name='price', value=healthPackage.price)
+            .form-group
+               label(for='discountSession') Doctor Session Discount
+               input.form-control(type='number', step='.01', name='discountSession', value=healthPackage.discountSession)
+            .form-group
+               label(for='discountMedicine') Pharmacy Medicine Discount
+               input.form-control(type='number', step='.01', name='discountMedicine', value=healthPackage.discountMedicine)
+            .form-group
+               label(for='discountFamilySubscription') Family Members' Discount
+               input.form-control(type='number', step='.01', name='discountFamilySubscription', value=healthPackage.discountFamilySubscription)
+            button.btn.btn-primary(type='submit') Edit
+         form(action='/admin/deleteHealthPackage', method='post')
+            input(type="hidden", name="_id", value=healthPackage._id)
+            button.btn.btn-danger(type='submit') Delete
+
+      

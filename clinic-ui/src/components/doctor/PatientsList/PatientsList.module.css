@@ -1,0 +1,212 @@
+body {
+  font-family: "Roboto", helvetica, arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+}
+
+.container {
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #9a06ea;
+}
+
+.filterContainer{
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
+.search {
+  position: relative;
+  padding: 20px;
+}
+
+.dateFilter {
+  position: relative;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.search input {
+  position:relative;
+  padding: 5px;
+  height: 40px;
+  width: 250px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search button {
+  position: relative;
+  background-color: #9a06ea; /* Background color for the button */
+  color: #fff; /* Text color */
+  margin-left: 10px;
+  padding: 10px 20px; /* Adjust padding to change button size */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth transition on hover */
+}
+
+#searchListener:hover {
+  background-color: #450467; /* Background color on hover */
+}
+
+/* Style the ion-icon within the button */
+#searchListener ion-icon {
+  font-size: 20px; /* Adjust icon size */
+  margin-right: 5px; /* Add spacing between icon and text */
+}
+
+h1{
+  font-size: 30px;
+  color: #5a0505;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.dateFilter button{
+  margin-left: 15px;
+  background-color: #9a06ea;; /* Background color for the button */
+  color: #fff; /* Text color */
+  padding: 10px 20px; /* Adjust padding to change button size */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth transition on hover */
+}
+
+.backBtn{
+  position: relative;
+  background-color: #9a06ea; /* Background color for the button */
+  color: #fff; /* Text color */
+  margin-left: 10px;
+  padding: 10px 20px; /* Adjust padding to change button size */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth transition on hover */
+}
+
+/*** Table Styles **/
+
+ .table_fill{
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 320px;
+  margin: auto;
+  max-width: 600px;
+  padding:5px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+ 
+ th {
+  color:#D5DDE5;;
+  background:#1b1e24;
+  border-bottom:4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size:23px;
+  font-weight: 100;
+  padding:24px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+}
+
+ th:first-child {
+  border-top-left-radius:3px;
+}
+ 
+ th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+}
+  
+ tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom: 1px solid #C1C3D1;
+  color:#666B85;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+ 
+ tr:hover td {
+  background:#4E5066;
+  color:#FFFFFF;
+  border-top: 1px solid #22262e;
+}
+ 
+ tr:first-child {
+  border-top:none;
+}
+
+ tr:last-child {
+  border-bottom:none;
+}
+ 
+ tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+ 
+ tr:nth-child(odd):hover td {
+  background:#4E5066;
+}
+
+ tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+ tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+ td {
+  background:#FFFFFF;
+  padding:20px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+}
+
+ td:last-child {
+  border-right: 0px;
+}
+
+ th.text-left {
+  text-align: left;
+}
+
+ th.text-center {
+  text-align: center;
+}
+
+ th.text-right {
+  text-align: right;
+}
+
+ td.text-left {
+  text-align: left;
+}
+
+ td.text-center {
+  text-align: center;
+}
+
+ td.text-right {
+  text-align: right;
+}
