@@ -1,0 +1,47 @@
+doctype
+html(lang='en')
+    head
+     meta(charset='utf-8')
+     meta(name='viewport', content='width=device-width, initial-scale=1.0')
+     title='Pharmacy | View Pending Pharmacist Info' 
+     link(rel='stylesheet', href= 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
+      integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh', crossorigin='anonymous')
+     style.
+        = {
+            width= 600px
+            margin: 0 auto;
+         }
+             
+    
+
+
+    body 
+     h3 Pending Pharmacists
+     table 
+        thead
+        tr
+         th Username 
+         th Name 
+         th Email 
+         th Date of Birth 
+         th Mobile 
+         th Gender
+         th Hourly Rate
+         th Affiliation
+         th Educational Background: 
+         th University Name
+         th Graduation Year
+        tbody
+         each pharmacist in pharmacists
+          tr 
+           td #{pharmacist.username}
+           td #{pharmacist.name}
+           td #{pharmacist.email}
+           td #{pharmacist.dateOfBirth}
+           td #{pharmacist.mobile}
+           td #{pharmacist.gender}
+           td #{pharmacist.payRate}
+           td #{pharmacist.affiliation}
+           td 
+           td #{pharmacist.education.name}
+           td #{pharmacist.education.endYear}

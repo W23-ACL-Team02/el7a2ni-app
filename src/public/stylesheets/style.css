@@ -1,0 +1,32 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  max-width: 700px;
+  margin: auto;
+}
+
+button {
+  margin: 5px;
+}
+
+#search-form{
+  display: inline;
+}
+td, th{
+  padding: 5px;
+  max-width: 300px;
+  text-overflow: ellipsis;
+  text-align: center;
+  overflow: hidden; 
+}
+
+label{
+  margin-right: 5px;
+}
+
+.textField {
+  max-width: 100px;
+}
+input{
+  min-width: 70px;
+}
