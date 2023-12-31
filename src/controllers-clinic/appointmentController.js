@@ -1,5 +1,6 @@
 const userModel = require(`../models/user`);
 const appointmentModel = require(`../models/appointment`);
+const { createAppointmentNewNotif } = require("../handlers/notification/notificationHandler");
 
 module.exports = {
     filterAppointments: async (req, res) => {
@@ -67,7 +68,6 @@ module.exports = {
             res.status(400).json({ errors: [error.message] });
         }
     },
-
     upcomingCompAppointments: async (req, res) => {
         try {
             const userId=req.session.userId 
@@ -98,9 +98,22 @@ module.exports = {
       addAppointmentTest: async (req, res) => {
         const { doctorUsername, patientUsername, date, status } = req.body
         try {
-          const appointment = await appointmentModel.create({ doctorUsername, patientUsername, date, status })
+          const appointment = await appointmentModel.create({ doctorUsername, patientUsername, date, status, start: date, end: date })
           await appointment.save()
           res.status(200).send("Appointment created successfully")
+
+          try {
+            // Create notification
+            let doctor = userModel.findOne({username: doctorUsername})
+            let patient = userModel.findOne({username: patientUsername})
+  
+            let temp = await Promise.all([doctor, patient]);
+            doctor = temp[0]
+            patient = temp[1]
+            createAppointmentNewNotif(doctor._id, patient._id)
+          } catch (error) {
+            console.log(error)
+          }
         } catch (error) {
           res.status(400).json({ errors: [error.message] })
         }
