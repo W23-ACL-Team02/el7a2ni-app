@@ -140,6 +140,18 @@ const userSchema = new Schema({
       endTime: Date,   
     }
   ],
+  notifications: [
+    {
+      notifId: {
+        type: ObjectId,
+        ref: 'notification'
+      },
+      isRead: {
+        type: Boolean,
+        default: false
+      }
+    }
+  ]
 }, 
 { 
   timestamps: true,
