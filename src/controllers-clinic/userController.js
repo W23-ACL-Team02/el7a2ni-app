@@ -298,7 +298,8 @@ module.exports = {
 	},
 	getSelf: async (req, res) => {
 		const userId = req.session?.userId;
-	
+		//const userId = '6574c7bbe1e7e13216fa2146';
+		
 		if (userId == undefined) {
 		  return res.status(401).json({errors: ['No authentication provided.']})
 		}
