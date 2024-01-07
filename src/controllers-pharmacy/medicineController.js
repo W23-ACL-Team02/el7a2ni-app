@@ -103,12 +103,15 @@ module.exports = {
         }
     },
     findMedicine: async (req, res) => { 
-        const searchKey = req.query.search
+        var searchKey = '';
+        if (req.query.search){
+            searchKey = req.query.search
+        }
     
         try {
             const medicine = await medicineModel.find({"$or": [{name: {"$regex": searchKey, "$options": "i"}}, {activeIngredients: {"$regex": searchKey, "$options": "i"}}]})
             const categories = await medicineModel.find().distinct("category")
-            res.render("allMedicine", {medicine, categories, userType: req.session.userType})
+            res.status(200).json({medicine, categories})
         } catch (error) {
             res.status(400).json({err:error.message});
         }
