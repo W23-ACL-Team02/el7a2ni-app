@@ -167,7 +167,7 @@ const AppointmentCheckout = () => {
                     label = "Credit and Debit Card"
                     name = "Pay With Credit Card"
                     billingAddress
-                    amount = {Math.ceil(appointmentPrice?.price * 100)}
+                    amount = {Math.Round(appointmentPrice?.price * 100)}
                     description = {`Your total is ${appointmentPrice?.price}`}
                     token = {payByCard}
                 >

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons' 
 import { useNavigate } from "react-router-dom";
+import "../../../css/table.css"
 const { useState } = require("react");
 const { useEffect } = require("react");
 const serverURL = process.env.REACT_APP_SERVER_URL
@@ -31,7 +32,6 @@ const PatientsList = () => {
         await axios.get(`${serverURL}/clinic/private/doctor/appointments`, {withCredentials: true}).then(
             (res) => { 
                const appointments = res.data
-               console.log(appointments)
                setAppointments(appointments)
            }
             ); 
@@ -116,8 +116,8 @@ const PatientsList = () => {
                     <button id="filterListener" onClick={filter}>filter</button>
                 </div>  
             </div>
-            <div className={styles.patientTable}>
-                <table className={styles.table_fill}>
+            <div className="TableContainer" style={{height:'420px', width: '800px'}}>
+                <table className="Table">
                     <thead>
                         <tr>
                             <th></th>
@@ -128,7 +128,7 @@ const PatientsList = () => {
                     </thead>
                     <tbody>
                     {patients.map((patient) => (
-                    <tr>
+                    <tr key={patient._id}>
                         <td>            
                         <a onClick={() => handleGoToPatientDetails(patient._id)}>
                                 <FontAwesomeIcon icon={faPenToSquare} />
