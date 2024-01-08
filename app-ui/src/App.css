@@ -1,10 +1,40 @@
 .App {
   text-align: center;
+  font-family: DM Sans, sans-serif;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+button {
+  background-color: black;
+  color: white;
+  border-radius: 15px;
+  /* border-style: none; */
+}
+button:active {
+  background-color: #232323;
+}
+input {
+  font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+  border-radius: 15px;
+  font-weight: 600;
+  padding-left: 10px;
+  background-color: #eee;
+}
+input:focus, input:hover, select:active, select:hover{
+  background-color: #cdcdcd;
+}
+select {
+  font-family: DM Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+  border-radius: 15px;
+  font-weight: 600;
+  padding-left: 10px;
+  background-color: #eee;
 }
 
 @media (prefers-reduced-motion: no-preference) {
