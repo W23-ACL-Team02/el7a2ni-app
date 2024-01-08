@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords } = require('../../../controllers-clinic/doctorCont');
 const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../../controllers-clinic/doctorController.js')
 const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors } = require('../../../controllers-clinic/doctorController.js');
+const { addPrescriptionView,getPrescriptions,addPrescriptionByDoctor } = require('../../../controllers-clinic/prescriptionController.js');
 const authorizeUser = require('../../../middleware/authorizeUser');
 
 router.all("*", (req, res, next) => {
@@ -11,6 +12,10 @@ router.all("*", (req, res, next) => {
 
   next();
 })
+
+router.get("/addprescriptionView",addPrescriptionView);
+router.post("/addprescriptionSubmit",addPrescriptionByDoctor);
+
 
 // ? Add under /doctor/contract router?
 router.get("/viewContract", viewContract);
