@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+const baseURL = process.env.REACT_APP_SERVER_URL;
 const PatientSearchDoctors = () => {
 
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const PatientSearchDoctors = () => {
       try {
 
         const response = await axios({ method: 'get',
-        url: 'http://localhost:3000/private/patient/viewDoctors',
+        url: `${baseURL}/clinic/private/patient/viewDoctors`,
         withCredentials: true})
         
         setDoctorList(response.data.docs);
@@ -40,7 +40,7 @@ const PatientSearchDoctors = () => {
 
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/private/patient/searchDoctors',
+        url: `${baseURL}/clinic/private/patient/searchDoctors`,
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const PatientSearchDoctors = () => {
           date: theDateTime,
         }),
       });
-
+      
       setDoctorList(response.data.docs);
       setDiscountRate(response.data.discountRate);
     } catch (error) {
