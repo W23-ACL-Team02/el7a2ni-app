@@ -12,8 +12,8 @@ module.exports = {
             let discountRate = 0;       
             let docs = await userModel.find({type:'doctor',acceptanceStatus:'accepted'})
             let user = await userModel.findOne({_id: req.session.userId});
-            if (user?.healthPackage != undefined) {
-                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage);
+            if (user?.healthPackage != undefined && user?.healthPackage?.status != "Unsubscribed") {
+                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage.packageId);
                 discountRate = userHealthPackage.discountSession;
             }
             // res.render('patientDoctor', {docs, discountRate});
@@ -83,8 +83,8 @@ module.exports = {
             
             let discountRate = 0;
             let user = await userModel.findById(req.session.userId);
-            if (user?.healthPackage != undefined) {
-                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage);
+            if (user?.healthPackage != undefined && user?.healthPackage?.status != "Unsubscribed") {
+                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage.packageId);
                 discountRate = userHealthPackage.discountSession;
             }
             res.status(200).json({docs,discountRate});
@@ -103,8 +103,8 @@ module.exports = {
             const doctor = await userModel.findOne({_id:req.params.id})
             let discountRate = 0;
             let user = await userModel.findById(req.session.userId);
-            if (user?.healthPackage != undefined) {
-                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage);
+            if (user?.healthPackage != undefined && user?.healthPackage?.status != "Unsubscribed") {
+                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage.packageId);
                 discountRate = userHealthPackage.discountSession;
             }
             res.status(200).json({doctor,discountRate});
@@ -127,7 +127,7 @@ module.exports = {
             let allTimeslots = (await userModel.findOne({username:docUsername})).timeSlots
             let selectedTimeslot = allTimeslots.find(ts => ts.startTime.getTime() === timeSlotStartTime.getTime())
             //assuming doctor picked patient and next appointment date
-           const nextAppointment =  new appointmentsModel({
+            const nextAppointment =  new appointmentsModel({
                 doctorUsername : docUsername,
                 patientUsername: patUsername,
                 date: selectedTimeslot.date,
@@ -135,11 +135,12 @@ module.exports = {
                 start: selectedTimeslot.startTime, 
                 end: selectedTimeslot.endTime,
             });
+    
             await nextAppointment.save();
+            console.log(nextAppointment);
             allTimeslots = allTimeslots.filter(ts => ts.startTime.getTime() !== timeSlotStartTime.getTime())
             await userModel.updateOne({username:docUsername} , {timeSlots:allTimeslots}) 
 
-            
             // console.log('allTimeslots: ', allTimeslots)
             // console.log('selectedTimeslot: ', selectedTimeslot)
 

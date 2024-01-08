@@ -2,7 +2,11 @@ import { useState } from 'react';
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
-import Login from './components-main/Login.jsx';
+
+import Login from './components-main/Login'
+import ViewDoctorDetails from './components-clinic/ViewDoctorDetails'
+import AppointmentPayment from './components-clinic/patient/AppointmentPayment/AppointmentPayment'
+import PatientSearchDoctors from './components-clinic/PatientSearchDoctors'
 import PatientsList from './components-clinic/doctor/PatientsList/PatientsList.js'
 import PatientDetails from './components-clinic/doctor/PatientDetails/PatientDetails.js'
 import AddPrescription from './components-clinic/doctor/addPrescription/Addprescription';
@@ -25,6 +29,9 @@ function App() {
           <Route path="/ViewPrescriptions" element={<ViewPrescriptions />} />
           <Route path="/SelectedPrescriptions" element={<SelectedPrescriptions />} />
           <Route path="/AddPrescription" element={<AddPrescription />} />
+           <Route path='/doctors-list' element={<PatientSearchDoctors/>}></Route>  
+          <Route path='/viewdocdetails' element={<ViewDoctorDetails/>}></Route> 
+          <Route path='/appointment-payment' element={<AppointmentPayment/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
