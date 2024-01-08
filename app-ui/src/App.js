@@ -5,14 +5,10 @@ import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import Login from './components-main/Login.jsx';
 import PatientsList from './components-clinic/doctor/PatientsList/PatientsList.js'
 import PatientDetails from './components-clinic/doctor/PatientDetails/PatientDetails.js'
-import Addprescription from './components-clinic/doctor/addPrescription/Addprescription';
+import AddPrescription from './components-clinic/doctor/addPrescription/Addprescription';
 import ViewPrescriptions from './components-clinic/ViewPrescription';
 import SelectedPrescriptions from './components-clinic/SelectedPrescriptions';
-
-import PatientsList from './components-clinic/doctor/PatientsList/PatientsList.js';
-import PatientDetails from './components-clinic/doctor/PatientDetails/PatientDetails.js';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
-import Login from './components-clinic/Login.jsx'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -26,6 +22,9 @@ function App() {
           <Route path="/patientsList" element={<PatientsList />} />
           <Route path="/patient-details" element={<PatientDetails />} />
           <Route path="/VideoCallRoom" element={<VideoCallRoom />} />
+          <Route path="/ViewPrescriptions" element={<ViewPrescriptions />} />
+          <Route path="/SelectedPrescriptions" element={<SelectedPrescriptions />} />
+          <Route path="/AddPrescription" element={<AddPrescription />} />
         </Routes>
       </BrowserRouter>
     </div>
