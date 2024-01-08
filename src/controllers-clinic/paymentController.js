@@ -35,7 +35,7 @@ module.exports = {
             if(balance>=totalPrice){
                 const newBalance = balance - totalPrice;
                 const updatedPatient = await userModel.findOneAndUpdate({_id: patient._id}, {wallet : newBalance})
-                await updatedPatient.save()
+                //await updatedPatient.save()
                 //update new wallet balance 
                 status = "success"
                 res.status(200).json(status)   

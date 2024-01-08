@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const ViewDoctorDetails = () => {
-  const doctorId = localStorage.getItem('doctorId');
+  const [doctorId,setDoctorId] = useState("");
   const [discountRate, setDiscountRate] = useState(0);
   const [doctorVar, setDoctorVar] = useState(null);
   const [selectedAppointmentStartTime, setSelectedAppointmentStartTime] = useState(null);
-
+  const navigate = useNavigate()
+  
   useEffect(() => {
+    setDoctorId(localStorage.getItem('doctorId'));
     const fetchDoctorDetails = async () => {
       try {
         if (doctorId) {
           const response = await axios({
             method: 'get',
-            url: `http://localhost:3000/private/patient/viewDoctorDetails/${doctorId}`,
+            url: `${baseURL}/clinic/private/patient/viewDoctorDetails/${doctorId}`,
             withCredentials: true,
           });
 
@@ -33,28 +37,30 @@ const ViewDoctorDetails = () => {
     console.log(`Book Now clicked for ${date}, ${startTime} to ${endTime}`);
     setSelectedAppointmentStartTime(startTime);
 
-    try {
+    const data = {selectedAppointmentStartTime: startTime, doctor: doctorVar}
+    navigate( "/appointment-payment", {state: data}); // new line
+    // try {
 
-      console.log('Selected Appointment:', selectedAppointmentStartTime);
+    //   console.log('Selected Appointment:', selectedAppointmentStartTime);
   
-      const response = await axios.post('http://localhost:3000/private/patient/bookAppointment',
-        {
-          timeSlotStartTime: selectedAppointmentStartTime,
-          doctorUsername: doctorVar.username,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+    //   const response = await axios.post(`${baseURL}/clinic/private/patient/bookAppointment`,
+    //     {
+    //       timeSlotStartTime: selectedAppointmentStartTime,
+    //       doctorUsername: doctorVar.username,
+    //     },
+    //     {
+    //       withCredentials: true,
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //     }
+    //   );
   
-      console.log('Response:', response.data);
+    //   console.log('Response:', response.data);
   
-    } catch (error) {
-      console.error(error.message);
-    }
+    // } catch (error) {
+    //   console.error(error.message);
+    // }
   };
 
   return (
