@@ -1,7 +1,11 @@
 const prescriptionModel = require("../models/prescription.js");
+const medicineModel = require("../models/medicine.js");
+const cartModel = require("../models/cartItem.js");
 const userModel = require('../models/user.js');
+const mongoose = require('mongoose')
 
 module.exports = {
+    
     addPrescriptionView: async(req,res) => {
         if (req.session.userType != 'doctor') {
           return res.status(400).send("Only Doctors can access this.")
@@ -80,6 +84,44 @@ module.exports = {
             res.status(200).json({prescriptions, uniqueDoctorNames})
         } catch(error) {
             res.status(400).json({errors: [error.message]})
+        }
+    },
+    addPrescriptionToCart: async (req, res) => {
+        if (req.session.userType != 'patient') {
+            return res.status(400).send("Only patients can access this.")
+        }
+        const patientId = req.session.userId;
+        const prescriptionId = req.params.id;
+        try{
+            const patient = await userModel.findById(patientId);
+            const prescription = await prescriptionModel.findById(prescriptionId);
+            if(prescription.isFilled){
+                res.status(200).send("prescription already added before");
+                return;
+            }
+            let patientCart = patient.cart;
+            const medicineIds = prescription.medications.map((m) => m._id);
+            console.log("medicineIds:" + medicineIds);
+            const medicine = await medicineModel.find({ _id: { $in: medicineIds }})
+            console.log(medicine);
+            medicine.forEach( async (m) => {
+                const newCartItem = await cartModel.create({medicine : m, quantity : 1});
+                await newCartItem.save();
+                patientCart.push(newCartItem);
+            });
+            const updatedPrescription = await prescriptionModel.findByIdAndUpdate(prescriptionId, {isFilled: true});
+            await updatedPrescription.save();
+            const patientPrescriptions = patient.prescriptions;
+            patientPrescriptions.forEach(p => {
+                if(p._id == prescriptionId){
+                    p.isFilled = true;
+                }
+            })
+            const updatedPatient = await userModel.findByIdAndUpdate(patientId, {prescriptions: patientPrescriptions , cart : patientCart});
+            await updatedPatient.save();
+            res.status(200).json({updatedPatient : updatedPatient})
+        }catch(error){
+            res.status(400).json({errors: [error.message]});
         }
     }
 }
