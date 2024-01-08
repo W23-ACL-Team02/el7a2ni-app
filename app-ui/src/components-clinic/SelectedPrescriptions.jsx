@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { saveAs } from 'file-saver';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-
+import axios from 'axios';
+const baseURL = process.env.REACT_APP_SERVER_URL
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -105,7 +106,21 @@ const SelectedPrescriptions = ({ prescription }) => {
         });
       };
       
-      
+      const addPrescriptionToCart = async () =>{
+        try{
+            const response = await axios({
+              url: `${baseURL}/clinic/private/patient/prescription/addPrescriptionToCart/${prescription._id}`,
+              method: 'post', 
+              withCredentials: true});
+    
+            if(response.status == 200){
+              console.log("added prescription to cart");
+            }              
+        }catch(error){
+            console.log("error: " +error)
+        }
+       
+      }
     
       
   return (
@@ -160,7 +175,10 @@ const SelectedPrescriptions = ({ prescription }) => {
             </tbody>
         </thead> 
      </table>
-        
+     <div>
+        <button hidden={prescription.isFilled} onClick={addPrescriptionToCart}>Add Prescription Medicine to cart</button> 
+        <p hidden={!prescription.isFilled} >prescription added to cart before</p>              
+     </div>  
     </div>
 
   )

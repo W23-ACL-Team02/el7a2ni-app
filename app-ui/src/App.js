@@ -21,6 +21,7 @@ function App() {
 
 
           <Routes>
+          <Route path='/login' element={<Login/>}/> 
           <Route path="/addprescription" element={<Addprescription />} />
           <Route path="/viewprescription" element={<ViewPrescriptions />} />
           <Route path='prescriptions/selectedPrescription' element={<SelectedPrescriptions/>} />

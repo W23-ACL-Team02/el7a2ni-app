@@ -9,14 +9,14 @@ var familyRouter = require('./private/family');
 var payment = require("./private/payment");
 const authentiateToken = require("../../middleware/authenticateToken");
 
-// router.all('*', authentiateToken,(req, res, next) => {
-//     if (!req.session?.loggedin) {
-//         return res.end();
-//     }
+router.all('*', authentiateToken,(req, res, next) => {
+    if (!req.session?.loggedin) {
+        return res.end();
+    }
 
-//     // Ensure any route through here is authenticated
-//     next();
-// })
+    // Ensure any route through here is authenticated
+    next();
+})
 
 router.use('/admin', adminRouter);
 router.use('/doctor', doctorRouter);
