@@ -19,7 +19,7 @@ module.exports = {
             // res.render('patientDoctor', {docs, discountRate});
             res.status(200).json({docs, discountRate});
         }catch(error) {
-            res.status(400).json({err:error.message})
+            res.status(400).json({err:error.message});
         }
     
     }
@@ -89,7 +89,7 @@ module.exports = {
             }
             res.status(200).json({docs,discountRate});
         }catch(error){
-            res.status(400).json({err:error.message})
+            res.status(400).json({err:error.message});
         }
         
     }
@@ -109,7 +109,7 @@ module.exports = {
             }
             res.status(200).json({doctor,discountRate});
         }catch(error){
-            res.status(400).json({err:error.message})
+            res.status(400).json({err:error.message});
         }
     }
     ,
@@ -145,11 +145,74 @@ module.exports = {
 
             res.status(200);
         }catch(error){
-            res.status(400).json({err:error.message})
+            res.status(400).json({err:error.message});
         }
     }
     ,
-    
+    loadFollowUpPage : async (req, res) => {
+        // 64
+        // request a follow-up to a previous appointment for myself or a family member
+
+        try{
+            // get all possible doctors to have followUp for this patient(and their linked family)
+            let patUsername = (await userModel.findById(req.session.userId)).username
+            let patname = (await userModel.findById(req.session.userId)).name
+            let appts = []
+            let patAppts = await appointmentsModel.find({patientUsername:patUsername,status:'completed'})
+            
+            for(let i=0 ; i<patAppts.length ; i++){
+                let docname = (await userModel.findOne({username:patAppts[i].doctorUsername})).name
+                let docspec = (await userModel.findOne({username:patAppts[i].doctorUsername})).speciality
+                let date = patAppts[i].date
+                let prevapptID = patAppts[i]._id
+                appts.push({patname,relationship:'Logged In Patient',docname,docspec,date,prevapptID})
+            }
+
+            let patFamily = (await userModel.findById(req.session.userId)).family.linked
+
+            for(let i=0 ; i<patFamily.length ; i++){
+                // get the appts of each linked family member and add them to our appts array
+                relationship = patFamily[i].relationship
+                patFamilyUsername = (await userModel.findById(patFamily[i].id)).username
+                patFamilyAppts = await appointmentsModel.find({patientUsername:patFamilyUsername,status:'completed'})
+                for(let j=0 ; j<patFamilyAppts ; j++){
+                    let docname = (await userModel.findOne({username:patFamilyAppts[i].doctorUsername})).name
+                    let docspec = (await userModel.findOne({username:patFamilyAppts[i].doctorUsername})).speciality
+                    let date = patFamilyAppts[i].date
+                    let prevapptID = patFamilyAppts[i]._id
+                    appts.push({patname,relationship,docname,docspec,date,prevapptID})
+                }
+            }
+            // that way all completed appts of the patient and their linked family members are displayed
+            res.status(200).json(appts);
+        }catch(error){
+            res.status(400).json({err:error.message});
+        }
+
+    }
+    ,
+    PatientRequestFollowUp : async (req, res) => {
+        // 64
+        // request a follow-up to a previous appointment for myself or a family member
+        let startdate = new Date(req.body.apptDate)
+        let enddate = new Date(startdate.getTime()+req.body.duration*60000);
+        let previousAppt = await appointmentsModel.findById(req.body.apptID); //get previous appointment to follow up easily
+        try{
+            const nextAppointment =  new appointmentsModel({
+                doctorUsername : previousAppt.doctorUsername,
+                patientUsername: previousAppt.patientUsername,
+                date: startdate,
+                status: 'pending', 
+                start: startdate, 
+                end: enddate,
+                requestFrom: 'patient',
+            });
+            await nextAppointment.save();
+            res.status(200);
+        }catch(error){
+            res.status(400).json({err:error.message});
+        }
+    }
 }
 
 //patientDoctor, viewOneDoctor pug pages used in milestone 1

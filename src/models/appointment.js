@@ -26,7 +26,7 @@ const appointSchema = new Schema({
   },
   status:{
     type: String,
-    enum: ["upcoming", "completed", "cancelled", "rescheduled"],
+    enum: ["upcoming", "completed", "cancelled", "rescheduled", 'pending'],
     required: true,
   },
   start:{
@@ -36,7 +36,11 @@ const appointSchema = new Schema({
   end:{
     type: Date,
     required: true,
-  }
+  },
+  requestFrom:{
+    type: String,
+    enum: ["patient", "doctor"],
+  },
 
 
 }, { timestamps: true });
