@@ -100,37 +100,36 @@ const PatientSearchDoctors = () => {
           <button onClick={handleSearch}>Search Doctors</button>
         </div>
       </div>
-
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid black' }}>
-  <thead>
-    <tr style={{ border: '6px solid black' }}>
-      <th style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>View</th>
-      <th style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>Name</th>
-      <th style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>Speciality</th>
-      <th style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>Session Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    {doctorList.map((doctor) => (
-      <tr key={doctor._id} style={{ border: '6px solid black' }}>
-        <td style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>
-        <button onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
-        </td>
-        <td style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>
-          {doctor.name}
-        </td>
-        <td style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>
-          {doctor.speciality}
-        </td>
-        <td style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>
-          {Math.round(doctor.payRate * 1.1 * (1-discountRate))}€
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
-
+      <div className='TableContainer'>
+      <table>
+        <thead>
+          <tr>
+            <th>View</th>
+            <th>Name</th>
+            <th>Speciality</th>
+            <th>Session Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {doctorList.map((doctor) => (
+            <tr key={doctor._id}>
+              <td>
+              <button onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
+              </td>
+              <td>
+                {doctor.name}
+              </td>
+              <td>
+                {doctor.speciality}
+              </td>
+              <td>
+                {Math.round(doctor.payRate * (1-discountRate))}€
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
 
     </div>
   );

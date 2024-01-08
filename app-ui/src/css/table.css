@@ -33,11 +33,10 @@ table {
   }
 
   .TableContainer {
+    align-self: center;
     background: white;
     border: 3px solid white;
     border-radius: 10px;
-    height: 420px;
-    width: 800px;
   }
   
   table {
