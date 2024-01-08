@@ -103,21 +103,21 @@ const PatientsList = () => {
         <div className={styles.container}>
             <div className={styles.filterContainer}>
                 <div className={styles.search}>
-                    <input type="text" id="searchInput" placeholder="Search for patients..."/>
-                    <button id="searchListener" onClick={search}>
+                    <input type="text" id="searchInput" style={{fontSize:"14px", width:"160px", height:"35px"}} placeholder="Search for patients..."/>
+                    <button id="searchListener" onClick={search} style={{width:"50px", height:"35px"}}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />   
                     </button>  
                 </div>
                 <div className={styles.dateFilter}>
-                    <label>Appointments From</label>
-                    <input type="date" id="FromDateInput"/>
-                    <label>To</label>
-                    <input type="date" id="ToDateInput"/>
-                    <button id="filterListener" onClick={filter}>filter</button>
+                    <p style={{bottom:"10px", fontSize:"14px"}}>Appointments From</p>
+                    <input type="date" style={{width:"160px", height:"35px"}} id="FromDateInput"/>
+                    <p style={{bottom:"10px", fontSize:"14px"}}>To</p>
+                    <input type="date" style={{width:"160px", height:"35px"}} id="ToDateInput"/>
+                    <button id="filterListener" onClick={filter} style={{width:"60px", height:"35px"}}>filter</button>
                 </div>  
             </div>
-            <div className="TableContainer" style={{height:'420px', width: '800px'}}>
-                <table className="Table">
+            <div className="TableContainer" style={{height:'420px', width: '850px'}}>
+                <table>
                     <thead>
                         <tr>
                             <th></th>
@@ -141,7 +141,7 @@ const PatientsList = () => {
                     ))}
                     </tbody>
                 </table>
-                <button className={styles.backBtn} onClick={handleGoBack}>back</button>
+                <button onClick={handleGoBack} style={{width:"60px", height:"35px"}}>back</button>
             </div> 
         </div>  
     )

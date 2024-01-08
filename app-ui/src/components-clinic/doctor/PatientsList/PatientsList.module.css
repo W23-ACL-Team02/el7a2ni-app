@@ -1,13 +1,15 @@
-body {
-  font-family: "Roboto", helvetica, arial, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  text-rendering: optimizeLegibility;
-  background: rgb(242, 241, 241);
-}
 
 a {
   color: black;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  align-content: center;
+  margin-top: 20px;
 }
 
 .filterContainer{
@@ -17,17 +19,29 @@ a {
 }
 
 .search {
+  display: flex;
+  flex-direction: row;
   position: relative;
-  padding: 20px;
+  align-items: center;
+  justify-content: space-between;
+  align-content: center;
+  width: 230px;
+  margin-top: 50px;
 }
 
 .dateFilter {
+  display: flex;
+  flex-direction: row;
   position: relative;
-  margin-top: 20px;
-  padding: 20px;
+  align-items: center;
+  justify-content: space-evenly;
+  align-content: center;
+  width: 610px;
+  margin-top: 50px;
+  margin-left: 10px;
 }
 
-.search input {
+/* .search input {
   position:relative;
   padding: 5px;
   height: 40px;
@@ -39,19 +53,19 @@ a {
 
 .search button {
   position: relative;
-  background-color: #9a06ea; /* Background color for the button */
-  color: #fff; /* Text color */
+  background-color: #9a06ea;
+  color: #fff; 
   margin-left: 10px;
-  padding: 10px 20px; /* Adjust padding to change button size */
+  padding: 10px 20px; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s; /* Add a smooth transition on hover */
+  transition: background-color 0.3s;
 }
 
 #searchListener:hover {
-  background-color: #450467; /* Background color on hover */
-}
+  background-color: #450467; 
+} */
 
 /* Style the ion-icon within the button */
 #searchListener ion-icon {
@@ -68,108 +82,5 @@ h1{
   margin-bottom: 15px;
 }
 
-.dateFilter button{
-  margin-left: 15px;
-  background-color: #9a06ea;; /* Background color for the button */
-  color: #fff; /* Text color */
-  padding: 10px 20px; /* Adjust padding to change button size */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Add a smooth transition on hover */
-}
 
-.backBtn{
-  position: relative;
-  background-color: #9a06ea; /* Background color for the button */
-  color: #fff; /* Text color */
-  margin-left: 10px;
-  padding: 10px 20px; /* Adjust padding to change button size */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Add a smooth transition on hover */
-}
-
-/*** Table Styles **/
-
-.TableContainer {
-  background: white;
-  border: 3px solid white;
-  border-radius: 10px;
-  height: 420px;
-  width: 800px;
-}
-
-.Table {
-  border-collapse: collapse;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 5px;
-  animation: float 5s infinite;
-}
-
-tr {
-  position: relative;
-  color: black;
-  background: white;
-  border-bottom: solid 4px rgb(219, 215, 215);
-  max-height: 40px;
-  font-size: 18px;
-  font-weight: 100;
-  padding: 20px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-tbody tr:last-child{
-  border-bottom: none;
-}
-
-th {
-  color: black;
-  background: white;
-  position: relative;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 20px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-td {
-  color: black;
-  background: white;
-  padding: 20px;
-  text-align: center;
-  vertical-align: middle;
-  font-weight: 600;
-  font-size: 18px;
-  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-}
-
- 
- /* tr:hover td {
-  background:#4E5066;
-  color:#FFFFFF;
-  border-top: 1px solid #22262e;
-}
- 
- tr:first-child {
-  border-top:none;
-}
-
- tr:last-child {
-  border-bottom:none;
-}
- 
- tr:nth-child(odd) td {
-  background:#EBEBEB;
-}
- 
- tr:nth-child(odd):hover td {
-  background:#4E5066;
-} */
- 
  
