@@ -8,7 +8,7 @@ module.exports = {
         const FromDate = req.body.FromDate
         const ToDate = req.body.ToDate
         const DocId = req.session?.userId
-        //const DocId = "6547cd2f63304dedceb8644b"
+        //const DocId = '6574c7bbe1e7e13216fa2146';
         try{
             const doctor = await userModel.findOne({_id: DocId, type: "doctor"})
             var appointments = null
@@ -53,7 +53,7 @@ module.exports = {
     },
     getAppointments : async(req, res) => {
         const DocId = req.session.userId
-        //const DocId = "6547cd2f63304dedceb8644b"
+        //const DocId = '6574c7bbe1e7e13216fa2146';
         try{
             const doctor = await userModel.findOne({_id: DocId, type: "doctor"})
             const appointments = await appointmentModel.find({doctorUsername: doctor.username})

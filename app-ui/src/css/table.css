@@ -1,4 +1,4 @@
-/* Center tables for demo */
+/* Center tables for demo
 table {
   margin: 0 auto;
   margin-top: 0 ;
@@ -14,7 +14,6 @@ table {
   min-height: 100vh;
   min-width: 100%;
   /* will contain if #first is longer than #second */
-}
 
 #address-container{
 

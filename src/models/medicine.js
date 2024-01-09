@@ -10,6 +10,10 @@ const medicineSchema = new Schema({
     type: String,
     required: true
   },
+  dosage:{
+    type:String,
+
+  },
   category: {
     type: String,
     required: true

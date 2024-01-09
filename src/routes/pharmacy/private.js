@@ -10,14 +10,14 @@ var patientRouter = require('./private/patient');
 var pharmacistRouter= require('./private/pharmacist');
 const authentiateToken = require('../../middleware/authenticateToken');
 
-router.all('*', authentiateToken,(req, res, next) => { //TODO: REMOVE COMMENT
-    if (!req.session?.loggedin) {
-        return res.end();
-    }
+// router.all('*', authentiateToken,(req, res, next) => { //TODO: REMOVE COMMENT
+//     if (!req.session?.loggedin) {
+//         return res.end();
+//     }
 
-    // Ensure any route through here is authenticated
-    next();
-})
+//     // Ensure any route through here is authenticated
+//     next();
+// })
 
 router.use('/admin', adminRouter);
 router.use('/user', userRouter);
