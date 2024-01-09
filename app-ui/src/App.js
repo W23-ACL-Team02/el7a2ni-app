@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import React from 'react';
 import './App.css';
+import './css/general.css';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import MedicinePayment from './components-pharmacy/patient/MedicinePayment/MedicinePayment.js';
 import CheckoutSuccess from './components-pharmacy/shared/PaymentSuccess.js';
@@ -31,6 +32,7 @@ import AddPrescription from './components-clinic/doctor/addPrescription/Addpresc
 import ViewPrescriptions from './components-clinic/ViewPrescription';
 import SelectedPrescriptions from './components-clinic/SelectedPrescriptions';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
+import PatientHome from './components-main/PatientHome.jsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -60,6 +62,7 @@ function App() {
           <Route path="/addaddress" element={<AddAddress />} />
           <Route path="/viewmedicinepatient" element={<MedicineListPatient/>} />
           <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<PatientHome />} />
           <Route path="/patientsList" element={<PatientsList />} />
           <Route path="/patient-details" element={<PatientDetails />} />
           <Route path="/VideoCallRoom" element={<VideoCallRoom />} />
