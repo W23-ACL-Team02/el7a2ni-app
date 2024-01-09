@@ -96,11 +96,11 @@ module.exports = {
     },
     viewFamilyMember: async (req,res) => {
         //change to params to test
-        const userId = req.session.userId;
+      //  const userId = req.session.userId;
         
         try {
             //change from userId to username
-            let user = await userModel.findOne({_id:userId});
+            let user = await userModel.findOne({username:"patient1"});
         
             if (user == null) {
                 throw new Error("User not found. Maybe Session timed out.")

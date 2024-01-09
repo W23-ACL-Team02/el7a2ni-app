@@ -6,12 +6,12 @@ const prescriptionRouter = require(`./patient/prescription.js`);
 const { searchDoctors, filterDoctors, viewDoctors, bookAppointment} = require('../../../controllers-clinic/patientViewController.js');
 const authorizeUser = require('../../../middleware/authorizeUser.js');
 
-router.all("*", (req, res, next) => {
-    // Ensure patient
-    if (!authorizeUser(req, res, ["patient"])) return;
+// router.all("*", (req, res, next) => {
+//     // Ensure patient
+//     if (!authorizeUser(req, res, ["patient"])) return;
 
-    next();
-})
+//     next();
+// })
 
 router.get('/viewDoctors', viewDoctors);
 router.post('/searchDoctors', searchDoctors);

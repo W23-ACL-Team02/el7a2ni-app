@@ -57,6 +57,50 @@ module.exports = {
            res.status(400).json({err:error.message})
         }
     },
+    updatePrescription: async (req, res) => {
+        try {
+           // Extract prescription ID from request parameters
+          const { _id,patient,doctor ,medications} = req.body;
+          console.log(req.body);
+      
+          // Find the existing prescription by ID
+          const existingPrescription = await prescriptionModel.findById(_id);
+          console.log(existingPrescription);
+          console.log(patient.name);
+      
+          if (!existingPrescription) {
+            return res.status(404).json({ error: 'Prescription not found' });
+          }
+      
+          existingPrescription.medications = medications;
+      
+          // Save the updated prescription
+          await existingPrescription.save();
+      
+          // Find related user and doctor
+          const patientUser = await userModel.findOne({ username: patient.name });
+          console.log(patientUser.username);
+          const doctorUser = await userModel.findOne({ username: doctor.name });
+          console.log(doctorUser.username);
+      
+        //   if (!patientUser || !doctorUser) {
+        //     throw new Error('User or Doctor not found. Enter valid names.');
+        //   }
+      
+          // Update user's and doctor's prescriptions
+          patientUser.updatePrescription(_id,existingPrescription);
+          doctorUser.updatePrescription(_id,existingPrescription);
+      
+          // Save the updated user and doctor
+        //   await patientUser.save();
+        //   await doctorUser.save();
+      
+          // Send the updated prescription as a response
+          res.status(200).json(existingPrescription);
+        } catch (error) {
+          res.status(400).json({ error: error.message });
+        }
+      },
     getPrescriptionById: async(req,res)=>{
         const prescriptionId= req.query.prescriptionId
         
@@ -73,15 +117,15 @@ module.exports = {
         }
     },
     getPrescriptions: async (req, res) => { 
-        if (req.session.userType != 'patient' && req.session.userType != 'doctor' ) {  // I want to test this If confition
-          return res.status(400).send("Only patients can access this.")
-        }
+        // if (req.session.userType != 'patient' && req.session.userType != 'doctor' ) {  // I want to test this If confition
+        //   return res.status(400).send("Only patients can access this.")
+        // }
 
-       const userId = req.session.userId;
-        const name = req.params.name
+    //    const userId = req.session.userId;
+    //     const name = req.params.name
 
         try{
-            let user = await userModel.findOne({_id:userId});
+            let user = await userModel.findOne({username:"doctor1"});
             console.log(user.prescriptions);
         
             if (user == null) {
