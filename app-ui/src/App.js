@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import React from 'react';
 import './App.css';
+import './css/general.css';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 import Login from './components-main/Login'
@@ -13,16 +14,19 @@ import AddPrescription from './components-clinic/doctor/addPrescription/Addpresc
 import ViewPrescriptions from './components-clinic/ViewPrescription';
 import SelectedPrescriptions from './components-clinic/SelectedPrescriptions';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
+import PatientHome from './components-main/PatientHome.jsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <div className="App">
+      <link href="https://fonts.cdnfonts.com/css/dm-sans" rel="stylesheet"></link>
       <BrowserRouter>
         <Routes>
         {/*  */}
           <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<PatientHome />} />
           <Route path="/patientsList" element={<PatientsList />} />
           <Route path="/patient-details" element={<PatientDetails />} />
           <Route path="/VideoCallRoom" element={<VideoCallRoom />} />
