@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
-app.use(cors({origin: "http://localhost:3000", credentials: true})); //Take cross origin cookies from port 4000
+app.use(cors({origin: "http://localhost:4000", credentials: true})); //Take cross origin cookies from port 4000
 
 // Routes
 app.use('/pharmacy', pharmacyRouter);
