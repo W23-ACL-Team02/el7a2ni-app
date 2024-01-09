@@ -33,6 +33,8 @@ import ViewPrescriptions from './components-clinic/ViewPrescription';
 import SelectedPrescriptions from './components-clinic/SelectedPrescriptions';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
 import PatientHome from './components-main/PatientHome.jsx';
+import AdminHome from './components-main/AdminHome.jsx';
+import HealthPackageManagement from './components-clinic/patient/healthPackageManagement/mainPage/mainPage.js'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -40,12 +42,9 @@ function App() {
   return (
     <div className="App">
    <BrowserRouter>
-       
-
-
-
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<PatientHome />} />
+          <Route path="/adminHome" element={<AdminHome />} />
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
@@ -69,9 +68,10 @@ function App() {
           <Route path="/ViewPrescriptions" element={<ViewPrescriptions />} />
           <Route path="/SelectedPrescriptions" element={<SelectedPrescriptions />} />
           <Route path="/AddPrescription" element={<AddPrescription />} />
-           <Route path='/doctors-list' element={<PatientSearchDoctors/>}></Route>  
+          <Route path='/doctors-list' element={<PatientSearchDoctors/>}></Route>  
           <Route path='/viewdocdetails' element={<ViewDoctorDetails/>}></Route> 
           <Route path='/appointment-payment' element={<AppointmentPayment/>}></Route>
+          <Route path='/healthPackages' element={<HealthPackageManagement/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
