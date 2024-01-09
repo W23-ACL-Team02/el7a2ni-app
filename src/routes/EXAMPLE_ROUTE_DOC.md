@@ -21,13 +21,13 @@ Responds with JSON containing all family members of user with `_id: userId`.
 
 ### Family Members
 
-### post /clinic/private/family/addfamily
+### POST /clinic/private/family/addfamily
 it posts the information of a created family member
 
 **Body:**
 * familymember object contains the information of the family member as {name,nationalID, age, gender, relationship}
 
-** Query:**
+**Query:**
 * create family memeber object from mongodb schema
 * serches for user from userId that is saved in the session 
 * add created family member in user family object in the created array 
@@ -35,3 +35,5 @@ it posts the information of a created family member
 **Notes:**
 * Must send JWT as cookie for authentication
 * User in token must be of type patient
+
+### Get /clinic/private/family/viewFamilyMember
