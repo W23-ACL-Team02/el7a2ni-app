@@ -7,6 +7,7 @@ var medicineRouter = require('./private/medicine');
 var paymentRouter = require('./private/payment')
 var emailRouter = require('./private/email')
 var patientRouter = require('./private/patient');
+var pharmacistRouter= require('./private/pharmacist');
 const authentiateToken = require('../../middleware/authenticateToken');
 
 router.all('*', authentiateToken,(req, res, next) => { //TODO: REMOVE COMMENT
@@ -24,5 +25,6 @@ router.use('/medicine', medicineRouter);
 router.use('/payment', paymentRouter);
 router.use('/email', emailRouter)
 router.use('/patient', patientRouter);
+router.use('/pharmacist', pharmacistRouter);
 
 module.exports = router;

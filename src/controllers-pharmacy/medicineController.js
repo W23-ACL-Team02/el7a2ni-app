@@ -190,6 +190,14 @@ module.exports = {
             res.status(400).json({ err: error.message });
         }
     },
+    getAllUnarchivedMedicine: async (req, res) => { 
+        try {
+            const medicines = await medicineModel.find({archived: false});
+            res.status(200).json(medicines);
+        } catch (error) {
+            res.status(400).json({ err: error.message });
+        }
+    },
     renderAllMedicine: async (req, res) => {
         try {
             const medicine = await medicineModel.find()
@@ -227,6 +235,26 @@ module.exports = {
             res.status(200).json({ message: 'Medicine image uploaded successfully.' });
         } catch(error) {
             res.status(400).json({err:error.message})
+        }
+    },
+    archiveMedicine: async(req,res)=>{
+        try{
+            if (req.session.userType !== 'pharmacist') {
+                return res.status(403).json({ message: 'Permission denied.' });
+            }
+            const id= req.body.medicineId;
+            const medicine= await medicineModel.findById(id);
+            const originalstatus= medicine.archived;
+            const archivedMedicine = await medicineModel.findOneAndUpdate({_id: id}, {archived: !medicine.archived})
+            await archivedMedicine.save()
+            if(originalstatus){
+                res.status(200).json({ successes: ["medicine unarchived succesfully"] })
+            }
+            else{
+                res.status(200).json({ successes: ["medicine archived succesfully"] })
+            }
+        } catch(error){
+            res.status(400).json({ errors: [error.message] })
         }
     }
 }

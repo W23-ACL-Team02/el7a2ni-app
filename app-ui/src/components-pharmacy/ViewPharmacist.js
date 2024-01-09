@@ -14,7 +14,7 @@ function GetPharmacist(){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/private/admin/user/pharmacist/${id}`, {withCredentials: true});
+        const res = await axios.get(`http://localhost:3000/pharmacy/private/admin/user/pharmacist/${id}`, {withCredentials: true});
         setPharmacist(res.data);
       } catch (err) {
         console.log(err);
