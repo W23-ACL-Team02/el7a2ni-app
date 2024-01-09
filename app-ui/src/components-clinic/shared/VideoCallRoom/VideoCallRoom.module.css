@@ -27,12 +27,8 @@
 	flex-direction: row; 
 	width: 400px;
 	margin-top: 0rem;
-	border-radius: 5px;
-	background: linear-gradient(
-		to right,
-		#e2e2e2,
-		#c9d6ff
-	); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	border-radius: 4px;
+	background: white;
 	padding: 2rem;
 	align-items: center;
 	justify-content: center;
