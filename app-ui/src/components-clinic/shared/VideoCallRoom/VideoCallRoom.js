@@ -1,15 +1,9 @@
 import axios from 'axios'
 import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
-import TextField from "@mui/material/TextField"
-import MenuItem from "@mui/material/MenuItem"
-import { Select } from '@mui/base/Select';
-import { Option } from '@mui/base/Option';
-import AssignmentIcon from "@mui/icons-material/Assignment"
 import PhoneIcon from "@mui/icons-material/Phone"
 import CircleIcon from '@mui/icons-material/Circle';
 import React, { useEffect, useRef, useState } from "react"
-import { CopyToClipboard } from "react-copy-to-clipboard"
 import Peer from "simple-peer"
 import io from "socket.io-client"
 import styles from './VideoCallRoom.module.css'
@@ -71,38 +65,42 @@ const VideoCallRoom = () => {
 
 		}	
 
-		fetchData();
+		console.log("About to get user media");
+		navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+			.then((stream) => {
+				console.log("Got user media");
+				setStream(stream);
+				setTimeout(() => {myVideo.current.srcObject = stream}, 200);
+			})
+			.catch((error) => {
+				console.error("Error accessing user media:", error);
+			});
 
-			navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-				setStream(stream)
-				if(myVideo.current){
-					myVideo.current.srcObject = stream
-				}	
-			})
-	
-			socket.on("me", (id) => {
-					setMe(id)
-			})
-	
-			socket.on("callUser", (data) => {
-				console.log("entered here");
-				setReceivingCall(true)
-				setCaller(data.from)
-				setName(data.name)
-				setCallerSignal(data.signal)
-			})
-	
-			socket.on("endCall", () => {
-				console.log("entered call ended socket")
-				setCallEnded(true);
-				setCallAccepted(false)
-				if (connectionRef.current) {
-					connectionRef.current.destroy();
-				}
-				if (userVideo.current) {
-					userVideo.current.srcObject = null;
-				}
-			  });
+		socket.on("me", (id) => {
+				setMe(id)
+		})
+
+		socket.on("callUser", (data) => {
+			console.log("entered here");
+			setReceivingCall(true)
+			setCaller(data.from)
+			setName(data.name)
+			setCallerSignal(data.signal)
+		})
+
+		socket.on("endCall", () => {
+			console.log("entered call ended socket")
+			setCallEnded(true);
+			setCallAccepted(false)
+			if (connectionRef.current) {
+				connectionRef.current.destroy();
+			}
+			if (userVideo.current) {
+				userVideo.current.srcObject = null;
+			}
+		});
+
+		fetchData();
 		 
 	}, [])
 
@@ -179,7 +177,7 @@ const VideoCallRoom = () => {
 
 		console.log(`me: ${me}`)
 		console.log(`caller: ${caller}`)
-		console.log(`whoever the fuck answered: ${idToCall}`)
+		console.log(`whoever answered: ${idToCall}`)
 		if(caller === ""){
 			socket.emit("endCall", { to: idToCall });
 		}else{

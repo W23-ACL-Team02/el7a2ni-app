@@ -19,8 +19,6 @@ const AppointmentCheckout = () => {
     const navigate = useNavigate()
     let { state } = useLocation();
 
-    const appointment = {doctorID: "6547cd2f63304dedceb8644b", patientID: "6547b96606043724533eedbf", date: "10-10-2024"}
-
     useEffect(() =>{
         setSelectedAppointmentStartTime(state.selectedAppointmentStartTime);
         setDoctor(state.doctor);
@@ -41,7 +39,7 @@ const AppointmentCheckout = () => {
                 url: `${serverURL}/clinic/private/payment/payByCard`,
                 method: 'post',
                 data: {
-                    amount: Math.ceil( appointmentPrice.price  * 100),
+                    amount: Math.round( appointmentPrice.price * 100),
                     token,
                 },
                 withCredentials: true
@@ -167,8 +165,8 @@ const AppointmentCheckout = () => {
                     label = "Credit and Debit Card"
                     name = "Pay With Credit Card"
                     billingAddress
-                    amount = {Math.ceil(appointmentPrice?.price * 100)}
-                    description = {`Your total is ${appointmentPrice?.price}`}
+                    amount = {Math.round(appointmentPrice?.price * 100)}
+                    description = {`Your total is ${Math.round(appointmentPrice?.price)}`}
                     token = {payByCard}
                 >
                     <button ref = {cardRef} style={{ display: 'none' }}>

@@ -8,10 +8,16 @@
   pointer-events: none;
 }
 
+p{
+  color: black;
+  font-weight: 600;
+}
+
 button {
   background-color: black;
   color: white;
   border-radius: 15px;
+  cursor:pointer;
   /* border-style: none; */
 }
 button:active {

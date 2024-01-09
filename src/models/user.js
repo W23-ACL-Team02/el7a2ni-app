@@ -39,6 +39,7 @@ const userSchema = new Schema({
   },
   wallet: {
     type: Number,
+    default: 0,
   },
   emergencyContact: {
     name: {
@@ -84,6 +85,10 @@ const userSchema = new Schema({
   acceptanceStatus: {
     type: String,
     enum: ['accepted', 'rejected', 'pending', 'pendingContract']
+  },
+  acceptanceDate:{
+    type: Date,
+    default: undefined,
   },
   files: {
     type: Array,
@@ -239,6 +244,23 @@ const userSchema = new Schema({
     {
       if (this.prescriptions== undefined) this.prescriptions=[]; //if the patient wants to view prescription and there is no prescriptions yet it will open prescription page without prescriptions 
       return this.prescriptions
+    },
+    addToWallet(amount)
+    {
+      if (this.wallet==undefined) this.wallet=0;
+      this.wallet+= amount
+    
+    },
+    setWallet(amount){
+      if (this.wallet==undefined) this.wallet=0;
+      this.wallet=5
+   
+    },
+    setAcceptanceDate()
+    {
+      if (this.acceptanceDate==undefined) this.acceptanceDate=Date.now();
+      this.acceptanceDate= Date.now()
+
     }
   }
 }

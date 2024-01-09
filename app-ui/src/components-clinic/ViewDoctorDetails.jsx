@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import '../css/table.css'
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const ViewDoctorDetails = () => {
@@ -64,8 +65,8 @@ const ViewDoctorDetails = () => {
   };
 
   return (
-    <div>
-      <style>
+    <div style={{display:"flex", flexDirection:"column" ,alignItems:"center", justifyContent:"center", alignContent:"center", marginTop:"150px"}}>
+      {/* <style>
         {`
           .doctor-details-container {
             font-family: 'Arial', sans-serif;
@@ -101,37 +102,39 @@ const ViewDoctorDetails = () => {
             cursor: pointer;
           }
         `}
-      </style>
+      </style> */}
       <h1>Doctor {doctorVar?.name}'s details</h1>
       <p>Speciality: {doctorVar?.speciality}</p>
-      <p>Session Price: {Math.round(doctorVar?.payRate * 1.1 * (1 - discountRate))}€</p>
+      <p>Session Price: {Math.round(doctorVar?.payRate * (1 - discountRate))}€</p>
       <p>Graduated from: {doctorVar?.education.name} in {doctorVar?.education.endYear} </p>
       <p>Affiliated With: {doctorVar?.affiliation} </p>
-      <h2>Time Slots: ({Math.round(doctorVar?.payRate * 1.1 * (1 - discountRate))}€ per session)</h2>
-      <table className="time-slots-table">
-        <thead>
-          <tr>
-            <th>Actions</th>
-            <th>Date</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {doctorVar?.timeSlots.map((timeSlot, index) => (
-            <tr key={index}>
-              <td>
-                <button className="book-now-button" onClick={() => handleBooking(timeSlot.date, timeSlot.startTime, timeSlot.endTime)}>
-                  Book Now!
-                </button>
-              </td>
-              <td>{new Date(timeSlot.date).toLocaleDateString('en-DE')}</td>
-              <td>{new Date(timeSlot.startTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</td>
-              <td>{new Date(timeSlot.endTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</td>
+      <h2>Time Slots: ({Math.round(doctorVar?.payRate * (1 - discountRate))}€ per session)</h2>
+      <div className="TableContainer" style={{width:"500px", height:"300px"}}>
+        <table>
+          <thead>
+            <tr>
+              <th>Actions</th>
+              <th>Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {doctorVar?.timeSlots.map((timeSlot, index) => (
+              <tr key={index}>
+                <td>
+                  <button className="book-now-button" onClick={() => handleBooking(timeSlot.date, timeSlot.startTime, timeSlot.endTime)}>
+                    Book Now!
+                  </button>
+                </td>
+                <td>{new Date(timeSlot.date).toLocaleDateString('en-DE')}</td>
+                <td>{new Date(timeSlot.startTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</td>
+                <td>{new Date(timeSlot.endTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {selectedAppointmentStartTime && (
         <p>Selected Appointment Start Time: {new Date(selectedAppointmentStartTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</p>
       )}
