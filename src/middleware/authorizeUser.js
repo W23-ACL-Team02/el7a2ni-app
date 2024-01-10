@@ -5,6 +5,7 @@
  * @param {*} allowedTypes array of strings of allowed types, can be ommitted if all user types of this domain are allowed.
  * @returns {boolean} false if error
  */
+//TODO
 const authorizeUser = (req, res, allowedTypes = ['patient', 'doctor', 'admin']) => {
     if (req.session?.userType == undefined) {
         res.status(401).json({errors: ["No user token provided."]})

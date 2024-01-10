@@ -239,10 +239,28 @@ const userSchema = new Schema({
     {
       if (this.prescriptions== undefined) this.prescriptions=[]; //if the patient wants to view prescription and there is no prescriptions yet it will open prescription page without prescriptions 
       return this.prescriptions
+    },
+    isFamilyMember(familyMemberUsername){
+      if (!this.family || !this.family.linked || this.family.linked.length === 0) {
+        return false; // No family members linked
+      }
+    
+      // Check if the familyMemberUsername exists in the patient's linked family members
+      const foundFamilyMember = this.family.linked.find(member => member.name === familyMemberUsername);
+      return !!foundFamilyMember;
+    },
+    addToWallet(amount)
+    {
+      if(this.wallet==undefined) 
+      this.wallet=0;
+      this.wallet+=amount
+      this.save()
     }
+
   }
 }
 );
+
 
 const User = mongoose.model('user', userSchema);
 module.exports = User;
