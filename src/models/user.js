@@ -261,16 +261,16 @@ const userSchema = new Schema({
       if (this.acceptanceDate==undefined) this.acceptanceDate=Date.now();
       this.acceptanceDate= Date.now()
 
+    },
+    isFamilyMember(familyMemberUsername){
+      if (!this.family || !this.family.linked || this.family.linked.length === 0) {
+        return false; // No family members linked
+      }
+    
+      // Check if the familyMemberUsername exists in the patient's linked family members
+      const foundFamilyMember = this.family.linked.find(member => member.name === familyMemberUsername);
+      return !!foundFamilyMember;
     }
-  },
-  isFamilyMember(familyMemberUsername){
-    if (!this.family || !this.family.linked || this.family.linked.length === 0) {
-      return false; // No family members linked
-    }
-  
-    // Check if the familyMemberUsername exists in the patient's linked family members
-    const foundFamilyMember = this.family.linked.find(member => member.name === familyMemberUsername);
-    return !!foundFamilyMember;
   }
 }
 );
