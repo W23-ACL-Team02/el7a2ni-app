@@ -15,9 +15,9 @@ router.all('*', authentiateToken,(req, res, next) => {
         return res.end();
     }
 
-    // Ensure any route through here is authenticated
+     // Ensure any route through here is authenticated
     next();
-})
+ })
 
 router.use('/admin', adminRouter);
 router.use('/user', userRouter);

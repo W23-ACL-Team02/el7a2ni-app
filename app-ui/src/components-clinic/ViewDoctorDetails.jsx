@@ -7,6 +7,8 @@ const baseURL = process.env.REACT_APP_SERVER_URL;
 const ViewDoctorDetails = () => {
   const [doctorId,setDoctorId] = useState("");
   const [discountRate, setDiscountRate] = useState(0);
+  const [familyArray, setFamilyArray] = useState([]);
+  const [patientUsername, setPatientUsername] = useState(familyArray.length > 0 ? familyArray[0].ID : null);
   const [doctorVar, setDoctorVar] = useState(null);
   const [selectedAppointmentStartTime, setSelectedAppointmentStartTime] = useState(null);
   const navigate = useNavigate()
@@ -21,9 +23,10 @@ const ViewDoctorDetails = () => {
             url: `${baseURL}/clinic/private/patient/viewDoctorDetails/${doctorId}`,
             withCredentials: true,
           });
-
           setDoctorVar(response.data.doctor);
           setDiscountRate(response.data.discountRate);
+          setFamilyArray(response.data.patNfamily);
+          console.log(doctorVar , discountRate);
         }
       } catch (error) {
         console.error(error.message);
@@ -42,20 +45,23 @@ const ViewDoctorDetails = () => {
     navigate( "/appointment-payment", {state: data}); // new line
     // try {
 
-    //   console.log('Selected Appointment:', selectedAppointmentStartTime);
+      console.log('Start Time: ',selectedAppointmentStartTime);
+      console.log('Pat username: ',patientUsername);
+      console.log('Doc username: ',doctorVar.username);
   
-    //   const response = await axios.post(`${baseURL}/clinic/private/patient/bookAppointment`,
-    //     {
-    //       timeSlotStartTime: selectedAppointmentStartTime,
-    //       doctorUsername: doctorVar.username,
-    //     },
-    //     {
-    //       withCredentials: true,
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //     }
-    //   );
+      // const response = await axios.post(`${baseURL}/clinic/private/patient/bookAppointment`,
+      //   {
+      //     patientUsername: patientUsername,
+      //     doctorUsername: doctorVar.username,
+      //     timeSlotStartTime: selectedAppointmentStartTime,
+      //   },
+      //   {
+      //     withCredentials: true,
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //   }
+      // );
   
     //   console.log('Response:', response.data);
   
@@ -134,10 +140,30 @@ const ViewDoctorDetails = () => {
             ))}
           </tbody>
         </table>
-      </div>
+        {familyArray.length > 0 && (
+        <div>
+          <h2>Family Members:</h2>
+          Selected Family member: 
+            <select
+              value={patientUsername}
+              onChange={(e) => setPatientUsername(e.target.value)}
+            >
+              {familyArray.map((familyMember) => (
+                <option key={familyMember.username} value={familyMember.username}>
+                  {familyMember.name} / Discount Rate: {familyMember.discount}
+                </option>
+              ))}
+            </select>
+        </div>
+      )}
       {selectedAppointmentStartTime && (
         <p>Selected Appointment Start Time: {new Date(selectedAppointmentStartTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</p>
+>>>>>>> a55c048ef8e5bd9f8dc6ad856bfed7b9a7c02ef7
       )}
+      {selectedAppointmentStartTime && (
+        <p>Selected Appointment Start Time: {new Date(selectedAppointmentStartTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</p>
+      )}
+    </div>
     </div>
   );
 };
