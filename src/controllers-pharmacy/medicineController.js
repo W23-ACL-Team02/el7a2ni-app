@@ -39,7 +39,7 @@ const saveFileToGridFS = async (file) => {
 
 module.exports = {
     addMedicine: async (req, res) => {
-        const {name, details, activeIngredients, category, quantity, price} = req.body;
+        const {name, details, activeIngredients, category, quantity, price, dosage} = req.body;
         var splitIngredients = activeIngredients.split("|")
         var jsonIngredients = "["
         for (let index = 0; index < splitIngredients.length; index++) {
@@ -53,7 +53,7 @@ module.exports = {
                 res.status(400).send(`${name} is already in the database`);
                 return
             }
-            const medicine = await medicineModel.create({name, details, category, activeIngredients: jsonIngredients, quantity, sales: 0, price})
+            const medicine = await medicineModel.create({name, details, category, activeIngredients: jsonIngredients, quantity, sales: 0, price, dosage})
             await medicine.save()
             res.status(200).send(`${name} created successfully!`);
         } catch (error) {
