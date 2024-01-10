@@ -3,7 +3,8 @@ import axios from 'axios'
 
 import {useNavigate} from 'react-router-dom'
 
-const baseURL = `http://localhost:3000`
+const baseURL = process.env.REACT_APP_SERVER_URL;
+
 
 export default function Logout() {
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function Logout() {
     const onButtonClick = () => {
         // Make call to backend
         axios
-            .get(`${baseURL}/private/user/logout`, {withCredentials:true})
+            .get(`${baseURL}/clinic/private/user/logout`, {withCredentials:true})
             .then((response) => {
                 navigate('/login')
             })

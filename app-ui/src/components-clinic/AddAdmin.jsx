@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../css/addAdmin.css';
 
-const baseURL = `http://localhost:3000`;
+const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const AddAdmin = () => {
   const [username, setUsername] = useState('');

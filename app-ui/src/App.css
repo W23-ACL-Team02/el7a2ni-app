@@ -18,8 +18,10 @@ button {
   color: white;
   border-radius: 15px;
   cursor:pointer;
-  /* border-style: none; */
-}
+  border-style: none;
+}*/ 
+  
+
 button:active {
   background-color: #232323;
 }

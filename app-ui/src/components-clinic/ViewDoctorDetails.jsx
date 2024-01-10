@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import '../css/table.css'
+import '../css/newTable.css'
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const ViewDoctorDetails = () => {
@@ -65,7 +65,7 @@ const ViewDoctorDetails = () => {
   };
 
   return (
-    <div style={{display:"flex", flexDirection:"column" ,alignItems:"center", justifyContent:"center", alignContent:"center", marginTop:"150px"}}>
+    <div style={{display:"flex", flexDirection:"column" ,alignItems:"center", justifyContent:"center", alignContent:"center", marginTop:"80px"}}>
       {/* <style>
         {`
           .doctor-details-container {
