@@ -53,8 +53,12 @@ import AddMedicine from './components-pharmacy/pharmacist/AddMedicine.jsx'
 import UploadMedicineImage from './components-pharmacy/UploadMedImg.jsx'
 import EditMedicineAndView from './components-pharmacy/doctor/EditMedicineAndView.jsx';
 import EditSelectedPrescriptions from './components-pharmacy/doctor/EditSelectedPrescriptions.jsx';
-import DoctorHealthRecordsPage from './components-clinic/doctor/healthRecords/mainPage/mainPage.js'
-
+import DoctorHealthRecordsPage from './components-clinic/doctor/healthRecords/mainPage/mainPage.js';
+import MedicineListPatient from './components-pharmacy/MedicineListPatient';
+import ViewCart from './components-pharmacy/ViewCart'
+import ViewSalesReport from './components-pharmacy/ViewSalesReport';
+import MedicineDet from './components-pharmacy/MedicineDet';
+import Alternatives from './components-pharmacy/Alternatives';
 import DoctorNavBar from './components-main/DoctorNavBar'
 import PatientNavBar from './components-main/PatientNavBar'
 import AdminNavBar from './components-main/AdminNavBar'
@@ -137,10 +141,13 @@ function App() {
 
           <Route path='/ViewAppointments' element={<ViewAppointments/>}></Route>
           <Route path='/AddTimeSlots' element={<AddTimeSlots/>}></Route>
-          
+  
           <Route path='/editMedicineAndView' element={<EditMedicineAndView/>}></Route>
           <Route path='/editSelectedPrescriptions' element={<EditSelectedPrescriptions/>}></Route>
-
+          <Route path="/viewmedicinepatient" element={<MedicineListPatient/>} />
+          <Route path="/ViewSalesReport" element={<ViewSalesReport/>}/>
+          <Route path="/medicinedetails/:id" element={<MedicineDet/>}/>
+          <Route path="/altMed" element={<Alternatives/>}/>
           </Routes>
     </BrowserRouter>
     </>
