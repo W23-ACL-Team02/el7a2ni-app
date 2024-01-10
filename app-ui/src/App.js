@@ -20,6 +20,28 @@ import Orders from './components-pharmacy/Orders';
 import ChooseAddress from './components-pharmacy/ChooseAddress'
 import OrderDetails from './components-pharmacy/OrderDetails'
 import AddAddress from './components-pharmacy/AddAddress';
+
+import CancelAppointmentDoctor from './pages/CancelAppointmentDoctor'; // Check if the path is correct
+import CancelAppointmentPatient from './pages/CancelAppointmentPatient';
+import SelectFamily from './pages/SelectFamily';
+import SelectFamilyCancel from './pages/SelectFamilyCancel';
+//import RescheduleAppointmentPage from './pages/RescheduleAppointmentPage'
+import RescheduleAppointment from './pages/RescheduleAppointment';
+import DoctorAppointmentList from './pages/DoctorAppointmentList'
+import PatientAppointmentList from './pages/PatientAppointmentList'
+import ReschedulePatientPage from './pages/ReschedulePatientPage'
+import RescheduleFamilyPage from './pages/RescheduleFamilyPage'
+import FamilyAppointmentList from './pages/FamilyAppointmentList'
+import FamilyCancelList from './pages/FamilyCancelList';
+import AddAdminClinic from'./components-clinic/AddAdmin';
+import AddAdminPharmacy from'./components-pharmacy/AddAdmin';
+import RemoveUserPharmacy from './components-pharmacy/RemoveUser'
+import RemoveUserClinic from './components-clinic/RemoveUser'
+import UploadMedicineImage from './components-pharmacy/UploadMedImg';
+import AddTimeSlots from './components-clinic/AddTimeSlots';
+import FilterAppointments from './components-clinic/FilterAppointments';
+import FilterByStatus from './components-clinic/FilterByStatus';
+import UpcomingCompletedAppointments from './components-clinic/UpcomingCompletedAppointments';
 import axios from 'axios';
 
 import Login from './components-main/Login'
@@ -128,10 +150,38 @@ function App() {
           <Route path="/ViewSalesReport" element={<ViewSalesReport/>}/>
           <Route path="/medicinedetails/:id" element={<MedicineDet/>}/>
           <Route path="/altMed" element={<Alternatives/>}/>
+          <Route path="/cancelPatientAppointment" element={<CancelAppointmentDoctor />} />
+          
+          <Route path="/cancelAppointment" element={<CancelAppointmentPatient />} />
+          
+          <Route path="/reschedulePatientAppointment" element={<DoctorAppointmentList />} />
+          <Route path="/reschedulePatientAppointment2" element={<RescheduleAppointment />} />
+          
+          <Route path="/rescheduleAppointment" element={<PatientAppointmentList />} />
+          <Route path="/rescheduleAppointment2" element={<ReschedulePatientPage />} />
+
+          <Route path="/rescheduleFamilyAppointment" element={< SelectFamily/>} />
+          <Route path="/rescheduleFamilyAppointment2" element={<FamilyAppointmentList/>} />
+          <Route path="/rescheduleFamilyAppointment3" element={<RescheduleFamilyPage/>} />
+
+          <Route path="/cancelAppointmentForFamily" element={< SelectFamilyCancel/>} />
+          <Route path="/cancelAppointmentForFamily2" element={< FamilyCancelList/>} />
+
+          <Route path="/addAdminClinic" element={< AddAdminClinic/>} />
+          <Route path="/addAdminPharmacy" element={< AddAdminPharmacy/>} />
+          <Route path="/removeUserPharmacy" element={< RemoveUserPharmacy/>} />
+          <Route path="/removeUserClinic" element={< RemoveUserClinic/>} />
+          <Route path="/uploadMedImg" element={< UploadMedicineImage/>} />
+          <Route path="/addTimeSlots" element={< AddTimeSlots/>} />
+          <Route path="/filterAppointments" element={< FilterAppointments/>} />
+          <Route path="/upcomingCompletedAppointments" element={< UpcomingCompletedAppointments/>} />
+          <Route path="/filterAppointmentsByStatus" element={< FilterByStatus/>} />
         </Routes>
       </BrowserRouter>
     </div>
   );
 }
+
+
 
 export default App;
