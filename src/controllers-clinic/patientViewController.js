@@ -1,13 +1,15 @@
 const userModel = require('../models/user.js');
 const appointmentsModel = require('../models/appointment.js');
-const healthPackageModel = require(`../models/healthPackage.js`)
+const healthPackageModel = require('../models/healthPackage.js')
+const { createAppointmentNewNotif } = require("../handlers/notification/notificationHandler");
+
 
 module.exports = {
     viewDoctors: async (req, res) => {
         //37
         //As a **patient I should be able to view a list of all doctors along with their specialty, 
         //session price (based on subscribed health package if any).**
-        //Session price is calculated as ( doctor’s rate + 10% clinic's markup  - some discount  (Based on patient's health package if any))
+        //Session price is calculated as ( doctor’s rate + 10% clinic's markup  - some discount  (Based on patient's health package if any))
         try {
             // let user = await userModel.findById('6547b96606043724533eedbf');
             let discountRate = 0;       
@@ -23,10 +25,8 @@ module.exports = {
             res.status(400).json({err:error.message});
         }
 
-
     }
     ,
-    searchDoctors: async (req, res) => {
     searchDoctors: async (req, res) => {
         //38,39
         //search for a doctor by name and/or speciality and/or availability on a certain date and at a specific time
@@ -36,62 +36,40 @@ module.exports = {
         let docSpeciality = req.body.speciality;
         let theDate = req.body.date + ":00.000Z"
         if (docname == "")
-        if (docname == "")
             docname = "All"
         if (docSpeciality == "")
-        if (docSpeciality == "")
             docSpeciality = "All"
-        if (theDate == ":00.000Z")
         if (theDate == ":00.000Z")
             theDate = "All"
         else
             theDate = new Date(theDate)
 
         console.log('doctorName: ', docname, ' Speciality: ', docSpeciality, ' date: ', theDate)
-        console.log('doctorName: ', docname, ' Speciality: ', docSpeciality, ' date: ', theDate)
         let docs = []
         try {
-        try {
             //first we get the possible queries without considering date and time (just filtering doctors name and/or speciality)
-            if (docSpeciality == "All" && docname == "All") {
             if (docSpeciality == "All" && docname == "All") {
                 // all doctors
                 docs = await userModel.find({ type: 'doctor', acceptanceStatus: 'accepted' })
             }
             else if (docSpeciality == "All" && docname != "All") {
-                docs = await userModel.find({ type: 'doctor', acceptanceStatus: 'accepted' })
-            }
-            else if (docSpeciality == "All" && docname != "All") {
                 // all doctors with this name
                 docs = await userModel.find({ name: docname, type: 'doctor', acceptanceStatus: 'accepted' })
-                docs = await userModel.find({ name: docname, type: 'doctor', acceptanceStatus: 'accepted' })
             }
-            else if (docSpeciality != "All" && docname == "All") {
             else if (docSpeciality != "All" && docname == "All") {
                 // all doctors with this speciality
                 docs = await userModel.find({ type: 'doctor', speciality: docSpeciality, acceptanceStatus: 'accepted' })
-                docs = await userModel.find({ type: 'doctor', speciality: docSpeciality, acceptanceStatus: 'accepted' })
             }
-            else if (docSpeciality != "All" && docname != "All") {
             else if (docSpeciality != "All" && docname != "All") {
                 // all doctors with this speciality with this name
                 docs = await userModel.find({ name: docname, type: 'doctor', speciality: docSpeciality, acceptanceStatus: 'accepted' })
             }
 
             if (theDate != 'All') {
-                docs = await userModel.find({ name: docname, type: 'doctor', speciality: docSpeciality, acceptanceStatus: 'accepted' })
-            }
 
-            if (theDate != 'All') {
-
-                for (let i = 0; i < docs.length; i++) {
                 for (let i = 0; i < docs.length; i++) {
                     let docTimeslots = docs[i].timeSlots
                     let flag = false;
-                    for (let j = 0; j < docTimeslots.length; j++) {
-                        if (docTimeslots[j].startTime <= theDate && theDate <= docTimeslots[j].endTime) {
-                            flag = true;
-                            break;
                     for (let j = 0; j < docTimeslots.length; j++) {
                         if (docTimeslots[j].startTime <= theDate && theDate <= docTimeslots[j].endTime) {
                             flag = true;
@@ -101,19 +79,13 @@ module.exports = {
 
                     if (flag === false) {
                         docs.splice(i, 1)
-
-                    if (flag === false) {
-                        docs.splice(i, 1)
                     }
                 }
 
             }
 
-
             let discountRate = 0;
             let user = await userModel.findById(req.session.userId);
-            if (user?.healthPackage != undefined && user?.healthPackage?.status != "Unsubscribed") {
-                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage.packageId);
             if (user?.healthPackage != undefined && user?.healthPackage?.status != "Unsubscribed") {
                 let userHealthPackage = await healthPackageModel.findById(user?.healthPackage.packageId);
                 discountRate = userHealthPackage.discountSession;
@@ -122,7 +94,6 @@ module.exports = {
         }catch(error){
             res.status(400).json({err:error.message});
         }
-
 
     }
     ,
@@ -162,22 +133,18 @@ module.exports = {
     }
     ,
     bookAppointment: async (req, res) => {
-    bookAppointment: async (req, res) => {
         // 43
         // select an appointment date and time for myself or for a family member
 
         try {
-
-
-        try {
-
             let docUsername = req.body.doctorUsername
+            let patUsername = req.body.patientUsername
+
             let timeSlotStartTime = new Date(req.body.timeSlotStartTime)
             // const userId = '65771f862e100341613e4a71' // Test
             const doctor = await userModel.findOne({ username: docUsername })
             
             const userId = req.session.userId
-            let patUsername = req.body.patientUsername
             
             let allTimeslots = doctor.timeSlots
             if (allTimeslots.length == 0) {
@@ -190,28 +157,31 @@ module.exports = {
                 return; // End the function here if the selected time slot is not found
             }
 
-            if (!selectedTimeslot) {
-                res.status(400).json({ message: "Selected time slot is not available" });
-                return; // End the function here if the selected time slot is not found
-            }
-
             //assuming doctor picked patient and next appointment date
-            const nextAppointment =  new appointmentsModel({
             const nextAppointment =  new appointmentsModel({
                 doctorUsername : docUsername,
                 patientUsername: patUsername,
                 date: selectedTimeslot.date,
                 status: 'upcoming',
                 start: selectedTimeslot.startTime,
-                status: 'upcoming',
-                start: selectedTimeslot.startTime,
                 end: selectedTimeslot.endTime,
                 bookedby: userId
-                bookedby: userId
             });
-    
-    
             await nextAppointment.save();
+
+            try {
+                // Create notification
+                let doctor = userModel.findOne({username: docUsername})
+                let patient = userModel.findOne({username: patUsername})
+        
+                let temp = await Promise.all([doctor, patient]);
+                doctor = temp[0]
+                patient = temp[1]
+                createAppointmentNewNotif(patient._id, doctor._id)
+            } catch (error) {
+                console.log(error)
+            }
+
             allTimeslots = allTimeslots.filter(ts => ts.startTime.getTime() !== timeSlotStartTime.getTime());
             await userModel.updateOne({username:docUsername} , {timeSlots:allTimeslots});
 

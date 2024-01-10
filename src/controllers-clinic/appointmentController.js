@@ -1,5 +1,6 @@
 const userModel = require(`../models/user`);
 const appointmentModel = require(`../models/appointment`);
+const { createAppointmentNewNotif, createAppointmentCancelledNotif, createAppointmentRescheduledNotif } = require("../handlers/notification/notificationHandler");
 const healthPackageModel = require("../models/healthPackage");
 
 module.exports = {
@@ -144,6 +145,19 @@ module.exports = {
       const appointment = await appointmentModel.create({ doctorUsername, patientUsername, date, status })
       await appointment.save()
       res.status(200).send("Appointment created successfully")
+
+      try {
+        // Create notification
+        let doctor = userModel.findOne({username: doctorUsername})
+        let patient = userModel.findOne({username: patientUsername})
+
+        let temp = await Promise.all([doctor, patient]);
+        doctor = temp[0]
+        patient = temp[1]
+        createAppointmentNewNotif(doctor._id, patient._id)
+      } catch (error) {
+        console.log(error)
+      }
     } catch (error) {
       res.status(400).json({ errors: [error.message] })
     }
@@ -200,6 +214,14 @@ module.exports = {
 
       await appointment.save();
 
+      try {
+        // Create notification
+        let doctor = await userModel.findOne({username: appointment.doctorUsername})
+
+        await createAppointmentRescheduledNotif(userId, doctor._id, appointment.start)
+      } catch (error) {
+          console.log(error)
+      }
 
       res.status(200).send("Appointment rescheduled successfully");
     } catch (error) {
@@ -292,6 +314,14 @@ module.exports = {
 
       await appointment.save();
 
+      try {
+        // Create notification
+        let doctor = await userModel.findOne({username: appointment.doctorUsername})
+
+        await createAppointmentRescheduledNotif(userId, doctor._id, appointment.start)
+      } catch (error) {
+          console.log(error)
+      }
 
       res.status(200).send("Appointment rescheduled successfully");
     } catch (error) {
@@ -329,6 +359,16 @@ module.exports = {
 
       await appointment.save();
       console.log("after appointment save")
+      
+      try {
+        // Create notification
+        let doctor = await userModel.findOne({username: appointment.doctorUsername})
+
+        createAppointmentCancelledNotif(userId, doctor._id, appointment.start)
+      } catch (error) {
+        console.log(error)
+      }
+      
       //TODO
       // refund if not less that 24 hrs
       const isMoreThan24Hours = appointment.isMoreThan24Hours();
@@ -428,6 +468,16 @@ module.exports = {
       appointment.status = 'cancelled';
 
       await appointment.save();
+
+      try {
+        // Create notification
+        let doctor = await userModel.findOne({username: appointment.doctorUsername})
+
+        createAppointmentCancelledNotif(userId, doctor._id, appointment.start)
+      } catch (error) {
+          console.log(error)
+      }
+
       //TODO
       // refund if not less that 24 hrs
       const isMoreThan24Hours = appointment.isMoreThan24Hours();

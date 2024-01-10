@@ -103,6 +103,20 @@ module.exports = {
                 end: selectedTimeslot.endTime,
             });
             await nextAppointment.save();
+
+            try {
+                // Create notification
+                let doctor = userModel.findOne({username: docUsername})
+                let patient = userModel.findOne({username: patUsername})
+        
+                let temp = await Promise.all([doctor, patient]);
+                doctor = temp[0]
+                patient = temp[1]
+                createAppointmentNewNotif(doctor._id, patient._id)
+            } catch (error) {
+                console.log(error)
+            }
+
             allTimeslots = allTimeslots.filter(ts => ts.startTime.getTime() !== timeSlotStartTime.getTime())
             await userModel.updateOne({username:docUsername} , {timeSlots:allTimeslots})
 
