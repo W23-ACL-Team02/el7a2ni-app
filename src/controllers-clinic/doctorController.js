@@ -7,7 +7,6 @@ const Appointment = require('../models/appointment');
 
 module.exports = {
     getPatients: async (req, res) => {
-    getPatients: async (req, res) => {
         const FromDate = req.body.FromDate
         const ToDate = req.body.ToDate
         const DocId = req.session?.userId

@@ -108,27 +108,6 @@ module.exports = {
       res.status(400).json({ errors: [error.message] });
     }
   },
-      const appointments = await appointmentModel.find({});
-      if (appointments.length === 0) {
-        res.status(404).json({ errors: ['No appointments found'] });
-        return;
-      }
-      res.status(200).json(appointments);
-    } catch (error) {
-      res.status(400).json({ errors: [error.message] });
-    }
-  },
-
-  upcomingCompAppointments: async (req, res) => {
-    try {
-      //const userId = "65771f862e100341613e4a71";
-      //TODO
-      const userId = req.session.userId
-      const user = await userModel.findById(userId)
-//TODO
-      if (req.session.userType == "admin") {
-        return res.status(400).send("Admin cannot view appointments")
-      }
   upcomingCompAppointments: async (req, res) => {
     try {
       //const userId = "65771f862e100341613e4a71";

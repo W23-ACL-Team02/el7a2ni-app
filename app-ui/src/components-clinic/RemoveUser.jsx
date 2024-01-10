@@ -18,7 +18,6 @@ const RemoveUser = () => {
 
     try {
       const response = await axios.post(`${baseURL}/clinic/private/admin/user/removeUser`, {
-      const response = await axios.post(`${baseURL}/clinic/private/admin/user/removeUser`, {
         username: username,
       }, {withCredentials: true});
       
@@ -91,6 +90,7 @@ const RemoveUser = () => {
         </form>
       </div>
       {message && <p>{message}</p>}
+    </div>
     </div>
   );
 };

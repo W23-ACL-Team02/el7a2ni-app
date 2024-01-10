@@ -12,7 +12,7 @@ const SelectFamily = ({ history }) => {
   useEffect(() => {
     const fetchFamilyMembers = async () => {
       try {
-        const response = await axios.get(${baseURL}/clinic/private/family/viewfamilymember); // Replace with your endpoint
+        const response = await axios.get(`${baseURL}/clinic/private/family/viewfamilymember`); // Replace with your endpoint
         const { createdFamilyMembers, linkedFamilyMembers } = response.data;
 
         // Merge both types of family members into a single array

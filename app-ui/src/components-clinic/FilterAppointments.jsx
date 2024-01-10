@@ -85,12 +85,6 @@ const FilterAppointments = () => {
   //   </div>
   // );
 
-
-  const formatTime = (time) => {
-    const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    return formattedTime;
-  };
-
   // return (
   //   <div>
   //     <h2>Appointments</h2>
