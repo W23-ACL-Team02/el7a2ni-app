@@ -153,7 +153,10 @@ module.exports = {
             await nextAppointment.save();
             console.log(nextAppointment);
             allTimeslots = allTimeslots.filter(ts => ts.startTime.getTime() !== timeSlotStartTime.getTime())
-            await userModel.updateOne({username:docUsername} , {timeSlots:allTimeslots}) 
+            //await userModel.updateOne({ username: docUsername }, { timeSlots: allTimeslots })
+            doctor.timeSlots = allTimeslots;
+            await doctor.save();
+
 
             // console.log('allTimeslots: ', allTimeslots)
             // console.log('selectedTimeslot: ', selectedTimeslot)

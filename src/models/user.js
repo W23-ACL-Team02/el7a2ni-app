@@ -271,9 +271,11 @@ const userSchema = new Schema({
       const foundFamilyMember = this.family.linked.find(member => member.name === familyMemberUsername);
       return !!foundFamilyMember;
     }
+
   }
 }
 );
+
 
 const User = mongoose.model('user', userSchema);
 module.exports = User;
