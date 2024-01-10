@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PasswordValidityBox from './PasswordValidityBox'
+import PasswordValidityBox from '../components-pharmacy/PasswordValidityBox'
 import { validatePassword } from '../functions/validatePassword'
 import axios from 'axios'
 const serverURL = process.env.REACT_APP_SERVER_URL;

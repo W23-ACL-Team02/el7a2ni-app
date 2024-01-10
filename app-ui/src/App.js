@@ -22,6 +22,7 @@ import AddAddress from './components-pharmacy/AddAddress';
 import axios from 'axios';
 
 import Login from './components-main/Login'
+import ChangePassword from './components-clinic/ChangePassword.jsx';
 import ViewDoctorDetails from './components-clinic/ViewDoctorDetails'
 import AppointmentPayment from './components-clinic/patient/AppointmentPayment/AppointmentPayment'
 import PatientSearchDoctors from './components-clinic/PatientSearchDoctors'
@@ -30,10 +31,14 @@ import PatientDetails from './components-clinic/doctor/PatientDetails/PatientDet
 import AddPrescription from './components-clinic/doctor/addPrescription/Addprescription';
 import ViewPrescriptions from './components-clinic/ViewPrescription';
 import SelectedPrescriptions from './components-clinic/SelectedPrescriptions';
+import ViewFamilyMembers from './components-clinic/patient/FamilyMembers/ViewLinkedFamilyMembers.jsx'
+import AddFamilyMembers from './components-clinic/patient/FamilyMembers/AddFamilyMembers.jsx'
+import LinkFamilyMember from './components-clinic/patient/FamilyMembers/LinkFmailyMember.jsx';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
 import PatientHome from './components-main/PatientHome.jsx';
 import AdminHome from './components-main/AdminHome.jsx';
 import DoctorHome from './components-main/DoctorHome.jsx';
+import PatientAccount from './components-main/PatientAccount.jsx'
 import HealthPackageManagement from './components-clinic/patient/healthPackageManagement/mainPage/mainPage.js'
 import EditMedicine from './components-pharmacy/pharmacist/EditMedicine.jsx'
 import AddMedicine from './components-pharmacy/pharmacist/AddMedicine.jsx'
@@ -50,6 +55,8 @@ function App() {
           <Route path="/adminHome" element={<AdminHome />} />
           <Route path="/doctorHome" element={<DoctorHome />} />
           <Route path="/pharmacistHome" element={<MedicineList />} />
+          <Route path="/patientAccount" element={<PatientAccount/>}/>
+          <Route path="/changePassword" element={<ChangePassword/>}/>
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
@@ -80,6 +87,10 @@ function App() {
           <Route path='/editMedicine' element={<EditMedicine/>}></Route>
           <Route path='/addMedicine' element={<AddMedicine/>}></Route>
           <Route path='/uploadMedicineImage' element={<UploadMedicineImage/>}></Route>
+
+          <Route path='/ViewFamilyMembers' element={<ViewFamilyMembers/>}></Route>
+          <Route path='/AddFamilyMembers' element={<AddFamilyMembers/>}></Route>
+          <Route path='/LinkFamilyMember' element={<LinkFamilyMember/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
