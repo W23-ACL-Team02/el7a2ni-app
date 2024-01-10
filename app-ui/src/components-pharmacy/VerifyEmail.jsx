@@ -14,7 +14,7 @@ export default function VerifyEmail() {
         e.preventDefault();
       
         
-          axios.post("http://localhost:3000/public/user/verifyEmail",{email})
+          axios.post("http://localhost:3000/clinic/public/user/verifyEmail",{email})
           .then((res)=>{
             if (res.data.isVerified) {
               setVerificationMessage('')

@@ -44,6 +44,8 @@ import HealthPackageManagement from './components-clinic/patient/healthPackageMa
 import EditMedicine from './components-pharmacy/pharmacist/EditMedicine.jsx'
 import AddMedicine from './components-pharmacy/pharmacist/AddMedicine.jsx'
 import UploadMedicineImage from './components-pharmacy/UploadMedImg.jsx'
+import EditMedicineAndView from './components-pharmacy/doctor/EditMedicineAndView.jsx';
+import EditSelectedPrescriptions from './components-pharmacy/doctor/EditSelectedPrescriptions.jsx';
 import DoctorHealthRecordsPage from './components-clinic/doctor/healthRecords/mainPage/mainPage.js'
 
 function App() {
@@ -96,6 +98,13 @@ function App() {
           <Route path='/ViewFamilyMembers' element={<ViewFamilyMembers/>}></Route>
           <Route path='/AddFamilyMembers' element={<AddFamilyMembers/>}></Route>
           <Route path='/LinkFamilyMember' element={<LinkFamilyMember/>}></Route>
+          <Route path='/editMedicineAndView' element={<EditMedicineAndView/>}></Route>
+          <Route path='/editSelectedPrescriptions' element={<EditSelectedPrescriptions/>}></Route>
+
+
+
+
+
         </Routes>
       </BrowserRouter>
     </div>
