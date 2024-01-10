@@ -1,0 +1,133 @@
+/* medicinelistpharmacist.css */
+
+/* Main container */
+#maincontainer {
+    padding: 20px;
+    background-color: DADADA;
+  }
+  
+  /* Medicines list container */
+  .medicines-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  /* Medicine container */
+  .medicine-container {
+    align-content: center;
+    width: 550px;
+  }
+  
+  /* Rectangle styles */
+  .rectangle {
+    background-color: rgb(225,225,225) ;
+   
+    padding: 10px;
+    cursor: pointer;
+    transition: height 0.3s ease;
+    border-collapse: collapse;
+    border-radius: 15px;
+   
+  }
+  
+  /* Expanded style */
+  .rectangle.expanded {
+    height: auto; /* Adjust height for expanded view */
+  }
+  
+  /* Medicine info */
+  .medicine-info {
+    display: flex;
+    align-items: center;
+  }
+  .rectangle:hover{
+    background-color:white ;
+  }
+  
+  .medicine-info img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+  }
+  
+  .details {
+    flex-grow: 0.4;
+  }
+  
+  .details p {
+    margin: 5px 0;
+  }
+  
+  /* Additional content */
+  .additionalContent {
+    padding-top: 10px;
+  }
+  
+  .additionalContent p {
+    margin: 5px 0;
+  }
+  
+  #button-id{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 35px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    background-color:#0a0a23;
+    border:none;
+    border-radius: 15px;
+  
+  }
+  .appointment-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust spacing between appointment blocks */
+  }
+  
+  /* Appointment container */
+  .appointment-container {
+    flex-grow: 1;
+    flex-basis: calc(66.33% - 20px); /* Adjust width as needed */
+    margin-bottom: 20px; /* Adjust margin between appointment blocks */
+    align-content: center;
+    width: 550px;
+  }
+  /*  */
+  /* .appointment-container {
+    width: 100%; /* Take the entire width of the row */
+    /* margin-bottom: 20px; 
+  } */ */
+  /* Medicine info */
+.appointment-info {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .appointment-info p {
+    margin: 5px 0;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Adjust as needed */
+  }
+  
+  .form input,
+  .form button {
+    margin-bottom: 15px; /* Add spacing between input fields and button */
+  }
+  
