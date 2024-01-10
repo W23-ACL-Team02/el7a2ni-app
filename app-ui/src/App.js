@@ -34,6 +34,7 @@ import SelectedPrescriptions from './components-clinic/SelectedPrescriptions';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
 import PatientHome from './components-main/PatientHome.jsx';
 import AdminHome from './components-main/AdminHome.jsx';
+import DoctorHome from './components-main/DoctorHome.jsx';
 import HealthPackageManagement from './components-clinic/patient/healthPackageManagement/mainPage/mainPage.js'
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<PatientHome />} />
           <Route path="/adminHome" element={<AdminHome />} />
+          <Route path="/doctorHome" element={<DoctorHome />} />
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>

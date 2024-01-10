@@ -8,12 +8,12 @@ import '../css/patientNavbar.css'
 
 const baseURL = process.env.REACT_APP_SERVER_URL
 
-export default function AdminNavBar() {
+export default function DoctorNavBar() {
     let navigate = useNavigate()
 
     return (
         <div className='bar'>
-            <button className='nav-button' style={{width: 140, paddingLeft: 8, paddingRight: 8, marginLeft: 'auto', fontWeight: 800, fontSize: 30, marginLeft: 10}} onClick={() => {navigate('/adminHome')}}>
+            <button className='nav-button' style={{width: 140, paddingLeft: 8, paddingRight: 8, marginLeft: 'auto', fontWeight: 800, fontSize: 30, marginLeft: 10}} onClick={() => {navigate('/doctorHome')}}>
                 El7a2ni
             </button>
             <div className='search'>
