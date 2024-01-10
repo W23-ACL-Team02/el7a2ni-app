@@ -5,7 +5,6 @@ import "../css/newTable.css";
 import "../css/newTable.css";
 const baseURL = process.env.REACT_APP_SERVER_URL;
 import "../css/newTable.css";
-const baseURL = process.env.REACT_APP_SERVER_URL;
 const PatientSearchDoctors = () => {
 
   const navigate = useNavigate();

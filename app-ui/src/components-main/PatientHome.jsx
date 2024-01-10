@@ -14,7 +14,6 @@ export default function PatientHome() {
 
     return (
         <div className='main'>
-            <PatientNavBar />
             <div className='top'>
                 <Card height={500} width={350}>
                     <h2 style={{fontSize: 28, marginTop: 10}}>El7a2ni Clinic</h2>

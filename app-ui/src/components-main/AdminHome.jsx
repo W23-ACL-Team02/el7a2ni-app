@@ -14,7 +14,6 @@ export default function AdminHome() {
 
     return (
         <div className='main'>
-            <AdminNavBar />
             <div className='top'>
                 <Card width={700}>
                     <h2 style={{fontSize: 28, marginTop: 10}}>Admin Actions</h2>

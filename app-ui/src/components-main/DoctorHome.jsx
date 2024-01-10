@@ -14,7 +14,6 @@ export default function DoctorHome() {
 
     return (
         <div className='main'>
-            <DoctorNavBar />
             <div className='top'>
                 <Card width={700}>
                     <h2 style={{fontSize: 28, marginTop: 10}}>Doctor Actions</h2>
