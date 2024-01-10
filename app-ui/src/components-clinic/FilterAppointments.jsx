@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/addAdmin.css';
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 const FilterAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -17,7 +18,7 @@ const FilterAppointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/clinic/private/user/filterAppointments', {withCredentials: true});
+      const response = await axios.get(`${serverURL}/clinic/private/user/filterAppointments`, {withCredentials: true});
       setAppointments(response.data.unfilteredAppointments);
       setFilteredAppointments(response.data.filteredAppointments);
       setError('');
@@ -29,7 +30,7 @@ const FilterAppointments = () => {
 
   const handleFilter = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/clinic/private/user/filterAppointments', {
+      const response = await axios.get(`${serverURL}/clinic/private/user/filterAppointments`, {
         params: { status, date },
         withCredentials: true
       });

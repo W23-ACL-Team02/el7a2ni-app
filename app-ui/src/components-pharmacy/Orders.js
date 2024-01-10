@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 //import '../css/orders.css';
 import '../css/table.css';
-
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 
 function Orders(){
@@ -13,7 +13,7 @@ function Orders(){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/pharmacy/private/patient/order/vieworders', {withCredentials: true});
+        const res = await axios.get(`${serverURL}/pharmacy/private/patient/order/vieworders`, {withCredentials: true});
         setOrders(res.data);
       } catch (err) {
         console.log(err);
@@ -39,7 +39,7 @@ function Orders(){
    
   console.log("here");
     try{
-      const response= await axios.post(`http://localhost:3000/pharmacy/private/patient/order/cancelorder/${id}`,{}, {withCredentials: true});
+      const response= await axios.post(`${serverURL}/pharmacy/private/patient/order/cancelorder/${id}`,{}, {withCredentials: true});
       if (response && response.data && response.data.successes && response.data.successes.length > 0) {
         setMessage(response.data.successes[0]); // Display success message
       }
