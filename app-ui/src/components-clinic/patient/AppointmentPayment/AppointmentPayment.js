@@ -39,7 +39,7 @@ const AppointmentCheckout = () => {
                 url: `${serverURL}/clinic/private/payment/payByCard`,
                 method: 'post',
                 data: {
-                    amount: Math.round( appointmentPrice.price * 100),
+                    amount: Math.round( appointmentPrice.price * 100 *1.1),
                     token,
                 },
                 withCredentials: true
@@ -59,7 +59,7 @@ const AppointmentCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post(`${serverURL}/clinic/private/payment/payByWallet`, {totalPrice : appointmentPrice.price}, {withCredentials:true}).then(
+        await axios.post(`${serverURL}/clinic/private/payment/payByWallet`, {totalPrice : appointmentPrice.price *1.1}, {withCredentials:true}).then(
             (res) =>{
                 console.log(res)
                 if(res.data === "success"){
@@ -114,8 +114,8 @@ const AppointmentCheckout = () => {
         <div className={styles.checkout_container}>
             <div className={styles.items}>
                 {appointmentPrice.appliedDiscount === 0
-                    ? <p>Appointment Price: {appointmentPrice.price}</p>
-                    : <p>Appointment Price: {appointmentPrice.price}, applied discount: {appointmentPrice.appliedDiscount *100} % </p>
+                    ? <p>Appointment Price: {appointmentPrice.price *1.1}</p>
+                    : <p>Appointment Price: {appointmentPrice.price *1.1}, applied discount: {appointmentPrice.appliedDiscount *100} % </p>
                 }
             </div>    
             <div className={styles.paymentOptions}>
@@ -165,8 +165,8 @@ const AppointmentCheckout = () => {
                     label = "Credit and Debit Card"
                     name = "Pay With Credit Card"
                     billingAddress
-                    amount = {Math.round(appointmentPrice?.price * 100)}
-                    description = {`Your total is ${Math.round(appointmentPrice?.price)}`}
+                    amount = {Math.round(appointmentPrice?.price * 100 *1.1)}
+                    description = {`Your total is ${Math.round(appointmentPrice?.price *1.1)}`}
                     token = {payByCard}
                 >
                     <button ref = {cardRef} style={{ display: 'none' }}>

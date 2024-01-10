@@ -19,7 +19,6 @@ import Orders from './components-pharmacy/Orders';
 import ChooseAddress from './components-pharmacy/ChooseAddress'
 import OrderDetails from './components-pharmacy/OrderDetails'
 import AddAddress from './components-pharmacy/AddAddress';
-import ViewCart from './components-pharmacy/ViewCart';
 import axios from 'axios';
 
 import Login from './components-main/Login'
