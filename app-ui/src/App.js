@@ -44,6 +44,7 @@ import HealthPackageManagement from './components-clinic/patient/healthPackageMa
 import EditMedicine from './components-pharmacy/pharmacist/EditMedicine.jsx'
 import AddMedicine from './components-pharmacy/pharmacist/AddMedicine.jsx'
 import UploadMedicineImage from './components-pharmacy/UploadMedImg.jsx'
+import DoctorHealthRecordsPage from './components-clinic/doctor/healthRecords/mainPage/mainPage.js'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -89,7 +90,7 @@ function App() {
           <Route path='/editMedicine' element={<EditMedicine/>}></Route>
           <Route path='/addMedicine' element={<AddMedicine/>}></Route>
           <Route path='/uploadMedicineImage' element={<UploadMedicineImage/>}></Route>
-
+          <Route path='/doctorHealthRecords' element={<DoctorHealthRecordsPage/>}></Route>
           <Route path='/ViewFamilyMembers' element={<ViewFamilyMembers/>}></Route>
           <Route path='/AddFamilyMembers' element={<AddFamilyMembers/>}></Route>
           <Route path='/LinkFamilyMember' element={<LinkFamilyMember/>}></Route>
