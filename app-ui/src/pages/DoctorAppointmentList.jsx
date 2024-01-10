@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../css/addAdmin.css';
-const UpcomingCompletedAppointments = () => {
+import { Link } from 'react-router-dom';
+import '../css/cancelAppointment.css';
+const baseURL = process.env.REACT_APP_SERVER_URL;
+const DoctorAppointmentList = () => {
   const [appointments, setAppointments] = useState([]);
-  const [error, setError] = useState('');
 
   useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/clinic/private/doctor/notCompletedDoctorAppointments`); // Replace with your endpoint
+        setAppointments(response.data.appointments);
+      } catch (error) {
+        console.error('Error fetching appointments: ', error);
+      }
+    };
+
     fetchAppointments();
   }, []);
 
-  const fetchAppointments = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/clinic/private/user/upcomingCompletedAppointments', {withCredentials: true});
-      setAppointments(response.data.filteredAppointments || []);
-      setError('');
-    } catch (error) {
-      setError('Error fetching appointments. Please try again later.');
-      console.error('Error fetching appointments:', error);
-    }
+  const handleReschedule = (appointmentId) => {
+    console.log(appointmentId)
+    window.location.href=`/reschedulePatientAppointment2?appointmentId=${appointmentId}`
   };
-
-  // Function to format date as dd.mm.yyyy
   const formatDate = (dateStr) => {
     const dateObj = new Date(dateStr);
     const day = String(dateObj.getDate()).padStart(2, '0');
@@ -32,16 +34,14 @@ const UpcomingCompletedAppointments = () => {
     const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     return formattedTime;
   };
+
   return (
     <div className="container">
       <div className="rectangle2">
-        <h2>Upcoming and Completed Appointments</h2>
-        {/* {error && <p className="error-message">{error}</p>} */}
-        {appointments.length === 0 ? (
-          <p>No upcoming or completed appointments found.</p>
-        ) : (
-          <div className="appointment-list">
-            {appointments.map((appointment) => (
+        <h2>Your Appointments</h2>
+        
+          {appointments.map((appointment) => (
+            (appointment.status !== 'cancelled' && appointment.status !== 'completed') && (
               <div key={appointment._id} className="appointment-container">
                 <div className="rectangle">
                   <div className="medicine-info">
@@ -55,25 +55,28 @@ const UpcomingCompletedAppointments = () => {
                       <p>End: {formatTime(appointment.end)}</p>
                     </div>
                     <div className="details">
-                      <p>Doctor: {appointment.doctorUsername}</p>
-                    </div>
-                    <div className="details">
                       <p>Patient: {appointment.patientUsername}</p>
                     </div>
                     <div className="details">
                       <p>Status: {appointment.status}</p>
                     </div>
                     {/* Add more appointment details as needed */}
+                    <button onClick={() => handleReschedule(appointment._id)} className="submit-button">
+                      Reschedule
+                    </button>
                     <hr />
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+      
+        {/* <p>{message}</p> */}
       </div>
     </div>
   );
-            }
   
-export default UpcomingCompletedAppointments;
+  
+};
+
+export default DoctorAppointmentList;
