@@ -111,7 +111,7 @@ function App() {
 
           <Route path='/ViewAppointments' element={<ViewAppointments/>}></Route>
           <Route path='/AddTimeSlots' element={<AddTimeSlots/>}></Route>
-          
+  
           <Route path='/editMedicineAndView' element={<EditMedicineAndView/>}></Route>
           <Route path='/editSelectedPrescriptions' element={<EditSelectedPrescriptions/>}></Route>
 
