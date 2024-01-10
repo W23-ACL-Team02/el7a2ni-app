@@ -18,7 +18,7 @@ export default function VerifyEmail() {
           .then((res)=>{
             if (res.data.isVerified) {
               setVerificationMessage('')
-              axios.post("http://localhost:3000/public/user/sendOTP",{email}).then((res)=>
+              axios.post(`${serverURL}/clinic/public/user/sendOTP`,{email}).then((res)=>
             {const data = {email:email}
               navigate("/OTPVerifcation",{state:data})
             }).catch((error) =>{
