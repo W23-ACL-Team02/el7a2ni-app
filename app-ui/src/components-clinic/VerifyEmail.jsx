@@ -14,11 +14,11 @@ export default function VerifyEmail() {
         e.preventDefault();
       
         
-          axios.post("http://localhost:3000/public/user/verifyEmail",{email})
+          axios.post("http://localhost:3000/clinic/public/user/verifyEmail",{email})
           .then((res)=>{
             if (res.data.isVerified) {
               setVerificationMessage('')
-              axios.post("http://localhost:3000/public/user/sendOTP",{email}).then((res)=>
+              axios.post("http://localhost:3000/clinic/public/user/sendOTP",{email}).then((res)=>
             {const data = {email:email}
               navigate("/OTPVerifcation",{state:data})
             }).catch((error) =>{

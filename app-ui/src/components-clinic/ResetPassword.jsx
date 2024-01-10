@@ -1,7 +1,7 @@
 import {React,useState} from 'react'
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import PasswordValidityBox from './PasswordValidityBox'
+import PasswordValidityBox from '../components-pharmacy/PasswordValidityBox'
 import { validatePassword } from '../functions/validatePassword'
 
 export default function ResetPassword() {
@@ -20,7 +20,7 @@ export default function ResetPassword() {
     if(newPassword === confirmedNewpassword)
     {
       setPasswordsMatch(true);
-      axios.post("http://localhost:3000/public/user/resetPassword",{newPassword,email})
+      axios.post("http://localhost:3000/clinic/public/user/resetPassword",{newPassword,email})
       .then((res)=>{
         console.log(res)
         setChangeSuccess(true);

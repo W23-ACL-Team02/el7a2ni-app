@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import Select from 'react-select';
 import axios from 'axios';
+import PatientNavBar from '../../../components-main/PatientNavBar';
 
 export default function Addprescription() {
 
@@ -42,8 +43,8 @@ export default function Addprescription() {
   const handleEditMedicine = (index) => {
     setSelectedMedicineIndex(index);
     const selectedMedicine = addedmedications[index];
-    setAddedMedicineName(selectedMedicine.addedmedicineName);
-    setAddedMedicineDosage(selectedMedicine.addedmedicineDosage);
+    setSelectedMedicineNameDropdown(selectedMedicine.addedmedicineName);
+    setSelectedMedicineDosageDropdown(selectedMedicine.addedmedicineDosage);
     setAddedMedicineInstruction(selectedMedicine.addedmedicineInstruction);
     //remove the medicine from addmedications during editing
     const updatedMedications = [...addedmedications];
@@ -115,7 +116,11 @@ export default function Addprescription() {
     
 
   return (
+    
     <div>
+      <div>
+      <PatientNavBar></PatientNavBar>
+      </div>
           <h2>Add Prescription</h2>
     <form method="POST">
     <div className="form-group">
@@ -184,7 +189,7 @@ export default function Addprescription() {
             <ul>
                 {addedmedications.map((medicine,index)=>(
                     <li key={index}>
-                {`Medicine Name: ${medicine.addedmedicineName}, Dosage: ${medicine.addedmedicineDosage}, Instructions: ${medicine.addedmedicineDosage}`}
+                {`Medicine Name: ${medicine.addedmedicineName}, Dosage: ${medicine.addedmedicineDosage}, Instructions: ${medicine.addedmedicineInstruction}`}
                 <button type="button" onClick={() => handleEditMedicine(index)}>Edit</button>
                 <button type="button" onClick={() => handleDeleteMedicine(index)}>Delete</button>
                     </li>

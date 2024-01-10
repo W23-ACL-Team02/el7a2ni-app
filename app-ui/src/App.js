@@ -19,7 +19,7 @@ import Orders from './components-pharmacy/Orders';
 import ChooseAddress from './components-pharmacy/ChooseAddress'
 import OrderDetails from './components-pharmacy/OrderDetails'
 import AddAddress from './components-pharmacy/AddAddress';
-import ViewCart from './components-pharmacy/ViewCart';
+//import ViewCart from './components-pharmacy/ViewCart';
 import axios from 'axios';
 
 import Login from './components-main/Login'
@@ -33,7 +33,10 @@ import ViewPrescriptions from './components-clinic/ViewPrescription';
 import SelectedPrescriptions from './components-clinic/SelectedPrescriptions';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
 import PatientHome from './components-main/PatientHome.jsx';
-
+import VerifyEmail from './components-clinic/VerifyEmail.jsx';
+import OTPVErification from './components-clinic/OTPVErification.jsx';
+import ResetPassword  from './components-clinic/ResetPassword.jsx';
+import PasswordValidityBox from './components-pharmacy/PasswordValidityBox.jsx';
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -45,7 +48,7 @@ function App() {
 
 
         <Routes>
-          <Route path="/home" element={<Home />} />
+          { <Route path="/home" element={<Home />} /> }
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
@@ -72,6 +75,14 @@ function App() {
            <Route path='/doctors-list' element={<PatientSearchDoctors/>}></Route>  
           <Route path='/viewdocdetails' element={<ViewDoctorDetails/>}></Route> 
           <Route path='/appointment-payment' element={<AppointmentPayment/>}></Route>
+          <Route path='/forgetpassword' element={<VerifyEmail/>}></Route>
+          <Route path='/OTPVerifcation' element={<OTPVErification/>} />
+          <Route path='/PasswordValidityBox' element={<OTPVErification/>} />
+          <Route path='/resetPassword' element={<ResetPassword/>} />
+
+
+
+
         </Routes>
       </BrowserRouter>
     </div>
