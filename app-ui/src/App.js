@@ -36,10 +36,15 @@ import ViewFamilyMembers from './components-clinic/patient/FamilyMembers/ViewLin
 import AddFamilyMembers from './components-clinic/patient/FamilyMembers/AddFamilyMembers.jsx'
 import LinkFamilyMember from './components-clinic/patient/FamilyMembers/LinkFmailyMember.jsx';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
+import AddTimeSlots from './components-clinic/AddTimeSlots.jsx';
+import ViewAppointments from './components-clinic/FilterAppointments.jsx'
+
+
 import PatientHome from './components-main/PatientHome.jsx';
 import AdminHome from './components-main/AdminHome.jsx';
 import DoctorHome from './components-main/DoctorHome.jsx';
 import PatientAccount from './components-main/PatientAccount.jsx'
+import DoctorAccount from './components-main/DoctorAccount.jsx'
 import HealthPackageManagement from './components-clinic/patient/healthPackageManagement/mainPage/mainPage.js'
 import EditMedicine from './components-pharmacy/pharmacist/EditMedicine.jsx'
 import AddMedicine from './components-pharmacy/pharmacist/AddMedicine.jsx'
@@ -62,6 +67,7 @@ function App() {
           <Route path="/doctorHome" element={<DoctorHome />} />
           <Route path="/pharmacistHome" element={<MedicineList />} />
           <Route path="/patientAccount" element={<PatientAccount/>}/>
+          <Route path="/doctorAccount" element={<DoctorAccount/>}/>
           <Route path="/changePassword" element={<ChangePassword/>}/>
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicineListPharmacist" element={<MedicineListPharmacist />} />
@@ -98,6 +104,10 @@ function App() {
           <Route path='/ViewFamilyMembers' element={<ViewFamilyMembers/>}></Route>
           <Route path='/AddFamilyMembers' element={<AddFamilyMembers/>}></Route>
           <Route path='/LinkFamilyMember' element={<LinkFamilyMember/>}></Route>
+
+          <Route path='/ViewAppointments' element={<ViewAppointments/>}></Route>
+          <Route path='/AddTimeSlots' element={<AddTimeSlots/>}></Route>
+          
           <Route path='/editMedicineAndView' element={<EditMedicineAndView/>}></Route>
           <Route path='/editSelectedPrescriptions' element={<EditSelectedPrescriptions/>}></Route>
 
