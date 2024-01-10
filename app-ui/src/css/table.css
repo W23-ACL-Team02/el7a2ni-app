@@ -23,7 +23,7 @@ table {
 }
 
 /* Default Table Style */
-table {
+/* table {
   color: #333;
   background: white;
   border: 1px solid grey;
@@ -43,7 +43,7 @@ table th,
 table td {
   padding: .5em;
   border: 1px solid lightgrey;
-}
+} */
 
 .button-container{
   display: flex;
@@ -70,7 +70,7 @@ table td {
   border:none;
   border-radius: 15px;
 
-}
+}*/
 
 #buttonsmall{
   display: flex;
@@ -86,4 +86,4 @@ table td {
   border:none;
   border-radius: 15px;
 
-}
+} 

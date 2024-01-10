@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import "../css/newTable.css";
 const baseURL = process.env.REACT_APP_SERVER_URL;
 const PatientSearchDoctors = () => {
 
@@ -114,7 +115,7 @@ const PatientSearchDoctors = () => {
           {doctorList.map((doctor) => (
             <tr key={doctor._id}>
               <td>
-              <button onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
+              <button style={{width:'200px', height:'60px'}}onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
               </td>
               <td>
                 {doctor.name}

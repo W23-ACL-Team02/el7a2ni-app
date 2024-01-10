@@ -1,0 +1,287 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding-top: 200px;
+    align-items: center;
+    min-height: 100vh; /* Use min-height instead of height */
+    width: 100%;
+    background: rgb(225, 225, 225);
+    padding-bottom: 30px;
+  }
+  
+
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.text{
+    color: #151b54;
+    font-size: 48px;
+    font-weight: 700;
+}
+.underline{
+    width: 61px;
+    height: 6px;
+    background: #1c2951;
+    border-radius: 9px;
+}
+/* .inputs{
+    margin-top: 55px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 480px;
+    height: 80px;
+    background: #eaeaea;
+    border-radius: 6px;
+}
+
+.input input{
+    height: 50px;
+    width: 400px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 19px;
+} */
+
+.submit-container{
+    display: flex;
+    gap: 30px;
+    margin: 60px auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color:#0a0a23;
+    border:none;
+    border-radius: 15px;
+
+}
+/* medicinelistpharmacist.css */
+
+/* Main container */
+#maincontainer {
+    padding: 20px;
+    background-color: DADADA;
+  
+  }
+  
+  /* Medicines list container */
+  .medicines-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  /* Medicine container */
+  .medicine-container {
+    align-content: center;
+    width: 550px;
+  }
+  
+  /* Rectangle styles */
+  .rectangle {
+    background-color: rgb(225,225,225) ;
+   
+    padding: 10px;
+    cursor: pointer;
+    transition: height 0.3s ease;
+    border-collapse: collapse;
+    border-radius: 15px;
+   
+  }
+  .rectangle2 {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    
+  }style */
+  .rectangle.expanded {
+    height: auto; /* Adjust height for expanded view */
+  }
+  
+  /* Medicine info */
+  .medicine-info {
+    display: flex;
+    align-items: center;
+  }
+  .rectangle:hover{
+    background-color:white ;
+  }
+  
+  .medicine-info img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+  }
+  
+  .details {
+    flex-grow: 0.4;
+  }
+  
+  .details p {
+    margin: 5px 0;
+  }
+  
+  /* Additional content */
+  .additionalContent {
+    padding-top: 10px;
+  }
+  
+  .additionalContent p {
+    margin: 5px 0;
+  }
+  
+  #button-id{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 35px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    background-color:#0a0a23;
+    border:none;
+    border-radius: 15px;
+  
+  }
+  .appointment-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust spacing between appointment blocks */
+  }
+  
+  /* Appointment container */
+  .appointment-container {
+    flex-grow: 1;
+    flex-basis: calc(66.33% - 20px); /* Adjust width as needed */
+    margin-bottom: 20px; /* Adjust margin between appointment blocks */
+    align-content: center;
+    width: 550px;
+  }
+  /*  */
+  /* .appointment-container {
+    width: 100%; /* Take the entire width of the row */
+    /* margin-bottom: 20px; 
+  } */ */
+  /* Medicine info */
+.appointment-info {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .appointment-info p {
+    margin: 5px 0;
+  }
+ 
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Adjust as needed */
+  }
+  
+  .form input,
+  .form button {
+    margin-bottom: 15px; /* Add spacing between input fields and button */
+  }
+
+  
+  .input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .input label {
+    margin-right: 10px;
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .input input {
+    height: 40px;
+    width: 280px;
+    background: #eaeaea;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 16px;
+    border-radius: 6px;
+    padding: 0 10px;
+  }
+  
+  .submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 45px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #0a0a23;
+    border: none;
+    border-radius: 15px;
+  }
+  .submit2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 45px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #0a0a23;
+    border: none;
+    border-radius: 15px;
+  }
+  .submit-button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    width: 180px;
+    height: 45px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #0a0a23;
+    border: none;
+    border-radius: 15px;
+    /* Add other desired styles */
+  }
+  
+  

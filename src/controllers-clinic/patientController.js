@@ -188,7 +188,7 @@ module.exports = {
             const package = patient.healthPackage
             package.status = "Unsubscribed"
             await patient.updateOne({_id: patientId}, {healthPackage: package})
-            await patient.save()
+            //await patient.save()
 
             res.status(200).json({subscription: patient.healthPackage})
             

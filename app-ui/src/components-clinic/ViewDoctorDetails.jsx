@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import '../css/table.css'
+import '../css/newTable.css'
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const ViewDoctorDetails = () => {
@@ -65,7 +65,7 @@ const ViewDoctorDetails = () => {
   };
 
   return (
-    <div style={{display:"flex", flexDirection:"column" ,alignItems:"center", justifyContent:"center", alignContent:"center", marginTop:"150px"}}>
+    <div style={{display:"flex", flexDirection:"column" ,alignItems:"center", justifyContent:"center", alignContent:"center", marginTop:"80px"}}>
       {/* <style>
         {`
           .doctor-details-container {
@@ -105,10 +105,10 @@ const ViewDoctorDetails = () => {
       </style> */}
       <h1>Doctor {doctorVar?.name}'s details</h1>
       <p>Speciality: {doctorVar?.speciality}</p>
-      <p>Session Price: {Math.round(doctorVar?.payRate * (1 - discountRate))}€</p>
+      <p>Session Price: {Math.round(doctorVar?.payRate * (1 - discountRate) *1.1)}€</p>
       <p>Graduated from: {doctorVar?.education.name} in {doctorVar?.education.endYear} </p>
       <p>Affiliated With: {doctorVar?.affiliation} </p>
-      <h2>Time Slots: ({Math.round(doctorVar?.payRate * (1 - discountRate))}€ per session)</h2>
+      <h2>Time Slots: ({Math.round(doctorVar?.payRate * (1 - discountRate) *1.1)}€ per session)</h2>
       <div className="TableContainer" style={{width:"500px", height:"300px"}}>
         <table>
           <thead>

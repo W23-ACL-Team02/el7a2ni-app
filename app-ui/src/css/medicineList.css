@@ -7,7 +7,7 @@ main {
 }
 
 /* Default Table Style */
-table {
+/* table {
   color: #333;
   background: white;
   border: 1px solid grey;
@@ -30,7 +30,7 @@ table th,
 table td {
   padding: .5em;
   border-style: none;
-}
+} */
 
 .button-container{
   display: flex;
