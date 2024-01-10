@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import '../css/addAdmin.css';
 const baseURL = `http://localhost:3000`;
 
 const RemoveUser = () => {
@@ -17,7 +17,7 @@ const RemoveUser = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(`${baseURL}/private/admin/user/removeUser`, {
+      const response = await axios.post(`${baseURL}/clinic/private/admin/user/removeUser`, {
         username: username,
       }, {withCredentials: true});
       
@@ -35,16 +35,34 @@ const RemoveUser = () => {
     }
   };
 
+  // return (
+  //   <div>
+  //     <h2>Remove User</h2>
+  //     <form onSubmit={handleSubmit}>
+  //       <div>
+  //         <label htmlFor="username">Username:</label>
+  //         <input type="text" id="username" value={username} onChange={handleUsernameChange} required />
+  //       </div>
+  //       <button type="submit">Remove User</button>
+  //     </form>
+  //     {message && <p>{message}</p>}
+  //   </div>
+  // );
   return (
-    <div>
+    <div className="container"> {/* Apply the CSS class here */}
+      
+      <div className="rectangle2">
       <h2>Remove User</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" value={username} onChange={handleUsernameChange} required />
-        </div>
-        <button type="submit">Remove User</button>
-      </form>
+        <form className="form" onSubmit={handleSubmit}> {/* Apply the CSS class here */}
+          <div className="input"> {/* Apply the CSS class here */}
+            <label htmlFor="username">Username:</label>
+            <input type="text" id="username" value={username} onChange={handleUsernameChange} required />
+          </div>
+          <div>
+            <button className="submit" type="submit">Remove User</button> {/* Apply the CSS class here */}
+          </div>
+        </form>
+      </div>
       {message && <p>{message}</p>}
     </div>
   );
