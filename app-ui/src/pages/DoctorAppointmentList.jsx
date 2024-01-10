@@ -9,8 +9,9 @@ const DoctorAppointmentList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get(`${baseURL}/clinic/private/doctor/notCompletedDoctorAppointments`); // Replace with your endpoint
+        const response = await axios.get(`${baseURL}/clinic/private/doctor/notCompletedDoctorAppointments`);
         setAppointments(response.data.appointments);
+        console.log(appointments)
       } catch (error) {
         console.error('Error fetching appointments: ', error);
       }
@@ -19,9 +20,15 @@ const DoctorAppointmentList = () => {
     fetchAppointments();
   }, []);
 
-  const handleReschedule = (appointmentId) => {
+  // useEffect(() => {
+  //   console.log(appointments); // Log appointments when it changes
+  // }, [appointments]); // This
+
+  const handleReschedule = (appointmentId,doctorUsername) => {
     console.log(appointmentId)
-    window.location.href=`/reschedulePatientAppointment2?appointmentId=${appointmentId}`
+   // window.location.href=`/reschedulePatientAppointment2?appointmentId=${appointmentId}`
+    window.location.href = `/reschedulePatientAppointment2?appointmentId=${appointmentId}&doctorUsername=${doctorUsername}`;
+
   };
   const formatDate = (dateStr) => {
     const dateObj = new Date(dateStr);
@@ -39,8 +46,7 @@ const DoctorAppointmentList = () => {
     <div className="container">
       <div className="rectangle2">
         <h2>Your Appointments</h2>
-        
-          {appointments.map((appointment) => (
+        {appointments.map((appointment) => (
             (appointment.status !== 'cancelled' && appointment.status !== 'completed') && (
               <div key={appointment._id} className="appointment-container">
                 <div className="rectangle">
@@ -61,7 +67,7 @@ const DoctorAppointmentList = () => {
                       <p>Status: {appointment.status}</p>
                     </div>
                     {/* Add more appointment details as needed */}
-                    <button onClick={() => handleReschedule(appointment._id)} className="submit-button">
+                    <button onClick={() => handleReschedule(appointment._id, appointment.doctorUsername)} className="submit-button">
                       Reschedule
                     </button>
                     <hr />
@@ -70,7 +76,6 @@ const DoctorAppointmentList = () => {
               </div>
             ))
           )}
-      
         {/* <p>{message}</p> */}
       </div>
     </div>

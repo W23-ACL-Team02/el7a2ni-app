@@ -6,7 +6,8 @@ import CancelAppointmentDoctor from './pages/CancelAppointmentDoctor'; // Check 
 import CancelAppointmentPatient from './pages/CancelAppointmentPatient';
 
 import SelectFamily from './pages/SelectFamily';
-import RescheduleAppointmentPage from './pages/RescheduleAppointmentPage'
+//import RescheduleAppointmentPage from './pages/RescheduleAppointmentPage'
+import RescheduleAppointment from './pages/RescheduleAppointment';
 import DoctorAppointmentList from './pages/DoctorAppointmentList'
 import PatientAppointmentList from './pages/PatientAppointmentList'
 import ReschedulePatientPage from './pages/ReschedulePatientPage'
@@ -59,7 +60,7 @@ function App() {
           <Route path="/cancelAppointment" element={<CancelAppointmentPatient />} />
           
           <Route path="/reschedulePatientAppointment" element={<DoctorAppointmentList />} />
-          <Route path="/reschedulePatientAppointment2" element={<RescheduleAppointmentPage />} />
+          <Route path="/reschedulePatientAppointment2" element={<RescheduleAppointment />} />
           
           <Route path="/rescheduleAppointment" element={<PatientAppointmentList />} />
           <Route path="/rescheduleAppointment2" element={<ReschedulePatientPage />} />
