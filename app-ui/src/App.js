@@ -9,6 +9,7 @@ import CheckoutFailed from './components-pharmacy/shared/PaymentFailed.js';
 import Home from './components-pharmacy/Home';
 import MedicineList from './components-pharmacy/pharmacist/MedicineList.jsx'; //for pharmacist only
 import MedicineListPatient from './components-pharmacy/MedicineList';
+import MedicineListPharmacist from './components-pharmacy/MedicineListPharmacist.js';
 import ViewCart from './components-pharmacy/ViewCart'
 import Patients from './components-pharmacy/Patients';
 import ViewPatient from './components-pharmacy/ViewPatient';
@@ -48,6 +49,9 @@ import HealthPackageManagement from './components-clinic/patient/healthPackageMa
 import EditMedicine from './components-pharmacy/pharmacist/EditMedicine.jsx'
 import AddMedicine from './components-pharmacy/pharmacist/AddMedicine.jsx'
 import UploadMedicineImage from './components-pharmacy/UploadMedImg.jsx'
+import EditMedicineAndView from './components-pharmacy/doctor/EditMedicineAndView.jsx';
+import EditSelectedPrescriptions from './components-pharmacy/doctor/EditSelectedPrescriptions.jsx';
+import DoctorHealthRecordsPage from './components-clinic/doctor/healthRecords/mainPage/mainPage.js'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -64,6 +68,7 @@ function App() {
           <Route path="/doctorAccount" element={<DoctorAccount/>}/>
           <Route path="/changePassword" element={<ChangePassword/>}/>
           <Route path="/viewMedicine" element={<MedicineList />} />
+          <Route path="/medicineListPharmacist" element={<MedicineListPharmacist />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
          <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
@@ -93,7 +98,7 @@ function App() {
           <Route path='/editMedicine' element={<EditMedicine/>}></Route>
           <Route path='/addMedicine' element={<AddMedicine/>}></Route>
           <Route path='/uploadMedicineImage' element={<UploadMedicineImage/>}></Route>
-
+          <Route path='/doctorHealthRecords' element={<DoctorHealthRecordsPage/>}></Route>
           <Route path='/ViewFamilyMembers' element={<ViewFamilyMembers/>}></Route>
           <Route path='/AddFamilyMembers' element={<AddFamilyMembers/>}></Route>
           <Route path='/LinkFamilyMember' element={<LinkFamilyMember/>}></Route>
@@ -101,6 +106,13 @@ function App() {
           <Route path='/ViewAppointments' element={<ViewAppointments/>}></Route>
           <Route path='/AddTimeSlots' element={<AddTimeSlots/>}></Route>
           
+          <Route path='/editMedicineAndView' element={<EditMedicineAndView/>}></Route>
+          <Route path='/editSelectedPrescriptions' element={<EditSelectedPrescriptions/>}></Route>
+
+
+
+
+
         </Routes>
       </BrowserRouter>
     </div>

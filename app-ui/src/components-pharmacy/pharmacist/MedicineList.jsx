@@ -22,7 +22,7 @@ const MedicineList = () => {
 
   const fetchMedicines = async (search) => {
     try {
-      const response = await axios.get('http://localhost:3000/pharmacy/private/medicine/find', {params: {searchKey: search}, withCredentials: true});
+      const response = await axios.get( serverURL + '/pharmacy/private/medicine/find', {params: {searchKey: search}, withCredentials: true});
       setMedicines(response.data.medicine); // Assuming response.data is an array of medicine objects
        console.log(response.data.medicine)
       setFilteredMedicines(response.data.medicine);
@@ -35,34 +35,33 @@ const MedicineList = () => {
     }
   };
   
-const displayImage = (imageData) => {
+  const displayImage = (imageData) => {
+    console.log('inside display image')
     if (!imageData) {
-      return null; // Return null if image data is not available
+      return null;
     }
-  
     const imageType = typeof imageData === 'string' ? imageData.substring(5, imageData.indexOf(';')) : '';
     const imageSrc = `data:image/${imageType};base64,${imageData}`;
-  
+
     // CSS styles for the image container
     const imageContainerStyle = {
-      width: '80px', // Adjust the width as needed
-      height: '80px', // Adjust the height as needed
+      width: '80px',
+      height: '80px',
       border: '1px solid #ccc',
-      
       overflow: 'hidden',
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      margin: '0 10px 10px 0', // Adjust margins for spacing between images and list items
+      margin: '0 10px 10px 0',
     };
-  
+
     // CSS styles for the image itself
     const imageStyle = {
-      maxWidth: '100%', // Ensure the image doesn't exceed the container width
-      maxHeight: '100%', // Ensure the image doesn't exceed the container height
-      objectFit: 'cover', // Maintain aspect ratio and cover the container
+      maxWidth: '100%',
+      maxHeight: '100%',
+      objectFit: 'cover',
     };
-  
+
     return (
       <div style={imageContainerStyle}>
         <img src={imageSrc} alt="Medicine" style={imageStyle} />
@@ -94,36 +93,75 @@ const displayImage = (imageData) => {
     fetchMedicines(event.target.value);
   };
   const handleArchive = async (medicineId) => {
-    console.log('inside archive')
+    // console.log('inside archive')
+    setError()
     try {
       const response = await axios.put(`${serverURL}/pharmacy/private/pharmacist/medicine/archive`, {
         medicineId: medicineId 
       }, {withCredentials: true});
       if (response && response.data && response.data.successes && response.data.successes.length > 0) {
-        setMessage(response.data.successes[0]); // Display success message
+        setError(response.data.successes[0]); // Display success message
       }
-      console.log(response.data);
+      const filtered = filteredMedicine
+      filtered.map(medicine => {
+        if (medicineId == medicine._id){
+          medicine.archived = !medicine.archived
+        }
+      })
+      setFilteredMedicines(filtered)
+      // console.log(response.data);
       // Optionally, you can display a success message or update the UI to reflect the change
     } catch (error) {
       console.log(error)
         if (error.response && error.response.data && error.response.data.errors && error.response.data.errors.length > 0) {
-          setMessage(error.response.data.errors[0]); // Display error message
+          setError(error.response.data.errors[0]); // Display error message
+        }
+    }
+  };
+  const handleRemove = async (medicineId) => {
+    // console.log('inside archive')
+    setError()
+    try {
+      const response = await axios.delete(`${serverURL}/pharmacy/private/pharmacist/medicine/remove`, 
+      {withCredentials: true, data: {medicineId: medicineId }});
+      if (response && response.data && response.data.successes && response.data.successes.length > 0) {
+        setError(response.data.successes[0]); // Display success message
+      }
+      const filtered = filteredMedicine
+      for (let index = 0; index < filtered.length; index++) {
+        if (filtered[index]._id == medicineId){
+          filtered.splice(index, 1)
+          break;
+        }
+      }
+      setFilteredMedicines(filtered)
+      // console.log(response.data);
+      // Optionally, you can display a success message or update the UI to reflect the change
+    } catch (error) {
+      console.log(error)
+        if (error.response && error.response.data && error.response.data.errors && error.response.data.errors.length > 0) {
+          setError(error.response.data.errors[0]); // Display error message
         }
     }
   };
 
   return (
-    <div>
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
       <PharmacistNavBar />
       <p style={{fontSize: 30}}>All Medicines</p>
       {error && <p>{error}</p>}
-      <div className='medicineList'>
-        <input type="text" id="searchKey" onChange={handleKeyChange} />
-        <select value={selectedCategory} onChange={filterMedicine}>
-            {categories.map(category => (
-              <option value={category}>{category}</option>
-            ))}
-            </select>
+      <button style={{height: 70, width: 220, marginBottom: 20, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, fontSize: 24}} onClick={() => {navigate('/addMedicine')}}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Add Medicine</button>
+      <div className='medicineList' style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{marginBottom:20}}>
+          <input type="text" style={{marginRight: 15}} id="searchKey" placeholder='Search' onChange={handleKeyChange} />
+          <select value={selectedCategory} onChange={filterMedicine}>
+              {categories.map(category => (
+                <option value={category}>{category}</option>
+              ))}
+          </select>
+        </div>
         {medicines.length === 0 ? (
           <p>No medicines available.</p>
         ) : (
@@ -136,19 +174,37 @@ const displayImage = (imageData) => {
               <th>Category</th>
               <th>Quantity</th>
               <th>Price</th>
-              {filteredMedicine.map(medicine => (
+              <th>Dosage</th>
+              <th>Sales</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              {filteredMedicine.map(medicine => 
                 <tr key={medicine._id}>
-                  <td>{displayImage(medicine.imageUrl)}</td>
+                  <td style={{height: 80}}><img src={medicine.imageUrl} alt='no image' style={{height: 80}} /></td>
                   <td>{medicine.name}</td>
                   <td>{medicine.details}</td>
                   <td>{medicine.activeIngredients}</td>
                   <td>{medicine.category}</td>
                   <td>{medicine.quantity}</td>
                   <td>{medicine.price}</td>
-                  <td><button value={medicine._id} onClick={edit}>Edit</button></td>
-                  <td><button value={medicine._id} onClick={() => {handleArchive(medicine._id)}}>Archive</button></td>
+                  <td>{medicine.dosage}</td>
+                  <td>{medicine.sales}</td>
+                  <td><button value={medicine._id} onClick={edit} style={{width: 140, display: 'flex', fontSize: 20}}>
+                  <svg style={{marginRight: 7}} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon></svg>
+                    Edit</button></td>
+                  {medicine.archived && <td><button value={medicine._id} style={{width: 140}} onClick={() => handleArchive(medicine._id)}>
+                  <svg style={{marginRight: 7}} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+                  Unarchive</button></td>}
+                  {!medicine.archived && <td><button value={medicine._id} style={{width: 140}} onClick={() => handleArchive(medicine._id)}>
+                    <svg style={{marginRight: 7}} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+                  Archive</button></td>}
+                  <td><button value={medicine._id} style={{width: 140}} onClick={() => handleRemove(medicine._id)}>
+                  <svg style={{marginRight: 7}} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                  Remove</button></td>
                 </tr>
-              ))}
+              )}
+              
             </table>
           </div>
         )}

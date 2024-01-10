@@ -152,8 +152,8 @@ module.exports = {
             const doctor = await userModel.findById(req.session.userId)
             const doctorUsername = doctor.username
             //check if there are shared appointments
-            const appointments = await appointmentsModel.find({ doctorUsername: doctorUsername, patientUsername: patientUsername })
-            if (!appointments.length) {
+            const appointments = await Appointment.find({ doctorUsername: doctorUsername, patientUsername: patientUsername })
+            if (!appointments) {
                 res.status(400).json({ error: "You don't have any appointments with this patient." });
                 return;
             }

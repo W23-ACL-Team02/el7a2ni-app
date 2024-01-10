@@ -241,8 +241,8 @@ module.exports = {
 			// Check for user in database
 			const user = await userModel.findOne({ username: username });
       
-			// If not or wrong user type
-			if (!user || user.type == 'doctor') {
+			// If not
+			if (!user) {
 				return res.status(401).json({errors: ["Incorrect username/password"]});
 			}
 
@@ -251,8 +251,13 @@ module.exports = {
 				return res.status(401).json({errors: ["Incorrect username/password"]});
 			}
 			
-			// If a doctor and not yet accepted
+			// If a pharmacist and not yet accepted
 			if (user?.type == 'pharmacist' && user.acceptanceStatus != 'accepted') {
+				return res.status(401).json({errors: [`Pharmacist ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
+			}
+
+      // If a doctor and not yet accepted
+			if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
 				return res.status(401).json({errors: [`Pharmacist ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
 			}
 
