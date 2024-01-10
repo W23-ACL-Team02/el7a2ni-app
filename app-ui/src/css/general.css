@@ -43,6 +43,7 @@
     justify-content: center;
     padding: 15px;
     margin: 10px;
+    align-self: center;
 }
 .line {
     background-color: #c5c5c5;

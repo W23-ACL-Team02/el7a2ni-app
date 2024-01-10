@@ -14,7 +14,7 @@ router.delete('/delete', deleteMedicine);
 router.get('/find', findMedicine); // TODO: Remove this / modify this endpoint?
 router.get('/findmedicine', findMedicine2); // TODO: Remove this / modify this endpoint?
 router.get('/getmedstats', getMedStats); // TODO: Remove this / modify this endpoint?  &  Move to Pharmacist router?
-router.get('/view', viewMedicine); // TODO: Remove this / modify this endpoint?
+router.post('/view', viewMedicine); // TODO: Remove this / modify this endpoint?
 
 router.get('/findByIngredient', findByIngredient);
 router.get('/all', getAllMedicine);
