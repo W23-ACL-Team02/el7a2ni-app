@@ -46,7 +46,7 @@ const medicineSchema = new Schema({
     default: false,
   },
   dosage: {
-    type: Number
+    type: String
   }
 }, { timestamps: true,
   methods: {
