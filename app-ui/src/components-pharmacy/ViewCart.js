@@ -102,22 +102,22 @@
 // export default ViewCart;
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-const serverURL = process.env.REACT_APP_SERVER_URL 
+import '../css/viewcart.css'; // Import the styles from the MedicineList page
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 function ViewCart() {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState([]);
-  const [quantity, setQuantity] = useState(1); // Initialize quantity state
+  const [quantity, setQuantity] = useState(1);
 
   const handleDelete = async (medicineId, quantity) => {
     try {
-      const res = await axios.post(`${serverURL}/pharmacy/private/patient/cart/deletefromcart`, {
+      const res = await axios.post(`${serverURL}/pharmacy/pharmacy/private/patient/cart/deletefromcart`, {
         medicineId,
         quantity,
-      }, {withCredentials: true});
+      }, {withCredentials:true});
 
-      // Refresh the cart and total after deleting the item
-      Viewcart();
+      ViewCart();
       getTotal();
 
       console.log(res.data);
@@ -128,13 +128,12 @@ function ViewCart() {
 
   const handleChangeQuantity = async (medicineId, newQuantity) => {
     try {
-      const res = await axios.put(`${serverURL}/pharmacy/private/patient/cart/editquantity`, {
+      const res = await axios.put(`${serverURL}/pharmacy/pharmacy/private/patient/cart/editquantity`, {
         medicineId,
         quantity: newQuantity,
-      }, {withCredentials: true});
+      }, {withCredentials:true});
 
-      // Refresh the cart and total after changing the quantity
-      Viewcart();
+      ViewCart();
       getTotal();
 
       console.log(res.data);
@@ -143,7 +142,7 @@ function ViewCart() {
     }
   };
 
-  const Viewcart = async () => {
+  const ViewCart = async () => {
     try {
       const res1 = await axios.get(`${serverURL}/pharmacy/private/patient/cart/viewcart`, {withCredentials: true});
       setCart(res1.data);
@@ -162,37 +161,38 @@ function ViewCart() {
   };
 
   useEffect(() => {
-    Viewcart();
+    ViewCart();
     getTotal();
   }, []);
 
   const handleCheckout = () => {
-    // Redirect to the chooseaddress page
     window.location.href = '/chooseaddress';
   };
 
   return (
-    <div className="container" id="cartwrapper">
-      <h1>Your Order</h1>
-      {cart.map((item, index) => (
-        <div key={index}>
-          <div>
-            <h3>Medicine Names and Quantities: </h3>
-          </div>
-          <div>
-            <h4>{item.medicine.name}</h4>
-            <h4>{item.quantity}</h4>
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
-            <button onClick={() => handleChangeQuantity(item.medicine._id, quantity)}>
-              Change Quantity
-            </button>
-            <button onClick={() => handleDelete(item.medicine._id, item.quantity)}>
-              Delete
-            </button>
+    <div className="container" id="maincontainer"> {/* Update the ID to match your CSS */}
+    <h1>Your Cart</h1>
+    {cart.map((item, index) => (
+      <div key={index} className="medicine-container"> {/* Add medicine-container class */}
+        <div className="rectangle">
+          <div className="medicine-info">
+            <img src={item.medicine.imageUrl} alt="Medicine" className="medicine-image" /> {/* Add medicine image */}
+            <div className="details">
+              <p className="name">{item.medicine.name}</p>
+              <p>Quantity: {item.quantity}</p>
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                />
+                <button onClick={() => handleChangeQuantity(item.medicine._id, quantity)}>
+                  Change Quantity
+                </button>
+                <button onClick={() => handleDelete(item.medicine._id, item.quantity)}>
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       ))}
@@ -203,7 +203,9 @@ function ViewCart() {
         <h3>{total}</h3>
       </div>
       {cart.length > 0 ? (
-        <button onClick={handleCheckout}>Checkout</button>
+        <button onClick={handleCheckout} id="button-id">
+          Checkout
+        </button>
       ) : (
         <p>Your cart is empty</p>
       )}
@@ -212,5 +214,6 @@ function ViewCart() {
 }
 
 export default ViewCart;
+
 
 

@@ -12,7 +12,7 @@ export default function OTPVErification() {
   const email= state.email;
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/public/user/VerifyOTP",{verificationCode,email}).then((result)=>
+    axios.post("http://localhost:3000/clinic/public/user/VerifyOTP",{verificationCode,email}).then((result)=>
   {
     if (result.data.isCodeVerified)
     {

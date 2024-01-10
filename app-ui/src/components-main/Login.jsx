@@ -56,6 +56,7 @@ export default function Login({loggedIn}) {
                     onClick={onButtonClick}
                     value={"Log in"} />
             </div>
+            <a onClick={() => {navigate('/VerifyEmail')}}> forgot password?</a>
         </fieldset>
     )
 }

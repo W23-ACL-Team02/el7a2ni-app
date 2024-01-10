@@ -18,11 +18,13 @@ export default function DoctorHome() {
             <div className='top'>
                 <Card width={700}>
                     <h2 style={{fontSize: 28, marginTop: 10}}>Doctor Actions</h2>
-                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}}>Add Time Slots</button>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/AddTimeSlots')}}>Add Time Slots</button>
                     <div className='line' style={{width: 200}}></div>
-                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}}>View Appointments</button>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/ViewAppointments')}}>View Appointments</button>
                     <div className='line' style={{width: 200}}></div>
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/patientsList')}}>View Patients</button>
+                    <div className='line' style={{width: 200}}></div>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/AddPrescription')}}>Add Prescription</button>
                     <div className='line' style={{width: 200}}></div>
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/VideoCallRoom')}}>Start Video Call</button>
                 </Card>

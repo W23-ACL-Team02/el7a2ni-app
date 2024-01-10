@@ -1,5 +1,6 @@
 import {React,useEffect,useState} from 'react'
 import axios from 'axios'
+const severURL = process.env.REACT_APP_SERVER_URL;
 export default function ViewFamilyMemebrs() {
 
     const[FamilyMembers,setFamilyMembers]= useState([]);
@@ -10,7 +11,7 @@ export default function ViewFamilyMemebrs() {
     
 
     useEffect(()=>{
-        axios.get("http://localhost:3000/private/family/viewfamilymember",{withCredentials: true})
+        axios.get(`${severURL}/clinic/private/family/viewfamilymember`,{withCredentials: true})
         .then((res)=>{
           console.log(res)
             setFamilyMembers(res.data.createdFamilyMembers)

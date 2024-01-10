@@ -153,13 +153,15 @@ const MedicineList = () => {
       <button style={{height: 70, width: 220, marginBottom: 20, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, fontSize: 24}} onClick={() => {navigate('/addMedicine')}}>
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         Add Medicine</button>
-      <div className='medicineList'>
-        <input type="text" id="searchKey" onChange={handleKeyChange} />
-        <select value={selectedCategory} onChange={filterMedicine}>
-            {categories.map(category => (
-              <option value={category}>{category}</option>
-            ))}
-            </select>
+      <div className='medicineList' style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{marginBottom:20}}>
+          <input type="text" style={{marginRight: 15}} id="searchKey" placeholder='Search' onChange={handleKeyChange} />
+          <select value={selectedCategory} onChange={filterMedicine}>
+              {categories.map(category => (
+                <option value={category}>{category}</option>
+              ))}
+          </select>
+        </div>
         {medicines.length === 0 ? (
           <p>No medicines available.</p>
         ) : (
@@ -174,6 +176,9 @@ const MedicineList = () => {
               <th>Price</th>
               <th>Dosage</th>
               <th>Sales</th>
+              <th></th>
+              <th></th>
+              <th></th>
               {filteredMedicine.map(medicine => 
                 <tr key={medicine._id}>
                   <td style={{height: 80}}><img src={medicine.imageUrl} alt='no image' style={{height: 80}} /></td>

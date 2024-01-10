@@ -20,6 +20,10 @@ const medicineSchema = new Schema({
     type: String,
     required: true
   },
+  isprescription:{
+    type: Boolean,
+    required: true
+  },
   activeIngredients: {
     type: Object,
     name: {
@@ -39,7 +43,24 @@ const medicineSchema = new Schema({
   sales: {
     type: Number,
     required: true
-  },   
+  }, 
+  
+    salesReport: {
+      name: {
+        type: String,
+      },
+      price: {
+        type: Number,
+      },
+      amount: {
+        type: Number,
+      },
+      Date: {
+        type: Date,
+      }
+    },
+    
+
   imageUrl: {
      type: Object,
        },
@@ -55,7 +76,12 @@ const medicineSchema = new Schema({
     incrementSales(quantity) {
       if (this.sales == undefined) this.sales = 0;
       
-      this.sales= this.sales+ quantity
+      this.sales= this.sales+ quantity;
+      this.salesReport.amount= quantity;
+      this.salesReport.Date= Date.now();
+      this.salesReport.price=this.price*quantity;
+      this.salesReport.name=this.name;
+
     },
     async decrementQuantity(sales){
       this.quantity= this.quantity- sales
