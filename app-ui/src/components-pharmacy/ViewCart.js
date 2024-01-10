@@ -115,7 +115,7 @@ function ViewCart() {
       const res = await axios.post(`${serverURL}/pharmacy/pharmacy/private/patient/cart/deletefromcart`, {
         medicineId,
         quantity,
-      });
+      }, {withCredentials:true});
 
       ViewCart();
       getTotal();
@@ -131,7 +131,7 @@ function ViewCart() {
       const res = await axios.put(`${serverURL}/pharmacy/pharmacy/private/patient/cart/editquantity`, {
         medicineId,
         quantity: newQuantity,
-      });
+      }, {withCredentials:true});
 
       ViewCart();
       getTotal();

@@ -73,6 +73,10 @@ _### GET /pharmacy/private/medicine/filterbydate
 * `medicineID` : a spacific medicine id
 **Notes:**
 * Must send JWT as cookie for authentication
+_### GET /pharmacy/private/medicine/updateSalesReportName`
+
+**Notes:**
+* Must send JWT as cookie for authentication
 
 
 
