@@ -112,7 +112,7 @@ function ViewCart() {
 
   const handleDelete = async (medicineId, quantity) => {
     try {
-      const res = await axios.post(`${serverURL}/pharmacy/private/patient/cart/deletefromcart`, {
+      const res = await axios.post(`${serverURL}/pharmacy/pharmacy/private/patient/cart/deletefromcart`, {
         medicineId,
         quantity,
       });
@@ -128,7 +128,7 @@ function ViewCart() {
 
   const handleChangeQuantity = async (medicineId, newQuantity) => {
     try {
-      const res = await axios.put(`${serverURL}/pharmacy/private/patient/cart/editquantity`, {
+      const res = await axios.put(`${serverURL}/pharmacy/pharmacy/private/patient/cart/editquantity`, {
         medicineId,
         quantity: newQuantity,
       });
@@ -144,8 +144,7 @@ function ViewCart() {
 
   const ViewCart = async () => {
     try {
-      const res1 = await axios.get(`${serverURL}/pharmacy/private/patient/cart/viewcart`);
-
+      const res1 = await axios.get(`${serverURL}/pharmacy/private/patient/cart/viewcart`, {withCredentials: true});
       setCart(res1.data);
     } catch (err) {
       console.log(err);
@@ -154,8 +153,7 @@ function ViewCart() {
 
   const getTotal = async () => {
     try {
-      const res = await axios.get(`${serverURL}/pharmacy/private/patient/order/gettotal`);
-
+      const res = await axios.get(`${serverURL}/pharmacy/private/patient/order/gettotal`, {withCredentials: true});
       setTotal(res.data);
     } catch (err) {
       console.log(err);

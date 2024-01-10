@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../css/addAdmin.css';
+const serverURL = process.env.REACT_APP_SERVER_URL
 
 const UpcomingCompletedAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -11,7 +13,7 @@ const UpcomingCompletedAppointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/private/user/upcomingCompletedAppointments', {withCredentials: true});
+      const response = await axios.get(`${serverURL}/clinic/private/user/upcomingCompletedAppointments`, {withCredentials: true});
       setAppointments(response.data.filteredAppointments || []);
       setError('');
     } catch (error) {
@@ -28,28 +30,52 @@ const UpcomingCompletedAppointments = () => {
     const year = dateObj.getFullYear();
     return `${day}.${month}.${year}`;
   };
-
+  const formatTime = (time) => {
+    const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return formattedTime;
+  };
   return (
-    <div>
-      <h2>Upcoming and Completed Appointments</h2>
-      {error && <p className="error-message">{error}</p>}
-      {appointments.length === 0 ? (
-        <p>No upcoming or completed appointments found.</p>
-      ) : (
-        <ul className="appointment-list">
-          {appointments.map(appointment => (
-            <li key={appointment._id}  style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px', margin: '10px 0' }}>
-              <p><strong>Date:</strong> {formatDate(appointment.date)}</p>
-              <p><strong>Status:</strong> {appointment.status}</p>
-              <p><strong>Doctor:</strong> {appointment.doctorUsername}</p>
-              <p><strong>Patient:</strong> {appointment.patientUsername}</p>
-              {/* Display other appointment details */}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="container">
+      <div className="rectangle2">
+        <h2>Upcoming and Completed Appointments</h2>
+        {/* {error && <p className="error-message">{error}</p>} */}
+        {appointments.length === 0 ? (
+          <p>No upcoming or completed appointments found.</p>
+        ) : (
+          <div className="appointment-list">
+            {appointments.map((appointment) => (
+              <div key={appointment._id} className="appointment-container">
+                <div className="rectangle">
+                  <div className="medicine-info">
+                    <div className="details">
+                      <p>Date: {formatDate(appointment.date)}</p>
+                    </div>
+                    <div className="details">
+                      <p>Start: {formatTime(appointment.start)}</p>
+                    </div>
+                    <div className="details">
+                      <p>End: {formatTime(appointment.end)}</p>
+                    </div>
+                    <div className="details">
+                      <p>Doctor: {appointment.doctorUsername}</p>
+                    </div>
+                    <div className="details">
+                      <p>Patient: {appointment.patientUsername}</p>
+                    </div>
+                    <div className="details">
+                      <p>Status: {appointment.status}</p>
+                    </div>
+                    {/* Add more appointment details as needed */}
+                    <hr />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
-};
-
+            }
+  
 export default UpcomingCompletedAppointments;

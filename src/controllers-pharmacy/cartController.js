@@ -10,10 +10,7 @@ module.exports = {
 
         try {
             const userId = req.session.userId;
-             //const userId = "656ce9c8b124eef75091fb39";
-            
-            const user = await userModel.findOne({ _id: userId });
-            console.log(medicineId)
+            let user = await userModel.findOne({ _id: userId });
             let medicinef = await medicineModel.findOne({ _id: medicineId });
           //  console.log(medicinef)
             if (medicinef==null){
@@ -99,8 +96,8 @@ module.exports = {
     },
     deleteFromCart: async (req,res) => {
         const { medicineId, quantity } = req.body;
-       // const userId = req.session.userId;
         const userId = req.session.userId;
+
         try {
             let user = await userModel.findOne({_id: userId});
            
@@ -142,8 +139,7 @@ module.exports = {
         }
     },
     viewCart: async (req,res) => {
-       const userId = req.session.userId;
-       // const userId = "656ce9c8b124eef75091fb39";
+        const userId = req.session.userId;
         
         try {
             let user = await userModel.findOne({_id: userId});
@@ -160,8 +156,7 @@ module.exports = {
         }
     },
     getCart: async(req, res) => {
-        const userId= req.session.userId; 
-        
+       const userId= req.session.userId; 
         try{
           const user= await userModel.findById(userId);
           const userCart = user.cart;
@@ -176,7 +171,7 @@ module.exports = {
         const {medicineId, quantity } = req.body;
         try {
             const userId = req.session.userId;
-            //const userId = "656ce9c8b124eef75091fb39";
+       
             let user = await userModel.findOne({ _id: userId });
             let medicinef = await medicineModel.findOne({ _id: medicineId });
             const medicine = await medicineModel.findById(medicinef._id)

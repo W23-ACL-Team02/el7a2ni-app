@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
-const baseURL = `http://localhost:3000`;
+const baseURL = process.env.REACT_APP_SERVER_URL;
+;
 
 const ManageDocuments = () => {
   const [documents, setDocuments] = useState([]);
@@ -14,7 +15,7 @@ const ManageDocuments = () => {
 
   const fetchDocuments = async () => {
     try {
-      const response = await axios.get(`${baseURL}/private/user/documents`, {withCredentials: true});
+      const response = await axios.get(`${baseURL}/clinic/private/user/documents`, {withCredentials: true});
       setDocuments(response.data.files || []);
       setUserId(response.data.userId);
     } catch (error) {
@@ -41,7 +42,7 @@ const ManageDocuments = () => {
       const formData = new FormData();
       formData.append('medicalHistory', selectedFile);
 
-      const response = await axios.post(`${baseURL}/private/user/uploadDocuments`, formData, {withCredentials: true});
+      const response = await axios.post(`${baseURL}/clinic/private/user/uploadDocuments`, formData, {withCredentials: true});
       console.log('Upload success:', response.data.message);
         fetchDocuments();
       // Additional logic after successful upload
@@ -53,7 +54,7 @@ const ManageDocuments = () => {
   };
   const handleRemove = async (fileId) => {
     try {
-      const response = await axios.post(`${baseURL}/private/user/removeDocuments`, {
+      const response = await axios.post(`${baseURL}/clinic/private/user/removeDocuments`, {
         userId:userId, // Replace with the actual user ID
         fileId: fileId,
       }, {withCredentials: true});

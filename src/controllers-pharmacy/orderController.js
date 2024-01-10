@@ -1,8 +1,7 @@
 const addressModel=require("../models/address.js");
 const orderModel= require('../models/order.js');
 const medicineModel= require('../models/medicine.js');
-const userModel = require('../models/user');
-
+const userModel= require('../models/user.js');
 
 module.exports = {
     getAddress: async (req,res) => {
@@ -68,10 +67,10 @@ module.exports = {
             
             await address.save()
             await user.save()
-            res.status(200).json({message:"address added"})
+            res.status(200).json({ successes: ["address added succesfully"] })
         } catch(error) {
             console.log({err:error.message});
-            res.status(400).json({err:error.message})
+            res.status(400).json({ errors: [error.message] })
         }
     },
     viewAddress: async(req,res) => { // just displays available addresses and lets user choose one of them
@@ -88,8 +87,7 @@ module.exports = {
     },
     chooseAddress: async(req,res) => { //address id is passed through params
         try {
-            const userId = req.session.userId;
-        
+           const userId = req.session.userId; 
             //const user = await userModel.findById(userId);
             const addressId = req.params.id; //if cart is empty, can't choose address
 
@@ -105,10 +103,9 @@ module.exports = {
     },
     viewOrders: async(req,res) => {
         try {
-            const userId= req.session.userId; 
+           const userId= req.session.userId; 
             const user= await userModel.findById(userId);
             const orders= user.orders;
-
             res.status(200).json(orders);
         } catch(error){
             res.status(400).json({err:error.message})
@@ -118,11 +115,17 @@ module.exports = {
         //same as choosing address: find order with id in user's orders database and change status to cancelled
       
         try{
-            const userId= req.session.userId; 
+           const userId= req.session.userId; 
             const user= await userModel.findById(userId);
-
+         
             const orderId= req.params.id;
             const order= await orderModel.findById(orderId);
+            const amount= order.total;
+            const cashOnDelivery= order.COD; //? why coloured diffirently
+            if(!cashOnDelivery){
+                user.addToWallet(amount)
+            }
+           
             const orderId2= order._id
 
             const result = await userModel.findOneAndUpdate(
@@ -153,13 +156,14 @@ module.exports = {
             await user.save();
         
         
-            res.status(200).json("order cancelled")
+            res.status(200).json({ successes: ["order cancelled sucessfully"] })
         } catch(error){
-            res.status(400).json({err:error.message})
+            res.status(400).json({ errors: [error.message] })
         }
     },
     placeOrder: async(req,res) => {
         try {
+            const cashOnDelivery= req.body.COD;
             const userId= req.session.userId;
             const user= await userModel.findById(userId);
             const cart=user.cart
@@ -175,7 +179,7 @@ module.exports = {
                 medicine.decrementQuantity(cart[i].quantity);
                 await medicine.save();
             }
-            const order= await orderModel.create({items: cart, total: totalprice, address, status:"placed"});
+            const order= await orderModel.create({items: cart, total: totalprice, address, status:"placed", COD: cashOnDelivery});
             await order.save()
             user.addOrder(order);
             user.emptyCart();

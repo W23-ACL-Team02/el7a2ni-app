@@ -15,7 +15,7 @@ function GetPatient(){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${serverURL}/private/admin/user/patient/${id}`, {withCredentials: true});
+        const res = await axios.get(`${serverURL}/pharmacy/private/admin/user/patient/${id}`, {withCredentials: true});
         setPatient(res.data);
       } catch (err) {
         console.log(err);
