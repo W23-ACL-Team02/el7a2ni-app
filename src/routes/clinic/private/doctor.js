@@ -1,17 +1,17 @@
 const express = require("express");
 var router = express.Router({mergeParams: true});
-const { viewContract, acceptContract, rejectContract, selectFollowUpMenu, scheduleFollowUp, addHealthRecords, viewRequestedFollowUps, respondToRequestedFollowUps } = require('../../../controllers-clinic/doctorCont');
+const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords } = require('../../../controllers-clinic/doctorCont');
 const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../../controllers-clinic/doctorController.js')
-const { addTimeSlot, editDoctor, viewHealthRecords, reschedulePatientAppointment,cancelPatientAppointment,notCompletedDoctorAppointments } = require('../../../controllers-clinic/doctorController.js');
+const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors, reschedulePatientAppointment,cancelPatientAppointment,notCompletedDoctorAppointments } = require('../../../controllers-clinic/doctorController.js');
 const { addPrescriptionView,getPrescriptions,addPrescriptionByDoctor } = require('../../../controllers-clinic/prescriptionController.js');
 const authorizeUser = require('../../../middleware/authorizeUser');
 
-// router.all("*", (req, res, next) => {
-//   // Ensure doctor
-//   if (!authorizeUser(req, res, ["doctor"])) return;
+router.all("*", (req, res, next) => {
+  // Ensure doctor
+  if (!authorizeUser(req, res, ["doctor"])) return;
 
-//   next();
-// })
+  next();
+})
 
 router.get("/addprescriptionView",addPrescriptionView);
 router.post("/addprescriptionSubmit",addPrescriptionByDoctor);
@@ -25,12 +25,6 @@ router.put("/rejectContract", rejectContract);
 // ? Add under /doctor/appointment router?
 router.get("/selectFollowUpMenu", selectFollowUpMenu)
 router.post("/scheduleFollowUp", scheduleFollowUp)
-
-//
-router.get("/viewRequestedFollowUps", viewRequestedFollowUps)
-router.post("/respondToRequestedFollowUps", respondToRequestedFollowUps)
-
-//
 router.post("/addHealthRecords", addHealthRecords)
 router.get("/appointments", getAppointments)
 
@@ -39,8 +33,9 @@ router.get("/getAllPatients", getPatients)
 router.get("/getByName", getPatientbyName)
 router.get("/patient/:id", getPatientbyId)
 
-// removed viewDoctors, searchDoctors, viewDoctorDetails endpoints as they are used in patient.js
-
+router.get('/viewDoctors', viewDoctors); // TODO: Remove/Update endpoint? 
+router.post('/searchDoctors', searchDoctors); // TODO: Remove/Update endpoint?
+router.get('/viewDoctorDetails/:id', viewDoctorDetails); // TODO: Remove/Update endpoint?
 router.put('/api/editDoctor', editDoctor);
 router.post('/addTimeSlots', addTimeSlot);
 router.post('/api/viewHealthRecords', viewHealthRecords);
@@ -115,5 +110,3 @@ module.exports = router;
 //         res.status(400).json({err:error.message})
 //     }
 // }
-
-

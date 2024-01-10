@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "../css/newTable.css";
 const baseURL = process.env.REACT_APP_SERVER_URL;
+import "../css/newTable.css";
+const baseURL = process.env.REACT_APP_SERVER_URL;
 const PatientSearchDoctors = () => {
 
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ const PatientSearchDoctors = () => {
       try {
 
         const response = await axios({ method: 'get',
+        url: `${baseURL}/clinic/private/patient/viewDoctors`,
         url: `${baseURL}/clinic/private/patient/viewDoctors`,
         withCredentials: true})
         
@@ -42,6 +45,7 @@ const PatientSearchDoctors = () => {
       const response = await axios({
         method: 'post',
         url: `${baseURL}/clinic/private/patient/searchDoctors`,
+        url: `${baseURL}/clinic/private/patient/searchDoctors`,
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -52,6 +56,7 @@ const PatientSearchDoctors = () => {
           date: theDateTime,
         }),
       });
+      
       
       setDoctorList(response.data.docs);
       setDiscountRate(response.data.discountRate);

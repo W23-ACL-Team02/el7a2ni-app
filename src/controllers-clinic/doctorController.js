@@ -152,8 +152,8 @@ module.exports = {
             const doctor = await userModel.findById(req.session.userId)
             const doctorUsername = doctor.username
             //check if there are shared appointments
-            const appointments = await appointmentsModel.find({ doctorUsername: doctorUsername, patientUsername: patientUsername })
-            if (!appointments.length) {
+            const appointments = await Appointment.find({ doctorUsername: doctorUsername, patientUsername: patientUsername })
+            if (!appointments) {
                 res.status(400).json({ error: "You don't have any appointments with this patient." });
                 return;
             }
@@ -172,9 +172,115 @@ module.exports = {
             res.status(400).json({ error: error.message })
         }
     },
-    // NOTE:
-    // removed viewDoctors, searchDoctors, viewDoctorDetails endpoints as they are used in patient.js
-    //
+    viewDoctorDetails: async (req, res) => {
+        //40,41
+        //select a doctor from the search/filter results
+        //view all details of selected doctor including specilaty, affiliation (hospital), educational background
+
+        if (req.session.userType != 'patient') {
+            return res.status(400).send("Only patients can access this.")
+        }
+        const doctor = await userModel.findOne({ _id: req.params.id })
+        let discountRate = 0;
+        let user = await userModel.findById(req.session.userId);
+        if (user?.healthPackage != undefined) {
+            let userHealthPackage = await healthPackageModel.findById(user?.healthPackage);
+            discountRate = userHealthPackage.discountSession;
+        }
+        res.render('viewOneDoctor', { doctor, discountRate });
+    },
+    searchDoctors: async (req, res) => {
+        //38,39
+        //search for a doctor by name and/or speciality and/or availability on a certain date and at a specific time
+
+        if (req.session.userType != 'patient') {
+            return res.status(400).send("Only patients can access this.")
+        }
+
+        let docname = req.body.docname
+        let docSpeciality = req.body.speciality
+        let theDate = req.body.date + ":00.000Z"
+        if (docname == "")
+            docname = "All"
+        // if(theDate=="" || theTime==""){
+        //     console.log("empyty date")
+        // }
+        // console.log(docname)
+        // console.log(docSpeciality)
+        // console.log(theDate)
+        // console.log(theTime)
+        let docs = []
+        try {
+            //first we get the possible queries without considering date and time (just filtering doctors name and/or speciality)
+            if (docSpeciality == "All" && docname == "All") {
+                // all doctors
+                docs = await userModel.find({ type: 'doctor', acceptanceStatus: 'accepted' })
+            }
+            else if (docSpeciality == "All" && docname != "All") {
+                // all doctors with this name
+                docs = await userModel.find({ name: docname, type: 'doctor', acceptanceStatus: 'accepted' })
+            }
+            else if (docSpeciality != "All" && docname == "All") {
+                // all doctors with this speciality
+                docs = await userModel.find({ type: 'doctor', speciality: docSpeciality, acceptanceStatus: 'accepted' })
+            }
+            else if (docSpeciality != "All" && docname != "All") {
+                // all doctors with this speciality with this name
+                docs = await userModel.find({ name: docname, type: 'doctor', speciality: docSpeciality, acceptanceStatus: 'accepted' })
+            }
+
+
+            // if the patient asks for a specific date and time for a doctor to be available
+            if (docs != [] && theDate != ":00.000Z") {
+                console.log(theDate)
+                theDate = new Date(theDate)
+                // const dateNtime = new Date(theDate);
+                // console.log(dateNtime)
+                const docsWithAppts = await appointmentsModel.find({ start: { $lte: theDate }, end: { $gte: theDate } })
+                for (let i = 0; i < docsWithAppts.length; i++) {
+                    const docsUsername = docsWithAppts[i].doctorUsername;
+                    docs = docs.filter((user) => user.username != docsUsername);
+                }
+            }
+
+            let discountRate = 0;
+            let user = await userModel.findById(req.session.userId);
+            if (user?.healthPackage != undefined) {
+                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage);
+                discountRate = userHealthPackage.discountSession;
+            }
+            res.render('patientDoctor', { docs, discountRate });
+
+            // if(docs==[])
+            //     return "no doctors found matching this search"
+        } catch (error) {
+            res.status(400).json({ err: error.message })
+        }
+
+    },
+    viewDoctors: async (req, res) => {
+        //37
+        //As a **patient I should be able to view a list of all doctors along with their specialty, 
+        //session price (based on subscribed health package if any).**
+        //Session price is calculated as ( doctor’s rate + 10% clinic's markup  - some discount  (Based on patient's health package if any))
+        if (req.session.userType != 'patient') {
+            return res.status(400).send("Only patients can access this.")
+        }
+
+        try {
+            let discountRate = 0;
+            let docs = await userModel.find({ type: 'doctor', acceptanceStatus: 'accepted' })
+            let user = await userModel.findById(req.session.userId);
+            if (user?.healthPackage != undefined) {
+                let userHealthPackage = await healthPackageModel.findById(user?.healthPackage);
+                discountRate = userHealthPackage.discountSession;
+            }
+            res.render('patientDoctor', { docs, discountRate });
+        } catch (error) {
+            res.status(400).json({ err: error.message })
+        }
+
+    },
     reschedulePatientAppointment: async (req, res) => {
         try {
             const { appointmentId, newDate, newStartTime, newEndTime } = req.body;
