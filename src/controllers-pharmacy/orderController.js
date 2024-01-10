@@ -19,8 +19,8 @@ module.exports = {
     },
     getOrderTotal: async (req,res) => {
         try {
-           // const userId= req.session.userId;
-            const userId = "656ce9c8b124eef75091fb39";
+            const userId= req.session.userId;
+            //const userId = "656ce9c8b124eef75091fb39";
 
             const user= await userModel.findById(userId)
             const cart= user.cart
