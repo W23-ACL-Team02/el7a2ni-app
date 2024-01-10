@@ -2,6 +2,7 @@ import axios from 'axios'
 import {React,useState,useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import SelectedPrescriptions from './SelectedPrescriptions'
+const baseURL = process.env.REACT_APP_SERVER_URL
 
 const styles = {
   table: {
@@ -48,7 +49,7 @@ export default function ViewPrescriptions() {
     
 
     useEffect(()=>{
-            axios.get(`http://localhost:3000/clinic/private/patient/prescription/viewprescription`).then((result)=>{
+            axios.get(`${baseURL}/clinic/private/patient/prescription/viewprescription`,{withCredentials:true}).then((result)=>{
             setPrescriptions(result.data.prescriptions)
             setUniqueDoctorNames(result.data.uniqueDoctorNames)
           })

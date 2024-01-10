@@ -40,7 +40,14 @@ const medicineSchema = new Schema({
   },   
   imageUrl: {
      type: Object,
-       }
+       },
+  archived: {
+    type: Boolean,
+    default: false,
+  },
+  dosage: {
+    type: String
+  }
 }, { timestamps: true,
   methods: {
     incrementSales(quantity) {

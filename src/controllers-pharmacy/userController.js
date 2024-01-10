@@ -224,6 +224,11 @@ module.exports = {
       if (result.modifiedCount < 1) {
         throw new Error(`Pharmacist ${_id} does not exist.`);
       }
+      //new
+      const user=await userModel.findById(_id)
+      user.setAcceptanceDate();
+      await user.save()
+      //new
   
       return res.status(200).json({successes: [`Successfully approved pharmacist ${_id}`]});
     } catch (error) {
@@ -257,6 +262,20 @@ module.exports = {
 				userId: user?._id,
 				userType: user?.type
 			}
+          //new: calculating pharmacist wallet upon logging in
+          if (user.type=='pharmacist'){
+            const acceptedDateString= user.acceptanceDate;
+            const acceptedDate= new Date(acceptedDateString);
+            const acceptedYear= acceptedDate.getFullYear();
+            const months= acceptedDate.getMonth()+1;
+            const currentDate= new Date(Date.now());
+            const currentYear=currentDate.getFullYear();
+            const totalMonths= ((currentYear-acceptedYear)*12) + months;
+            const walletamount= totalMonths * user.payRate;
+            await userModel.findByIdAndUpdate(user._id, {wallet: walletamount});
+            
+          }
+          //new
 
 			// const token = jwt.sign(payload, secret, {expiresIn: '1h'});
 			const token = jwt.sign(payload, secret);

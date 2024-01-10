@@ -11,7 +11,7 @@ router.get('/viewaddress', viewAddress);
 router.post('/chooseaddress/:id', chooseAddress);
 router.get('/vieworders', viewOrders);
 router.post('/cancelorder/:id', cancelOrder);
-router.post('/placeorder', placeOrder);
+router.post('/placeorder', placeOrder); 
 router.get("/getCart", getCart);
 
 module.exports = router;

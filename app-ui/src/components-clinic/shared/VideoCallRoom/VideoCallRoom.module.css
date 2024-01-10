@@ -1,0 +1,65 @@
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+}
+
+.video_container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	justify-content: space-between;
+	align-content: center;
+	margin-top: 0rem;
+	margin-left: 0rem;
+}
+
+.video_container .video{
+	width: 700px;
+	height: 600px;
+	margin : 5px;
+}
+
+.call_container {
+	display: flex;
+	flex-direction: row; 
+	width: 400px;
+	margin-top: 0rem;
+	border-radius: 4px;
+	background: white;
+	padding: 2rem;
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+}
+
+.call_container .UsersLabel {
+	width: 180px;
+	display: flex;
+	flex: row;
+	align-items: center;
+	justify-content: space-evenly;
+	align-content: center;
+}
+
+.call_container .OnlineUsers {
+	width: 180px;
+}
+
+.call_container .call_button {
+	position: relative;
+	margin-top: 50px;
+	margin-left: 20px;
+	text-align: center;
+}
+
+.caller {
+	width: 500px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin: 10px;
+	text-align: center;
+	color: #fff;
+}

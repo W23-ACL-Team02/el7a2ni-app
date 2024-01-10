@@ -26,7 +26,6 @@ module.exports = {
     payByWallet :  async (req, res) => {
         let status
         const totalPrice = req.body.totalPrice;
-    
         const patientID = req.session.userId;
         try{
             const patient = await userModel.findOne({_id: patientID})
@@ -52,7 +51,7 @@ module.exports = {
     },
     getAllSelectedMedicine : async (req, res) => {
         //const medicine = req.query.medicine;
-        const currUserID = req.session.userId;
+       const currUserID = req.session.userId;
         try{
             const AllHealthPackages = await healthPackageModel.find();
             const AllMedicine = await medicineModel.find(); 
