@@ -3,6 +3,7 @@ import axios from 'axios';
 const { useLocation } = require("react-router-dom")
 import Card from '../../components-main/Card'
 import { useNavigate } from "react-router-dom";
+import PharmacistNavBar from '../../components-main/PharmacistNavBar';
 
 const serverURL = process.env.REACT_APP_SERVER_URL
 
@@ -44,7 +45,7 @@ const AddMedicine = () => {
     event.preventDefault();
   
     try {
-      const response = await axios.post(`${serverURL}/pharmacy/private/medicine/add`, {
+      const response = await axios.post(`${serverURL}/pharmacy/private/pharmacist/medicine/add`, {
         name: name,
         details: details,
         activeIngredients: activeIngredients,
@@ -63,6 +64,7 @@ const AddMedicine = () => {
 
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center'}}>
+      <PharmacistNavBar />
       <button style={{height: 60, width: 120, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, fontSize: 20}} onClick={() => {navigate(-1)}}>
       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6M12 5l-7 7 7 7"/></svg>      Back</button>
       <Card height={450} width={400}>
@@ -96,7 +98,7 @@ const AddMedicine = () => {
             <label htmlFor="dosage" style={{marginRight: 10, fontSize: 20}}>Dosage</label>
             <input type="dosage" id="dosage" value={dosage} onChange={handleDosageChange} required />
           </div>
-          <button style={{height: 60, width: 160, fontSize: 20}} onClick={() => {navigate('/uploadMedicineImage')}}>Edit Image</button>
+          <button style={{height: 60, width: 160, fontSize: 20}} onClick={() => {navigate('/uploadMedicineImage')}}>Add Image</button>
           <button type="submit" style={{height: 60, width: 160, fontSize: 20}}>Add Medicine</button>
         </form>
       </Card>

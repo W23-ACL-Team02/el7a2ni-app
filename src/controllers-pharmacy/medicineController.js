@@ -77,21 +77,20 @@ module.exports = {
             res.status(400).json({err:error.message});
         }
     },
-    deleteMedicine: async (req, res) => {
-        const name = req.body.name;
+    removeMedicine: async (req, res) => {
+        const medicineId = req.body.medicineId;
         
         try {
             //check if name exists
-            const exists = await medicineModel.find({name: name})
-            if (exists == null){
-                res.status(400).send(`${name} is not in the database`);
+            const exists = await medicineModel.findById(medicineId)
+            if (!exists){
+                res.status(400).send(`Medicine does not exist`);
                 return
             }
-            
-            const deletedMedicine = await medicineModel.deleteOne({name: name})
-            res.status(200).send(`Deleted ${name} successfully`)
+            const deletedMedicine = await medicineModel.deleteOne({_id: medicineId})
+            res.status(200).json({successes: [`Removed medicine successfully`]})
         } catch (error) {
-            res.status(400).json({err:error.message});
+            res.status(400).json([{errors: error.message}]);
         }
     },
     nukeMedicineDB: async (req, res) => {    
