@@ -34,7 +34,7 @@ const HealthPackageCheckout = () => {
 
 
      const getCurrUser =  async () => {
-        const response = await axios.get(`${serverURL}/private/user/getSelfUser`, {withCredentials:true})
+        const response = await axios.get(`${serverURL}/clinic/private/user/getSelfUser`, {withCredentials:true})
         const user = response.data;
         setCurrUser(user);
         return user;     
@@ -55,7 +55,7 @@ const HealthPackageCheckout = () => {
 //{packageID: "655ffa2f8066173be32d7373", patientID: "6548f2293575471b2b1d3547", patientType: "created"}]
 
     const getAllSelectedHealthPackages =  async (packages) => {
-        await axios.get(`${serverURL}/private/payment/getAllSelectedHealthPackages`, {
+        await axios.get(`${serverURL}/clinic/private/payment/getAllSelectedHealthPackages`, {
             params: { packages: packages}, 
             withCredentials:true})
             .then(
@@ -69,7 +69,7 @@ const HealthPackageCheckout = () => {
     const payByCard = async token => {
         try {
             const response = await axios({
-                url: `${serverURL}/private/payment/payByCard`,
+                url: `${serverURL}/clinic/private/payment/payByCard`,
                 method: 'post',
                 data: {
                     amount: Math.ceil(selectedHealthPackages?.totalPrice * 100),
@@ -93,7 +93,7 @@ const HealthPackageCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : selectedHealthPackages?.totalPrice}, {withCredentials:true})
+        await axios.post(`${serverURL}/clinic/private/payment/payByWallet`, {totalPrice : selectedHealthPackages?.totalPrice}, {withCredentials:true})
             .then((res) =>{
                 console.log(res)
                 if(res.data === "success"){
@@ -127,7 +127,7 @@ const HealthPackageCheckout = () => {
     const subscribe = async (packageId) => {
         console.log('subscribing to package: ' + packageId)
         if (member.selectedMember == 'Myself'){
-          await axios.post(`${serverURL}/private/patient/healthPackage/subscribe`, {packageId: packageId}, {withCredentials: true}).then(
+          await axios.post(`${serverURL}/clinic/private/patient/healthPackage/subscribe`, {packageId: packageId}, {withCredentials: true}).then(
           (res) => {
               console.log("subscribed for myself")
           }).catch((error) => {
@@ -135,7 +135,7 @@ const HealthPackageCheckout = () => {
           });
         }
         else{
-            await axios.post(`${serverURL}/private/family/subscribe`, {packageId: packageId, memberId: member.packageID, memberType: member.type}, {withCredentials: true}).then(
+            await axios.post(`${serverURL}/clinic/private/family/subscribe`, {packageId: packageId, memberId: member.packageID, memberType: member.type}, {withCredentials: true}).then(
             (res) => {
               console.log(res.data)
               // console.log('unsubbed array after subbing')

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ErrorBox from './ErrorsBox'
 import {useNavigate} from 'react-router-dom'
+import socket from '../socketManager.js'
 
 const baseURL = process.env.REACT_APP_SERVER_URL
 
@@ -14,13 +15,14 @@ export default function Login({loggedIn}) {
     const onButtonClick = () => {
         // Make call to backend
         axios
-            .post(`${baseURL}/public/user/login`, {username, password}, {withCredentials:true})
+            .post(`${baseURL}/clinic/public/user/login`, {username, password}, {withCredentials:true})
             .then((response) => {
                 setErrors([]);
                 if(response.data.pendingContract=='pendingcontract'){
                     navigate('/contractpage') 
                 }
                 else{
+                    //socket.emit('setUsername', username);
                     navigate('/home')
                 }
             })

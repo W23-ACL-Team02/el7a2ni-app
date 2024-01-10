@@ -25,7 +25,7 @@ const MedicineCheckout = () => {
 
     const getAllSelectedMedicine =  async () => {
     try{
-        const response = await axios.get(`${serverURL}/private/payment/getAllSelectedMedicine`, {withCredentials:true}) 
+        const response = await axios.get(`${serverURL}/pharmacy/private/payment/getAllSelectedMedicine`, {withCredentials:true}) 
         const selectedMedicine = response.data
         setselectedMedicine(selectedMedicine)
         console.log(selectedMedicine)
@@ -37,7 +37,7 @@ const MedicineCheckout = () => {
     const payByCard = async token => {
         try {
             const response = await axios({
-                url: `${serverURL}/private/payment/payByCard`,
+                url: `${serverURL}/pharmacy/private/payment/payByCard`,
                 method: 'post',
                 data: {
                     amount: selectedMedicine?.totalPrice *100,
@@ -47,7 +47,7 @@ const MedicineCheckout = () => {
             });
             if(response.data === "success"){
                 console.log('your payment was successful')
-                placeOrder()
+                placeOrder({COD:false})
                 sendEmailwithReceipt()
                 navigate("/checkout-success")
             }else{
@@ -61,12 +61,12 @@ const MedicineCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : selectedMedicine?.totalPrice}, {withCredentials:true}).then(
+        await axios.post(`${serverURL}/pharmacy/private/payment/payByWallet`, {totalPrice : selectedMedicine?.totalPrice}, {withCredentials:true}).then(
             (res) =>{
                 console.log(res)
                 if(res.data === "success"){
                     console.log('your payment was successful')
-                    placeOrder()
+                    placeOrder({COD: false})
                     sendEmailwithReceipt()
                     navigate("/checkout-success")
                 }else{
@@ -79,7 +79,7 @@ const MedicineCheckout = () => {
     }
 
     const payByCash = async() => {
-        placeOrder()
+        placeOrder({COD: true})
         sendEmailwithReceipt()
         navigate("/checkout-success")
     }
@@ -100,12 +100,13 @@ const MedicineCheckout = () => {
             }  
     }
 
-    const placeOrder = async() => {
+    const placeOrder = async(COD) => {
         try{
             const response = await axios({
                 method:'post',
-                url:`${serverURL}/private/patient/order/placeOrder`,
-                withCredentials:true
+                url:`${serverURL}/pharmacy/private/patient/order/placeOrder`,
+                withCredentials:true,
+                data: COD
             })
         }catch(error){
             console.log(error)
@@ -140,7 +141,7 @@ const MedicineCheckout = () => {
         try{
             await axios({
                 method:'post',
-                url:`${serverURL}/private/email/sendEmail`, 
+                url:`${serverURL}/pharmacy/private/email/sendEmail`, 
                 data: {subject, html},
                 withCredentials: true })
                 .then((res) => {

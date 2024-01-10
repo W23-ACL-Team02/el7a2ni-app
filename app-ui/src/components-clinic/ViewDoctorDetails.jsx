@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import '../css/newTable.css'
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const ViewDoctorDetails = () => {
-  const doctorId = localStorage.getItem('doctorId');
+  const [doctorId,setDoctorId] = useState("");
   const [discountRate, setDiscountRate] = useState(0);
   const [familyArray, setFamilyArray] = useState([]);
   const [patientUsername, setPatientUsername] = useState(familyArray.length > 0 ? familyArray[0].ID : null);
   const [doctorVar, setDoctorVar] = useState(null);
   const [selectedAppointmentStartTime, setSelectedAppointmentStartTime] = useState(null);
-
+  const navigate = useNavigate()
+  
   useEffect(() => {
+    setDoctorId(localStorage.getItem('doctorId'));
     const fetchDoctorDetails = async () => {
       try {
         if (doctorId) {
@@ -37,7 +41,9 @@ const ViewDoctorDetails = () => {
     console.log(`Book Now clicked for ${date}, ${startTime} to ${endTime}`);
     setSelectedAppointmentStartTime(startTime);
 
-    try {
+    const data = {selectedAppointmentStartTime: startTime, doctor: doctorVar}
+    navigate( "/appointment-payment", {state: data}); // new line
+    // try {
 
       console.log('Start Time: ',selectedAppointmentStartTime);
       console.log('Pat username: ',patientUsername);
@@ -57,16 +63,16 @@ const ViewDoctorDetails = () => {
         }
       );
   
-      console.log('Response:', response.data);
+    //   console.log('Response:', response.data);
   
-    } catch (error) {
-      console.error(error.message);
-    }
+    // } catch (error) {
+    //   console.error(error.message);
+    // }
   };
 
   return (
-    <div>
-      <style>
+    <div style={{display:"flex", flexDirection:"column" ,alignItems:"center", justifyContent:"center", alignContent:"center", marginTop:"80px"}}>
+      {/* <style>
         {`
           .doctor-details-container {
             font-family: 'Arial', sans-serif;
@@ -102,37 +108,38 @@ const ViewDoctorDetails = () => {
             cursor: pointer;
           }
         `}
-      </style>
+      </style> */}
       <h1>Doctor {doctorVar?.name}'s details</h1>
       <p>Speciality: {doctorVar?.speciality}</p>
-      <p>Session Price: {Math.round(doctorVar?.payRate * 1.1 * (1 - discountRate))}€</p>
+      <p>Session Price: {Math.round(doctorVar?.payRate * (1 - discountRate) *1.1)}€</p>
       <p>Graduated from: {doctorVar?.education.name} in {doctorVar?.education.endYear} </p>
       <p>Affiliated With: {doctorVar?.affiliation} </p>
-      <h2>Time Slots: ({Math.round(doctorVar?.payRate * 1.1 * (1 - discountRate))}€ per session)</h2>
-      <table className="time-slots-table">
-        <thead>
-          <tr>
-            <th>Actions</th>
-            <th>Date</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {doctorVar?.timeSlots.map((timeSlot, index) => (
-            <tr key={index}>
-              <td>
-                <button className="book-now-button" onClick={() => handleBooking(timeSlot.date, timeSlot.startTime, timeSlot.endTime, patientUsername)}>
-                  Book Now!
-                </button>
-              </td>
-              <td>{new Date(timeSlot.date).toLocaleDateString('de-DE')}</td>
-              <td>{new Date(timeSlot.startTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</td>
-              <td>{new Date(timeSlot.endTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</td>
+      <h2>Time Slots: ({Math.round(doctorVar?.payRate * (1 - discountRate) *1.1)}€ per session)</h2>
+      <div className="TableContainer" style={{width:"500px", height:"300px"}}>
+        <table>
+          <thead>
+            <tr>
+              <th>Actions</th>
+              <th>Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {doctorVar?.timeSlots.map((timeSlot, index) => (
+              <tr key={index}>
+                <td>
+                  <button className="book-now-button" onClick={() => handleBooking(timeSlot.date, timeSlot.startTime, timeSlot.endTime)}>
+                    Book Now!
+                  </button>
+                </td>
+                <td>{new Date(timeSlot.date).toLocaleDateString('en-DE')}</td>
+                <td>{new Date(timeSlot.startTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</td>
+                <td>{new Date(timeSlot.endTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         {familyArray.length > 0 && (
         <div>
           <h2>Family Members:</h2>
@@ -152,6 +159,7 @@ const ViewDoctorDetails = () => {
       {selectedAppointmentStartTime && (
         <p>Selected Appointment Start Time: {new Date(selectedAppointmentStartTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</p>
       )}
+    </div>
     </div>
   );
 };
