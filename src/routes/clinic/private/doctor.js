@@ -1,6 +1,6 @@
 const express = require("express");
 var router = express.Router({mergeParams: true});
-const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords } = require('../../../controllers-clinic/doctorCont');
+const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords, viewRequestedFollowUps, respondToRequestedFollowUps } = require('../../../controllers-clinic/doctorCont');
 const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../../controllers-clinic/doctorController.js')
 const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors, reschedulePatientAppointment,cancelPatientAppointment,notCompletedDoctorAppointments } = require('../../../controllers-clinic/doctorController.js');
 const { addPrescriptionView,getPrescriptions,addPrescriptionByDoctor } = require('../../../controllers-clinic/prescriptionController.js');
@@ -27,6 +27,10 @@ router.get("/selectFollowUpMenu", selectFollowUpMenu)
 router.post("/scheduleFollowUp", scheduleFollowUp)
 router.post("/addHealthRecords", addHealthRecords)
 router.get("/appointments", getAppointments)
+
+// new routes
+router.get("/viewRequestedFollowUps", viewRequestedFollowUps);
+router.post("/viewRequestedFollowUps", respondToRequestedFollowUps);
 
 // ? Add all the rest under /doctor/user router?
 router.get("/getAllPatients", getPatients)
