@@ -2,7 +2,7 @@ const express = require("express");
 var router = express.Router({mergeParams: true});
 const { viewContract, acceptContract, rejectContract, selectFollowUpMenu, scheduleFollowUp, addHealthRecords, viewRequestedFollowUps, respondToRequestedFollowUps } = require('../../../controllers-clinic/doctorCont');
 const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../../controllers-clinic/doctorController.js')
-const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors, reschedulePatientAppointment,cancelPatientAppointment,notCompletedDoctorAppointments } = require('../../../controllers-clinic/doctorController.js');
+const { addTimeSlot, editDoctor, viewHealthRecords, reschedulePatientAppointment,cancelPatientAppointment,notCompletedDoctorAppointments } = require('../../../controllers-clinic/doctorController.js');
 const { addPrescriptionView,getPrescriptions,addPrescriptionByDoctor } = require('../../../controllers-clinic/prescriptionController.js');
 const authorizeUser = require('../../../middleware/authorizeUser');
 
@@ -39,9 +39,8 @@ router.get("/getAllPatients", getPatients)
 router.get("/getByName", getPatientbyName)
 router.get("/patient/:id", getPatientbyId)
 
-router.get('/viewDoctors', viewDoctors); // TODO: Remove/Update endpoint? 
-router.post('/searchDoctors', searchDoctors); // TODO: Remove/Update endpoint?
-router.get('/viewDoctorDetails/:id', viewDoctorDetails); // TODO: Remove/Update endpoint?
+// removed viewDoctors, searchDoctors, viewDoctorDetails endpoints as they are used in patient.js
+
 router.put('/api/editDoctor', editDoctor);
 router.post('/addTimeSlots', addTimeSlot);
 router.post('/api/viewHealthRecords', viewHealthRecords);
