@@ -45,6 +45,9 @@ const medicineSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  dosage: {
+    type: Number
+  }
 }, { timestamps: true,
   methods: {
     incrementSales(quantity) {

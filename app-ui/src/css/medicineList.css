@@ -1,35 +1,22 @@
-/* Center tables for demo
-table {
-  margin: 0 auto;
-  margin-top: 0 ;
-  position: relative;
-}
 
-#wrapper {
-
-  background-color:#EDEDED;
-  margin: 0 auto;
-  margin-top: 0 ;
-  padding-top: 130px;
-  min-height: 100vh;
-  min-width: 100%;
-  /* will contain if #first is longer than #second */
-
-#address-container{
-
-  background-color:#EDEDED;
-  
- text-align: center;
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Default Table Style */
-/* table {
+table {
   color: #333;
   background: white;
   border: 1px solid grey;
   font-size: 12pt;
-  border-collapse: collapse;
+  border-style: none;
   border-radius: 15px;
+  margin-top: 10px;
+  justify-self: center;
+  align-self: center;
 }
 table thead th,
 table tfoot th {
@@ -42,8 +29,8 @@ table caption {
 table th,
 table td {
   padding: .5em;
-  border: 1px solid lightgrey;
-}*/
+  border-style: none;
+}
 
 .button-container{
   display: flex;
@@ -54,13 +41,13 @@ table td {
   justify-content: center;
 
 }
-#button{
+table button{
 
 
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 170px;
+  width: 80px;
   height: 40px;
   color: #fff;
   font-size: 19px;
@@ -70,7 +57,7 @@ table td {
   border:none;
   border-radius: 15px;
 
-}*/
+}
 
 #buttonsmall{
   display: flex;
@@ -86,4 +73,4 @@ table td {
   border:none;
   border-radius: 15px;
 
-} 
+}

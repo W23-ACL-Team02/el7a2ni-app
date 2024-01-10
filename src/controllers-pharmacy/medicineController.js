@@ -61,7 +61,7 @@ module.exports = {
         }
     },
     editMedicine: async (req, res) => {
-        var {id, name, details, category, activeIngredients, quantity, price} = req.body;
+        var {id, name, details, category, activeIngredients, quantity, price, dosage} = req.body;
         var splitIngredients = activeIngredients.split("|")
         var jsonIngredients = "["
         for (let index = 0; index < splitIngredients.length; index++) {
@@ -70,7 +70,7 @@ module.exports = {
         jsonIngredients = jsonIngredients.substring(0, jsonIngredients.length - 1) + "]"
         activeIngredients = JSON.parse(jsonIngredients)
         try {
-            const updatedMedicine = await medicineModel.findOneAndUpdate({_id: id}, {_id: id, name, details, category, activeIngredients, quantity, price})
+            const updatedMedicine = await medicineModel.findOneAndUpdate({_id: id}, {_id: id, name, details, category, activeIngredients, quantity, price, dosage})
             await updatedMedicine.save()
             res.status(200).send(`Updated ${name} successfully`)
         } catch (error) {
@@ -104,8 +104,8 @@ module.exports = {
     },
     findMedicine: async (req, res) => { 
         var searchKey = '';
-        if (req.query.search){
-            searchKey = req.query.search
+        if (req.query.searchKey){
+            searchKey = req.query.searchKey
         }
     
         try {
@@ -152,7 +152,7 @@ module.exports = {
         }
     },
     viewMedicine: async (req, res) => {
-        const id = new mongoose.Types.ObjectId(req.query.id)
+        const id = new mongoose.Types.ObjectId(req.body.medicineId)
         
         try {
             const medicine = await medicineModel.findOne({_id: id})
@@ -167,12 +167,12 @@ module.exports = {
             activeIngredientsString = activeIngredientsString.substring(0, activeIngredientsString.length - 1) //for the extra | at the end
             medicine._doc.activeIngredients = activeIngredientsString
     
-            res.render("editMedicine", {"medicine": medicine})
+            res.status(200).json({"medicine": medicine})
         } catch (error) {
-            res.status(400).json({err:error.message});
+            res.status(400).json({errors:[error.message]});
         }
     },
-    findByIngredient: async (req, res) => { 
+    findByIngredient: async (req, res) => {
         const name = req.body.name
         try {
             const medicine = await medicineModel.find({activeIngredients: {name: {$regex: String(name), $options: 'i'}}})
