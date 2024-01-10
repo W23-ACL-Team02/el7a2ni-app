@@ -24,7 +24,7 @@ const UploadMedicineImage = () => {
     formData.append('medicineImg', medicineImg);
 
     try {
-      const response = await axios.post(`${baseURL}/private/medicine/uploadMedImg`, formData, {
+      const response = await axios.post(`${baseURL}/pharmacy/private/medicine/uploadMedImg`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }, 
