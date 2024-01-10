@@ -158,6 +158,7 @@ const ViewDoctorDetails = () => {
       )}
       {selectedAppointmentStartTime && (
         <p>Selected Appointment Start Time: {new Date(selectedAppointmentStartTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</p>
+>>>>>>> a55c048ef8e5bd9f8dc6ad856bfed7b9a7c02ef7
       )}
       {selectedAppointmentStartTime && (
         <p>Selected Appointment Start Time: {new Date(selectedAppointmentStartTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</p>
