@@ -85,36 +85,49 @@
     border-radius: 15px;
   
   }
-
-  #address-container{
-
-    
-    
-   text-align: center;
-  }
-  .button-container{
+  .appointment-list {
     display: flex;
-    gap: 10px;
-    margin: 30px auto;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-  
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust spacing between appointment blocks */
   }
-  #button{
   
-  
+  /* Appointment container */
+  .appointment-container {
+    flex-grow: 1;
+    flex-basis: calc(66.33% - 20px); /* Adjust width as needed */
+    margin-bottom: 20px; /* Adjust margin between appointment blocks */
+    align-content: center;
+    width: 550px;
+  }
+  /*  */
+  /* .appointment-container {
+    width: 100%; /* Take the entire width of the row */
+    /* margin-bottom: 20px; 
+  } */ */
+  /* Medicine info */
+.appointment-info {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 170px;
-    height: 40px;
-    color: #fff;
-    font-size: 19px;
-    font-weight: 500;
-    cursor: pointer;
-    background-color:#0a0a23;
-    border:none;
-    border-radius: 15px;
-  
+    flex-direction: row;
   }
+  
+  .appointment-info p {
+    margin: 5px 0;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Adjust as needed */
+  }
+  
+  .form input,
+  .form button {
+    margin-bottom: 15px; /* Add spacing between input fields and button */
+  }
+  
