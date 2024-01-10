@@ -1,16 +1,16 @@
 const express = require("express");
 var router = express.Router({mergeParams: true});
-const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords } = require('../../../controllers-clinic/doctorCont');
+const { viewContract, acceptContract, rejectContract, selectFollowUpMenu, scheduleFollowUp, addHealthRecords, viewRequestedFollowUps, respondToRequestedFollowUps } = require('../../../controllers-clinic/doctorCont');
 const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../../controllers-clinic/doctorController.js')
 const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors } = require('../../../controllers-clinic/doctorController.js');
 const authorizeUser = require('../../../middleware/authorizeUser');
 
-router.all("*", (req, res, next) => {
-  // Ensure doctor
-  if (!authorizeUser(req, res, ["doctor"])) return;
+// router.all("*", (req, res, next) => {
+//   // Ensure doctor
+//   if (!authorizeUser(req, res, ["doctor"])) return;
 
-  next();
-})
+//   next();
+// })
 
 // ? Add under /doctor/contract router?
 router.get("/viewContract", viewContract);
@@ -20,6 +20,12 @@ router.put("/rejectContract", rejectContract);
 // ? Add under /doctor/appointment router?
 router.get("/selectFollowUpMenu", selectFollowUpMenu)
 router.post("/scheduleFollowUp", scheduleFollowUp)
+
+//
+router.get("/viewRequestedFollowUps", viewRequestedFollowUps)
+router.post("/respondToRequestedFollowUps", respondToRequestedFollowUps)
+
+//
 router.post("/addHealthRecords", addHealthRecords)
 router.get("/appointments", getAppointments)
 

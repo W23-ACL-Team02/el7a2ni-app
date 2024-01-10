@@ -154,29 +154,66 @@ module.exports = {
             res.status(400).json({error: error.message})
         }
     }
+    ,
+    viewRequestedFollowUps : async (req, res) => {
+        
+        // 65
+        // accept or revoke a follow-up session request from a patient
+        try{
+            // let docUsername = 'doctor1'
+            // let patUsername = 'patient1'
+            // let date1 = new Date(Date.now());
+            // let date2 = new Date(date1.getTime() + 60 * 60 * 1000);
+            // console.log(await userModel.find({username:'patient1'}))
+            // console.log(await appointmentsModel.find({patientUsername:'patient1'}))
+            // let pendingAppts = await appointmentsModel.find({doctorUsername:docUsername})
+            // const nextAppointment =  new appointmentsModel({
+            //     doctorUsername : docUsername,
+            //     patientUsername: patUsername,
+            //     date: date1,
+            //     status: 'pending', 
+            //     start: date1, 
+            //     end: date2,
+            //     requestFrom: 'patient',
+            // });
+            // await nextAppointment.save();
+            let docUsername = (await userModel.findById(req.session.userId)).username
+            let pendingAppts = await appointmentsModel.find({doctorUsername:docUsername,requestFrom:'patient',status:'pending'})
+            let patientNames = []
+            for(let i=0 ; i<pendingAppts.length ; i++){
+                let patientUsername = pendingAppts[i].patientUsername
+                console.log(patientUsername)
+                let patname = (await userModel.findOne({username:patientUsername})).name
+                patientNames.push(patname)
+            }
+            res.status(200).json({pendingAppts,patientNames});
+            // console.log(pendingAppts)
+        }catch(error){
+            res.status(400).json({error: error.message});
+        }
+
+
+    }
+    ,
+    respondToRequestedFollowUps : async (req, res) => {
+
+        // 65
+        // accept or revoke a follow-up session request from a patient
+        try{
+            let apptID = req.body.appointmentID;
+            if(req.body.followUpStatus=='accept'){
+                await appointmentsModel.updateOne({_id:apptID},{status:"upcoming"});
+            }
+            else if(req.body.followUpStatus=='reject'){
+                await appointmentsModel.updateOne({_id:apptID},{status:"cancelled"});
+            }
+
+            res.status(200);
+        }catch(error){
+            res.status(400).json({error: error.message});
+        }
+    }
 }
 
 
 
-
-
-
-
-
-// console.log('dghfhdhhdhd')
-        // let docid = (await userModel.findOne({username:emzaydoc}))._id
-        // req.session.userId = docid
-        // req.session.userType = 'doctor'
-        // const newdoc = new userModel({
-        //     username: 'emzaydoc',
-        //     type: 'doctor',
-        //     name: 'Mohamed Zakaria',
-        //     email: 'mz2003@gmail.com',
-        //     password: 'Wlll-aaa123',
-        //     gender: 'male',
-        //     payRate: 666,
-        //     education: {name:'ain shams',endyear:2003},
-        //     speciality: 'Cardiologist',
-        //     acceptanceStatus: 'pendingcontract'
-        // });
-        // await newdoc.save();

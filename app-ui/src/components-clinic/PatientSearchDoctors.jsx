@@ -19,7 +19,7 @@ const PatientSearchDoctors = () => {
       try {
 
         const response = await axios({ method: 'get',
-        url: 'http://localhost:3000/private/patient/viewDoctors',
+        url: 'http://localhost:3000/clinic/private/patient/viewDoctors',
         withCredentials: true})
         
         setDoctorList(response.data.docs);
@@ -40,7 +40,7 @@ const PatientSearchDoctors = () => {
 
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/private/patient/searchDoctors',
+        url: 'http://localhost:3000/clinic/private/patient/searchDoctors',
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const PatientSearchDoctors = () => {
 
   const handleDocView = (doctorId) => {
     localStorage.setItem('doctorId', doctorId);
-    navigate('/viewdocdetails');
+    navigate('/ViewDoctorDetails');
   };
 
   const specialities = ['General Practitioner', 'Cardiologist', 'Neurologist', 'Dermatologist', 'Surgeon', 'Ophthalmologist', 'Optometrist', 'Pediatrician', 'Family Medicine', 'Radiologist', 'Psychiatrist', 'Anesthesiologist'];

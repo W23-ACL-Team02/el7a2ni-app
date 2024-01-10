@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const ViewDoctorDetails = () => {
   const doctorId = localStorage.getItem('doctorId');
   const [discountRate, setDiscountRate] = useState(0);
+  const [familyArray, setFamilyArray] = useState([]);
+  const [patientUsername, setPatientUsername] = useState(familyArray.length > 0 ? familyArray[0].ID : null);
   const [doctorVar, setDoctorVar] = useState(null);
   const [selectedAppointmentStartTime, setSelectedAppointmentStartTime] = useState(null);
 
@@ -13,12 +16,13 @@ const ViewDoctorDetails = () => {
         if (doctorId) {
           const response = await axios({
             method: 'get',
-            url: `http://localhost:3000/private/patient/viewDoctorDetails/${doctorId}`,
+            url: `${baseURL}/clinic/private/patient/viewDoctorDetails/${doctorId}`,
             withCredentials: true,
           });
-
           setDoctorVar(response.data.doctor);
           setDiscountRate(response.data.discountRate);
+          setFamilyArray(response.data.patNfamily);
+          console.log(doctorVar , discountRate);
         }
       } catch (error) {
         console.error(error.message);
@@ -35,12 +39,15 @@ const ViewDoctorDetails = () => {
 
     try {
 
-      console.log('Selected Appointment:', selectedAppointmentStartTime);
+      console.log('Start Time: ',selectedAppointmentStartTime);
+      console.log('Pat username: ',patientUsername);
+      console.log('Doc username: ',doctorVar.username);
   
-      const response = await axios.post('http://localhost:3000/private/patient/bookAppointment',
+      const response = await axios.post(`${baseURL}/clinic/private/patient/bookAppointment`,
         {
-          timeSlotStartTime: selectedAppointmentStartTime,
+          patientUsername: patientUsername,
           doctorUsername: doctorVar.username,
+          timeSlotStartTime: selectedAppointmentStartTime,
         },
         {
           withCredentials: true,
@@ -115,19 +122,35 @@ const ViewDoctorDetails = () => {
           {doctorVar?.timeSlots.map((timeSlot, index) => (
             <tr key={index}>
               <td>
-                <button className="book-now-button" onClick={() => handleBooking(timeSlot.date, timeSlot.startTime, timeSlot.endTime)}>
+                <button className="book-now-button" onClick={() => handleBooking(timeSlot.date, timeSlot.startTime, timeSlot.endTime, patientUsername)}>
                   Book Now!
                 </button>
               </td>
-              <td>{new Date(timeSlot.date).toLocaleDateString('en-DE')}</td>
-              <td>{new Date(timeSlot.startTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</td>
-              <td>{new Date(timeSlot.endTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</td>
+              <td>{new Date(timeSlot.date).toLocaleDateString('de-DE')}</td>
+              <td>{new Date(timeSlot.startTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</td>
+              <td>{new Date(timeSlot.endTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</td>
             </tr>
           ))}
         </tbody>
       </table>
+        {familyArray.length > 0 && (
+        <div>
+          <h2>Family Members:</h2>
+          Selected Family member: 
+            <select
+              value={patientUsername}
+              onChange={(e) => setPatientUsername(e.target.value)}
+            >
+              {familyArray.map((familyMember) => (
+                <option key={familyMember.username} value={familyMember.username}>
+                  {familyMember.name} / Discount Rate: {familyMember.discount}
+                </option>
+              ))}
+            </select>
+        </div>
+      )}
       {selectedAppointmentStartTime && (
-        <p>Selected Appointment Start Time: {new Date(selectedAppointmentStartTime).toLocaleTimeString('en-DE', { hour: '2-digit', minute: '2-digit' })}</p>
+        <p>Selected Appointment Start Time: {new Date(selectedAppointmentStartTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</p>
       )}
     </div>
   );

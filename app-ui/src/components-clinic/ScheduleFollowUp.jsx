@@ -16,7 +16,7 @@ const ScheduleFollowUp = () => {
       try {
         const response = await axios({
           method: 'get',
-          url: 'http://localhost:3000/private/doctor/selectFollowUpMenu',
+          url: 'http://localhost:3000/clinic/private/doctor/selectFollowUpMenu',
           withCredentials: true,
         });
 
@@ -53,7 +53,7 @@ const ScheduleFollowUp = () => {
       console.log('Selected Patient:', selectedPatient);
       console.log('Selected Appointment:', selectedAppointment);
   
-      const response = await axios.post('http://localhost:3000/private/doctor/scheduleFollowUp',
+      const response = await axios.post('http://localhost:3000/clinic/private/doctor/scheduleFollowUp',
         {
           patName: selectedPatient,
           timeSlotStartTime: selectedAppointment,
