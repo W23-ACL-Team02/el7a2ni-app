@@ -81,7 +81,7 @@ This allows the doctor to finally accept/reject the follow-up appointment fetche
 * User in the token must be of type doctor.
 
 
-### Patient Searches/Filters
+### Patient Searches/Filters/Booking
 
 ### GET /clinic/private/patient/viewDoctors
 Retrieve a list of all doctors, including their specialties and session prices based on the subscribed health package (if any). The session price is calculated as follows: (doctor’s rate + 10% clinic's markup - discount based on the patient's health package).
@@ -105,7 +105,8 @@ Search for doctors based on their name, specialty, and availability on a certain
 ### POST /clinic/private/patient/filterDoctors/:id
 Select a doctor from the search/filter results to view all details, including specialty, affiliation (hospital), and educational background. Additionally, view all available appointments of the selected doctor.
 
-Params: id: Doctor's ID.
+**Body:**
+* it has a parameter /:id which is the selected doctors ID
 
 **Notes:**
 * Requires JWT as a cookie for authentication.
@@ -131,10 +132,10 @@ Retrieve a list of completed appointments for yourself and linked family members
 * User in the token must be of type doctor.
 
 ### GET /clinic/private/patient/PatientRequestFollowUp
-Request a follow-up to a previous appointment for yourself or a family member.
+using the data entered by the user to request a follow up for themselves or a family member
 
 **Body:**
-* apptID: ID of the previous appointment.
+* getting the previous appointment using the previous appointment ID.
 * apptDate: Date for the follow-up appointment.
 * duration: Duration of the follow-up appointment in minutes.
 
