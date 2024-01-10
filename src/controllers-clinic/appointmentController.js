@@ -1,6 +1,6 @@
 const userModel = require(`../models/user`);
 const appointmentModel = require(`../models/appointment`);
-const { createAppointmentNewNotif } = require("../handlers/notification/notificationHandler");
+const { createAppointmentNewNotif, createAppointmentCancelledNotif, createAppointmentRescheduledNotif } = require("../handlers/notification/notificationHandler");
 const healthPackageModel = require("../models/healthPackage");
 
 module.exports = {
@@ -214,6 +214,14 @@ module.exports = {
 
       await appointment.save();
 
+      try {
+        // Create notification
+        let doctor = await userModel.findOne({username: appointment.doctorUsername})
+
+        await createAppointmentRescheduledNotif(userId, doctor._id, appointment.start)
+      } catch (error) {
+          console.log(error)
+      }
 
       res.status(200).send("Appointment rescheduled successfully");
     } catch (error) {
@@ -306,6 +314,14 @@ module.exports = {
 
       await appointment.save();
 
+      try {
+        // Create notification
+        let doctor = await userModel.findOne({username: appointment.doctorUsername})
+
+        await createAppointmentRescheduledNotif(userId, doctor._id, appointment.start)
+      } catch (error) {
+          console.log(error)
+      }
 
       res.status(200).send("Appointment rescheduled successfully");
     } catch (error) {
@@ -343,6 +359,16 @@ module.exports = {
 
       await appointment.save();
       console.log("after appointment save")
+      
+      try {
+        // Create notification
+        let doctor = await userModel.findOne({username: appointment.doctorUsername})
+
+        createAppointmentCancelledNotif(userId, doctor._id, appointment.start)
+      } catch (error) {
+        console.log(error)
+      }
+      
       //TODO
       // refund if not less that 24 hrs
       const isMoreThan24Hours = appointment.isMoreThan24Hours();
@@ -442,6 +468,16 @@ module.exports = {
       appointment.status = 'cancelled';
 
       await appointment.save();
+
+      try {
+        // Create notification
+        let doctor = await userModel.findOne({username: appointment.doctorUsername})
+
+        createAppointmentCancelledNotif(userId, doctor._id, appointment.start)
+      } catch (error) {
+          console.log(error)
+      }
+
       //TODO
       // refund if not less that 24 hrs
       const isMoreThan24Hours = appointment.isMoreThan24Hours();
