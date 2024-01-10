@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import Select from 'react-select';
 import axios from 'axios';
-import PatientNavBar from '../../../components-main/PatientNavBar';
+import DoctorNavBar from '../../../components-main/DoctorNavBar';
 
 export default function Addprescription() {
 
@@ -119,7 +119,8 @@ export default function Addprescription() {
     
     <div>
       <div>
-      <PatientNavBar></PatientNavBar>
+      {/* <DoctorNavBar></DoctorNavBar> */}
+
       </div>
           <h2>Add Prescription</h2>
     <form method="POST">
@@ -159,9 +160,9 @@ export default function Addprescription() {
                       const dosages = medicines
                       .filter((medicine) => medicine.name === selectedOption.value)
                       .map((medicine) => ({ value: medicine.dosage, label: medicine.dosage }));
-              
+                      console.log(dosages);
                     setdosagesForSelectedMedicine(dosages);
-                      setdosagesForSelectedMedicine(dosages);
+                      // setdosagesForSelectedMedicine(dosages);
               }}
                 isSearchable
                 placeholder="Select Medicine"
