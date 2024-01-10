@@ -3,6 +3,7 @@ import axios from 'axios';
 const { useLocation } = require("react-router-dom")
 import Card from '../../components-main/Card'
 import { useNavigate } from "react-router-dom";
+import PharmacistNavBar from '../../components-main/PharmacistNavBar';
 
 const serverURL = process.env.REACT_APP_SERVER_URL
 
@@ -39,7 +40,6 @@ const EditMedicine = () => {
     } catch (error){
       setMessage('Couldn\'t fetch original data')
     }
-
   }
 
   const handleNameChange = (event) => {
@@ -68,7 +68,7 @@ const EditMedicine = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.put(`${serverURL}/pharmacy/private/medicine/edit`, {
+      const response = await axios.put(`${serverURL}/pharmacy/private/pharmacist/medicine/edit`, {
         id: state.medicineId,
         name: name,
         details: details,
@@ -87,6 +87,7 @@ const EditMedicine = () => {
 
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center'}}>
+      <PharmacistNavBar />
       <button style={{height: 60, width: 120, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, fontSize: 20}} onClick={() => {navigate(-1)}}>
       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6M12 5l-7 7 7 7"/></svg>      Back</button>
       <Card height={450} width={400}>
