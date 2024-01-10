@@ -1,26 +1,54 @@
 const cartModel = require('../models/cartItem');
 const userModel = require('../models/user');
 const medicineModel = require('../models/medicine');
+const prescriptionModel = require('../models/prescription');
 
 module.exports = {
     addToCart: async (req, res) => {
-        const { medicineId, quantity } = req.body;
-        
+        const {quantity, medicineId} = req.body;
+      //  const {medID}=req.body.medID;
+
         try {
             const userId = req.session.userId;
-            // const userId = "6573e1bab6a517c2e59f02da";
-            let user = await userModel.findOne({ _id: userId });
+             //const userId = "656ce9c8b124eef75091fb39";
+            
+            const user = await userModel.findOne({ _id: userId });
+            console.log(medicineId)
             let medicinef = await medicineModel.findOne({ _id: medicineId });
+          //  console.log(medicinef)
+            if (medicinef==null){
+               console.log(2);
+            }
             const medicine = await medicineModel.findById(medicinef._id)
             //const user= await userModel.findOne({_id:"6573e1bab6a517c2e59f02da"})
-    
+            console.log(quantity);
             if (user == null) {
                 throw new Error("User not found. Maybe Session timed out.")
             }
+            console.log(1);
+            if(medicine.isprescription){
+           //check if the medcine exists in the pstient prescriptions 
+           console.log(1);
+          // const prescribtion = await prescribtionModel.findOne({patient.name:user.name},medications[0].equals(medicine.name));
+           const prescription = await prescriptionModel.findOne({
+            'patient.name': user.name,
+            'medications.name': medicine.name
+          });
+            //const prescribtion = await prescribtionModel.findOne(patient.name.equals( user.name),medications[0].equals(medicine.name));
+            console.log(1);
+            if(prescription== null){
+                throw new Error("this medecine need prescription") 
 
+            }
+           
+        }  
             const cart = user.cart;
             const cartItemIndex = cart.findIndex(item => item.medicine._id == medicineId);
 
+           
+
+         
+          
             if (quantity > medicine.quantity){
                 return res.status(500).json({ error: "the pharmacy does not have all this quantity" });
             }
@@ -40,7 +68,7 @@ module.exports = {
                     { $set: { 'cart.$.quantity': user.cart[cartItemIndex].quantity + quantity } }
                 );
             
-                user = await userModel.findOne({ _id: userId });
+              //  user = await userModel.findOne({ _id: userId });
     
                 console.log("Updated quantity:", user.cart[cartItemIndex].quantity);
             } else {
@@ -50,14 +78,19 @@ module.exports = {
                 const medicine = await medicineModel.findById(medicinef._id)
                 console.log("here")
                 const cartItem = await cartModel.create({ medicine: medicine, quantity: quantity });
-                console.log("m")
-                user.additemTocart(cartItem);
-                console.log("m")
                 await cartItem.save();
+                console.log("m")
+                console.log(quantity);
+                user.additemTocart(cartItem);
+                await user.save();
+                console.log("m")
+               
+                
             }
     
             // Save the updated user document with the new or updated cart
-            await user.save();
+            
+           // await user.save();
             
             res.status(200).json({ message: 'Item added/updated in the cart successfully', user });
         } catch (error) {
@@ -66,8 +99,8 @@ module.exports = {
     },
     deleteFromCart: async (req,res) => {
         const { medicineId, quantity } = req.body;
+       // const userId = req.session.userId;
         const userId = req.session.userId;
-
         try {
             let user = await userModel.findOne({_id: userId});
            
@@ -109,7 +142,8 @@ module.exports = {
         }
     },
     viewCart: async (req,res) => {
-        const userId = req.session.userId;
+       const userId = req.session.userId;
+       // const userId = "656ce9c8b124eef75091fb39";
         
         try {
             let user = await userModel.findOne({_id: userId});
@@ -142,7 +176,7 @@ module.exports = {
         const {medicineId, quantity } = req.body;
         try {
             const userId = req.session.userId;
-       
+            //const userId = "656ce9c8b124eef75091fb39";
             let user = await userModel.findOne({ _id: userId });
             let medicinef = await medicineModel.findOne({ _id: medicineId });
             const medicine = await medicineModel.findById(medicinef._id)

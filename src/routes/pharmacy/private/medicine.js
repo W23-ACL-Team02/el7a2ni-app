@@ -5,7 +5,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const { addMedicine, editMedicine, deleteMedicine, findMedicine, findMedicine2, getMedStats, viewMedicine, findByIngredient, getAllMedicine, renderAllMedicine, uploadMedImage} = require(`../../../controllers-pharmacy/medicineController.js`)
+const { addMedicine, editMedicine, deleteMedicine, findMedicine, findMedicine2, getMedStats, viewMedicine, findByIngredient, getAllMedicine, renderAllMedicine, uploadMedImage,getsalesreport,filterbydate,filtersbymedicine,updateSalesReportName,viewalternativemedicicne} = require(`../../../controllers-pharmacy/medicineController.js`)
 
 router.post('/add', addMedicine);
 router.put('/edit', editMedicine)
@@ -20,7 +20,11 @@ router.get('/findByIngredient', findByIngredient);
 router.get('/all', getAllMedicine);
 
 router.get('/', renderAllMedicine); // TODO: Remove this / modify this endpoint?
-
+router.get('/getsalesreport',getsalesreport);
+router.get('/filterbydate',filterbydate);
+router.get('/filterbymedicine',filtersbymedicine);
+router.post('/updateSalesReportName',updateSalesReportName);
+router.get('/viewalternativemedicicne',viewalternativemedicicne);
 router.post('/uploadMedImg', upload.fields([{ name: 'medicineImg', maxCount: 1 }]), uploadMedImage) // TODO: Move to Pharmacist Router?
 
 module.exports = router;

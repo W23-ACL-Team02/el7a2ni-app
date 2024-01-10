@@ -1,0 +1,101 @@
+#maincontainer {
+  padding: 20px;
+  background-color: DADADA;
+}
+
+/* Medicines list container */
+.medicines-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Medicine container */
+.medicine-container {
+  align-content: center;
+  width: 550px;
+}
+
+/* Rectangle styles */
+.rectangle {
+  background-color: rgb(225,225,225) ;
+ 
+  padding: 10px;
+  cursor: pointer;
+  transition: height 0.3s ease;
+  border-collapse: collapse;
+  border-radius: 15px;
+ 
+}
+
+/* Expanded style */
+.rectangle.expanded {
+  height: auto; /* Adjust height for expanded view */
+}
+
+/* Medicine info */
+.medicine-info {
+  display: flex;
+  align-items: center;
+}
+.rectangle:hover{
+  background-color:white ;
+}
+
+.medicine-info img {
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+.details {
+  flex-grow: 0.4;
+}
+
+.details p {
+  margin: 5px 0;
+}
+
+/* Additional content */
+.additionalContent {
+  padding-top: 10px;
+}
+
+.additionalContent p {
+  margin: 5px 0;
+}
+/* Add to Cart button styles */
+/* Add to Cart and View Cart button styles */
+.rectangle button, #viewCartButton {
+  width: 150px; /* Set the desired width */
+  height: 30px; /* Set the desired height */
+  background-color: #000; /* Set the background color to black */
+  color: #fff; /* Set the text color to white */
+  font-size: 16px; /* Set the font size */
+  border: none;
+  border-radius: 25px; /* Set border-radius for rounded edges */
+  cursor: pointer;
+  margin-top: 10px; /* Optional: Add margin to create space between buttons */
+}
+
+.rectangle button:hover, #viewCartButton:hover {
+  background-color: #333; /* Set the background color on hover */
+}
+
+#button-id{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 35px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  background-color:#0a0a23;
+  border:none;
+  border-radius: 15px;
+
+}
