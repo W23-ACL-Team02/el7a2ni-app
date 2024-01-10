@@ -21,7 +21,7 @@ export default function ResetPassword() {
     if(newPassword === confirmedNewpassword)
     {
       setPasswordsMatch(true);
-      axios.post("http://localhost:3000/clinic/public/user/resetPassword",{newPassword,email})
+      axios.post("http://localhost:3000/public/user/resetPassword",{newPassword,email})
       .then((res)=>{
            console.log(res)
            setChangeSuccess(true);

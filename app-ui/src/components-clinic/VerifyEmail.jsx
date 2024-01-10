@@ -1,7 +1,7 @@
 import React, { useState, } from 'react'
 import { BrowserRouter as Router, Route,Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-const serverURL = process.env.REACT_APP_SERVER_URL;
+
 
 export default function VerifyEmail() {
     const [email,setEmail]=useState('');
@@ -14,11 +14,11 @@ export default function VerifyEmail() {
         e.preventDefault();
       
         
-          axios.post(`${serverURL}/clinic/public/user/verifyEmail`,{email})
+          axios.post("http://localhost:3000/public/user/verifyEmail",{email})
           .then((res)=>{
             if (res.data.isVerified) {
               setVerificationMessage('')
-              axios.post(`${serverURL}/clinic/public/user/sendOTP`,{email}).then((res)=>
+              axios.post("http://localhost:3000/public/user/sendOTP",{email}).then((res)=>
             {const data = {email:email}
               navigate("/OTPVerifcation",{state:data})
             }).catch((error) =>{

@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 
-//TODO
- const authenticateToken = (req, res, next) => {
+const authenticateToken = (req, res, next) => {
     // Assign bearer token to that provided in cookie, or if undefined, try from auth header
     let token;
     let bearer;
@@ -31,7 +30,7 @@ const secret = process.env.JWT_SECRET;
         req.session = decode;
     })
 
-     next();
+    next();
 }
 
 module.exports = authenticateToken;

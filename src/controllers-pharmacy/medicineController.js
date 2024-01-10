@@ -61,7 +61,7 @@ module.exports = {
         }
     },
     editMedicine: async (req, res) => {
-        var {id, name, details, category, activeIngredients, quantity, price, dosage} = req.body;
+        var {id, name, details, category, activeIngredients, quantity, price} = req.body;
         var splitIngredients = activeIngredients.split("|")
         var jsonIngredients = "["
         for (let index = 0; index < splitIngredients.length; index++) {
@@ -70,27 +70,28 @@ module.exports = {
         jsonIngredients = jsonIngredients.substring(0, jsonIngredients.length - 1) + "]"
         activeIngredients = JSON.parse(jsonIngredients)
         try {
-            const updatedMedicine = await medicineModel.findOneAndUpdate({_id: id}, {_id: id, name, details, category, activeIngredients, quantity, price, dosage})
+            const updatedMedicine = await medicineModel.findOneAndUpdate({_id: id}, {_id: id, name, details, category, activeIngredients, quantity, price})
             await updatedMedicine.save()
             res.status(200).send(`Updated ${name} successfully`)
         } catch (error) {
             res.status(400).json({err:error.message});
         }
     },
-    removeMedicine: async (req, res) => {
-        const medicineId = req.body.medicineId;
+    deleteMedicine: async (req, res) => {
+        const name = req.body.name;
         
         try {
             //check if name exists
-            const exists = await medicineModel.findById(medicineId)
-            if (!exists){
-                res.status(400).send(`Medicine does not exist`);
+            const exists = await medicineModel.find({name: name})
+            if (exists == null){
+                res.status(400).send(`${name} is not in the database`);
                 return
             }
-            const deletedMedicine = await medicineModel.deleteOne({_id: medicineId})
-            res.status(200).json({successes: [`Removed medicine successfully`]})
+            
+            const deletedMedicine = await medicineModel.deleteOne({name: name})
+            res.status(200).send(`Deleted ${name} successfully`)
         } catch (error) {
-            res.status(400).json([{errors: error.message}]);
+            res.status(400).json({err:error.message});
         }
     },
     nukeMedicineDB: async (req, res) => {    
@@ -102,15 +103,12 @@ module.exports = {
         }
     },
     findMedicine: async (req, res) => { 
-        var searchKey = '';
-        if (req.query.searchKey){
-            searchKey = req.query.searchKey
-        }
+        const searchKey = req.query.search
     
         try {
             const medicine = await medicineModel.find({"$or": [{name: {"$regex": searchKey, "$options": "i"}}, {activeIngredients: {"$regex": searchKey, "$options": "i"}}]})
             const categories = await medicineModel.find().distinct("category")
-            res.status(200).json({medicine, categories})
+            res.render("allMedicine", {medicine, categories, userType: req.session.userType})
         } catch (error) {
             res.status(400).json({err:error.message});
         }
@@ -151,7 +149,7 @@ module.exports = {
         }
     },
     viewMedicine: async (req, res) => {
-        const id = new mongoose.Types.ObjectId(req.body.medicineId)
+        const id = new mongoose.Types.ObjectId(req.query.id)
         
         try {
             const medicine = await medicineModel.findOne({_id: id})
@@ -166,12 +164,12 @@ module.exports = {
             activeIngredientsString = activeIngredientsString.substring(0, activeIngredientsString.length - 1) //for the extra | at the end
             medicine._doc.activeIngredients = activeIngredientsString
     
-            res.status(200).json({"medicine": medicine})
+            res.render("editMedicine", {"medicine": medicine})
         } catch (error) {
-            res.status(400).json({errors:[error.message]});
+            res.status(400).json({err:error.message});
         }
     },
-    findByIngredient: async (req, res) => {
+    findByIngredient: async (req, res) => { 
         const name = req.body.name
         try {
             const medicine = await medicineModel.find({activeIngredients: {name: {$regex: String(name), $options: 'i'}}})
@@ -187,14 +185,6 @@ module.exports = {
     getAllMedicine: async (req, res) => { 
         try {
             const medicines = await medicineModel.find();
-            res.status(200).json(medicines);
-        } catch (error) {
-            res.status(400).json({ err: error.message });
-        }
-    },
-    getAllUnarchivedMedicine: async (req, res) => { 
-        try {
-            const medicines = await medicineModel.find({archived: false});
             res.status(200).json(medicines);
         } catch (error) {
             res.status(400).json({ err: error.message });
@@ -237,26 +227,6 @@ module.exports = {
             res.status(200).json({ message: 'Medicine image uploaded successfully.' });
         } catch(error) {
             res.status(400).json({err:error.message})
-        }
-    },
-    archiveMedicine: async(req,res)=>{
-        try{
-            if (req.session.userType !== 'pharmacist') {
-                return res.status(403).json({ message: 'Permission denied.' });
-            }
-            const id= req.body.medicineId;
-            const medicine= await medicineModel.findById(id);
-            const originalstatus= medicine.archived;
-            const archivedMedicine = await medicineModel.findOneAndUpdate({_id: id}, {archived: !medicine.archived})
-            await archivedMedicine.save()
-            if(originalstatus){
-                res.status(200).json({ successes: ["medicine unarchived succesfully"] })
-            }
-            else{
-                res.status(200).json({ successes: ["medicine archived succesfully"] })
-            }
-        } catch(error){
-            res.status(400).json({ errors: [error.message] })
         }
     }
 }

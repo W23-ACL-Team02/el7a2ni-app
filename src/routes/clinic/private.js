@@ -8,13 +8,13 @@ var patientRouter = require('./private/patient');
 var familyRouter = require('./private/family');
 var payment = require("./private/payment");
 const authentiateToken = require("../../middleware/authenticateToken");
-//TODO
+
 router.all('*', authentiateToken,(req, res, next) => {
     if (!req.session?.loggedin) {
         return res.end();
     }
 
-//     // Ensure any route through here is authenticated
+    // Ensure any route through here is authenticated
     next();
 })
 

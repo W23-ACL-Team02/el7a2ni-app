@@ -111,7 +111,7 @@ function ViewCart() {
 
   const handleDelete = async (medicineId, quantity) => {
     try {
-      const res = await axios.post(`${serverURL}/pharmacy/private/patient/cart/deletefromcart`, {
+      const res = await axios.post(`${serverURL}/private/patient/cart/deletefromcart`, {
         medicineId,
         quantity,
       }, {withCredentials: true});
@@ -128,7 +128,7 @@ function ViewCart() {
 
   const handleChangeQuantity = async (medicineId, newQuantity) => {
     try {
-      const res = await axios.put(`${serverURL}/pharmacy/private/patient/cart/editquantity`, {
+      const res = await axios.put(`${serverURL}/private/patient/cart/editquantity`, {
         medicineId,
         quantity: newQuantity,
       }, {withCredentials: true});
@@ -145,7 +145,7 @@ function ViewCart() {
 
   const Viewcart = async () => {
     try {
-      const res1 = await axios.get(`${serverURL}/pharmacy/private/patient/cart/viewcart`, {withCredentials: true});
+      const res1 = await axios.get(`${serverURL}/private/patient/cart/viewcart`, {withCredentials: true});
       setCart(res1.data);
     } catch (err) {
       console.log(err);
@@ -154,7 +154,7 @@ function ViewCart() {
 
   const getTotal = async () => {
     try {
-      const res = await axios.get(`${serverURL}/pharmacy/private/patient/order/gettotal`, {withCredentials: true});
+      const res = await axios.get(`${serverURL}/private/patient/order/gettotal`, {withCredentials: true});
       setTotal(res.data);
     } catch (err) {
       console.log(err);
@@ -172,7 +172,7 @@ function ViewCart() {
   };
 
   return (
-    <div className="container" id="cartwrapper">
+    <div className="container" id="wrapper">
       <h1>Your Order</h1>
       {cart.map((item, index) => (
         <div key={index}>

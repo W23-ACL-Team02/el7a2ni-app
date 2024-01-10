@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-const serverURL = process.env.REACT_APP_SERVER_URL;
 
 const Contract = () => {
   const [doctor, setDoctor] = useState({});
@@ -12,7 +11,7 @@ const Contract = () => {
     // Fetch doctor details when the component mounts
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${serverURL}/clinic/private/doctor/viewContract`, {withCredentials: true});
+        const response = await axios.get('http://localhost:3000/private/doctor/viewContract', {withCredentials: true});
         const { doctor, clinicMarkUp } = response.data;
         console.log(response.data)
         console.log(clinicMarkUp)
@@ -34,7 +33,7 @@ const Contract = () => {
     try {
       //redirect to homepage
       await axios({ method: 'put',
-      url: `${serverURL}/clinic/private/doctor/acceptContract`,
+      url: 'http://localhost:3000/private/doctor/acceptContract',
       withCredentials: true})
       // Redirect to homepage
       navigate('/home')

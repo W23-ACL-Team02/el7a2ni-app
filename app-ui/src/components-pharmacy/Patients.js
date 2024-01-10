@@ -10,7 +10,7 @@ function GetPatients(){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${serverURL}/pharmacy/private/admin/user/patients`, {withCredentials: true});
+        const res = await axios.get(`${serverURL}/private/admin/user/patients`, {withCredentials: true});
         setPatients(res.data);
       } catch (err) {
         console.log(err);

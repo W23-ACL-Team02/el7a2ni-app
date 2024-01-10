@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import  '../css/addAdmin.css';
 const baseURL = `http://localhost:3000`;
 
 const UploadMedicineImage = () => {
@@ -25,7 +24,7 @@ const UploadMedicineImage = () => {
     formData.append('medicineImg', medicineImg);
 
     try {
-      const response = await axios.post(`${baseURL}/pharmacy/private/medicine/uploadMedImg`, formData, {
+      const response = await axios.post(`${baseURL}/private/medicine/uploadMedImg`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }, 
@@ -40,25 +39,19 @@ const UploadMedicineImage = () => {
     }
   };
 
-  
   return (
-    <div className="container">
-      <div className="rectangle2">
-        <h2>Upload Medicine Image</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="input">
-            <label htmlFor="name">Medicine Name:</label>
-            <input type="text" id="name" value={name} onChange={handleInputChange} required />
-          </div>
-          <div className="input">
-            <label htmlFor="medicineImg">Medicine Image:</label>
-            <input type="file" id="medicineImg" onChange={handleFileChange} required />
-          </div>
-          <div className="submit-container">
-            <button className="submit" type="submit">Upload</button>
-          </div>
-        </form>
-      </div>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="name">Medicine Name:</label>
+          <input type="text" id="name" value={name} onChange={handleInputChange} required />
+        </div>
+        <div>
+          <label htmlFor="medicineImg">Medicine Image:</label>
+          <input type="file" id="medicineImg" onChange={handleFileChange} required />
+        </div>
+        <button type="submit">Upload Medicine Image</button>
+      </form>
       {uploadMessage && <p>{uploadMessage}</p>}
     </div>
   );

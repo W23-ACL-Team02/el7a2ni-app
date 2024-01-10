@@ -15,8 +15,6 @@ const prescriptionSchema = new Schema({
           required: true,
         },
         specialization: String,
-        enum: ['General Practitioner', 'Cardiologist', 'Neurologist', 'Dermatologist', 'Surgeon', 'Ophthalmologist', 'Optometrist', 'Pediatrician', 'Family Medicine', 'Radiologist', 'Psychiatrist', 'Anesthesiologist'],
-
       },
       medications: [
         {

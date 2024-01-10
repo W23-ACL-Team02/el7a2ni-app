@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../css/addAdmin.css';
 
-const baseURL = process.env.REACT_APP_SERVER_URL;
+const baseURL = `http://localhost:3000`;
 
 const AddAdmin = () => {
   const [username, setUsername] = useState('');
@@ -21,7 +20,7 @@ const AddAdmin = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(`${baseURL}/clinic/private/admin/user/addAdmin`, {
+      const response = await axios.post(`${baseURL}/private/admin/user/addAdmin`, {
         username: username,
         password: password,
       }, {withCredentials: true});
@@ -32,32 +31,23 @@ const AddAdmin = () => {
     }
   };
 
-  
   return (
-    <div className="container"> {/* Apply the CSS class here */}
-      <div className="rectangle2">
-        <h2>Add Administrator</h2>
-        <form className="form" onSubmit={handleSubmit}>
-          {/* Apply the CSS class here */}
-          <div className="input"> {/* Apply the CSS class here */}
-            <label htmlFor="username">Username:</label>
-            <input type="text" id="username" value={username} onChange={handleUsernameChange} required />
-          </div>
-          <div className="input"> {/* Apply the CSS class here */}
-            <label htmlFor="password">Password:</label>
-            <input type="password" id="password" value={password} onChange={handlePasswordChange} required />
-          </div>
-          <div className="submit-container"> {/* Apply the CSS class here */}
-            <button className="submit" type="submit">Add Admin</button> {/* Apply the CSS class here */}
-          </div>
-        </form>
-      </div>
+    <div>
+      <h2>Add Administrator</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="username">Username:</label>
+          <input type="text" id="username" value={username} onChange={handleUsernameChange} required />
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input type="password" id="password" value={password} onChange={handlePasswordChange} required />
+        </div>
+        <button type="submit">Add Admin</button>
+      </form>
       {message && <p>{message}</p>}
     </div>
   );
-
-  
-
 };
 
 export default AddAdmin;
