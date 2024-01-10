@@ -61,7 +61,7 @@ module.exports = {
         try {
            // Extract prescription ID from request parameters
           const { _id,patient,doctor ,medications} = req.body;
-          console.log(req.body);
+        //   console.log(req.body);
       
           // Find the existing prescription by ID
           const existingPrescription = await prescriptionModel.findById(_id);
@@ -117,15 +117,15 @@ module.exports = {
         }
     },
     getPrescriptions: async (req, res) => { 
-        // if (req.session.userType != 'patient' && req.session.userType != 'doctor' ) {  // I want to test this If confition
-        //   return res.status(400).send("Only patients can access this.")
-        // }
+        if (req.session.userType != 'patient' && req.session.userType != 'doctor' ) {  // I want to test this If confition
+          return res.status(400).send("Only patients can access this.")
+        }
 
-    //    const userId = req.session.userId;
-    //     const name = req.params.name
+       const userId = req.session.userId;
+        const name = req.params.name
 
         try{
-            let user = await userModel.findOne({username:"doctor1"});
+            let user = await userModel.findOne({_id:userId});
             console.log(user.prescriptions);
         
             if (user == null) {
