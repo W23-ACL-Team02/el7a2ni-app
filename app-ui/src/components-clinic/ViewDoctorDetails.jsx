@@ -49,19 +49,19 @@ const ViewDoctorDetails = () => {
       console.log('Pat username: ',patientUsername);
       console.log('Doc username: ',doctorVar.username);
   
-      const response = await axios.post(`${baseURL}/clinic/private/patient/bookAppointment`,
-        {
-          patientUsername: patientUsername,
-          doctorUsername: doctorVar.username,
-          timeSlotStartTime: selectedAppointmentStartTime,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      // const response = await axios.post(`${baseURL}/clinic/private/patient/bookAppointment`,
+      //   {
+      //     patientUsername: patientUsername,
+      //     doctorUsername: doctorVar.username,
+      //     timeSlotStartTime: selectedAppointmentStartTime,
+      //   },
+      //   {
+      //     withCredentials: true,
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //   }
+      // );
   
     //   console.log('Response:', response.data);
   

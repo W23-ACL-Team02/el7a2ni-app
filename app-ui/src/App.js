@@ -59,7 +59,7 @@ function App() {
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
-         <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
+          <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
           <Route path="/ViewCart" element={<ViewCart />} />
           <Route path="/patients" element={<Patients />} />
           <Route path="/patient" element={<ViewPatient />} />
