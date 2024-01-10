@@ -1,9 +1,9 @@
-const medicineBodyOutOfStock = () => {
-    return `MEDICINE OUT OF STOCK`
+const medicineBodyOutOfStock = (medicineName) => {
+    return `Medicine ${medicineName} has just ran out of stock. Restock soon.`
 }
 
 const medicineTitleOutOfStock = () => {
-    return `MEDICINE TITLE OUT OF STOCK`
+    return `Medicine Out Of Stock`
 }
 
 module.exports = { medicineBodyOutOfStock, medicineTitleOutOfStock }

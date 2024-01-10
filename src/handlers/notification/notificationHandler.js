@@ -114,9 +114,9 @@ const createAppointmentCancelledNotif = async (cancellerId, attendingId, date) =
     return Promise.all([notifications[0].save(), notifications[1].save()])
 }
 
-const createMedicineOutOfStockNotif = async (pharmacistId, medicineId) => {
+const createMedicineOutOfStockNotif = async (pharmacistId, medicineId, medicineName) => {
     const receiverId = pharmacistId;
-    const message = medicineTemplate.medicineBodyOutOfStock();
+    const message = medicineTemplate.medicineBodyOutOfStock(medicineName);
     const title = medicineTemplate.medicineTitleOutOfStock();
 
     // Create a notification for the pharmacist
