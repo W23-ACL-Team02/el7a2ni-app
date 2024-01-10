@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/addAdmin.css';
+const serverURL = process.env.REACT_APP_SERVER_URL
+
 const UpcomingCompletedAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [error, setError] = useState('');
@@ -11,7 +13,7 @@ const UpcomingCompletedAppointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/clinic/private/user/upcomingCompletedAppointments', {withCredentials: true});
+      const response = await axios.get(`${serverURL}/clinic/private/user/upcomingCompletedAppointments`, {withCredentials: true});
       setAppointments(response.data.filteredAppointments || []);
       setError('');
     } catch (error) {

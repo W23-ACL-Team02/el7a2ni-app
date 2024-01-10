@@ -10,7 +10,7 @@ var patientRouter = require('./private/patient');
 var pharmacistRouter= require('./private/pharmacist');
 const authentiateToken = require('../../middleware/authenticateToken');
 
-router.all('*', authentiateToken,(req, res, next) => { //TODO: REMOVE COMMENT
+router.all('*', authentiateToken,(req, res, next) => { 
     if (!req.session?.loggedin) {
         return res.end();
     }

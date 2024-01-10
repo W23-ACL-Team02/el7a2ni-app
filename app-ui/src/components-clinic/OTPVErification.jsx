@@ -1,6 +1,8 @@
 import React, { useEffect,useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+const serverURL = process.env.REACT_APP_SERVER_URL;
+
 export default function OTPVErification() {
 
   
@@ -12,7 +14,7 @@ export default function OTPVErification() {
   const email= state.email;
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/public/user/VerifyOTP",{verificationCode,email}).then((result)=>
+    axios.post(`${serverURL}/clinic/public/user/VerifyOTP`,{verificationCode,email}).then((result)=>
   {
     if (result.data.isCodeVerified)
     {
