@@ -126,6 +126,8 @@ module.exports = {
                     }
                 }
             }
+            console.log(createdFamilyMembers)
+            console.log(linkedFamilyMembers)
         
             res.status(200).json({createdFamilyMembers,linkedFamilyMembers})
         } catch(error) {

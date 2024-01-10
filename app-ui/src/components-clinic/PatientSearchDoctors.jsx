@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import "../css/newTable.css";
+const baseURL = process.env.REACT_APP_SERVER_URL;
+import "../css/newTable.css";
+const baseURL = process.env.REACT_APP_SERVER_URL;
 const PatientSearchDoctors = () => {
 
   const navigate = useNavigate();
@@ -19,7 +22,8 @@ const PatientSearchDoctors = () => {
       try {
 
         const response = await axios({ method: 'get',
-        url: 'http://localhost:3000/private/patient/viewDoctors',
+        url: `${baseURL}/clinic/private/patient/viewDoctors`,
+        url: `${baseURL}/clinic/private/patient/viewDoctors`,
         withCredentials: true})
         
         setDoctorList(response.data.docs);
@@ -40,7 +44,8 @@ const PatientSearchDoctors = () => {
 
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/private/patient/searchDoctors',
+        url: `${baseURL}/clinic/private/patient/searchDoctors`,
+        url: `${baseURL}/clinic/private/patient/searchDoctors`,
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +56,8 @@ const PatientSearchDoctors = () => {
           date: theDateTime,
         }),
       });
-
+      
+      
       setDoctorList(response.data.docs);
       setDiscountRate(response.data.discountRate);
     } catch (error) {
@@ -61,7 +67,7 @@ const PatientSearchDoctors = () => {
 
   const handleDocView = (doctorId) => {
     localStorage.setItem('doctorId', doctorId);
-    navigate('/viewdocdetails');
+    navigate('/ViewDoctorDetails');
   };
 
   const specialities = ['General Practitioner', 'Cardiologist', 'Neurologist', 'Dermatologist', 'Surgeon', 'Ophthalmologist', 'Optometrist', 'Pediatrician', 'Family Medicine', 'Radiologist', 'Psychiatrist', 'Anesthesiologist'];
@@ -100,37 +106,36 @@ const PatientSearchDoctors = () => {
           <button onClick={handleSearch}>Search Doctors</button>
         </div>
       </div>
-
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid black' }}>
-  <thead>
-    <tr style={{ border: '6px solid black' }}>
-      <th style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>View</th>
-      <th style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>Name</th>
-      <th style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>Speciality</th>
-      <th style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>Session Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    {doctorList.map((doctor) => (
-      <tr key={doctor._id} style={{ border: '6px solid black' }}>
-        <td style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>
-        <button onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
-        </td>
-        <td style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>
-          {doctor.name}
-        </td>
-        <td style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>
-          {doctor.speciality}
-        </td>
-        <td style={{ border: '6px solid black', padding: '8px', textAlign: 'left', color: 'black' }}>
-          {Math.round(doctor.payRate * 1.1 * (1-discountRate))}€
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
-
+      <div className='TableContainer'>
+      <table>
+        <thead>
+          <tr>
+            <th>View</th>
+            <th>Name</th>
+            <th>Speciality</th>
+            <th>Session Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {doctorList.map((doctor) => (
+            <tr key={doctor._id}>
+              <td>
+              <button onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
+              </td>
+              <td>
+                {doctor.name}
+              </td>
+              <td>
+                {doctor.speciality}
+              </td>
+              <td>
+                {Math.round(doctor.payRate * (1-discountRate))}€
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
 
     </div>
   );

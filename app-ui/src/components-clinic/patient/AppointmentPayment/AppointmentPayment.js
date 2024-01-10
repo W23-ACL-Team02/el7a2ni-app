@@ -5,43 +5,50 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const { useState , useEffect, useRef } = require("react");
 const serverURL = process.env.REACT_APP_SERVER_URL
 const publishableKey =process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
 
-const AppointmentCheckout = () => {    
+const AppointmentCheckout = () => {  
+    const [selectedAppointmentStartTime, setSelectedAppointmentStartTime] = useState("");
+    const [doctor, setDoctor] = useState();
+    const [patientUsername, setPatientUsername] = useState();
     const [appointmentPrice,setAppointmentPrice] = useState([]);
     const [SelectedPaymentMethod, setSelectedPaymentMethod] = useState("");
     const cardRef = useRef(null);
     const navigate = useNavigate()
-    // let { state } = useLocation();
-    // const appointment = state.appointment
-    const appointment = {doctorID: "6547cd2f63304dedceb8644b", patientID: "6547b96606043724533eedbf", date: "10-10-2024"}
+    let { state } = useLocation();
 
-    const getAppointmetPrice =  async () => {
-    await axios.get(`${serverURL}/private/payment/getAppointmentPrice`, {params: { doctorID: appointment.doctorID }, withCredentials:true}).then(
+    useEffect(() =>{
+        setSelectedAppointmentStartTime(state.selectedAppointmentStartTime);
+        setDoctor(state.doctor);
+        setPatientUsername(state.patientUsername);
+        getAppointmetPrice(state.doctor._id);   
+     }, []);
+
+    const getAppointmetPrice =  async (doctorId) => {
+    await axios.get(`${serverURL}/clinic/private/payment/getAppointmentPrice`, {params: { doctorID: doctorId }, withCredentials:true}).then(
     (res) => { 
        const appointmentPrice = res.data
        setAppointmentPrice(appointmentPrice)
-       console.log(appointmentPrice)
    }); 
 }
 
     const payByCard = async token => {
         try {
             const response = await axios({
-                url: `${serverURL}/private/payment/payByCard`,
+                url: `${serverURL}/clinic/private/payment/payByCard`,
                 method: 'post',
                 data: {
-                    amount: Math.ceil( appointmentPrice.price  * 100),
+                    amount: Math.round( appointmentPrice.price * 100 *1.1),
                     token,
                 },
                 withCredentials: true
             });
             if(response.data === "success"){
                 console.log('your payment was successful')
-                //call subscribe to health packages Api
+                handleBooking();
                 navigate("/checkout-success")
             }else{
                 console.log('your payment was unsuccessful')
@@ -54,12 +61,12 @@ const AppointmentCheckout = () => {
     }
 
     const payByWallet = async () => {
-        await axios.post(`${serverURL}/private/payment/payByWallet`, {totalPrice : appointmentPrice.price}, {withCredentials:true}).then(
+        await axios.post(`${serverURL}/clinic/private/payment/payByWallet`, {totalPrice : appointmentPrice.price *1.1}, {withCredentials:true}).then(
             (res) =>{
                 console.log(res)
                 if(res.data === "success"){
                     console.log('your payment was successful')
-                    //call subscribe to health packages Api
+                    handleBooking();
                     navigate("/checkout-success")
                 }else{
                     console.log('your payment was unsuccessful')
@@ -82,19 +89,36 @@ const AppointmentCheckout = () => {
             }else if(SelectedPaymentMethod === "card"){
                 cardRef.current.click()
             }  
-    }
+    }   
 
-    useEffect(() =>{
-        getAppointmetPrice();   
-     }, []);
-   
+    const handleBooking = async () => {
+        try {
+            console.log('Selected Appointment:', selectedAppointmentStartTime);
+            const response = await axios.post(`${serverURL}/clinic/private/patient/bookAppointment`,
+                {
+                    patientUsername: patientUsername,
+                    timeSlotStartTime: selectedAppointmentStartTime,
+                    doctorUsername: doctor.username,
+                },
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+        console.log('Response:', response.data);
+        } catch (error) {
+        console.error(error.message);
+        }
+    }
 
     return (
         <div className={styles.checkout_container}>
             <div className={styles.items}>
                 {appointmentPrice.appliedDiscount === 0
-                    ? <p>Appointment Price: {appointmentPrice.price}</p>
-                    : <p>Appointment Price: {appointmentPrice.price}, applied discount: {appointmentPrice.appliedDiscount *100} % </p>
+                    ? <p>Appointment Price: {appointmentPrice.price *1.1}</p>
+                    : <p>Appointment Price: {appointmentPrice.price *1.1}, applied discount: {appointmentPrice.appliedDiscount *100} % </p>
                 }
             </div>    
             <div className={styles.paymentOptions}>
@@ -144,8 +168,8 @@ const AppointmentCheckout = () => {
                     label = "Credit and Debit Card"
                     name = "Pay With Credit Card"
                     billingAddress
-                    amount = {Math.ceil(appointmentPrice?.price * 100)}
-                    description = {`Your total is ${appointmentPrice?.price}`}
+                    amount = {Math.round(appointmentPrice?.price * 100 *1.1)}
+                    description = {`Your total is ${Math.round(appointmentPrice?.price *1.1)}`}
                     token = {payByCard}
                 >
                     <button ref = {cardRef} style={{ display: 'none' }}>
