@@ -26,7 +26,7 @@ module.exports = {
         const totalPrice = req.body.totalPrice;
     
         const patientID = req.session.userId;
-        //const patientID = "6547b96606043724533eedbf"
+        
         try{
             const patient = await userModel.findOne({_id: patientID})
             const balance = patient.wallet

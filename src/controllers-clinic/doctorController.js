@@ -3,15 +3,17 @@ const appointmentModel = require('../models/appointment');
 const healthPackageModel = require(`../models/healthPackage.js`);
 const fileModel = require(`../models/file.js`);
 const Appointment = require('../models/appointment');
+const Appointment = require('../models/appointment');
 
 module.exports = {
+    getPatients: async (req, res) => {
     getPatients: async (req, res) => {
         const FromDate = req.body.FromDate
         const ToDate = req.body.ToDate
         const DocId = req.session?.userId
-        //const DocId = "6547cd2f63304dedceb8644b"
-        try {
-            const doctor = await userModel.findOne({ _id: DocId, type: "doctor" })
+        //const DocId = '6574c7bbe1e7e13216fa2146';
+        try{
+            const doctor = await userModel.findOne({_id: DocId, type: "doctor"})
             var appointments = null
             if (FromDate && ToDate) {
                 appointments = await appointmentModel.find({ doctorUsername: doctor.username, date: { $gt: new Date(FromDate), $lt: new Date(ToDate) }, status: "upcoming" })
@@ -69,15 +71,15 @@ module.exports = {
         try {
             // Check if the user making the request is a doctor (optional check)
             //TODO
-            // if (req.session?.userType !== 'doctor') {
-            //     return res.status(403).json({ message: 'Permission denied.' });
-            // }
+            if (req.session?.userType !== 'doctor') {
+                return res.status(403).json({ message: 'Permission denied.' });
+            }
 
             // Find the doctor in the database
 
             //TODO
-          //  const  userId=req.session.userId
-            const { userId } = req.body
+            const  userId=req.session.userId
+           // const { userId } = req.body
 
             const doctor = await userModel.findOne({ _id: userId });
 
@@ -152,8 +154,8 @@ module.exports = {
             const doctor = await userModel.findById(req.session.userId)
             const doctorUsername = doctor.username
             //check if there are shared appointments
-            const appointments = await appointmentsModel.find({ doctorUsername: doctorUsername, patientUsername: patientUsername })
-            if (!appointments.length) {
+            const appointments = await Appointment.find({ doctorUsername: doctorUsername, patientUsername: patientUsername })
+            if (!appointments) {
                 res.status(400).json({ error: "You don't have any appointments with this patient." });
                 return;
             }

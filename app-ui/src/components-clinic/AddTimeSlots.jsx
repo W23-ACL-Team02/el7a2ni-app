@@ -8,7 +8,7 @@ const AddTimeSlots = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const baseURL = 'http://localhost:3000'; // Replace with your backend URL
+  const baseURL = process.env.REACT_APP_SERVER_URL; // Replace with your backend URL
 
   const handleAddTimeSlot = async () => {
     try {

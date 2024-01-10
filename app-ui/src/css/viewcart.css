@@ -1,0 +1,81 @@
+/* ViewCart styles */
+#maincontainer {
+    padding: 20px;
+    background-color: #FFFFFF; /* Change to your desired background color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  /* Cart item styles */
+  .cart-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Rectangle styles */
+  .rectangle {
+    background-color: #E1E1E1;
+    padding: 10px;
+    cursor: pointer;
+    transition: height 0.3s ease;
+    border-collapse: collapse;
+    border-radius: 15px;
+    width: 550px;
+    text-align: left;
+    margin-bottom: 15px; /* Add margin to create space between items */
+  }
+  
+  /* Expanded style */
+  .rectangle.expanded {
+    height: auto; /* Adjust height for expanded view */
+  }
+  
+  /* Medicine info styles */
+  .medicine-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .medicine-info img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+  }
+  
+  .details {
+    flex-grow: 0.4;
+  }
+  
+  .details h4 {
+    margin: 5px 0;
+  }
+  
+  /* Additional content styles */
+  .additionalContent {
+    padding-top: 10px;
+  }
+  
+  .additionalContent h3 {
+    margin: 5px 0;
+  }
+  
+  /* Button styles */
+  #button-id {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 35px;
+    color: #FFF;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    background-color: #0A0A23;
+    border: none;
+    border-radius: 15px;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+  
