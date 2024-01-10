@@ -34,7 +34,7 @@ const styles = {
     },
   },
 };
-export default function EditMedicine() {
+export default function EditMedicineAndView() {
 
     const[prescriptions,setPrescriptions]=useState([])
     const [uniqueDoctorNames,setUniqueDoctorNames]=useState([])
@@ -49,7 +49,7 @@ export default function EditMedicine() {
     
 
     useEffect(()=>{
-            axios.get(`http://localhost:3000/clinic/private/patient/prescription/viewprescription`).then((result)=>{
+            axios.get(`http://localhost:3000/clinic/private/patient/prescription/viewprescription`, {withCredentials: true}).then((result)=>{
             setPrescriptions(result.data.prescriptions)
        //     setUniqueDoctorNames(result.data.uniqueDoctorNames)
           })
@@ -82,7 +82,7 @@ export default function EditMedicine() {
         console.log('Updated Prescription Received:', updatedPrescription);
       
         // Refetch data after an update
-        axios.get('http://localhost:3000/clinic/private/patient/prescription/viewprescription').then((result) => {
+        axios.get('http://localhost:3000/clinic/private/patient/prescription/viewprescription', {withCredentials: true}).then((result) => {
           setPrescriptions(result.data.prescriptions);
           setUniqueDoctorNames(result.data.uniqueDoctorNames);
         });

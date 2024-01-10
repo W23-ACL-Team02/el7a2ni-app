@@ -81,7 +81,7 @@ const [showAddMedicineUI, setShowAddMedicineUI] = useState(false);
   
       await axios.post(
         'http://localhost:3000/clinic/private/patient/prescription/updatePrescription',
-        updatedPrescription
+        updatedPrescription, {withCredentials: true}
       );
   
       // Update the local state
@@ -110,7 +110,7 @@ const [showAddMedicineUI, setShowAddMedicineUI] = useState(false);
     axios
       .post(
         'http://localhost:3000/clinic/private/patient/prescription/updatePrescription',
-        updatedPrescription
+        updatedPrescription, {withCredentials: true}
       )
       .then((response) => {
         console.log('Prescription updated successfully');
@@ -155,7 +155,7 @@ const [showAddMedicineUI, setShowAddMedicineUI] = useState(false);
             // Make an Axios request to update the prescription
             await axios.post(
               'http://localhost:3000/clinic/private/patient/prescription/updatePrescription',
-              updatedPrescription
+              updatedPrescription,{withCredentials: true}
             )  .then(response =>{
               console.log("successfull");
             })
