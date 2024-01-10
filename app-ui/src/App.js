@@ -9,6 +9,7 @@ import CheckoutFailed from './components-pharmacy/shared/PaymentFailed.js';
 import Home from './components-pharmacy/Home';
 import MedicineList from './components-pharmacy/pharmacist/MedicineList.jsx'; //for pharmacist only
 import MedicineListPatient from './components-pharmacy/MedicineList';
+import MedicineListPharmacist from './components-pharmacy/MedicineListPharmacist.js';
 import ViewCart from './components-pharmacy/ViewCart'
 import Patients from './components-pharmacy/Patients';
 import ViewPatient from './components-pharmacy/ViewPatient';
@@ -51,6 +52,7 @@ function App() {
           <Route path="/doctorHome" element={<DoctorHome />} />
           <Route path="/pharmacistHome" element={<MedicineList />} />
           <Route path="/viewMedicine" element={<MedicineList />} />
+          <Route path="/medicineListPharmacist" element={<MedicineListPharmacist />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
          <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
