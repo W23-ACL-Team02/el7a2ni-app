@@ -13,6 +13,7 @@ const publishableKey =process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
 const AppointmentCheckout = () => {  
     const [selectedAppointmentStartTime, setSelectedAppointmentStartTime] = useState("");
     const [doctor, setDoctor] = useState();
+    const [patientUsername, setPatientUsername] = useState();
     const [appointmentPrice,setAppointmentPrice] = useState([]);
     const [SelectedPaymentMethod, setSelectedPaymentMethod] = useState("");
     const cardRef = useRef(null);
@@ -22,6 +23,7 @@ const AppointmentCheckout = () => {
     useEffect(() =>{
         setSelectedAppointmentStartTime(state.selectedAppointmentStartTime);
         setDoctor(state.doctor);
+        setPatientUsername(state.patientUsername);
         getAppointmetPrice(state.doctor._id);   
      }, []);
 
@@ -94,6 +96,7 @@ const AppointmentCheckout = () => {
             console.log('Selected Appointment:', selectedAppointmentStartTime);
             const response = await axios.post(`${serverURL}/clinic/private/patient/bookAppointment`,
                 {
+                    patientUsername: patientUsername,
                     timeSlotStartTime: selectedAppointmentStartTime,
                     doctorUsername: doctor.username,
                 },
