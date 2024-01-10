@@ -421,7 +421,7 @@ module.exports = {
 
             //  const refundto=await userModel.findById(appointment.bookedby)
             refundto.addToWallet(price);
-            //refundto.save();
+            await refundto.save();
 
             //    const filter = {
             //     doctorUsername: doctor.username, // Replace with the doctor's username
