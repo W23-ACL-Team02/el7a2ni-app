@@ -3,7 +3,7 @@ var router = express.Router({mergeParams: true});
 const healthRecordRouter = require(`./patient/healthRecord.js`);
 const healthPackageRouter = require(`./patient/healthPackage.js`);
 const prescriptionRouter = require(`./patient/prescription.js`);
-const { searchDoctors, filterDoctors, viewDoctors, bookAppointment,bookAppointmentForFamily} = require('../../../controllers-clinic/patientViewController.js');
+const { searchDoctors, filterDoctors, viewDoctors, bookAppointment,bookAppointmentForFamily, loadFollowUpPage, PatientRequestFollowUp} = require('../../../controllers-clinic/patientViewController.js');
 const{rescheduleAppointment,rescheduleAppointmentForFamily,cancelAppointment,cancelAppointmentForFamily,notCompletedPatientAppointments,notCompletedFamilyAppointments}= require('../../../controllers-clinic/appointmentController.js');
 
 const authorizeUser = require('../../../middleware/authorizeUser.js');

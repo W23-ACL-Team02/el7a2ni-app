@@ -15,8 +15,8 @@ router.all('*', authentiateToken,(req, res, next) => {
     }
 
 //     // Ensure any route through here is authenticated
-//     next();
-// })
+    next();
+})
 
 router.use('/admin', adminRouter);
 router.use('/doctor', doctorRouter);
