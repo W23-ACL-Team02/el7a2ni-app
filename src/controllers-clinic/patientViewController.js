@@ -129,11 +129,33 @@ module.exports = {
             //assuming doctor picked patient and next appointment date
            const nextAppointment =  new appointmentsModel({
                 doctorUsername : docUsername,
+            // const userId = '65771f862e100341613e4a71' // Test
+            const doctor = await userModel.findOne({ username: docUsername })
+            
+            const userId = req.session.userId
+            let patient = await userModel.findById(userId)
+            let patUsername = patient.username
+            
+            let allTimeslots = doctor.timeSlots
+            if (allTimeslots.length == 0) {
+                res.status(400).json({ message: "No available slots" })
+            }
+
+            let selectedTimeslot = allTimeslots.find(ts => ts.startTime.getTime() === timeSlotStartTime.getTime())
+            if (!selectedTimeslot) {
+                res.status(400).json({ message: "Selected time slot is not available" });
+                return; // End the function here if the selected time slot is not found
+            }
+
+            //assuming doctor picked patient and next appointment date
+            const nextAppointment =  new appointmentsModel({
+                doctorUsername : docUsername,
                 patientUsername: patUsername,
                 date: selectedTimeslot.date,
                 status: 'upcoming', 
                 start: selectedTimeslot.startTime, 
                 end: selectedTimeslot.endTime,
+                bookedby: userId
             });
             await nextAppointment.save();
             allTimeslots = allTimeslots.filter(ts => ts.startTime.getTime() !== timeSlotStartTime.getTime())
