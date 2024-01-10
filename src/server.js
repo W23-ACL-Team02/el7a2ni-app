@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const app = require('./app');
-const http = require('http');
-const socketIO = require('./controllers-clinic/socketIO')
 const MongoURI = process.env.MONGO_URI;
 const FgCyan = "\x1b[36m"
 const FgGreen = "\x1b[32m"
@@ -11,16 +9,13 @@ const FgWhite = "\x1b[37m"
 var port = process.env.PORT || '3000';
 app.set('port', port);
 
-const server = http.createServer(app);
-socketIO(server)
-
 // Mongo DB
 mongoose.set('strictQuery', false);
 mongoose.connect(MongoURI)
 .then(()=>{
     console.log(`${FgGreen}[DB] MongoDB is now connected!${FgWhite}`, )
     // Starting server
-    server.listen(port, () => {
+    app.listen(port, () => {
         console.log(`${FgCyan}[API] Listening to requests on http://localhost:${port}${FgWhite}`);
     })
 })

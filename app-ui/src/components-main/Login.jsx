@@ -14,7 +14,7 @@ export default function Login({loggedIn}) {
     const onButtonClick = () => {
         // Make call to backend
         axios
-            .post(`${baseURL}/clinic/public/user/login`, {username, password}, {withCredentials:true})
+            .post(`${baseURL}/public/user/login`, {username, password}, {withCredentials:true})
             .then((response) => {
                 setErrors([]);
                 navigate('/home')

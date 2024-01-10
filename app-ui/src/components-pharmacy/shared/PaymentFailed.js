@@ -1,4 +1,4 @@
-import styles from '../../components-pharmacy/patient/MedicinePayment/MedicinePayment.module.css'
+import styles from '../../components/patient/MedicinePayment/MedicinePayment.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";

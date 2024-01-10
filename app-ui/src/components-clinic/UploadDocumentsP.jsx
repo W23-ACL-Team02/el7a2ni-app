@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const baseURL = process.env.REACT_APP_SERVER_URL;
+const baseURL = 'http://localhost:3000';
 
 const UploadDocumentsP = () => {
   const [medicalHistory, setMedicalHistory] = useState(null);
@@ -19,7 +19,7 @@ const UploadDocumentsP = () => {
     formData.append('medicalHistory', medicalHistory);
 
     try {
-      const response = await axios.post(`${baseURL}/clinic/private/user/uploadDocuments`, formData, {
+      const response = await axios.post(`${baseURL}private/user/uploadDocuments`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }, 

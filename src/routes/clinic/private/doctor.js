@@ -2,8 +2,7 @@ const express = require("express");
 var router = express.Router({mergeParams: true});
 const { viewContract, acceptContract, rejectContract, selectFollowUpMenu,scheduleFollowUp, addHealthRecords } = require('../../../controllers-clinic/doctorCont');
 const { getPatients, getPatientbyId, getPatientbyName, getAppointments } = require('../../../controllers-clinic/doctorController.js')
-const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors, reschedulePatientAppointment,cancelPatientAppointment,notCompletedDoctorAppointments } = require('../../../controllers-clinic/doctorController.js');
-const { addPrescriptionView,getPrescriptions,addPrescriptionByDoctor } = require('../../../controllers-clinic/prescriptionController.js');
+const { addTimeSlot, editDoctor, viewHealthRecords, viewDoctorDetails, searchDoctors, viewDoctors } = require('../../../controllers-clinic/doctorController.js');
 const authorizeUser = require('../../../middleware/authorizeUser');
 
 router.all("*", (req, res, next) => {
@@ -12,10 +11,6 @@ router.all("*", (req, res, next) => {
 
   next();
 })
-
-router.get("/addprescriptionView",addPrescriptionView);
-router.post("/addprescriptionSubmit",addPrescriptionByDoctor);
-
 
 // ? Add under /doctor/contract router?
 router.get("/viewContract", viewContract);
@@ -39,9 +34,6 @@ router.get('/viewDoctorDetails/:id', viewDoctorDetails); // TODO: Remove/Update 
 router.put('/api/editDoctor', editDoctor);
 router.post('/addTimeSlots', addTimeSlot);
 router.post('/api/viewHealthRecords', viewHealthRecords);
-router.post('/reschedulePatientAppointment',reschedulePatientAppointment);
-router.post('/cancelPatientAppointment',cancelPatientAppointment);
-router.get('/notCompletedDoctorAppointments', notCompletedDoctorAppointments);
 
 module.exports = router;
 
@@ -110,3 +102,5 @@ module.exports = router;
 //         res.status(400).json({err:error.message})
 //     }
 // }
+
+

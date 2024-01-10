@@ -59,9 +59,6 @@
     display: flex;
     gap: 30px;
     margin: 60px auto;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
 }
 
 .submit{
@@ -71,11 +68,9 @@
     width: 220px;
     height: 59px;
     color: #fff;
+    background: #6693f5;
+    border-radius: 50px;
     font-size: 19px;
     font-weight: 700;
     cursor: pointer;
-    background-color:#0a0a23;
-    border:none;
-    border-radius: 15px;
-
 }
