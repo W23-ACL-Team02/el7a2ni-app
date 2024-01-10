@@ -32,13 +32,15 @@ import PatientDetails from './components-clinic/doctor/PatientDetails/PatientDet
 import AddPrescription from './components-clinic/doctor/addPrescription/Addprescription';
 import ViewPrescriptions from './components-clinic/ViewPrescription';
 import SelectedPrescriptions from './components-clinic/SelectedPrescriptions';
-import ViewFamilyMembers from './components-clinic/patient/FamilyMembers/ViewLinkedFamilyMembers.jsx'
+import ViewFamilyMembers from './components-clinic/patient/FamilyMembers/ViewFamilyMemebrs.jsx'
 import AddFamilyMembers from './components-clinic/patient/FamilyMembers/AddFamilyMembers.jsx'
 import LinkFamilyMember from './components-clinic/patient/FamilyMembers/LinkFmailyMember.jsx';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
 import AddTimeSlots from './components-clinic/AddTimeSlots.jsx';
 import ViewAppointments from './components-clinic/FilterAppointments.jsx'
-
+import VerifyEmail from './components-clinic/VerifyEmail.jsx';
+import OTPVErification from './components-clinic/OTPVErification.jsx';
+import ResetPassword from './components-clinic/ResetPassword.jsx'
 
 import PatientHome from './components-main/PatientHome.jsx';
 import AdminHome from './components-main/AdminHome.jsx';
@@ -69,6 +71,9 @@ function App() {
           <Route path="/patientAccount" element={<PatientAccount/>}/>
           <Route path="/doctorAccount" element={<DoctorAccount/>}/>
           <Route path="/changePassword" element={<ChangePassword/>}/>
+          <Route path="/VerifyEmail" element={<VerifyEmail/>}/>
+          <Route path="/OTPVErification" element={<OTPVErification/>}/>
+          <Route path="/ResetPassword" element={<ResetPassword/>}/>
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicineListPharmacist" element={<MedicineListPharmacist />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>

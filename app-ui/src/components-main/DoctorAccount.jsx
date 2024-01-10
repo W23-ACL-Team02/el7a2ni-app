@@ -52,8 +52,7 @@ export default function DoctorAccount () {
                         <h2 style={{alignSelf:'center', fontSize: 28, marginTop: 10}}>Other Actions</h2>
                         <div className='line' style={{width: 200}}></div>
                         <button style={{width: 200, height: 120, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/editMedicineAndView')}}>Edit Prescriptions</button>
-                        <button style={{width: 200, height: 120, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/')}}>Edit Prescriptions</button>
-                        <button style={{width: 200, height: 120, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/')}}>Edit Prescriptions</button>
+                        <button style={{width: 200, height: 120, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/doctorHealthRecords')}}>Doctor Health Records</button>
                     </Card> 
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import {React,useState} from 'react'
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import PasswordValidityBox from './PasswordValidityBox'
+import PasswordValidityBox from '../components-pharmacy/PasswordValidityBox'
 import { validatePassword } from '../functions/validatePassword'
 const serverURL = process.env.REACT_APP_SERVER_URL;
 
