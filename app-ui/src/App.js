@@ -22,9 +22,7 @@ import AddAddress from './components-pharmacy/AddAddress';
 import axios from 'axios';
 
 import Login from './components-main/Login'
-import ViewDoctorDetails from './components-clinic/ViewDoctorDetails'
 import AppointmentPayment from './components-clinic/patient/AppointmentPayment/AppointmentPayment'
-import PatientSearchDoctors from './components-clinic/PatientSearchDoctors'
 import PatientsList from './components-clinic/doctor/PatientsList/PatientsList.js'
 import PatientDetails from './components-clinic/doctor/PatientDetails/PatientDetails.js'
 import AddPrescription from './components-clinic/doctor/addPrescription/Addprescription';
@@ -37,7 +35,8 @@ import DoctorHome from './components-main/DoctorHome.jsx';
 import HealthPackageManagement from './components-clinic/patient/healthPackageManagement/mainPage/mainPage.js'
 import EditMedicine from './components-pharmacy/pharmacist/EditMedicine.jsx'
 import AddMedicine from './components-pharmacy/pharmacist/AddMedicine.jsx'
-import UploadMedicineImage from './components-pharmacy/UploadMedImg.jsx'import DoctorRespondFollowUp from './components-clinic/DoctorRespondFollowUp';
+import UploadMedicineImage from './components-pharmacy/UploadMedImg.jsx'
+import DoctorRespondFollowUp from './components-clinic/DoctorRespondFollowUp';
 import FollowUp1 from './components-clinic/FollowUp1';
 import FollowUp2 from './components-clinic/FollowUp2';
 import PatientSearchDoctors from './components-clinic/PatientSearchDoctors';
