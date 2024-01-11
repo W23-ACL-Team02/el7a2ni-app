@@ -97,8 +97,8 @@ module.exports = {
     viewFamilyMember: async (req,res) => {
         //change to params to test
         //TODO
-       // const userId = req.session.userId;
-       const userId='65771f862e100341613e4a71'
+       const userId = req.session.userId;
+       //const userId='65771f862e100341613e4a71'
         
         try {
             //change from userId to username
