@@ -48,7 +48,23 @@ const RemoveUser = () => {
   //     {message && <p>{message}</p>}
   //   </div>
   // );
+  // return (
+  //   <div>
+  //     <h2>Remove User</h2>
+  //     <form onSubmit={handleSubmit}>
+  //       <div>
+  //         <label htmlFor="username">Username:</label>
+  //         <input type="text" id="username" value={username} onChange={handleUsernameChange} required />
+  //       </div>
+  //       <button type="submit">Remove User</button>
+  //     </form>
+  //     {message && <p>{message}</p>}
+  //   </div>
+  // );
   return (
+    <div className="container"> {/* Apply the CSS class here */}
+      
+      <div className="rectangle2">
     <div className="container"> {/* Apply the CSS class here */}
       
       <div className="rectangle2">
@@ -63,7 +79,18 @@ const RemoveUser = () => {
           </div>
         </form>
       </div>
+        <form className="form" onSubmit={handleSubmit}> {/* Apply the CSS class here */}
+          <div className="input"> {/* Apply the CSS class here */}
+            <label htmlFor="username">Username:</label>
+            <input type="text" id="username" value={username} onChange={handleUsernameChange} required />
+          </div>
+          <div>
+            <button className="submit" type="submit">Remove User</button> {/* Apply the CSS class here */}
+          </div>
+        </form>
+      </div>
       {message && <p>{message}</p>}
+    </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ const UpcomingCompletedAppointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get(`${serverURL}/clinic/private/user/upcomingCompletedAppointments`, {withCredentials: true});
+      const response = await axios.get('http://localhost:3000/clinic/private/user/upcomingCompletedAppointments', {withCredentials: true});
       setAppointments(response.data.filteredAppointments || []);
       setError('');
     } catch (error) {
@@ -30,6 +30,7 @@ const UpcomingCompletedAppointments = () => {
     const year = dateObj.getFullYear();
     return `${day}.${month}.${year}`;
   };
+
   const formatTime = (time) => {
     const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     return formattedTime;
@@ -74,8 +75,10 @@ const UpcomingCompletedAppointments = () => {
           </div>
         )}
       </div>
-    </div>
+      </div>
   );
             }
+  
+          
   
 export default UpcomingCompletedAppointments;

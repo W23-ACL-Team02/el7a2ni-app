@@ -30,9 +30,13 @@ const parameters = new URLSearchParams(window.location.search);
     fetchAppointments();
   }, []);
 
-  const handleReschedule = (appointmentId) => {
+
+
+  const handleReschedule = (appointmentId,doctorUsername) => {
     console.log(appointmentId)
-    window.location.href=`/rescheduleFamilyAppointment3?appointmentId=${appointmentId}`
+   // window.location.href=`/rescheduleAppointment2?appointmentId=${appointmentId}`
+    window.location.href = `/rescheduleFamilyAppointment3?appointmentId=${appointmentId}&doctorUsername=${doctorUsername}`;
+
   };
   const formatDate = (dateStr) => {
     const dateObj = new Date(dateStr);
@@ -72,7 +76,7 @@ const parameters = new URLSearchParams(window.location.search);
                     <p>Status: {appointment.status}</p>
                   </div>
                   {/* Add more appointment details as needed */}
-                  <button onClick={() => handleReschedule(appointment._id)} className="submit-button">
+                  <button onClick={() => handleReschedule(appointment._id, appointment.doctorUsername)} className="submit-button">
                     Reschedule
                   </button>
                   <hr />

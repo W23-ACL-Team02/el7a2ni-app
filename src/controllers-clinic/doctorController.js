@@ -288,6 +288,7 @@ module.exports = {
             console.log(appointmentId);
 
 
+
             // Check if the logged-in user is a doctor
             //TODO
             if (req.session?.userType !== 'doctor') {
@@ -297,7 +298,7 @@ module.exports = {
             // Fetch the appointment from the database
             const appointment = await appointmentModel.findById(appointmentId);
             //TODO
-            //const doctorUsername = "testDoctor";
+           // const doctorUsername = "testDoctor";
             //TODO
             const doctor=await userModel.findById(req.session.userId);
             if(!doctor){
@@ -308,18 +309,20 @@ module.exports = {
             if (!appointment) {
                 return res.status(404).json({ message: 'Appointment not found' });
             }
+            console.log("1");
             if (appointment.status !== 'upcoming' && appointment.status !== 'rescheduled') {
                 return res.status(400).send("The appointment status is not upcoming. Only upcoming appointments can be rescheduled.");
             }
-
+            console.log("2");
             // Check if the logged-in doctor is the assigned doctor for this appointment
 
             //TODO
             if (appointment.doctorUsername !== doctor.username) {
-           // if (appointment.doctorUsername !== doctorUsername) {
+            //if (appointment.doctorUsername !== doctorUsername) {
                 return res.status(403).json({ message: 'You can only reschedule your own patient appointments' });
             }
 
+            console.log("3");
             // Fetch the patient's details from the database using the provided username
             const patient = await userModel.findOne({ username: appointment.patientUsername });
 
@@ -332,6 +335,20 @@ module.exports = {
             // if (appointment.patientUsername !== patientUsername) {
             //     return res.status(403).json({ message: 'The appointment does not belong to the specified patient' });
             // }
+
+
+          //  const doctor = await userModel.findOne({ username: doctorUsername }); // Assuming 'doctorUsername' is available in the function's scope
+            const updatedAvailableSlots = doctor.timeSlots.filter((slot) => {
+                return !(
+                    slot.date.toString() === new Date(newDate).toString() &&
+                    slot.startTime.toString() === new Date(newStartTime).toString() &&
+                    slot.endTime.toString() === new Date(newEndTime).toString()
+                );
+            });
+    
+            doctor.timeSlots = updatedAvailableSlots;
+            await doctor.save();
+            console.log("4")
 
             const parsedNewDate = new Date(newDate);
             const parsedNewStartTime = new Date(newStartTime);
@@ -351,7 +368,9 @@ module.exports = {
             appointment.end = new Date(parsedNewDate);
             appointment.end.setHours(endHours, endMinutes);
             appointment.status = 'rescheduled';
+            console.log(appointment);
 
+            
             await appointment.save();
 
             try {
@@ -460,17 +479,20 @@ module.exports = {
     notCompletedDoctorAppointments: async (req, res) => {
         try {
             //TODO
-            //const userId = req.session.userId
-            const userId = "6574c7bbe1e7e13216fa2146";
-            const doctor = await userModel.findById(userId)
+            const userId = req.session.userId
+         //  const userId = "6574c7bbe1e7e13216fa2146";
+           const doctor = await userModel.findById(userId)
 
 
 
 
             const filter = {
+                //TODO
                 doctorUsername: doctor.username, // Replace with the doctor's username
+              // doctorUsername: "testDoctor ",
                 status: { $ne: 'completed' } // $ne is a MongoDB operator meaning "not equal to"
             };
+            console.log("aftrfilter")
 
             //const Appointments = await appointmentModel.find(filter);
             //comsole.log(Appointments);
@@ -485,8 +507,44 @@ module.exports = {
         } catch (error) {
             res.status(400).json({ errors: [error.message] });
         }
+    },
+    getAvailableTime:async (req, res) => {
+        const doctorUsername = req.query.doctorUsername;
+        // Assuming you receive the doctor's username from the request parameters
+
+    try {
+      // Find the doctor based on the provided username
+      const doctor = await userModel.findOne({ username: doctorUsername });
+  
+      if (!doctor) {
+        return res.status(404).json({ message: 'Doctor not found' });
+      }
+  
+      // Get the doctor's appointments
+     const doctorAppointments = doctor.timeSlots;
+  
+      // Logic to determine available time slots based on the doctor's appointments
+      // Assuming you have a predefined schedule (e.g., working hours), you can generate available slots from that
+  
+      // Example: Generate available time slots based on a predefined schedule
+     
+      // Your logic to generate available time slots from the doctor's appointments and working hours
+      // ...
+  
+      // Return available time slots as a response
+      console.log(doctorAppointments)
+      res.status(200).json({ availableTimeSlots: doctorAppointments });
+  
+    } catch (error) {
+      console.error('Error fetching available time slots: ', error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-
-
-
 }
+ 
+  
+  
+
+    
+
+};
+

@@ -108,7 +108,6 @@ module.exports = {
       res.status(400).json({ errors: [error.message] });
     }
   },
-
   upcomingCompAppointments: async (req, res) => {
     try {
       //const userId = "65771f862e100341613e4a71";
@@ -172,7 +171,7 @@ module.exports = {
 
 
       //const { appointmentId, newDate, familyMemberUsername } = req.body;
-      const { appointmentId, newDate, newStartTime, newEndTime } = req.body;
+      const { appointmentId, newDate, newStartTime, newEndTime,doctorUsername } = req.body;
 
       //TODO
       if (req.session.userType !== "patient") {
@@ -191,6 +190,18 @@ module.exports = {
       if (appointment.patientUsername !== user.username) {
         return res.status(403).send("You can only reschedule your own appointments");
       }
+      const doctor = await userModel.findOne({ username: doctorUsername })
+      const updatedAvailableSlots = doctor.timeSlots.filter((slot) => {
+        return !(
+            slot.date.toString() === new Date(newDate).toString() &&
+            slot.startTime.toString() === new Date(newStartTime).toString() &&
+            slot.endTime.toString() === new Date(newEndTime).toString()
+        );
+    });
+
+    doctor.timeSlots = updatedAvailableSlots;
+    await doctor.save();
+    console.log("4")
 
 
       const parsedNewDate = new Date(newDate);
@@ -238,45 +249,16 @@ module.exports = {
       const userId = req.session.userId;
       //const userId= req.body;
 
-     // const userId = "65771f862e100341613e4a71";
+     //const userId = "65771f862e100341613e4a71";
       const user = await userModel.findById(userId);
       //TODO
-      if (req.session.userType !== "patient") {
-        return res.status(400).send("Only patients can reschedule appointments");
-      }
+      // if (req.session.userType !== "patient") {
+      //   return res.status(400).send("Only patients can reschedule appointments");
+      // }
 
       //const { appointmentId, newDate, familyMemberUsername } = req.body;
-      const { appointmentId, newDate, newStartTime, newEndTime } = req.body;
+      const { appointmentId, newDate, newStartTime, newEndTime,doctorUsername } = req.body;
 
-      // var memberBelongsToUser = false;
-      // var memberL = await userModel.findOne({ username: familyMember});
-      // var memberC = await userModel.findOne({ name: familyMember });
-
-      // // if (memberType == 'linked') {
-      // if (memberL) {
-      //     user.family.linked.map((member) => {
-      //         if (member.id.equals(memberL._id)) {
-      //             memberBelongsToUser = true;
-      //         }
-      //     })
-      // }
-
-      // if (!memberBelongsToUser && memberC) {
-
-      //     user.family.created.map((member) => {
-      //         if (member.id.equals(memberC._id)) {
-      //             memberBelongsToUser = true;
-      //         }
-      //     })
-
-      // }
-
-
-
-      // if (!memberBelongsToUser) {
-      //     res.status(400).json({ errors: ["This family member doesn't belong to you"] })
-      //     return
-      // }
 
 
       const appointment = await appointmentModel.findById(appointmentId);
@@ -292,6 +274,18 @@ module.exports = {
       //   return res.status(403).send("You can only reschedule your own family members' appointments");
       // }
 
+      const doctor = await userModel.findOne({ username: doctorUsername })
+      const updatedAvailableSlots = doctor.timeSlots.filter((slot) => {
+        return !(
+            slot.date.toString() === new Date(newDate).toString() &&
+            slot.startTime.toString() === new Date(newStartTime).toString() &&
+            slot.endTime.toString() === new Date(newEndTime).toString()
+        );
+    });
+
+    doctor.timeSlots = updatedAvailableSlots;
+    await doctor.save();
+    console.log("4")
 
       const parsedNewDate = new Date(newDate);
       const parsedNewStartTime = new Date(newStartTime);
@@ -399,7 +393,7 @@ module.exports = {
 
          const refundto=await userModel.findById(appointment.bookedby)
          refundto.addToWallet(price);
-         //refundto.save();
+         await refundto.save();
 
       }
 
@@ -508,6 +502,7 @@ module.exports = {
 
       const refundto=await userModel.findById(appointment.bookedby)
       refundto.addToWallet(price);
+      await refundto.save()
 
       }
 
@@ -518,39 +513,12 @@ module.exports = {
     }
 
   },
-  // ,
-  // notCompletedAppointments: async (req, res) => {
-  //   try {
-  //     const userId = req.session.userId
-  //     const user = await userModel.findById(userId)
-
-  //     if (req.session.userType == "admin") {
-  //       return res.status(400).send("Admin cannot view appointments")
-  //     }
-
-
-  //     const filter = {
-  //       status: { $in: ["upcoming", "completed"] }, // Use $in to match multiple statuses
-  //       //doctorUsername: "Doctor1" // Assuming you want to filter by doctorUsername
-  //       // patientUsername:"p7"
-  //     };
-  //     if (req.session.userType == "doctor") filter.doctorUsername = user.username;
-  //     if (req.session.userType == "patient") filter.patientUsername = user.username;
-
-  //     const filteredAppointments = await appointmentModel.find(filter);
-
-  //     console.log('Appointments found:', filteredAppointments);
-
-  //     res.status(200).json({ filteredAppointments: filteredAppointments || [] });
-  //   } catch (error) {
-  //     res.status(400).json({ errors: [error.message] });
-  //   }
-  // }
+ 
   notCompletedPatientAppointments: async (req, res) => {
     try {
         //TODO
         const userId = req.session.userId
-      //  const userId = "65771f862e100341613e4a71";
+        //const userId = "65771f862e100341613e4a71";
         const patient = await userModel.findById(userId)
 
 

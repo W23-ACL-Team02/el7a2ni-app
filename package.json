@@ -34,10 +34,10 @@
     "punycode": "^2.3.1",
     "react": "^18.2.0",
     "react-scripts": "^5.0.1",
-    "socket.io": "^4.7.2",
     "react-datepicker": "^4.25.0",
-    "uuid": "^9.0.1",
-    "stripe": "^14.7.0"
+    "socket.io": "^4.7.2",
+    "stripe": "^14.7.0",
+    "uuid": "^9.0.1"
   },
   "description": "This repository tracks the El7a2ni project.",
   "main": "index.js",
