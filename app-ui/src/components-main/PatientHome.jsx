@@ -32,7 +32,7 @@ export default function PatientHome() {
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/viewmedicinepatient')}}>Browse Medicine</button>
                     <div className='line' style={{width: 250}}></div>
                     <p style={{fontSize: 20, fontWeight: 500, height: 80}}>Need assistance finding the medicine you are looking for? We are here to help!</p>
-                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}}>Chat With Us</button>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => navigate('/chat')}>Chat With Us</button>
                 </Card>
             </div>
             <Card height={100} width={750}>

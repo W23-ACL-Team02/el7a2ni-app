@@ -40,6 +40,11 @@ const socketIO = (server) => {
             onlinePatients = onlinePatients.filter(onlineUser => onlineUser.id != socket.id);
             socket.broadcast.emit("userDisconnected", socket.id);
         });
+
+        socket.on('chat message', (msg) => {
+            console.log("got message: ", msg)
+            io.emit('chat message', msg);
+          });
     })
   };
   

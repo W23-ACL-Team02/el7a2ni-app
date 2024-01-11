@@ -51,9 +51,16 @@ module.exports = {
                 // Return existing conversation
 
             // Create new open conversation to be accepted by a pharmacist
+            let conversation = await conversationModel.create({
+                creatorId: userId,
+                receiverType: 'pharmacist',
+                isOpenConversation: true
+            })
 
+            res.status(200).json({conversationId: conversation._id})
         } catch (error) {
-
+            res.status(400).json({errors: ["Error creating conversation with pharmacist"]})
+            return;
         }
     },
     getConversationMessages: async (req, res) => {
