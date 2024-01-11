@@ -28,7 +28,6 @@ export default function DoctorAccount () {
 
     return(
         <div className='main'>
-        <doctorNavBar />
         <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', alignContent:'center'}}>
             <div className='top'>
                 <Card height={650} width={350}>

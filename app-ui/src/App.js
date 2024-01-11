@@ -81,19 +81,44 @@ import ViewCart from './components-pharmacy/ViewCart'
 import ViewSalesReport from './components-pharmacy/ViewSalesReport';
 import MedicineDet from './components-pharmacy/MedicineDet';
 import Alternatives from './components-pharmacy/Alternatives';
+import DoctorNavBar from './components-main/DoctorNavBar'
+import PatientNavBar from './components-main/PatientNavBar'
+import AdminNavBar from './components-main/AdminNavBar'
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-
+  const [userType, setUserType] = useState('');
 
 
   return (
     <div className="App">
-   <BrowserRouter>
-        <Routes>
-          <Route path="/home" element={<PatientHome />} />
-          <Route path="/adminHome" element={<AdminHome />} />
-          <Route path="/doctorHome" element={<DoctorHome />} />
-          <Route path="/pharmacistHome" element={<MedicineList />} />
+     
+     {!loggedIn && 
+      <BrowserRouter>
+        <Routes> 
+        <Route path="/changePassword" element={<ChangePassword/>}/>
+       <Route path="/VerifyEmail" element={<VerifyEmail/>}/>
+       <Route path="/OTPVErification" element={<OTPVErification/>}/>
+       <Route path="/ResetPassword" element={<ResetPassword/>}/>
+       <Route
+                path="/login"
+                element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUserType={setUserType} />}
+              />
+           </Routes>
+    </BrowserRouter>
+} 
+{loggedIn && (
+  <>
+
+    <BrowserRouter>
+    {userType === 'patient' && <PatientNavBar />}
+    {userType === 'admin' && <AdminNavBar />}
+    {userType === 'doctor' && <DoctorNavBar />}
+        <Routes> 
+        {userType == 'patient' && <Route path="/home" element={<PatientHome />} />}
+        {userType == 'admin' &&  <Route path="/home" element={<AdminHome />} />}
+        {userType == 'doctor' &&  <Route path="/home" element={<DoctorHome />} />}
+          <Route path="Home" element={<MedicineList />} />
           <Route path="/patientAccount" element={<PatientAccount/>}/>
           <Route path="/doctorAccount" element={<DoctorAccount/>}/>
           <Route path="/changePassword" element={<ChangePassword/>}/>
@@ -116,7 +141,7 @@ function App() {
           <Route path="/orderdetails" element={<OrderDetails />} />
           <Route path="/addaddress" element={<AddAddress />} />
           <Route path="/viewmedicinepatient" element={<MedicineListPatient/>} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" loggedIn={loggedIn} element={<Login />} />
           <Route path="/home" element={<PatientHome />} />
           <Route path="/patientsList" element={<PatientsList />} />
           <Route path="/patient-details" element={<PatientDetails />} />
@@ -141,11 +166,6 @@ function App() {
   
           <Route path='/editMedicineAndView' element={<EditMedicineAndView/>}></Route>
           <Route path='/editSelectedPrescriptions' element={<EditSelectedPrescriptions/>}></Route>
-
-
-
-
-
           <Route path="/viewmedicinepatient" element={<MedicineListPatient/>} />
           <Route path="/ViewSalesReport" element={<ViewSalesReport/>}/>
           <Route path="/medicinedetails/:id" element={<MedicineDet/>}/>
@@ -178,10 +198,11 @@ function App() {
           <Route path="/filterAppointmentsByStatus" element={< FilterByStatus/>} />
         </Routes>
       </BrowserRouter>
+      </>
+)}
+          
     </div>
   );
 }
-
-
 
 export default App;

@@ -3,7 +3,7 @@ const appointmentModel = require('../models/appointment');
 const healthPackageModel = require(`../models/healthPackage.js`);
 const fileModel = require(`../models/file.js`);
 const Appointment = require('../models/appointment');
-const Appointment = require('../models/appointment');
+const { createAppointmentCancelledNotif } = require('../handlers/notification/notificationHandler.js');
 
 module.exports = {
     getPatients: async (req, res) => {
@@ -291,7 +291,7 @@ module.exports = {
 
             // Check if the logged-in user is a doctor
             //TODO
-            if (req.session.user.type !== 'doctor') {
+            if (req.session?.userType !== 'doctor') {
               return res.status(403).json({ message: 'Only doctors can reschedule appointments' });
             }
 
@@ -373,7 +373,12 @@ module.exports = {
             
             await appointment.save();
 
-            console.log(appointment);
+            try {
+                await createAppointmentCancelledNotif(req.session?.userId, patient._id, appointment.start)
+            } catch (error) {
+            console.log(error)
+            }
+
             res.status(200).send("Appointment rescheduled successfully");
         } catch (error) {
             res.status(400).json({ errors: [error.message] });
@@ -407,6 +412,15 @@ module.exports = {
             }
 
             appointment.status = 'cancelled';
+
+            try {
+                // Create notification
+                let patient = await userModel.findOne({username: appointment.patientUsername})
+
+                createAppointmentCancelledNotif(userId, patient._id, appointment.start)
+            } catch (error) {
+                console.log(error)
+            }
 
             await appointment.save();
             console.log("after appointment save")

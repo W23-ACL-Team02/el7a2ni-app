@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cors = require('cors');
 var pharmacyRouter = require('./routes/pharmacy');
 var clinicRouter = require('./routes/clinic');
+var mainRouter = require('./routes/main');
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use(cors({origin: "http://localhost:4000", credentials: true})); //Take cros
 // Routes
 app.use('/pharmacy', pharmacyRouter);
 app.use('/clinic', clinicRouter);
+app.use('/main', mainRouter);
 
 /**
  * MongoDB connection and port listening were extracted to ('./server.js')

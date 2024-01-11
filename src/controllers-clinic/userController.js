@@ -224,7 +224,7 @@ module.exports = {
 			if (user?.type == 'doctor' && user.acceptanceStatus == 'pendingcontract') {
 				return res.status(200).json({pendingContract:'pendingcontract'});
 			}
-			return res.status(200).send(token);
+			return res.status(200).send(user);
 			// return res.status(200).end();
 		} catch (error) {
 			res.status(400).json({ errors: [error.message] });
