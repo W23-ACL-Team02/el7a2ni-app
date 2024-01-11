@@ -69,6 +69,7 @@ import HealthPackagesPayment from './components-clinic/patient/HealthPackagesPay
 import DoctorRespondFollowUp from './components-clinic/DoctorRespondFollowUp' 
 import ScheduleFollowUp from './components-clinic/ScheduleFollowUp' 
 import Contract from './components-clinic/Contract' 
+import Contract from './components-clinic/FollowUp1.jsx' 
 
 
 import PatientHome from './components-main/PatientHome.jsx';
@@ -90,6 +91,7 @@ import Alternatives from './components-pharmacy/Alternatives';
 import DoctorNavBar from './components-main/DoctorNavBar'
 import PatientNavBar from './components-main/PatientNavBar'
 import AdminNavBar from './components-main/AdminNavBar'
+import NotificationPane from './components-main/notifications/NotificationPane.jsx'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -175,6 +177,8 @@ function App() {
           <Route path='/DoctorRespondFollowUp' element={<DoctorRespondFollowUp/>}></Route>
           <Route path='/ScheduleFollowUp' element={<ScheduleFollowUp/>}></Route>
           <Route path='/Contract' element={<Contract/>}></Route>
+          <Route path='/follow-up' element={<FollowUp1/>}></Route>
+          <Route path='/notifications' element={<NotificationPane/>}></Route>
           
 
           <Route path='/ViewAppointments' element={<ViewAppointments/>}></Route>

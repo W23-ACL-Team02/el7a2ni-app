@@ -20,6 +20,8 @@ export default function PatientHome() {
                     <p style={{fontSize: 20, fontWeight: 500, height: 80}}>Need to see a doctor? Pick one from our different specialties.</p>
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/doctors-list')}}>
                         Book Appointment</button>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/follow-up')}}>
+                        Follow-up Appointment</button>
                     <div className='line' style={{width: 200}}></div>
                     <p style={{fontSize: 20, fontWeight: 500, height: 80}}>Have a medical emergency? Video call a doctor on demand now!</p>
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/VideoCallRoom')}}>Start Video Call</button>
