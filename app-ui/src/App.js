@@ -8,7 +8,7 @@ import CheckoutSuccess from './components-pharmacy/shared/PaymentSuccess.js';
 import CheckoutFailed from './components-pharmacy/shared/PaymentFailed.js'; 
 import Home from './components-pharmacy/Home';
 import MedicineList from './components-pharmacy/pharmacist/MedicineList.jsx'; //for pharmacist only
-import MedicineListPatient from './components-pharmacy/MedicineList';
+//import MedicineListPatient from './components-pharmacy/MedicineList';
 import MedicineListPharmacist from './components-pharmacy/MedicineListPharmacist.js';
 import ViewCart from './components-pharmacy/ViewCart'
 import Patients from './components-pharmacy/Patients';
@@ -41,6 +41,8 @@ import ViewAppointments from './components-clinic/FilterAppointments.jsx'
 import VerifyEmail from './components-clinic/VerifyEmail.jsx';
 import OTPVErification from './components-clinic/OTPVErification.jsx';
 import ResetPassword from './components-clinic/ResetPassword.jsx'
+import HealthPackagesPayment from './components-clinic/patient/HealthPackagesPayment/HealthPackagesPayment.js' 
+
 
 import PatientHome from './components-main/PatientHome.jsx';
 import AdminHome from './components-main/AdminHome.jsx';
@@ -55,7 +57,6 @@ import EditMedicineAndView from './components-pharmacy/doctor/EditMedicineAndVie
 import EditSelectedPrescriptions from './components-pharmacy/doctor/EditSelectedPrescriptions.jsx';
 import DoctorHealthRecordsPage from './components-clinic/doctor/healthRecords/mainPage/mainPage.js';
 import MedicineListPatient from './components-pharmacy/MedicineListPatient';
-import ViewCart from './components-pharmacy/ViewCart'
 import ViewSalesReport from './components-pharmacy/ViewSalesReport';
 import MedicineDet from './components-pharmacy/MedicineDet';
 import Alternatives from './components-pharmacy/Alternatives';
@@ -74,7 +75,8 @@ function App() {
      {!loggedIn && 
       <BrowserRouter>
         <Routes> 
-        <Route path="/changePassword" element={<ChangePassword/>}/>
+        <Route path="/VideoCallRoom" element={<VideoCallRoom />} /> {/* should not be here but its added to fix big */}
+       <Route path="/changePassword" element={<ChangePassword/>}/>
        <Route path="/VerifyEmail" element={<VerifyEmail/>}/>
        <Route path="/OTPVErification" element={<OTPVErification/>}/>
        <Route path="/ResetPassword" element={<ResetPassword/>}/>
@@ -96,6 +98,7 @@ function App() {
         {userType == 'patient' && <Route path="/home" element={<PatientHome />} />}
         {userType == 'admin' &&  <Route path="/home" element={<AdminHome />} />}
         {userType == 'doctor' &&  <Route path="/home" element={<DoctorHome />} />}
+        {userType == 'pharmacist' &&  <Route path="/home" element={<MedicineList />} />}
           <Route path="Home" element={<MedicineList />} />
           <Route path="/patientAccount" element={<PatientAccount/>}/>
           <Route path="/doctorAccount" element={<DoctorAccount/>}/>
@@ -106,6 +109,7 @@ function App() {
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicineListPharmacist" element={<MedicineListPharmacist />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
+          <Route path="/HealthPackagesPayment" element={<HealthPackagesPayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
          <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
           <Route path="/ViewCart" element={<ViewCart />} />
@@ -154,7 +158,7 @@ function App() {
 )}
           
     </div>
-  );
+  );withCredentials: true
 }
 
 export default App;

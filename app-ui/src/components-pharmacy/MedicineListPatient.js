@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 import '../css/medcinelistpatient.css';
 const serverURL = process.env.REACT_APP_SERVER_URL;
@@ -11,6 +12,7 @@ const MedicineList = () => {
   const [alternatives, setAlternatives] = useState([]);
   const [showAlternatives, setShowAlternatives] = useState(false);
   const [id, setID] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch all medicines on component mount
@@ -52,7 +54,7 @@ const MedicineList = () => {
     console.log(medicineId)
     //  setID(medicineId);
     //  console.log("AFTERmedicinealt,",response.data)
-      window.location.href=`/altMed?ids=${medicineId}`;
+      navigate(`/altMed?ids=${medicineId}`);
     //   const alternativesString = JSON.stringify(alternatives);
 
     //  window.location.href = `/altMed?alternatives=${encodeURIComponent(alternativesString)}`;
@@ -75,7 +77,7 @@ const MedicineList = () => {
 
   const handleViewCart = () => {
     // Redirect to the chooseaddress page
-    window.location.href = '/ViewCart';
+    navigate('/ViewCart');
   };
 
   const displayImage = (imageData) => {

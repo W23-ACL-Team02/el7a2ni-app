@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PharmacistNavBar from '../../components-main/PharmacistNavBar';
+import ViewSalesReport from '../ViewSalesReport';
 import '../../css/medicineList.css'
 //const { useLocation } = require("react-router-dom")
 const serverURL = process.env.REACT_APP_SERVER_URL
@@ -208,6 +209,7 @@ const MedicineList = () => {
             </table>
           </div>
         )}
+       
       </div>
     </div>
   );

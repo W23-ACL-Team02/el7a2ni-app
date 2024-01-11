@@ -116,7 +116,8 @@ const Alternatives = () => {
       try {
         const response = await axios.get(`${serverURL}/pharmacy/private/medicine/viewalternativemedicicne`, {
           params: { medicineId },
-        }, {withCredentials: true});
+          withCredentials: true
+        });
 
         // Update state with alternatives
         console.log(response.data);

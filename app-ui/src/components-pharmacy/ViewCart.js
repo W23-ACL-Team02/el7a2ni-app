@@ -102,6 +102,7 @@
 // export default ViewCart;
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import '../css/viewcart.css'; // Import the styles from the MedicineList page
 const serverURL = process.env.REACT_APP_SERVER_URL;
 
@@ -109,6 +110,7 @@ function ViewCart() {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
 
   const handleDelete = async (medicineId, quantity) => {
     try {
@@ -166,7 +168,7 @@ function ViewCart() {
   }, []);
 
   const handleCheckout = () => {
-    window.location.href = '/chooseaddress';
+    navigate('/chooseaddress');
   };
 
   return (

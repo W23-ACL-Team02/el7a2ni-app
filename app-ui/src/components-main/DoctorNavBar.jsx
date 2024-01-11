@@ -13,7 +13,7 @@ export default function DoctorNavBar() {
 
     return (
         <div className='bar'>
-            <button className='nav-button' style={{width: 140, paddingLeft: 8, paddingRight: 8, marginLeft: 'auto', fontWeight: 800, fontSize: 30, marginLeft: 10}} onClick={() => {navigate('/doctorHome')}}>
+            <button className='nav-button' style={{width: 140, paddingLeft: 8, paddingRight: 8, marginLeft: 'auto', fontWeight: 800, fontSize: 30, marginLeft: 10}} onClick={() => {navigate('/home')}}>
                 El7a2ni
             </button>
             <div className='search'>

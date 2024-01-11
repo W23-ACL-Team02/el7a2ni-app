@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import '../css/orders.css';
 //show order details aka cart + address + total
 //button redirects to payment page
+import { useNavigate } from 'react-router';
 const serverURL = process.env.REACT_APP_SERVER_URL 
 
 
@@ -12,6 +13,7 @@ function GetOrder(){
   const [cart, setCart]= useState([]);
   const [address, setAddress]= useState([]);
   const [total, setTotal]= useState([]);
+  const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   // const {id}= useParams;\
@@ -150,7 +152,7 @@ const displayImage = (imageData) => {
                       </div>
                       <div className="button-container">
                     
-        <button id="button" onClick={() => window.location.href='/medicine-payment'}>Continue</button> 
+        <button id="button" onClick={() => navigate('/medicine-payment')}>Continue</button> 
                          </div>
             
    </div>

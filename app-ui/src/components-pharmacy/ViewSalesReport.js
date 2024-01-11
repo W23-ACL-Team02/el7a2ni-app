@@ -7,7 +7,7 @@ const serverURL = process.env.REACT_APP_SERVER_URL;
 
 const ViewSalesReport = () => {
   const [selectedMonth, setSelectedMonth] = useState('');
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState('');
   const [medName, setMedName] = useState(''); // New state for medicine name
   const [salesReports, setSalesReports] = useState([]);
   const [error, setError] = useState('');
@@ -96,7 +96,7 @@ const ViewSalesReport = () => {
 
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <label style={{ marginRight: '10px' }}>Filter by Date: </label>
-        <DatePicker selected={selectedDate} onChange={handleDateChange} />
+        <DatePicker onChange={handleDateChange} />
         <button onClick={handleFilterByDate} id="button-id">
           Filter by Date
         </button>

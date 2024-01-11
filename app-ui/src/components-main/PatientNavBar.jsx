@@ -24,7 +24,7 @@ export default function PatientHome() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 Account
             </button>
-            <button className='nav-button' style={{width: 100, paddingLeft: 8, paddingRight: 8, marginLeft: 10}}>
+            <button className='nav-button' onClick={() => navigate('/ViewCart')} style={{width: 100, paddingLeft: 8, paddingRight: 8, marginLeft: 10}}>
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="20.5" r="1"/><circle cx="18" cy="20.5" r="1"/><path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1"/></svg>
                 Cart
             </button>

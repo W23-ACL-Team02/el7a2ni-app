@@ -4,10 +4,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import '../css/table.css';
+import { useNavigate } from 'react-router';
 const serverURL = process.env.REACT_APP_SERVER_URL 
 
 function GetAddresses(){
   const [addresses, setAddresses]= useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +56,7 @@ function GetAddresses(){
                     <td>{address.city}</td>
                     <td>{address.country}</td>
            
-                <button id="buttonsmall" onClick={() => window.location.href=`/orderdetails?id=${address._id}`}>Choose Address</button>
+                <button id="buttonsmall" onClick={() => navigate(`/orderdetails?id=${address._id}`)}>Choose Address</button>
             </tr >
         })
       }
@@ -62,7 +64,7 @@ function GetAddresses(){
       </table>
 
       <div className="button-container">
-      <button id="button" onClick={() => window.location.href='/addaddress'}>Add Address</button>
+      <button id="button" onClick={() => navigate('/addaddress')}>Add Address</button>
       </div>
 </div>
 

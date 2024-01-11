@@ -6,6 +6,7 @@ import Card from './Card'
 import '../css/general.css'
 import '../css/patientHome.css'
 import AdminNavBar from './AdminNavBar'
+import ViewSalesReport from '../components-pharmacy/ViewSalesReport'
 
 const baseURL = process.env.REACT_APP_SERVER_URL
 
