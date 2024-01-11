@@ -126,7 +126,7 @@ TODO
 
 ## API Reference
 
-Our [API Documentation](src/routes/EXAMPLE_ROUTE_DOC.md) is provided in full in a separate file.
+Our [API Documentation](src/routes/API_DOC.md) is provided in full in a separate file.
 
 ## Testing
 

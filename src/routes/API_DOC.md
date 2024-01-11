@@ -641,3 +641,91 @@ Responds with JSON containing user object of currently logged in user.
 
 **Note:**
 * Must send JWT as cookie for authentication
+
+### POST /clinic/private/doctor/api/viewHealthRecords
+Lets doctors view their patients health records. 
+
+*Body:*
+*patientUsername: patient's username
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type doctor
+
+### POST /clinic/private/patient/healthPackage/subscribe
+Lets patients subscribe to a health package.
+
+*Body:*
+*packageId: health package's id
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type patient
+
+### GET /clinic/private/patient/healthPackage/view
+Lets patients view their health package subscription.
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type patient
+
+### POST /clinic/private/patient/healthPackage/renew
+Lets patients renew their health package subscription.
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type patient
+
+### POST /clinic/private/patient/healthPackage/cancel
+Lets patients cancel their health package subscription.
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type patient
+
+### GET /clinic/private/patient/healthRecord/
+Lets patients view their health records.
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type patient
+
+### GET /pharmacy/private/pharmacist/medicine/find
+Returns medicine matching search phrase along with their distinct categories.
+
+*Params:*
+* searchKey: phrase to search with
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type pharmacist
+
+### POST /pharmacy/private/pharmacist/medicine/add
+Lets pharmacists add new medicine.
+
+*Body:*
+* name: medicine name
+* details: medicine details
+* activeIngredients: medicine active ingredients
+* price: medicine price
+* quantity: medicine quantity
+* dosage: medicine dosage
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type pharmacist
+
+### POST /pharmacy/private/pharmacist/medicine/edit
+Lets pharmacists edit new medicine.
+
+*Body:*
+* name: medicine name
+* details: medicine details
+* activeIngredients: medicine active ingredients
+* price: medicine price
+* quantity: medicine quantity
+* dosage: medicine dosage
+
+*Notes:*
+* Must send JWT as cookie for authentication
+* User in token must be of type pharmacist
