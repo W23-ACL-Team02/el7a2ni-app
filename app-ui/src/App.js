@@ -37,7 +37,6 @@ import AddAdminClinic from'./components-clinic/AddAdmin';
 import AddAdminPharmacy from'./components-pharmacy/AddAdmin';
 import RemoveUserPharmacy from './components-pharmacy/RemoveUser'
 import RemoveUserClinic from './components-clinic/RemoveUser'
-import UploadMedicineImage from './components-pharmacy/UploadMedImg';
 import AddTimeSlots from './components-clinic/AddTimeSlots';
 import FilterAppointments from './components-clinic/FilterAppointments';
 import FilterByStatus from './components-clinic/FilterByStatus';
@@ -45,6 +44,10 @@ import UpcomingCompletedAppointments from './components-clinic/UpcomingCompleted
 import axios from 'axios';
 
 import Login from './components-main/Login'
+import RegisterDoctor from './components-clinic/RegisterDoctor.jsx'
+import RegisterPatient from './components-clinic/RegisterPatient.jsx'
+import RegisterPharmacist from './components-pharmacy/RegisterPharmacist.jsx'
+import Register from './components-clinic/RegisterUser.jsx'
 import ChangePassword from './components-clinic/ChangePassword.jsx';
 import ViewDoctorDetails from './components-clinic/ViewDoctorDetails'
 import AppointmentPayment from './components-clinic/patient/AppointmentPayment/AppointmentPayment'
@@ -58,12 +61,14 @@ import ViewFamilyMembers from './components-clinic/patient/FamilyMembers/ViewFam
 import AddFamilyMembers from './components-clinic/patient/FamilyMembers/AddFamilyMembers.jsx'
 import LinkFamilyMember from './components-clinic/patient/FamilyMembers/LinkFmailyMember.jsx';
 import VideoCallRoom from './components-clinic/shared/VideoCallRoom/VideoCallRoom.js'
-import AddTimeSlots from './components-clinic/AddTimeSlots.jsx';
 import ViewAppointments from './components-clinic/FilterAppointments.jsx'
 import VerifyEmail from './components-clinic/VerifyEmail.jsx';
 import OTPVErification from './components-clinic/OTPVErification.jsx';
 import ResetPassword from './components-clinic/ResetPassword.jsx'
 import HealthPackagesPayment from './components-clinic/patient/HealthPackagesPayment/HealthPackagesPayment.js' 
+import DoctorRespondFollowUp from './components-clinic/DoctorRespondFollowUp' 
+import ScheduleFollowUp from './components-clinic/ScheduleFollowUp' 
+import Contract from './components-clinic/Contract' 
 
 
 import PatientHome from './components-main/PatientHome.jsx';
@@ -102,6 +107,10 @@ function App() {
        <Route path="/VerifyEmail" element={<VerifyEmail/>}/>
        <Route path="/OTPVErification" element={<OTPVErification/>}/>
        <Route path="/ResetPassword" element={<ResetPassword/>}/>
+       <Route path="/Register" element={<Register />} />
+       <Route path="/RegisterDoctor" element={<RegisterDoctor />} />
+       <Route path="/RegisterPatient" element={<RegisterPatient />} />
+       <Route path="/RegisterPharmacist" element={<RegisterPharmacist />} />
        <Route
                 path="/login"
                 element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUserType={setUserType} />}
@@ -133,7 +142,7 @@ function App() {
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>
           <Route path="/HealthPackagesPayment" element={<HealthPackagesPayment/>}/>
           <Route path="/checkout-success" element={<CheckoutSuccess/>}/>
-         <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
+          <Route path="/checkout-failed" element={<CheckoutFailed/>}/>
           <Route path="/ViewCart" element={<ViewCart />} />
           <Route path="/patients" element={<Patients />} />
           <Route path="/patient" element={<ViewPatient />} />
@@ -154,7 +163,7 @@ function App() {
           <Route path="/SelectedPrescriptions" element={<SelectedPrescriptions />} />
           <Route path="/AddPrescription" element={<AddPrescription />} />
           <Route path='/doctors-list' element={<PatientSearchDoctors/>}></Route>  
-          <Route path='/viewdocdetails' element={<ViewDoctorDetails/>}></Route> 
+          <Route path='/ViewDoctorDetails' element={<ViewDoctorDetails/>}></Route> 
           <Route path='/appointment-payment' element={<AppointmentPayment/>}></Route>
           <Route path='/healthPackages' element={<HealthPackageManagement/>}></Route>
           <Route path='/editMedicine' element={<EditMedicine/>}></Route>
@@ -164,6 +173,10 @@ function App() {
           <Route path='/ViewFamilyMembers' element={<ViewFamilyMembers/>}></Route>
           <Route path='/AddFamilyMembers' element={<AddFamilyMembers/>}></Route>
           <Route path='/LinkFamilyMember' element={<LinkFamilyMember/>}></Route>
+          <Route path='/DoctorRespondFollowUp' element={<DoctorRespondFollowUp/>}></Route>
+          <Route path='/ScheduleFollowUp' element={<ScheduleFollowUp/>}></Route>
+          <Route path='/Contract' element={<Contract/>}></Route>
+          
 
           <Route path='/ViewAppointments' element={<ViewAppointments/>}></Route>
           <Route path='/AddTimeSlots' element={<AddTimeSlots/>}></Route>

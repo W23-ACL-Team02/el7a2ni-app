@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react'
-import PasswordValidityBox from './PasswordValidityBox'
+import PasswordValidityBox from '../components-pharmacy/PasswordValidityBox'
 import { validatePassword } from '../functions/validatePassword'
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
@@ -9,7 +10,7 @@ export default function RegisterPatient() {
 
     return (
         // TODO Change Backend call
-        <form className='container-main' action={`${baseURL}/public/user/register/patient`} method="POST">
+        <form className='container-main' action={`${baseURL}/clinic/public/user/register/patient`} method="POST">
             <div class="form-group"><label for="username">Username</label><input class="form-control" type="text" name="username" placeholder="Username" required="required" autofocus="autofocus" /></div>
             <div class="form-group"><label for="name">Name</label><input class="form-control" type="text" name="name" placeholder="Name" required="required" /></div>
             <div class="form-group"><label for="email">Email</label><input class="form-control" type="email" name="email" placeholder="Email" required="required" /></div>

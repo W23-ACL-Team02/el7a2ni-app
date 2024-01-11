@@ -26,6 +26,10 @@ export default function DoctorHome() {
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/AddPrescription')}}>Add Prescription</button>
                     <div className='line' style={{width: 200}}></div>
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/VideoCallRoom')}}>Start Video Call</button>
+                    <div className='line' style={{width: 200}}></div>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/ScheduleFollowUp')}}>Schedule follow-up</button>
+                    <div className='line' style={{width: 200}}></div>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/DoctorRespondFollowUp')}}>Respond to follow-up request</button>
                 </Card>
             </div>
         </div>

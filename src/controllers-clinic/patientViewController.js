@@ -105,7 +105,8 @@ module.exports = {
             let doctor = await userModel.findById(req.params.id);
             let discountRate = 0;
             let curPatient = await userModel.findById(req.session.userId);
-            if (curPatient?.healthPackage != undefined && user?.healthPackage?.status != "Unsubscribed") {
+        
+            if (curPatient?.healthPackage != undefined && curPatient?.healthPackage?.status != "Unsubscribed") {
                 let userHealthPackage = await healthPackageModel.findById(curPatient?.healthPackage.packageId);
                 discountRate = userHealthPackage.discountSession;
                 console.log(discountRate);
@@ -114,13 +115,13 @@ module.exports = {
             let patNfamily = [{name:curPatient.name , username:curPatient.username , discount:discountRate}]
             for(let i=0 ; i<curPatient.family.linked.length ;i++){
                 let famMem = await userModel.findById(curPatient.family.linked[i].id);
-                // if (famMem?.healthPackage != undefined) {
-                //     let userHealthPackage = await healthPackageModel.findById(famMem?.healthPackage.packageId);
-                //     discountRate = userHealthPackage.discountSession ?? 0;
-                //     console.log(discountRate);
-                // }else{
-                //     discountRate = 0;
-                // }
+                if (famMem?.healthPackage != undefined && famMem?.healthPackage?.status != "Unsubscribed") {
+                    let userHealthPackage = await healthPackageModel.findById(famMem?.healthPackage.packageId);
+                    discountRate = userHealthPackage.discountSession ?? 0;
+                    console.log(discountRate);
+                }else{
+                    discountRate = 0;
+                }
                 patNfamily.push({name:famMem.name , username:famMem.username , discount:discountRate});
             }
             console.log(patNfamily);

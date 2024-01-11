@@ -1,15 +1,18 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/table.css';
 import { useHistory } from 'react-router-dom';
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 function GetPharmacists(){
   const [pharmacists, setPharmacists]= useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/pharmacy/private/admin/user/pharmacists', {withCredentials: true});
+        const res = await axios.get(`${serverURL}/pharmacy/private/admin/user/pharmacists`, {withCredentials: true});
         setPharmacists(res.data);
       } catch (err) {
         console.log(err);
@@ -37,7 +40,7 @@ function GetPharmacists(){
               return <tr key={user._id} >
                 <td>{user.username}</td>
                 <td>{user.name}</td>
-                <td onClick={() => window.location.href=`/pharmacist?id=${user._id}`}>View</td>
+                <td onClick={() => navigate(`/pharmacist?id=${user._id}`)}>View</td>
 
               </tr>
             })

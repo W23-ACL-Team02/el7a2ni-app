@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/table.css';
 import { useHistory } from 'react-router-dom';
 const serverURL = process.env.REACT_APP_SERVER_URL
@@ -38,7 +39,7 @@ function GetPatients(){
               return <tr key={user._id} >
                 <td>{user.username}</td>
                 <td>{user.name}</td>
-                <td onClick={() => window.location.href=`/patient?id=${user._id}`}>View</td>
+                <td onClick={() => navigate(`/patient?id=${user._id}`)}>View</td>
 
               </tr>
             })

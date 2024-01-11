@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/addAdmin.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const SelectFamily = ({ history }) => {
@@ -9,6 +9,7 @@ const SelectFamily = ({ history }) => {
   const [selectedMember, setSelectedMember] = useState('');
   const [linkedfamilyMembers, setlinkedFamilyMembers] = useState([]);
   const [createdfamilyMembers, setcreatedFamilyMembers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFamilyMembers = async () => {
@@ -34,7 +35,7 @@ const SelectFamily = ({ history }) => {
     setSelectedMember(member);
    // history.push(`/cancelFamily2/${selectedMember}`);
    // window.location.href=`/rescheduleFamilyAppointment2?appointmentId=${appointmentId}`
-   window.location.href=`/rescheduleFamilyAppointment2?member=${member}`
+   navigate(`/rescheduleFamilyAppointment2?member=${member}`)
   };
 
 //   const handleNext = () => {

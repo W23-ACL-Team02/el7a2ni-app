@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import '../css/cancelAppointment.css';
 const baseURL = process.env.REACT_APP_SERVER_URL;
@@ -8,7 +8,7 @@ const FamilyAppointmentList = () => {
 const [appointments, setAppointments] = useState([]);
 const parameters = new URLSearchParams(window.location.search);
   const familyMember = parameters.get('member');
-
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const parameters = new URLSearchParams(window.location.search);
   const handleReschedule = (appointmentId,doctorUsername) => {
     console.log(appointmentId)
    // window.location.href=`/rescheduleAppointment2?appointmentId=${appointmentId}`
-    window.location.href = `/rescheduleFamilyAppointment3?appointmentId=${appointmentId}&doctorUsername=${doctorUsername}`;
+    navigate(`/rescheduleFamilyAppointment3?appointmentId=${appointmentId}&doctorUsername=${doctorUsername}`);
 
   };
   const formatDate = (dateStr) => {

@@ -145,6 +145,7 @@
 // Assuming this component is part of your React frontend
 
 import React, { useState, useEffect } from 'react';
+import useNavigate from 'react-router-dom';;
 import axios from 'axios';
 const serverURL = process.env.REACT_APP_SERVER_URL
 console.log(process.env.REACT_APP_SERVER_URL)
@@ -152,6 +153,7 @@ console.log(process.env.REACT_APP_SERVER_URL)
 const MedicineList = () => {
   const [medicines, setMedicines] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch all medicines on component mount
@@ -184,7 +186,7 @@ const MedicineList = () => {
   };
   const handleviewcart = () => {
     // Redirect to the chooseaddress page
-    window.location.href = '/ViewCart';
+    navigate('/ViewCart');
   };
   const displayImage = (imageData) => {
     if (!imageData) {

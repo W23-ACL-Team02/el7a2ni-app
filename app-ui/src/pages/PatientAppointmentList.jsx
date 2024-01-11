@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 //import '../css/cancelAppointment.css';
 import '../css/addAdmin.css'
 const baseURL = process.env.REACT_APP_SERVER_URL;
 const PatientAppointmentList = () => {
   const [appointments, setAppointments] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -24,7 +25,7 @@ const PatientAppointmentList = () => {
   const handleReschedule = (appointmentId,doctorUsername) => {
     console.log(appointmentId)
    // window.location.href=`/rescheduleAppointment2?appointmentId=${appointmentId}`
-    window.location.href = `/rescheduleAppointment2?appointmentId=${appointmentId}&doctorUsername=${doctorUsername}`;
+   navigate(`/rescheduleAppointment2?appointmentId=${appointmentId}&doctorUsername=${doctorUsername}`);
 
   };
   const formatDate = (dateStr) => {

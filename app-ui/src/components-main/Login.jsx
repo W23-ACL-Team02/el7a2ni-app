@@ -18,9 +18,18 @@ export default function Login({loggedIn,setLoggedIn, setUserType}) {
             .then((response) => {
                 setErrors([]);
                 setLoggedIn(true);
-                setUserType(response.data.type);
-                navigate('/home')
+                setUserType(response.data?.type);
                 localStorage.setItem('currUser', response.body);
+                if(response.data?.pendingContract === 'pendingcontract'){
+                    navigate('/Contract');
+                } else if(response.data?.pendingContract === 'rejected'){
+                    setErrors('This account was rejected');
+                }else{
+                    navigate('/home');
+                }
+                
+                
+                
             })
             .catch((error) => {
                 setErrors(error.response?.data?.errors)
@@ -60,6 +69,8 @@ export default function Login({loggedIn,setLoggedIn, setUserType}) {
                     value={"Log in"} />
             </div>
             <a onClick={() => {navigate('/VerifyEmail')}}> forgot password?</a>
+            <p>Dont have an account?</p> 
+            <button style={{width:'100px', height:'30px'}} onClick={() => navigate('/Register')}>Sign Up</button>
         </fieldset>
     )
 }

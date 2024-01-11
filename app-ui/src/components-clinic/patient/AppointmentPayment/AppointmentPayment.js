@@ -25,6 +25,9 @@ const AppointmentCheckout = () => {
         setDoctor(state.doctor);
         setPatientUsername(state.patientUsername);
         getAppointmetPrice(state.doctor._id);   
+        console.log('Start Time: ',state.selectedAppointmentStartTime);
+        console.log('Pat username: ',state.patientUsername);
+        console.log('Doc username: ',state.doctor.username);
      }, []);
 
     const getAppointmetPrice =  async (doctorId) => {

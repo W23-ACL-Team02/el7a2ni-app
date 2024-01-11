@@ -118,7 +118,7 @@ const PatientSearchDoctors = () => {
           {doctorList.map((doctor) => (
             <tr key={doctor._id}>
               <td>
-              <button onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
+              <button  style={{width:'230px',height:'40px'}} onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
               </td>
               <td>
                 {doctor.name}

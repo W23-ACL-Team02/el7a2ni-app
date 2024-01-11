@@ -10,7 +10,7 @@ export default function RegisterPharmacist() {
 
     return (
         // TODO Change backend call
-        <form className='container-main' action={`${baseURL}/public/user/register/pharmacist`} method="POST" encType="multipart/form-data">
+        <form className='container-main' action={`${baseURL}/pharmacy/public/user/register/pharmacist`} method="POST" encType="multipart/form-data">
             <div className="form-group"><label for="username">Username</label><input className="form-control" type="text" name="username" placeholder="Username" required="required" autofocus="autofocus" /></div>
             <div className="form-group"><label for="name">Name</label><input className="form-control" type="text" name="name" placeholder="Name" required="required" /></div>
             <div className="form-group"><label for="email">Email</label><input className="form-control" type="email" name="email" placeholder="Email" required="required" /></div>

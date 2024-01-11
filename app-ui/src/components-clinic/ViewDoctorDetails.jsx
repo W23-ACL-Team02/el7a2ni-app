@@ -41,13 +41,11 @@ const ViewDoctorDetails = () => {
     console.log(`Book Now clicked for ${date}, ${startTime} to ${endTime}`);
     setSelectedAppointmentStartTime(startTime);
 
-    const data = {selectedAppointmentStartTime: startTime, doctor: doctorVar}
+    const data = {patientUsername,selectedAppointmentStartTime: startTime, doctor: doctorVar}
     navigate( "/appointment-payment", {state: data}); // new line
     // try {
 
-      console.log('Start Time: ',selectedAppointmentStartTime);
-      console.log('Pat username: ',patientUsername);
-      console.log('Doc username: ',doctorVar.username);
+      
   
       // const response = await axios.post(`${baseURL}/clinic/private/patient/bookAppointment`,
       //   {
@@ -129,7 +127,7 @@ const ViewDoctorDetails = () => {
             {doctorVar?.timeSlots.map((timeSlot, index) => (
               <tr key={index}>
                 <td>
-                  <button className="book-now-button" onClick={() => handleBooking(timeSlot.date, timeSlot.startTime, timeSlot.endTime)}>
+                  <button style={{width:'200px',height:'70px'}}className="book-now-button" onClick={() => handleBooking(timeSlot.date, timeSlot.startTime, timeSlot.endTime)}>
                     Book Now!
                   </button>
                 </td>
