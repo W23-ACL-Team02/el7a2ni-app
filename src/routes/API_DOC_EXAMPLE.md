@@ -1,11 +1,5 @@
-### GET /clinic/private/user/getSelfUser
-Responds with the user document of the currently logged in user.
-
-**Notes:**
-* Must send JWT as cookie for authentication
-
 _THIS IS AN EXAMPLE ENDPOINT THAT DOESN'T EXIST_
-### POST /main/private/admin/user/{userId}/findFamily?familyId={familyId}&relationType={relationType}
+### POST /main/private/admin/user/findFamily?familyId={familyId}&relationType={relationType}
 Responds with JSON containing all family members of user with `_id: userId`.
 
 **Body:**

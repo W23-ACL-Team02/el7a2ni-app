@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const baseURL = process.env.REACT_APP_SERVER_URL;
+import "../css/newTable.css";
 const PatientSearchDoctors = () => {
 
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const PatientSearchDoctors = () => {
       try {
 
         const response = await axios({ method: 'get',
+        url: `${baseURL}/clinic/private/patient/viewDoctors`,
         url: `${baseURL}/clinic/private/patient/viewDoctors`,
         withCredentials: true})
         
@@ -41,6 +43,7 @@ const PatientSearchDoctors = () => {
       const response = await axios({
         method: 'post',
         url: `${baseURL}/clinic/private/patient/searchDoctors`,
+        url: `${baseURL}/clinic/private/patient/searchDoctors`,
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
@@ -52,6 +55,7 @@ const PatientSearchDoctors = () => {
         }),
       });
       
+      
       setDoctorList(response.data.docs);
       setDiscountRate(response.data.discountRate);
     } catch (error) {
@@ -61,7 +65,7 @@ const PatientSearchDoctors = () => {
 
   const handleDocView = (doctorId) => {
     localStorage.setItem('doctorId', doctorId);
-    navigate('/viewdocdetails');
+    navigate('/ViewDoctorDetails');
   };
 
   const specialities = ['General Practitioner', 'Cardiologist', 'Neurologist', 'Dermatologist', 'Surgeon', 'Ophthalmologist', 'Optometrist', 'Pediatrician', 'Family Medicine', 'Radiologist', 'Psychiatrist', 'Anesthesiologist'];
@@ -114,7 +118,7 @@ const PatientSearchDoctors = () => {
           {doctorList.map((doctor) => (
             <tr key={doctor._id}>
               <td>
-              <button onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
+              <button  style={{width:'230px',height:'40px'}} onClick={() => handleDocView(doctor._id)}>View Doctor's Details</button>
               </td>
               <td>
                 {doctor.name}

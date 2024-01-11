@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+//import '../css/orders.css';
+// import '../css/table.css';
 import '../css/orders.css';
 //show order details aka cart + address + total
 //button redirects to payment page
+import { useNavigate } from 'react-router';
 const serverURL = process.env.REACT_APP_SERVER_URL 
 
 
@@ -10,6 +13,7 @@ function GetOrder(){
   const [cart, setCart]= useState([]);
   const [address, setAddress]= useState([]);
   const [total, setTotal]= useState([]);
+  const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   // const {id}= useParams;\
@@ -20,7 +24,7 @@ function GetOrder(){
         try{
            await axios({
             method: 'post',
-            url:`${serverURL}/private/patient/order/chooseaddress/${id}`, 
+            url:`${serverURL}/pharmacy/private/patient/order/chooseaddress/${id}`, 
             withCredentials: true});
         }
         catch(err){
@@ -29,7 +33,7 @@ function GetOrder(){
     }
     const getAddress = async () => {
         try {
-            const res1 = await axios.get(`${serverURL}/private/patient/order/getaddress`, {withCredentials: true});
+            const res1 = await axios.get(`${serverURL}/pharmacy/private/patient/order/getaddress`, {withCredentials: true});
             setAddress(res1.data);
             console.log("address is set to ")
             console.log(address);
@@ -39,7 +43,7 @@ function GetOrder(){
     }
     const getTotal = async () => {
         try {
-            const res = await axios.get(`${serverURL}/private/patient/order/gettotal`, {withCredentials: true});
+            const res = await axios.get(`${serverURL}/pharmacy/private/patient/order/gettotal`, {withCredentials: true});
             setTotal(res.data);
           } catch (err) {
             console.log(err);
@@ -47,7 +51,7 @@ function GetOrder(){
     }
     const fetchData = async () => {
       try {
-        const res2 = await axios.get(`${serverURL}/private/patient/cart/viewcart`, {withCredentials: true}); //monika
+        const res2 = await axios.get(`${serverURL}/pharmacy/private/patient/cart/viewcart`, {withCredentials: true}); //monika
         setCart(res2.data);
         console.log("cart is set to ")
         console.log(cart);
@@ -104,75 +108,54 @@ const displayImage = (imageData) => {
 
     <div className="container" id="wrapper">
     <h1>Your Order</h1>
-        {cart.length === 0 ? (
+
+    <div id="maincontainer">
+      <div className="medicines-list">
+      {cart.length === 0 ? (
           <p>Cart is Empty.</p>
         ) : 
-                cart.map((item,index) => {
-                  return <div key={index}>
-        <div id= "first">
-        <h3>Medicine Details:</h3>
-         <h3>Name:</h3>
-         <h3>Details:</h3>
-         <h3>Category:</h3>
-         <h3>Quantity</h3>
-         </div>
-         <div id="second">
-          <br></br>
-          <br></br>
-            <h4>{item.medicine.name}</h4>
-            <h4>{item.medicine.details}</h4>
-            <h4>{item.medicine.category}</h4>
-            <h4>{item.quantity}</h4>
-            {displayImage(item.medicine.imageUrl)}
+        cart.map((item,index) => (
+          <div className="medicine-container" key={index}>
+          
+            <div className='rectangle'>
+              <div className="medicine-info">
+                <img src={item.medicine.imageUrl} alt="no image available" />
+                <div className="details">
+                  <p className="name">{item.medicine.name}</p>
+               </div>
+               <div className="details">
+               <p> {item.medicine.category}</p>
+               </div>
+               <div className="details">
+               <p> {item.quantity}</p>
+               </div>
+              </div>
+        
             </div>
-      </div>
-                  
- })
+          </div>
+        ))
 }
-
-<div className="orderinfo" id="first">
-        <h3>Delivery Address</h3>
-        <div className="address">
-            <h4>Address line 1</h4>
-            <h4>Address line 2</h4>
-            <h4>Floor</h4>
-            <h4>Apartment</h4>
-            <h4>Postal code</h4>
-            <h4>City</h4>
-            <h4>Country</h4>
-        </div>
       </div>
-      <div className="orderdata" id="second">
-        <div className="addressinfo">
-        { <div>
-          <br></br>
-           <br></br>
-           <br></br>
-            <h4>{address.addressline1}</h4>
-            <h4>{address.addressline2}</h4>
-            <h4>{address.floor}</h4>
-            <h4>{address.apartment}</h4>
-            <h4>{address.postalcode}</h4>
-            <h4>{address.city}</h4>
-            <h4>{address.country}</h4>
-            </div>
-        }
-        </div>
-      </div>
-      <br></br>
-      <div id="first">
-        <h3>Order Total:</h3>
-      </div>
-      <div id="second">
-        {
-           <h3>{total}</h3>
-        }
-      </div>
-      <div>
-        <button onClick={() => window.location.href='/medicine-payment'}>Continue</button> 
-        {/* TODO: change to khatib's page */}
-      </div>
+  
     </div>
+                  
+                  <div id="address-container">
+                  <p>Total: {total}</p>
+                         <p>Address line 1: {address.addressline1}</p>
+                         <p>Address line 2: {address.addressline1}</p>
+                         <p>Floor: {address.floor}</p>
+                         <p>Apartment: {address.apartment}</p>
+                         <p>Postal code: {address.postalcode}</p>
+                         <p>City: {address.city}</p>
+                         <p>Country: {address.country}</p>
+                        
+                      </div>
+                      <div className="button-container">
+                    
+        <button id="button" onClick={() => navigate('/medicine-payment')}>Continue</button> 
+                         </div>
+            
+   </div>
   );
 
 }

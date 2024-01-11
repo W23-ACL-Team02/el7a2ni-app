@@ -38,8 +38,6 @@ const VideoCallRoom = () => {
 				if(user){
 					socket.on('onlineDoctors', (users) => {
 						if(user.type != "doctor"){
-							console.log(user)
-							console.log(users);
 							setOnlineUsers(users);
 							if(users.length != 0){
 								setIdToCall(users[0].id)
@@ -49,8 +47,6 @@ const VideoCallRoom = () => {
 		
 					socket.on('onlinePatients', (users) => {
 						if(user.type != "patient"){
-							console.log(user)
-							console.log(users);
 							setOnlineUsers(users);
 							if(users.length != 0){
 								setIdToCall(users[0].id)
@@ -81,7 +77,6 @@ const VideoCallRoom = () => {
 		})
 
 		socket.on("callUser", (data) => {
-			console.log("entered here");
 			setReceivingCall(true)
 			setCaller(data.from)
 			setName(data.name)

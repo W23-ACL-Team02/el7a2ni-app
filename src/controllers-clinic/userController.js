@@ -186,7 +186,7 @@ module.exports = {
 			const user = await userModel.findOne({ username: username });
 
 			// If not or wrong user type
-			if (!user || user.type == 'pharmacist') {
+			if (!user) {
 				return res.status(400).json({errors: ["Incorrect username/password"]});
 			}
 
@@ -200,6 +200,9 @@ module.exports = {
 			// now it has to make sure doctor is rejected or pending not just != accepted
 			if (user?.type == 'doctor' && (user.acceptanceStatus == 'rejected' || user.acceptanceStatus == 'pending')) {
 				return res.status(400).json({errors: [`Doctor ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
+			}
+			if (user?.type == 'pharmacist' && (user.acceptanceStatus == 'rejected' || user.acceptanceStatus == 'pending')) {
+				return res.status(400).json({errors: [`Pharmacist ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
 			}
 
 			
@@ -221,7 +224,7 @@ module.exports = {
 			if (user?.type == 'doctor' && user.acceptanceStatus == 'pendingcontract') {
 				return res.status(200).json({pendingContract:'pendingcontract'});
 			}
-			return res.status(200).send(token);
+			return res.status(200).send(user);
 			// return res.status(200).end();
 		} catch (error) {
 			res.status(400).json({ errors: [error.message] });

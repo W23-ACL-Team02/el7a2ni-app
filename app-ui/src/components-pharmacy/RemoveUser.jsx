@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-
-const baseURL = `http://localhost:3000`;
+import '../css/addAdmin.css';
+const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const RemoveUser = () => {
   const [username, setUsername] = useState('');
@@ -17,7 +17,7 @@ const RemoveUser = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(`${baseURL}/private/admin/user/removeUser`, {
+      const response = await axios.post(`${baseURL}/pharmacy/private/admin/user/removeUser`, {
         username: username,
       }, {withCredentials: true});
       
@@ -35,19 +35,26 @@ const RemoveUser = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>Remove User</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+  
+
+return (
+  <div className="container"> {/* Apply the CSS class here */}
+    
+    <div className="rectangle2">
+    <h2>Remove User</h2>
+      <form className="form" onSubmit={handleSubmit}> {/* Apply the CSS class here */}
+        <div className="input"> {/* Apply the CSS class here */}
           <label htmlFor="username">Username:</label>
           <input type="text" id="username" value={username} onChange={handleUsernameChange} required />
         </div>
-        <button type="submit">Remove User</button>
+        <div>
+          <button className="submit" type="submit">Remove User</button> {/* Apply the CSS class here */}
+        </div>
       </form>
-      {message && <p>{message}</p>}
     </div>
-  );
+    {message && <p>{message}</p>}
+  </div>
+);
 };
 
 export default RemoveUser;

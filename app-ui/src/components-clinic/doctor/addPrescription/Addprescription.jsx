@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import Select from 'react-select';
 import axios from 'axios';
-
+const serverURL = process.env.REACT_APP_SERVER_URL;
 export default function Addprescription() {
 
     const [doctorName,setDoctorName]=useState('');
@@ -23,7 +23,7 @@ export default function Addprescription() {
    
     
     useEffect(()=>{
-        axios.get("http://localhost:3000/clinic/private/doctor/addprescriptionView",{withCredentials: true}) //change to base Url and check the route
+        axios.get(`${serverURL}/clinic/private/doctor/addprescriptionView`,{withCredentials: true}) //change to base Url and check the route
         .then((res)=>{
           console.log(res)
             setDoctorName(res.data.doctorUsername);
@@ -96,7 +96,7 @@ export default function Addprescription() {
 
         };
         
-        axios.post("http://localhost:3000/clinic/private/doctor/addprescriptionSubmit",prescriptionData,{withCredentials: true}).then((Response)=>{
+        axios.post(`${serverURL}/clinic/private/doctor/addprescriptionSubmit`,prescriptionData,{withCredentials: true}).then((Response)=>{
             console.log("Prescription submitted successfully:", Response.data);
             setMessage("prescription added successfully");
 

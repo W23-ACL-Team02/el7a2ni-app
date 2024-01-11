@@ -35,6 +35,19 @@ module.exports = {
     }
     ,
     rejectContract : async (req, res) => {
+        //16
+        //accept the employment contract
+        try {
+            //we set status in enum of acceptanceStatus to accepted instead of pendingContract
+			let result = await userModel.findByIdAndUpdate(req.session.userId, {acceptanceStatus: 'rejected'});
+		
+			if (result.modifiedCount < 1) {
+				throw new Error(`Doctor ${_id} does not exist.`);
+			}
+			return res.status(200).json();
+		} catch (error) {
+			return res.status(400).json({err:error.message});
+		}
         //what if the doctor rejects the employment contact??
     }
     ,
@@ -103,6 +116,20 @@ module.exports = {
                 end: selectedTimeslot.endTime,
             });
             await nextAppointment.save();
+
+            try {
+                // Create notification
+                let doctor = userModel.findOne({username: docUsername})
+                let patient = userModel.findOne({username: patUsername})
+        
+                let temp = await Promise.all([doctor, patient]);
+                doctor = temp[0]
+                patient = temp[1]
+                createAppointmentNewNotif(doctor._id, patient._id)
+            } catch (error) {
+                console.log(error)
+            }
+
             allTimeslots = allTimeslots.filter(ts => ts.startTime.getTime() !== timeSlotStartTime.getTime())
             await userModel.updateOne({username:docUsername} , {timeSlots:allTimeslots})
 
@@ -154,29 +181,66 @@ module.exports = {
             res.status(400).json({error: error.message})
         }
     }
+    ,
+    viewRequestedFollowUps : async (req, res) => {
+        
+        // 65
+        // accept or revoke a follow-up session request from a patient
+        try{
+            // let docUsername = 'doctor1'
+            // let patUsername = 'patient1'
+            // let date1 = new Date(Date.now());
+            // let date2 = new Date(date1.getTime() + 60 * 60 * 1000);
+            // console.log(await userModel.find({username:'patient1'}))
+            // console.log(await appointmentsModel.find({patientUsername:'patient1'}))
+            // let pendingAppts = await appointmentsModel.find({doctorUsername:docUsername})
+            // const nextAppointment =  new appointmentsModel({
+            //     doctorUsername : docUsername,
+            //     patientUsername: patUsername,
+            //     date: date1,
+            //     status: 'pending', 
+            //     start: date1, 
+            //     end: date2,
+            //     requestFrom: 'patient',
+            // });
+            // await nextAppointment.save();
+            let docUsername = (await userModel.findById(req.session.userId)).username
+            let pendingAppts = await appointmentsModel.find({doctorUsername:docUsername,requestFrom:'patient',status:'pending'})
+            let patientNames = []
+            for(let i=0 ; i<pendingAppts.length ; i++){
+                let patientUsername = pendingAppts[i].patientUsername
+                console.log(patientUsername)
+                let patname = (await userModel.findOne({username:patientUsername})).name
+                patientNames.push(patname)
+            }
+            res.status(200).json({pendingAppts,patientNames});
+            // console.log(pendingAppts)
+        }catch(error){
+            res.status(400).json({error: error.message});
+        }
+
+
+    }
+    ,
+    respondToRequestedFollowUps : async (req, res) => {
+
+        // 65
+        // accept or revoke a follow-up session request from a patient
+        try{
+            let apptID = req.body.appointmentID;
+            if(req.body.followUpStatus=='accept'){
+                await appointmentsModel.updateOne({_id:apptID},{status:"upcoming"});
+            }
+            else if(req.body.followUpStatus=='reject'){
+                await appointmentsModel.updateOne({_id:apptID},{status:"cancelled"});
+            }
+
+            res.status(200);
+        }catch(error){
+            res.status(400).json({error: error.message});
+        }
+    }
 }
 
 
 
-
-
-
-
-
-// console.log('dghfhdhhdhd')
-        // let docid = (await userModel.findOne({username:emzaydoc}))._id
-        // req.session.userId = docid
-        // req.session.userType = 'doctor'
-        // const newdoc = new userModel({
-        //     username: 'emzaydoc',
-        //     type: 'doctor',
-        //     name: 'Mohamed Zakaria',
-        //     email: 'mz2003@gmail.com',
-        //     password: 'Wlll-aaa123',
-        //     gender: 'male',
-        //     payRate: 666,
-        //     education: {name:'ain shams',endyear:2003},
-        //     speciality: 'Cardiologist',
-        //     acceptanceStatus: 'pendingcontract'
-        // });
-        // await newdoc.save();

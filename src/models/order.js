@@ -15,6 +15,9 @@ const orderSchema = new Schema ({
         type: String,
         enum: ['placed', 'cancelled', 'shipped', 'delivered']
         
+    },
+    COD: {
+        type: Boolean
     }
 
 })

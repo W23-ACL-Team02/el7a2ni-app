@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import PasswordValidityBox from './PasswordValidityBox'
+import PasswordValidityBox from '../components-pharmacy/PasswordValidityBox'
 import { validatePassword } from '../functions/validatePassword'
 import axios from 'axios'
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 export default function ChangePassword() {
 
@@ -19,7 +20,7 @@ export default function ChangePassword() {
     if(newPassword === confirmedNewpassword)
     {
       setPasswordsMatch(true);
-      axios.post("http://localhost:3000/private/user/changePassword",{oldPassword,newPassword,confirmedNewpassword},{withCredentials: true})
+      axios.post(`${serverURL}/clinic/private/user/changePassword`,{oldPassword,newPassword,confirmedNewpassword},{withCredentials: true})
       .then((res) => {
         console.log(res);
         setChangeSuccess(true);
