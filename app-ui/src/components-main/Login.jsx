@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom'
 import '../App'
 const baseURL = process.env.REACT_APP_SERVER_URL
 
-export default function Login({loggedIn,setLoggedIn, setUserType}) {
+export default function Login({loggedIn, setLoggedIn, setUserType}) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState([])
@@ -35,6 +35,11 @@ export default function Login({loggedIn,setLoggedIn, setUserType}) {
                 setErrors(error.response?.data?.errors)
             })
     }
+
+    useEffect(() => {
+        console.log('Type of setLoggedIn:', typeof setLoggedIn);
+        setLoggedIn(false);
+    }, [])
 
     return (
         <fieldset className={"container-main"}>

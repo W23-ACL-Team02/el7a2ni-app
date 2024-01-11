@@ -35,6 +35,19 @@ module.exports = {
     }
     ,
     rejectContract : async (req, res) => {
+        //16
+        //accept the employment contract
+        try {
+            //we set status in enum of acceptanceStatus to accepted instead of pendingContract
+			let result = await userModel.findByIdAndUpdate(req.session.userId, {acceptanceStatus: 'rejected'});
+		
+			if (result.modifiedCount < 1) {
+				throw new Error(`Doctor ${_id} does not exist.`);
+			}
+			return res.status(200).json();
+		} catch (error) {
+			return res.status(400).json({err:error.message});
+		}
         //what if the doctor rejects the employment contact??
     }
     ,

@@ -3,7 +3,7 @@ import PasswordValidityBox from './PasswordValidityBox'
 import { validatePassword } from '../functions/validatePassword'
  
 
-const baseURL = `http://localhost:3000`
+const baseURL = process.env.REACT_APP_SERVER_URL;
 
 export default function RegisterPharmacist() {
     const [password, setPassword] = useState("")

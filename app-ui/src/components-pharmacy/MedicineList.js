@@ -148,7 +148,6 @@ import React, { useState, useEffect } from 'react';
 import useNavigate from 'react-router-dom';;
 import axios from 'axios';
 const serverURL = process.env.REACT_APP_SERVER_URL
-console.log(process.env.REACT_APP_SERVER_URL)
 
 const MedicineList = () => {
   const [medicines, setMedicines] = useState([]);

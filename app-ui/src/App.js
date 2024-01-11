@@ -105,7 +105,7 @@ function App() {
         <Route path="/VideoCallRoom" element={<VideoCallRoom />} /> {/* should not be here but its added to fix big */}
        <Route path="/changePassword" element={<ChangePassword/>}/>
        <Route path="/VerifyEmail" element={<VerifyEmail/>}/>
-       <Route path="/OTPVErification" element={<OTPVErification/>}/>
+       <Route path="/OTPVerifcation" element={<OTPVErification/>}/>
        <Route path="/ResetPassword" element={<ResetPassword/>}/>
        <Route path="/Register" element={<Register />} />
        <Route path="/RegisterDoctor" element={<RegisterDoctor />} />
@@ -120,7 +120,6 @@ function App() {
 } 
 {loggedIn && (
   <>
-
     <BrowserRouter>
     {userType === 'patient' && <PatientNavBar />}
     {userType === 'admin' && <AdminNavBar />}
@@ -130,13 +129,13 @@ function App() {
         {userType == 'admin' &&  <Route path="/home" element={<AdminHome />} />}
         {userType == 'doctor' &&  <Route path="/home" element={<DoctorHome />} />}
         {userType == 'pharmacist' &&  <Route path="/home" element={<MedicineList />} />}
-          <Route path="Home" element={<MedicineList />} />
+          <Route
+            path="/login"
+            element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUserType={setUserType} />}
+          />
           <Route path="/patientAccount" element={<PatientAccount/>}/>
           <Route path="/doctorAccount" element={<DoctorAccount/>}/>
           <Route path="/changePassword" element={<ChangePassword/>}/>
-          <Route path="/VerifyEmail" element={<VerifyEmail/>}/>
-          <Route path="/OTPVErification" element={<OTPVErification/>}/>
-          <Route path="/ResetPassword" element={<ResetPassword/>}/>
           <Route path="/viewMedicine" element={<MedicineList />} />
           <Route path="/medicineListPharmacist" element={<MedicineListPharmacist />} />
           <Route path="/medicine-payment" element={<MedicinePayment/>}/>

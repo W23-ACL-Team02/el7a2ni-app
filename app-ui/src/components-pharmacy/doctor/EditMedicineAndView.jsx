@@ -2,6 +2,8 @@ import axios from 'axios'
 import {React,useState,useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import EditSelectedPrescriptions from './EditSelectedPrescriptions';
+const serverURL = process.env.REACT_APP_SERVER_URL;
+
 const styles = {
   table: {
     width: '100%',
@@ -49,7 +51,7 @@ export default function EditMedicineAndView() {
     
 
     useEffect(()=>{
-            axios.get(`http://localhost:3000/clinic/private/patient/prescription/viewprescription`, {withCredentials: true}).then((result)=>{
+            axios.get(`${serverURL}/clinic/private/patient/prescription/viewprescription`, {withCredentials: true}).then((result)=>{
             setPrescriptions(result.data.prescriptions)
        //     setUniqueDoctorNames(result.data.uniqueDoctorNames)
           })
@@ -82,7 +84,7 @@ export default function EditMedicineAndView() {
         console.log('Updated Prescription Received:', updatedPrescription);
       
         // Refetch data after an update
-        axios.get('http://localhost:3000/clinic/private/patient/prescription/viewprescription', {withCredentials: true}).then((result) => {
+        axios.get(`${serverURL}/clinic/private/patient/prescription/viewprescription`, {withCredentials: true}).then((result) => {
           setPrescriptions(result.data.prescriptions);
           setUniqueDoctorNames(result.data.uniqueDoctorNames);
         });

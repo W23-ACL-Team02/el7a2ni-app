@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import '../css/table.css';
 import { useParams } from 'react-router-dom'
-
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 
 function GetPharmacist(){
@@ -14,7 +14,7 @@ function GetPharmacist(){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/pharmacy/private/admin/user/pharmacist/${id}`, {withCredentials: true});
+        const res = await axios.get(`${serverURL}/pharmacy/private/admin/user/pharmacist/${id}`, {withCredentials: true});
         setPharmacist(res.data);
       } catch (err) {
         console.log(err);

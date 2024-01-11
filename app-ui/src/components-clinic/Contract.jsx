@@ -14,14 +14,8 @@ const Contract = () => {
       try {
         const response = await axios.get(`${serverURL}/clinic/private/doctor/viewContract`, {withCredentials: true});
         const { doctor, clinicMarkUp } = response.data;
-        console.log(response.data)
-        console.log(clinicMarkUp)
-        console.log(doctor)
         setDoctor(doctor);
         setClinicMarkUp(clinicMarkUp);
-        console.log(doctor)
-        console.log(clinicMarkUp)
-        console.log(doctor)
       } catch (error) {
         console.error(error.message);
       }
@@ -37,11 +31,22 @@ const Contract = () => {
       url: `${serverURL}/clinic/private/doctor/acceptContract`,
       withCredentials: true})
       // Redirect to homepage
-      navigate('/home')
-    } catch (error) {
+      navigate('/home');
+    } catch(error) {
       console.error(error.message);
     }
   };
+
+  const handleRejectContract = async () => {
+    try {
+      await axios({ method: 'put',
+        url: `${serverURL}/clinic/private/doctor/rejectContract`,
+        withCredentials: true})
+        navigate('/login');
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   return (
     <div>
@@ -53,7 +58,14 @@ const Contract = () => {
       <p>Patient Pays: {Math.round((doctor.payRate * clinicMarkUp))}€</p>
       <p>Clinic MarkUp: 10%</p>
 
-      <button onClick={handleAcceptContract}>Accept Employment Contract(terms and conditions)</button>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <button onClick={handleRejectContract} style={{ marginRight: '10px' }}>
+          Reject Employment Contract
+        </button>
+        <button onClick={handleAcceptContract}>
+          Accept Employment Contract (terms and conditions)
+        </button>
+      </div>
     </div>
   );
 };

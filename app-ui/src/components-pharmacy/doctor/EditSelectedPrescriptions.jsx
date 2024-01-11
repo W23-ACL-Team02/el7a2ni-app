@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver';
 import Select from 'react-select';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -29,7 +29,7 @@ const [showAddMedicineUI, setShowAddMedicineUI] = useState(false);
 
 
   useEffect(() => {
-    axios.get("http://localhost:3000/pharmacy/private/medicine/all",{withCredentials: true}) //change to base Url and check the route
+    axios.get(`${serverURL}/pharmacy/private/medicine/all`,{withCredentials: true}) //change to base Url and check the route
     .then((res)=>{
       setMedicines(res.data);
     })
@@ -80,7 +80,7 @@ const [showAddMedicineUI, setShowAddMedicineUI] = useState(false);
       };
   
       await axios.post(
-        'http://localhost:3000/clinic/private/patient/prescription/updatePrescription',
+        `${serverURL}/clinic/private/patient/prescription/updatePrescription`,
         updatedPrescription, {withCredentials: true}
       );
   
@@ -109,7 +109,7 @@ const [showAddMedicineUI, setShowAddMedicineUI] = useState(false);
     // Make an Axios request to update the prescription
     axios
       .post(
-        'http://localhost:3000/clinic/private/patient/prescription/updatePrescription',
+        `${serverURL}/clinic/private/patient/prescription/updatePrescription`,
         updatedPrescription, {withCredentials: true}
       )
       .then((response) => {
@@ -154,7 +154,7 @@ const [showAddMedicineUI, setShowAddMedicineUI] = useState(false);
           
             // Make an Axios request to update the prescription
             await axios.post(
-              'http://localhost:3000/clinic/private/patient/prescription/updatePrescription',
+              `${serverURL}/clinic/private/patient/prescription/updatePrescription`,
               updatedPrescription,{withCredentials: true}
             )  .then(response =>{
               console.log("successfull");
