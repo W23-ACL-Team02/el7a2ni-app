@@ -145,12 +145,14 @@
 // Assuming this component is part of your React frontend
 
 import React, { useState, useEffect } from 'react';
+import useNavigate from 'react-router-dom';;
 import axios from 'axios';
 const serverURL = process.env.REACT_APP_SERVER_URL
 
 const MedicineList = () => {
   const [medicines, setMedicines] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch all medicines on component mount
@@ -159,7 +161,7 @@ const MedicineList = () => {
 
   const fetchMedicines = async () => {
     try {
-        const response = await axios.get(`${serverURL}/private/medicine/all`, {withCredentials: true});
+        const response = await axios.get(`${serverURL}/pharmacy/private/medicine/allunarchived`, {withCredentials: true});
       setMedicines(response.data);
       setError('');
     } catch (error) {
@@ -170,7 +172,7 @@ const MedicineList = () => {
 
   const handleAddToCart = async (medicineId) => {
     try {
-      const response = await axios.post(`${serverURL}/private/patient/cart/addtocart`, {
+      const response = await axios.post(`${serverURL}/pharmacy/private/patient/cart/addtocart`, {
         medicineId,
         quantity: 1, // You can modify this to allow the user to input a quantity
       }, {withCredentials: true});
@@ -183,7 +185,7 @@ const MedicineList = () => {
   };
   const handleviewcart = () => {
     // Redirect to the chooseaddress page
-    window.location.href = '/ViewCart';
+    navigate('/ViewCart');
   };
   const displayImage = (imageData) => {
     if (!imageData) {
@@ -250,4 +252,5 @@ const MedicineList = () => {
 };
 
 export default MedicineList;
+
 

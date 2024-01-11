@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ErrorBox from '../components-pharmacy/ErrorsBox'
 import {useNavigate} from 'react-router-dom'
-
+import '../App'
 const baseURL = process.env.REACT_APP_SERVER_URL
 
-export default function Login({loggedIn}) {
+export default function Login({loggedIn, setLoggedIn, setUserType}) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState([])
@@ -14,15 +14,32 @@ export default function Login({loggedIn}) {
     const onButtonClick = () => {
         // Make call to backend
         axios
-            .post(`${baseURL}/public/user/login`, {username, password}, {withCredentials:true})
+            .post(`${baseURL}/clinic/public/user/login`, {username, password}, {withCredentials:true})
             .then((response) => {
                 setErrors([]);
-                navigate('/home')
+                setLoggedIn(true);
+                setUserType(response.data?.type);
+                localStorage.setItem('currUser', response.body);
+                if(response.data?.pendingContract === 'pendingcontract'){
+                    navigate('/Contract');
+                } else if(response.data?.pendingContract === 'rejected'){
+                    setErrors('This account was rejected');
+                }else{
+                    navigate('/home');
+                }
+                
+                
+                
             })
             .catch((error) => {
                 setErrors(error.response?.data?.errors)
             })
     }
+
+    useEffect(() => {
+        console.log('Type of setLoggedIn:', typeof setLoggedIn);
+        setLoggedIn(false);
+    }, [])
 
     return (
         <fieldset className={"container-main"}>
@@ -56,6 +73,9 @@ export default function Login({loggedIn}) {
                     onClick={onButtonClick}
                     value={"Log in"} />
             </div>
+            <a onClick={() => {navigate('/VerifyEmail')}}> forgot password?</a>
+            <p>Dont have an account?</p> 
+            <button style={{width:'100px', height:'30px'}} onClick={() => navigate('/Register')}>Sign Up</button>
         </fieldset>
     )
 }

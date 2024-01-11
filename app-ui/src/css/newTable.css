@@ -1,0 +1,93 @@
+/* Center tables for demo
+table {
+    margin: 0 auto;
+  }
+  
+  table {
+    color: #333;
+    background: white;
+    border: 1px solid grey;
+    font-size: 12pt;
+    border-collapse: collapse;
+  }
+  table thead th,
+  table tfoot th {
+    color: #777;
+    background: rgba(0,0,0,.1);
+  }
+  table caption {
+    padding:.5em;
+  }
+  table th,
+  table td {
+    padding: .5em;
+    border: 1px solid lightgrey;
+  } */
+/* 
+  body {
+    font-family: "DM Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    background: rgb(242, 241, 241);
+  }  */
+  /* body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  } */
+
+  .TableContainer {
+    align-self: center;
+    background: white;
+    border: 3px solid white;
+    border-radius: 10px;
+  }
+  
+  table {
+    border-collapse: collapse;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 5px;
+    animation: float 5s infinite;
+  }
+  
+  tr {
+    position: relative;
+    color: black;
+    background: white;
+    border-bottom: solid 4px rgb(219, 215, 215);
+    max-height: 40px;
+    font-size: 18px;
+    font-weight: 100;
+    padding: 20px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  tbody tr:last-child{
+    border-bottom: none;
+  }
+  
+  th {
+    color: black;
+    background: white;
+    position: relative;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 20px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  td {
+    color: black;
+    background: white;
+    padding: 20px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+    font-size: 18px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  }

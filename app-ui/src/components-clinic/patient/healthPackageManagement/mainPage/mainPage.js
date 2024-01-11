@@ -1,5 +1,5 @@
 import classes from './mainPage.module.css';
-import SubscriptionComparisonCard from '../subscriptionComparisonCard/SubscriptionComparisonCard.js';
+import SubscriptionComparisonCard from '../SubscriptionComparisonCard/SubscriptionComparisonCard.js';
 import PersonalBar from '../PersonalBar/PersonalBar.js';
 import FamilyBar from '../FamilyBar/FamilyBar.js';
 import axios from 'axios';
@@ -17,7 +17,7 @@ export default function HealthPackageManagement(props) {
   const navigate = useNavigate()
 
   const getPackages = async () => {
-    await axios.get(`${serverURL}/private/patient/healthPackage/all`, {withCredentials: true}).then(
+    await axios.get(`${serverURL}/clinic/private/patient/healthPackage/all`, {withCredentials: true}).then(
     (res) => { 
         const packages = res.data
         // console.log(packages.healthPackages)
@@ -46,62 +46,12 @@ export default function HealthPackageManagement(props) {
       }
     }
   }  
-  // const subscribe = async (packageId) => {
-  //   console.log('subscribing to package: ' + packageId)
-  //   if (selectedMember == 'Myself'){
-  //     await axios.post(`${serverURL}/private/patient/healthPackage/subscribe`, {packageId: packageId}, {withCredentials: true}).then(
-  //     (res) => {
-  //         getSubscriptionDetails()
-  //         getFamilyMembers()    
-  //         const unsubbed = unsubscribedFamilyMembers.filter((element) => element.name != 'Myself')
-  //         if (unsubbed.length > 0){
-  //           setSelectedMember(unsubbed[0].name)
-  //           console.log('set subbed selection as \'' + unsubbed[0].name + '\'')
-  //         }
-  //         setUnsubscribedFamilyMembers(unsubbed)
-  //     }).catch((error) => {
-  //       console.log(error);
-  //     });
-  //   }
-  //   else{
-  //     var member;
-  //     // console.log('looking for ' + selectedMember)
-  //     unsubscribedFamilyMembers.forEach(element => {
-  //       // console.log(element)
-  //       if (element.name == selectedMember){
-  //         member = element;
-  //         // console.log('member found')
-  //       }
-  //     });
-  //     if (member){
-  //       await axios.post(`${serverURL}/private/family/subscribe`, {packageId: packageId, memberId: member.id, memberType: member.type}, {withCredentials: true}).then(
-  //       (res) => {
-  //         console.log('Subscribed for ' + selectedMember)
-  //         console.log(res.data)
-  //         getSubscriptionDetails()
-  //         getFamilyMembers()
-  //         const unsubbed = unsubscribedFamilyMembers.filter((element) => element.name != member.name)
-  //         if (unsubbed.length > 0){
-  //           setSelectedMember(unsubbed[0].name)
-  //           console.log('set subbed selection as \'' + unsubbed[0].name + '\'')
-
-  //         }
-  //         setUnsubscribedFamilyMembers(unsubbed)
-
-  //         // console.log('unsubbed array after subbing')
-  //         // console.log(unsubscribedFamilyMembers)
-  //       }).catch((error) => {
-  //         console.log(error);
-  //       });
-  //     }
-  //   }
-  // }
 
   const cancelPersonal = async () => {
     //, headers: {Authorization: `Bearer ${token}`}
     console.log('cancelling my sub')
 
-    await axios.post(`${serverURL}/private/patient/healthPackage/cancel`, {},{withCredentials: true}).then(
+    await axios.post(`${serverURL}/clinic/private/patient/healthPackage/cancel`, {},{withCredentials: true}).then(
     (res) => {
         // console.log(res.data)
         getSubscriptionDetails()
@@ -122,7 +72,7 @@ export default function HealthPackageManagement(props) {
       })
     console.log('cancelling ' + member.name)
 
-    await axios.post(`${serverURL}/private/family/cancel`, {memberId: member.id, memberType: member.type}, {withCredentials: true}).then(
+    await axios.post(`${serverURL}/clinic/private/family/cancel`, {memberId: member.id, memberType: member.type}, {withCredentials: true}).then(
     (res) => {
         console.log(res.data)
         getSubscriptionDetails()
@@ -144,7 +94,7 @@ export default function HealthPackageManagement(props) {
   const getSubscriptionDetails = async () => {
       try {
         console.log('getting subscription')
-        const res  = await axios.get(`${serverURL}/private/patient/healthPackage/view`, {withCredentials: true})
+        const res  = await axios.get(`${serverURL}/clinic/private/patient/healthPackage/view`, {withCredentials: true})
         setSubscription(res.data)
         // console.log(res.data)
         // console.log(res.data.subscription.status)
@@ -162,7 +112,7 @@ export default function HealthPackageManagement(props) {
   }
 
   const getFamilyMembers = async () => {
-    await axios.get(`${serverURL}/private/family`, {withCredentials: true}).then(
+    await axios.get(`${serverURL}/clinic/private/family`, {withCredentials: true}).then(
     (res) => { 
         const familyMembers = res.data.family
         setFamilyMembers(familyMembers)

@@ -2,6 +2,7 @@ const userModel = require('../models/user');
 const fileModel = require('../models/file');
 const appointmentModel = require(`../models/appointment`);
 const healthPackageModel = require('../models/healthPackage');
+const prescriptionModel = require("../models/prescription.js");
 const familymemberSchema = require("../models/familymembers.js");
 
 module.exports = {
@@ -50,8 +51,8 @@ module.exports = {
     subscribeToHealthPackage: async (req, res) => {
         try{
             const packageId = req.body.packageId;
-            //const patientId = req.session.userId;
-            const patientId = '6547b96606043724533eedbf'
+            const patientId = req.session.userId;
+            // const patientId = '6547b96606043724533eedbf'
             const patient = await userModel.findById(patientId);
 
             // TODO: add package to specified family members 
@@ -187,7 +188,7 @@ module.exports = {
             const package = patient.healthPackage
             package.status = "Unsubscribed"
             await patient.updateOne({_id: patientId}, {healthPackage: package})
-            await patient.save()
+            //await patient.save()
 
             res.status(200).json({subscription: patient.healthPackage})
             
@@ -292,7 +293,6 @@ module.exports = {
         // TODO: make sure next subscription payment is collected somehow
 
         try{
-
             const patient = await userModel.findById(patientId)
             if (!patient.healthPackage || patient.healthPackage.status == "Cancelled"){
                 res.status(400).json({errors: ["No active subscription to upgrade"]})
@@ -321,5 +321,5 @@ module.exports = {
         } catch (error){
             res.status(400).json({errors: [error.message]})
         }
-    }
+    } 
 }

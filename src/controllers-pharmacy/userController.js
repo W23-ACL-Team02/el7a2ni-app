@@ -224,6 +224,11 @@ module.exports = {
       if (result.modifiedCount < 1) {
         throw new Error(`Pharmacist ${_id} does not exist.`);
       }
+      //new
+      const user=await userModel.findById(_id)
+      user.setAcceptanceDate();
+      await user.save()
+      //new
   
       return res.status(200).json({successes: [`Successfully approved pharmacist ${_id}`]});
     } catch (error) {
@@ -236,8 +241,8 @@ module.exports = {
 			// Check for user in database
 			const user = await userModel.findOne({ username: username });
       
-			// If not or wrong user type
-			if (!user || user.type == 'doctor') {
+			// If not
+			if (!user) {
 				return res.status(401).json({errors: ["Incorrect username/password"]});
 			}
 
@@ -246,8 +251,13 @@ module.exports = {
 				return res.status(401).json({errors: ["Incorrect username/password"]});
 			}
 			
-			// If a doctor and not yet accepted
+			// If a pharmacist and not yet accepted
 			if (user?.type == 'pharmacist' && user.acceptanceStatus != 'accepted') {
+				return res.status(401).json({errors: [`Pharmacist ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
+			}
+
+      // If a doctor and not yet accepted
+			if (user?.type == 'doctor' && user.acceptanceStatus != 'accepted') {
 				return res.status(401).json({errors: [`Pharmacist ${user.name} ${(user.acceptanceStatus == 'pending') ? "not yet approved.":"rejected."}`]} );
 			}
 
@@ -257,6 +267,20 @@ module.exports = {
 				userId: user?._id,
 				userType: user?.type
 			}
+          //new: calculating pharmacist wallet upon logging in
+          if (user.type=='pharmacist'){
+            const acceptedDateString= user.acceptanceDate;
+            const acceptedDate= new Date(acceptedDateString);
+            const acceptedYear= acceptedDate.getFullYear();
+            const months= acceptedDate.getMonth()+1;
+            const currentDate= new Date(Date.now());
+            const currentYear=currentDate.getFullYear();
+            const totalMonths= ((currentYear-acceptedYear)*12) + months;
+            const walletamount= totalMonths * user.payRate;
+            await userModel.findByIdAndUpdate(user._id, {wallet: walletamount});
+            
+          }
+          //new
 
 			// const token = jwt.sign(payload, secret, {expiresIn: '1h'});
 			const token = jwt.sign(payload, secret);

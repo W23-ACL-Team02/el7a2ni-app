@@ -3,7 +3,7 @@ var router = express.Router();
 const multer = require('multer');
 
 const { getSelf, logout, changePassword, uploadDocument, removeDocument, getDocuments } = require('../../../controllers-clinic/userController.js');
-const { filterAppointments, allAppointments,upcomingCompAppointments, addAppointmentTest } = require('../../../controllers-clinic/appointmentController.js');
+const { filterAppointments, allAppointments,upcomingCompAppointments, addAppointmentTest,filterAppointmentsByStatus } = require('../../../controllers-clinic/appointmentController.js');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -12,7 +12,7 @@ router.get('/upcomingCompletedAppointments', upcomingCompAppointments);
 
 //router.get('/upcomingCompletedAppointments', upcomingCompletedAppointments);
 router.get('/filterAppointments', filterAppointments);
-
+router.get('/filterAppointmentsByStatus', filterAppointmentsByStatus);
 //for testing
 router.get('/allAppointments', allAppointments); // TODO: remove these?
 //AddApointment for testing 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 const ScheduleFollowUp = () => {
   const [error, setError] = useState('');
@@ -16,7 +17,7 @@ const ScheduleFollowUp = () => {
       try {
         const response = await axios({
           method: 'get',
-          url: 'http://localhost:3000/private/doctor/selectFollowUpMenu',
+          url: `${serverURL}/clinic/private/doctor/selectFollowUpMenu`,
           withCredentials: true,
         });
 
@@ -53,7 +54,7 @@ const ScheduleFollowUp = () => {
       console.log('Selected Patient:', selectedPatient);
       console.log('Selected Appointment:', selectedAppointment);
   
-      const response = await axios.post('http://localhost:3000/private/doctor/scheduleFollowUp',
+      const response = await axios.post(`${serverURL}/clinic/private/doctor/scheduleFollowUp`,
         {
           patName: selectedPatient,
           timeSlotStartTime: selectedAppointment,

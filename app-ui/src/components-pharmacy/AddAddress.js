@@ -1,7 +1,9 @@
-import '../css/orders.css';
+//import '../css/orders.css';
+import '../css/addaddress.css';
 import React, { useEffect, useState } from 'react';
 import axios from "axios"
 const serverURL = process.env.REACT_APP_SERVER_URL 
+
 
 function AddAddress() {
 
@@ -12,12 +14,13 @@ function AddAddress() {
     const[postalcode, setPostalcode]= useState("");
     const[city, setCity]= useState("");
     const[country, setCountry]= useState("");
+    const [message, setMessage] = useState('');
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`${serverURL}/private/patient/order/addaddress`, {
+            const response= await axios.post(`${serverURL}/pharmacy/private/patient/order/addaddress`, {
                 addressline1,
                 addressline2,
                 floor,
@@ -26,8 +29,16 @@ function AddAddress() {
                 city,
                 country,
             }, {withCredentials: true});
-        } catch (err) {
-            console.log(err);
+            if (response && response.data && response.data.successes && response.data.successes.length > 0) {
+                setMessage(response.data.successes[0]); // Display success message
+              }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.errors && error.response.data.errors.length > 0) {
+                setMessage(error.response.data.errors[0]); // Display error message
+              } else {
+                setMessage('No error message found in the response'); // Handle scenario when error message is not present
+              }
+            //console.log(err);
         }
     };
 
@@ -76,6 +87,7 @@ function AddAddress() {
             <div className="submit-container">
                 <button className="submit" type="submit" onClick={handleSubmit}>Add</button>
             </div>
+            {message && <p>{message}</p>}
             </form>
         </div>
  

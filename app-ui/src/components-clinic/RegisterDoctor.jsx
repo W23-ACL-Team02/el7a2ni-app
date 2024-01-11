@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PasswordValidityBox from './PasswordValidityBox'
+import PasswordValidityBox from '../components-pharmacy/PasswordValidityBox'
 import { validatePassword } from '../functions/validatePassword'
  
 
@@ -10,7 +10,7 @@ export default function RegisterDoctor() {
 
     return (
         // TODO Change backend call
-        <form className='container-main' action={`${baseURL}/public/user/register/doctor`} method="POST" encType="multipart/form-data">
+        <form className='container-main' action={`${baseURL}/clinic/public/user/register/doctor`} method="POST" encType="multipart/form-data">
             <div class="form-group"><label for="username">Username</label><input class="form-control" type="text" name="username" placeholder="Username" required="required" autofocus="autofocus" /></div>
             <div class="form-group"><label for="name">Name</label><input class="form-control" type="text" name="name" placeholder="Name" required="required" /></div>
             <div class="form-group"><label for="email">Email</label><input class="form-control" type="email" name="email" placeholder="Email" required="required" /></div>
