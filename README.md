@@ -126,11 +126,80 @@ npm install
 
 ## Features
 
-TODO
+* Medicine management system
+* Doctor appointment management
+* `Stripe API` integration for payments
+* Video chat with bidirectional communication through websockets using `socket.io`
+* Chat system (not implemented, yet)
 
 ## Code Examples
 
-TODO
+To ensure private routes are only accessable by users who are logged in, we check for a valid JWT bearer token or cookie
+```
+const authenticateToken = (req, res, next) => {
+    // Assign bearer token to that provided in cookie, or if undefined, try from auth header
+    let token;
+    let bearer;
+    if (req.cookies?.jwt !== undefined) {
+        token = req.cookies.jwt;
+    } else {
+        bearer = req.headers?.authorization;
+        if (bearer !== undefined) token = bearer.split(' ')[1];
+    }
+    
+    if (bearer == undefined && token == undefined) {
+        console.log("bearer or cookie undefined")
+        return res.status(403).json({errors: ["No credentials provided"]});
+    }
+
+    jwt.verify(token, secret, (err, decode) => {
+        // Error occured while verifying token
+        if (err) {
+            console.log(err.message)
+            res.status(400).send(err);
+
+            return;
+        }
+
+        // Assign decoded items to session
+        req.session = decode;
+    })
+
+     next();
+}
+```
+
+To handle the notification system, a repeating task is run every 30s to do so in batches:
+
+`server.js`
+```
+// Schedule notification handling every 30 seconds
+    cron.schedule('*/30 * * * * *', handle);
+```
+
+`notificationHandler.js`
+```
+/**
+ * Notification Handler that checks for all notifications that have not had their:
+ * - Emails sent
+ * - Notification on the system shown (Web App)
+ * 
+ * 
+ * This functions should be run periodically.
+ */
+const handle = async () => { 
+    console.log(`[Notif] Handling notifications...`)
+
+    let [emailCount, systemCount] = await Promise.all([handleEmailNotify(), handleUserNotify()]);
+    
+    if (emailCount == 0 && systemCount == 0) {
+        console.log(`[Notif] Nothing to handle.`)
+    }
+
+    if (emailCount > 0) console.log(`[Notif] Handled ${emailCount} email notifications.`)
+    if (systemCount > 0) console.log(`[Notif] Handled ${systemCount} system notifications.`)
+}
+```
 
 ## API Reference
 
