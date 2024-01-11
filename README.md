@@ -71,7 +71,15 @@ language, so 5 == '5'. This ambiguity could lead to hard-to-find bugs.
 
 ## Screenshots
 
-TODO
+Patient's Homepage
+![Homepage](https://github.com/W23-ACL-Team02/el7a2ni-app/assets/30373939/5fa9fa25-5bf4-452f-899d-42b08d6c6645)
+
+Video Chat
+![Chat](https://github.com/W23-ACL-Team02/el7a2ni-app/assets/30373939/c403b33e-a088-4fda-b03e-293339d5cbc6)
+
+Patient's Account Actions
+![Account Actions](https://github.com/W23-ACL-Team02/el7a2ni-app/assets/30373939/223cee72-ba93-40ef-b4b0-89fba31d8326)
+
 
 ## Tech Stack
 
