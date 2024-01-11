@@ -154,6 +154,8 @@ const handle = async () => {
 
 const handleEmailNotify = async () => {
     return new Promise(async (resolve, reject) => {
+        resolve(0)
+        return
         // Fetch notifications that need the user to be notified
         let notifs = await notificationModel.find({emailSent: false});
         

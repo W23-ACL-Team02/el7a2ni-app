@@ -70,6 +70,7 @@ import DoctorRespondFollowUp from './components-clinic/DoctorRespondFollowUp'
 import ScheduleFollowUp from './components-clinic/ScheduleFollowUp' 
 import Contract from './components-clinic/Contract' 
 import FollowUp1 from './components-clinic/FollowUp1.jsx' 
+import FollowUp2 from './components-clinic/FollowUp2.jsx' 
 
 
 import PatientHome from './components-main/PatientHome.jsx';
@@ -92,7 +93,7 @@ import DoctorNavBar from './components-main/DoctorNavBar'
 import PatientNavBar from './components-main/PatientNavBar'
 import AdminNavBar from './components-main/AdminNavBar'
 import NotificationPane from './components-main/notifications/NotificationPane.jsx'
-import PharmacistChat from './components-main/chat/PharmacistChat.jsx';
+// import PharmacistChat from './components-main/chat/PharmacistChat.jsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -136,7 +137,7 @@ function App() {
             path="/login"
             element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUserType={setUserType} />}
           />
-          <Route path='/chat' element={<PharmacistChat userType={userType}/>}></Route>
+          {/* <Route path='/chat' element={<PharmacistChat userType={userType}/>}></Route> */}
           <Route path="/patientAccount" element={<PatientAccount/>}/>
           <Route path="/doctorAccount" element={<DoctorAccount/>}/>
           <Route path="/changePassword" element={<ChangePassword/>}/>
@@ -180,6 +181,7 @@ function App() {
           <Route path='/ScheduleFollowUp' element={<ScheduleFollowUp/>}></Route>
           <Route path='/Contract' element={<Contract/>}></Route>
           <Route path='/follow-up' element={<FollowUp1/>}></Route>
+          <Route path='/FollowUp2' element={<FollowUp2/>}></Route>
           <Route path='/notifications' element={<NotificationPane/>}></Route>
           
 

@@ -10,7 +10,7 @@ const DoctorAppointmentList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get(`${baseURL}/clinic/private/doctor/notCompletedDoctorAppointments`);
+        const response = await axios.get(`${baseURL}/clinic/private/doctor/notCompletedDoctorAppointments`,{withCredentials:true});
         setAppointments(response.data.appointments);
         console.log(appointments)
       } catch (error) {

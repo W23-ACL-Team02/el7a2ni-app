@@ -392,6 +392,7 @@ module.exports = {
           console.log("here")
 
          const refundto=await userModel.findById(appointment.bookedby)
+         
          refundto.addToWallet(price);
          await refundto.save();
 

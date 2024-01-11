@@ -10,7 +10,7 @@ const CancelAppointmentDoctor = () => {
 
  const fetchAppointments = async () => {
     try {
-      const response = await axios.get(`${baseURL}/clinic/private/doctor/notCompletedDoctorAppointments`);
+      const response = await axios.get(`${baseURL}/clinic/private/doctor/notCompletedDoctorAppointments`,{withCredentials:true});
       setAppointments(response.data.appointments || []);
     } catch (error) {
       console.error('Error fetching appointments:', error);
@@ -27,9 +27,9 @@ const CancelAppointmentDoctor = () => {
       const response = await axios.post(`${baseURL}/clinic/private/doctor/cancelPatientAppointment`, {
         
             appointmentId: appointmentId // Sending appointmentId in the request body
-            ,
-            withCredentials: true
-          });
+            
+           
+          },{ withCredentials: true});
       
      // setMessage(response.data);
      // setAppointments(appointments.filter(appointment => appointment.id !== appointmentId));

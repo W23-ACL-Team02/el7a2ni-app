@@ -130,7 +130,7 @@ function ViewCart() {
 
   const handleChangeQuantity = async (medicineId, newQuantity) => {
     try {
-      const res = await axios.put(`${serverURL}/pharmacy/pharmacy/private/patient/cart/editquantity`, {
+      const res = await axios.put(`${serverURL}/pharmacy/private/patient/cart/editquantity`, {
         medicineId,
         quantity: newQuantity,
       }, {withCredentials:true});

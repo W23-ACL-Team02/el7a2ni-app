@@ -511,6 +511,7 @@ module.exports = {
     getAvailableTime:async (req, res) => {
         const doctorUsername = req.query.doctorUsername;
         // Assuming you receive the doctor's username from the request parameters
+        console.log(doctorUsername)
 
     try {
       // Find the doctor based on the provided username

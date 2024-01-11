@@ -11,7 +11,7 @@ const PatientAppointmentList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get(`${baseURL}/clinic/private/patient/notCompletedPatientAppointments`); // Replace with your endpoint
+        const response = await axios.get(`${baseURL}/clinic/private/patient/notCompletedPatientAppointments`,{withCredentials:true}); // Replace with your endpoint
         setAppointments(response.data.appointments);
         console.log(appointments)
       } catch (error) {

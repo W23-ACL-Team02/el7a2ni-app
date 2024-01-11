@@ -22,6 +22,14 @@ export default function PatientHome() {
                         Book Appointment</button>
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/follow-up')}}>
                         Follow-up Appointment</button>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/vieworders')}}>
+                        View Orders</button>
+                        <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/rescheduleAppointment')}}>
+                        reschedule Appointment</button>    
+                        {/* <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/cancelAppointment')}}>
+                        Cancel Appointment</button> 
+                        <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/rescheduleFamilyAppointment')}}>
+                        cancle Family Appointment</button>        */}
                     <div className='line' style={{width: 200}}></div>
                     <p style={{fontSize: 20, fontWeight: 500, height: 80}}>Have a medical emergency? Video call a doctor on demand now!</p>
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 10, marginBottom: 20, alignSelf: 'center'}} onClick={() => {navigate('/VideoCallRoom')}}>Start Video Call</button>

@@ -29,7 +29,9 @@ export default function DoctorHome() {
                     <div className='line' style={{width: 200}}></div>
                     <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/ScheduleFollowUp')}}>Schedule follow-up</button>
                     <div className='line' style={{width: 200}}></div>
-                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/DoctorRespondFollowUp')}}>Respond to follow-up request</button>
+                    <button style={{width: 200, height: 60, borderRadius: 40, fontSize: 20, marginTop: 25, marginBottom: 25, alignSelf: 'center'}} onClick={() => {navigate('/cancelPatientAppointment')}}>cancelPatientAppointment</button><div className='line' style={{width: 200}}></div>
+                    
+   
                 </Card>
             </div>
         </div>

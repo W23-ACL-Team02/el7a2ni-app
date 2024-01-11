@@ -8,7 +8,7 @@ const authorizeUser = require('../../../middleware/authorizeUser');
 
 router.all("*", (req, res, next) => {
   // Ensure doctor
-  if (!authorizeUser(req, res, ["doctor"])) return;
+  if (!authorizeUser(req, res, ["doctor","patient"])) return;
 
   next();
 })

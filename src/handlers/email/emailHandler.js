@@ -32,7 +32,7 @@ const sendMail = async (userId, notificationObject) => {
             text: notificationObject.message
         };
         
-        let transporter = await createTransporter();
+        let transporter = await createTransport();
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
                 console.log(`[ERROR] Unable to send email.\n${error}`);
