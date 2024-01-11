@@ -38,6 +38,7 @@ export default function AdminHome() {
 
                 </Card>
             </div>
+            <ViewSalesReport/>
         </div>
     )
 }

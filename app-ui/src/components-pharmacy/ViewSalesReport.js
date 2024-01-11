@@ -7,7 +7,7 @@ const serverURL = process.env.REACT_APP_SERVER_URL;
 
 const ViewSalesReport = () => {
   const [selectedMonth, setSelectedMonth] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
   const [medName, setMedName] = useState(''); // New state for medicine name
   const [salesReports, setSalesReports] = useState([]);
   const [error, setError] = useState('');
@@ -30,7 +30,8 @@ const ViewSalesReport = () => {
         params: {
           month: selectedMonth,
         },
-      }, {withCredentials: true});
+        withCredentials: true
+      });
 
       setSalesReports(response.data.medicinesWithSales || []);
       setError('');
@@ -42,12 +43,14 @@ const ViewSalesReport = () => {
 
   const handleFilterByDate = async () => {
     try {
-      const formattedDate = selectedDate?.toISOString();
+      //const formattedDate = selectedDate?.toISOString();
+      
       const response = await axios.get(`${serverURL}/pharmacy/private/medicine/filterbydate`, {
         params: {
-          dateString: formattedDate,
+          dateString: selectedDate,
         },
-      }, {withCredentials: true});
+        withCredentials: true
+      });
 
       setSalesReports(response.data.salesReportsOnDate || []);
       setError('');
@@ -63,9 +66,10 @@ const ViewSalesReport = () => {
             params: {
               medname: medName,
             },
-          }, {withCredentials: true});
+            withCredentials: true
+          });
 
-      setSalesReports(response.data.salesReport ? [response.data.salesReport] : []);
+      setSalesReports(response.data.salesReport || []);
       setError('');
     } catch (error) {
       setError('Error fetching sales reports by name.');
@@ -96,7 +100,10 @@ const ViewSalesReport = () => {
 
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <label style={{ marginRight: '10px' }}>Filter by Date: </label>
-        <DatePicker onChange={handleDateChange} />
+        <div>
+          <label htmlFor="date">Date:</label>
+          <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="input-field" />
+        </div>
         <button onClick={handleFilterByDate} id="button-id">
           Filter by Date
         </button>
@@ -126,6 +133,7 @@ const ViewSalesReport = () => {
               <p className="name">{report.name}</p>
               {report.salesReport && report.salesReport.amount !== undefined ? (
                 <>
+                <p>report name: {report.salesReport.name}</p>
                   <p>Quantity: {report.salesReport.amount}</p>
                   <p>Price: {report.salesReport.price}</p>
 

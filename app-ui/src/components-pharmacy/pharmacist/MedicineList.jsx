@@ -4,6 +4,7 @@ import axios from 'axios';
 import PharmacistNavBar from '../../components-main/PharmacistNavBar';
 import ViewSalesReport from '../ViewSalesReport';
 import '../../css/medicineList.css'
+import Wallet from '../home/Wallet.jsx';
 //const { useLocation } = require("react-router-dom")
 const serverURL = process.env.REACT_APP_SERVER_URL
 
@@ -15,10 +16,12 @@ const MedicineList = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
+  const [user,setUser]= useState({});
 
   useEffect(() => {
     // Fetch all medicines on component mount
     fetchMedicines('');
+    getCurrUser();
   }, []);
 
   const fetchMedicines = async (search) => {
@@ -35,6 +38,12 @@ const MedicineList = () => {
       console.error('Error fetching medicines:', error);
     }
   };
+  const getCurrUser =  async () => {
+		const response = await axios.get(`${serverURL}/clinic/private/user/getSelfUser`, {withCredentials:true})
+		const user = response.data;
+		setUser(user);
+		return user;  
+	}	;
   
   const displayImage = (imageData) => {
     console.log('inside display image')
@@ -148,7 +157,9 @@ const MedicineList = () => {
 
   return (
     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <PharmacistNavBar />
+             <div className='container-main'>
+            <p>Balance: {user.wallet}</p>
+        </div>
       <p style={{fontSize: 30}}>All Medicines</p>
       {error && <p>{error}</p>}
       <button style={{height: 70, width: 220, marginBottom: 20, borderRadius: 40, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, fontSize: 24}} onClick={() => {navigate('/addMedicine')}}>
@@ -209,7 +220,7 @@ const MedicineList = () => {
             </table>
           </div>
         )}
-       
+       <ViewSalesReport/>
       </div>
     </div>
   );

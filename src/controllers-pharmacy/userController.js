@@ -267,6 +267,7 @@ module.exports = {
 				userId: user?._id,
 				userType: user?.type
 			}
+      console.log(user.type);
           //new: calculating pharmacist wallet upon logging in
           if (user.type=='pharmacist'){
             const acceptedDateString= user.acceptanceDate;
@@ -277,7 +278,10 @@ module.exports = {
             const currentYear=currentDate.getFullYear();
             const totalMonths= ((currentYear-acceptedYear)*12) + months;
             const walletamount= totalMonths * user.payRate;
-            await userModel.findByIdAndUpdate(user._id, {wallet: walletamount});
+            console.log("wallet= ");
+            console.log(walletamount);
+            const userpharma= await userModel.findByIdAndUpdate(user._id, {wallet: walletamount});
+            await userpharma.save();
             
           }
           //new

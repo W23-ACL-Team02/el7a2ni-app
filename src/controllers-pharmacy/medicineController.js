@@ -338,8 +338,8 @@ filterbydate: async (req, res) => {
         const medname = req.query.medname;
         console.log(medname);
         try{
-            const salesReport = await medicineModel.findOne({ name: medname });
-
+            const salesReport = await medicineModel.find({ name: medname });
+        
          res.status(200).json({ salesReport });
         }
         catch (error) {

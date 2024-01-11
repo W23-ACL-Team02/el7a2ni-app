@@ -212,6 +212,25 @@ module.exports = {
 				userId: user?._id,
 				userType: user?.type
 			}
+			if (user.type=='pharmacist'){
+				const acceptedDateString= user.acceptanceDate;
+				const acceptedDate= new Date(acceptedDateString);
+				console.log(acceptedDate);
+				const acceptedYear= acceptedDate.getFullYear();
+				console.log(acceptedYear);
+				const months= acceptedDate.getMonth()+1;
+				console.log(months);
+				const currentDate= new Date(Date.now());
+				console.log(currentDate);
+				const currentYear=currentDate.getFullYear();
+				const totalMonths= ((currentYear-acceptedYear)*12) + months;
+				const walletamount= totalMonths * user.payRate;
+				console.log("wallet= ");
+				console.log(walletamount);
+				const userpharma= await userModel.findByIdAndUpdate(user._id, {wallet: walletamount});
+				await userpharma.save();
+				
+			  }
 			
 			// const token = jwt.sign(payload, secret, {expiresIn: '1h'});
 			const token = jwt.sign(payload, secret);
