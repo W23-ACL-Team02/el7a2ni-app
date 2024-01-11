@@ -2,7 +2,6 @@ const userModel = require(`../models/user`);
 const appointmentModel = require(`../models/appointment`);
 const { createAppointmentNewNotif, createAppointmentCancelledNotif, createAppointmentRescheduledNotif } = require("../handlers/notification/notificationHandler");
 const healthPackageModel = require("../models/healthPackage");
-const healthPackageModel = require("../models/healthPackage");
 
 module.exports = {
   filterAppointments: async (req, res) => {
